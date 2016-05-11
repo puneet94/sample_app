@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var Schema  = mongoose.Schema;
-mongoose.createConnection('mongodb://localhost:27017/directory');
+mongoose.createConnection('mongodb://localhost:27017/shop_directory');
 
 var UserSearchSchema = new Schema(
 	{	userSearchString:{type:String,required:true,index:{unique:true}},

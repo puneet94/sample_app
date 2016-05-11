@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var Schema  = mongoose.Schema;
-mongoose.createConnection("mongodb://localhost:27017/directory",function (err) {
+mongoose.createConnection("mongodb://localhost:27017/shop_directory",function (err) {
   if (err) {
     console.log(err);
   }
@@ -25,6 +25,8 @@ var Address = new Schema({
 	country:String,
 	district:String,
 	zipCode:String,
+	area:String,
+	locality:String
 });
 var Price = new Schema({
 	value:Number,
@@ -49,7 +51,8 @@ var StoreSchema = new Schema({
 	products:[Product],
 	upvotes:[UserID],
 	images:[ImageLink],
-	visits:[UserID]
+	visits:[UserID],
+	slug:String
 	/*username:{type:String,required:true,index:{unique:true}},
 	password:{type:String,required:true,select:false}*/
 },{ collection : 'stores' });

@@ -13,12 +13,14 @@ var saveSearchList = function(query,kind,location,req,res){
 	var userSearch = new UserSearch();
 		var delimiter = "#&#";
 		userSearch.userSearchString = query+delimiter+kind+delimiter+location;
-		userSearch.location = location
+		console.log("Inside helper function");
+		console.log(location);
+		userSearch.location = location;
 		userSearch.save(function(err){
 			if(err){
 				console.log(err)	
 			}
-
+			console.log("*****************************")
 			console.log("Search created");
 		});
 };
@@ -52,6 +54,8 @@ storeRouter.route('/stores')
 		console.log(req.body.address);
 		var recData = req.body;
 		store.name = recData.name;
+		console.log("Inside possssssssssssssssstttttttttttttt");
+		console.log(recData.address.city);
 		var city_name = recData.address.city;
 		store.address = recData.address;
 		store.save(function(err){
