@@ -3,6 +3,7 @@ angular.module('app.store',[]).config(['$routeProvider',
     $routeProvider.
       when('/store', {
         templateUrl: 'app/store/storePost.html',
-        controller: 'StoreController'
+        controller: 'StoreController',
+        controllerAs: 'sm'
       });
   }]);
