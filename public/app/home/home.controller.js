@@ -1,6 +1,6 @@
 angular.module('app.home')
 	.controller('HomeController',homeController);
-	function homeController(citiesService){
+	function homeController(citiesService,searchService){
 		var hm= this;
 		activate();
 		console.log("home controller");
@@ -11,6 +11,12 @@ angular.module('app.home')
 		}
 		function selectedItemChange(item){
 			console.log(item);
+			searchService.getSearches(item.location).then(function(data){
+				console.log(data);
+				
+			},function(data){
+				console.log(data);
+			});
 		}
 		
 

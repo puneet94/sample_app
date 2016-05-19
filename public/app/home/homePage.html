@@ -1,34 +1,34 @@
 <style type="text/css">
-	*{
-		font-family: 'Raleway', sans-serif;
-	}
-	.search-banner{
-		width:100%;
-		height:200px;
-		position: relative;
-		background-image: url('https://upload.wikimedia.org/wikipedia/commons/1/1e/Shoppers_on_Dundas,_near_Yonge.jpg');
-		background-position: 0 0;
-		background-size: 100% 100%;
-		background-repeat: no-repeat;
-		padding-top:50px;
-		padding-bottom:50px;
-	}
-	.dark-mask-absolute {
-		position: absolute;
-		top: 0;
-		right: 0;
-		left: 0;
-		bottom: 0;
-		background-color: rgba(0,0,0,.35);
-	}
-	.content-header{
-		position:relative;
-		color:white;
-	}
-	.search-box-container{
-		margin: auto 2%;
-		font-family: 'Raleway', sans-serif !important;
-	}
+   *{
+      font-family: 'Raleway', sans-serif;
+   }
+   .search-banner{
+      width:100%;
+      height:200px;
+      position: relative;
+      background-image: url('https://upload.wikimedia.org/wikipedia/commons/1/1e/Shoppers_on_Dundas,_near_Yonge.jpg');
+      background-position: 0 0;
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      padding-top:50px;
+      padding-bottom:50px;
+   }
+   .dark-mask-absolute {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      background-color: rgba(0,0,0,.35);
+   }
+   .content-header{
+      position:relative;
+      color:white;
+   }
+   .search-box-container{
+      margin: auto 2%;
+      font-family: 'Raleway', sans-serif !important;
+   }
 </style>
 <div flex="90" flex-offset="5">
    <header layout="row"  >
@@ -51,7 +51,7 @@
       </md-toolbar>
    </header>
    <main>
-      	<div layout="row">
+         <div layout="row">
          <div class="search-banner">
             <div class="dark-mask-absolute"></div>
             <div layout="row" layout-align="center center">
@@ -66,42 +66,37 @@
                   <div layout="row" >
                      <div flex="20" flex-offset="2">
                         <md-autocomplete
-                           ng-disabled="ctrl.isDisabled"
-                           md-no-cache="ctrl.noCache"
-                           md-selected-item="ctrl.selectedItem"
-                           md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
-                           md-search-text="ctrl.searchText"
-                           md-selected-item-change="ctrl.selectedItemChange(item)"
-                           md-items="item in ctrl.querySearch(ctrl.searchText)"
-                           md-item-text="item.name"
+                           ng-disabled="hm.isDisabled"
+                           md-no-cache="hm.noCache"
+                           md-search-text="hm.searchText"
+                           md-items="item in hm.cities|filter:hm.searchText"
+                           md-selected-item="hm.selectedItem"
+                           md-search-text-change="hm.searchTextChange(hm.searchText)"
+                           
+                           md-selected-item-change="hm.selectedItemChange(item)"
+                           
+                           md-item-text="item.location"
                            md-min-length="0"
                            placeholder="Select a city"
                            md-menu-class="autocomplete-custom-template">
                            <md-item-template>
                               <span class="item-title">
                                  <md-icon md-svg-icon="img/icons/octicon-repo.svg"></md-icon>
-                                 <span> {{item.name}} </span>
-                              </span>
-                              <span class="item-metadata">
-                              <span class="item-metastat">
-                              <strong>{{item.watchers}}</strong> watchers
-                              </span>
-                              <span class="item-metastat">
-                              <strong>{{item.forks}}</strong> forks
-                              </span>
+                                 <span> {{item.location}} </span>
                               </span>
                            </md-item-template>
                         </md-autocomplete>
                      </div>
                      <div flex="59" >
+                     <!--
                         <md-autocomplete
-                           ng-disabled="ctrl.isDisabled"
-                           md-no-cache="ctrl.noCache"
-                           md-selected-item="ctrl.selectedItem"
-                           md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
-                           md-search-text="ctrl.searchText"
-                           md-selected-item-change="ctrl.selectedItemChange(item)"
-                           md-items="item in ctrl.querySearch(ctrl.searchText)"
+                           ng-disabled="hm.isDisabled"
+                           md-no-cache="hm.noCache"
+                           md-selected-item="hm.selectedItem"
+                           md-search-text-change="hm.searchTextChange(hm.searchText)"
+                           md-search-text="hm.searchText"
+                           md-selected-item-change="hm.selectedItemChange(item)"
+                           md-items="item in hm.querySearch(hm.searchText)"
                            md-item-text="item.name"
                            md-min-length="0"
                            placeholder="Select a store, product or brand"
@@ -120,7 +115,7 @@
                               </span>
                               </span>
                            </md-item-template>
-                        </md-autocomplete>
+                        </md-autocomplete>-->
                      </div>
                      <div flex="20" >
                         <md-button class="md-raised md-primary" style="width:100%;margin:0">Search</md-button>
@@ -129,25 +124,25 @@
                </div>
             </div>
          </div>
-      	</div>
-      	<div  flex >
-		   <md-grid-list
-		      md-cols="1" md-cols-sm="2" md-cols-md="3" md-cols-gt-md="6"
-		      md-row-height-gt-md="1:1" md-row-height="4:3"
-		      md-gutter="8px" md-gutter-gt-sm="4px" >
-		      <md-grid-tile ng-repeat="tile in vm.tiles"
-		         md-rowspan="{{tile.span.row}}"
-		         md-colspan="{{tile.span.col}}"
-		         md-colspan-sm="1"
-		         md-colspan-xs="1"
-		         ng-class="tile.background" >
-		         <md-icon md-svg-icon="{{tile.icon}}"></md-icon>
-		         <md-grid-tile-footer>
-		            <h3>{{tile.title}}</h3>
-		         </md-grid-tile-footer>
-		      </md-grid-tile>
-		   </md-grid-list>
-		</div>
+         </div>
+         <div  flex >
+         <md-grid-list
+            md-cols="1" md-cols-sm="2" md-cols-md="3" md-cols-gt-md="6"
+            md-row-height-gt-md="1:1" md-row-height="4:3"
+            md-gutter="8px" md-gutter-gt-sm="4px" >
+            <md-grid-tile ng-repeat="tile in vm.tiles"
+               md-rowspan="{{tile.span.row}}"
+               md-colspan="{{tile.span.col}}"
+               md-colspan-sm="1"
+               md-colspan-xs="1"
+               ng-class="tile.background" >
+               <md-icon md-svg-icon="{{tile.icon}}"></md-icon>
+               <md-grid-tile-footer>
+                  <h3>{{tile.title}}</h3>
+               </md-grid-tile-footer>
+            </md-grid-tile>
+         </md-grid-list>
+      </div>
       <div>Home page</div>
       <a href="#/store">Take me away</a>
    </main>
