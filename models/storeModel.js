@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+URLSlugs = require('mongoose-url-slugs');
 var Schema  = mongoose.Schema;
 mongoose.createConnection("mongodb://localhost:27017/shop_directory",function (err) {
   if (err) {
@@ -47,16 +48,16 @@ var Product = new Schema({
 var StoreSchema = new Schema({
 	name:String,
 	address:Address,
+	category:[String],
 	reviews:[Review],
 	products:[Product],
 	upvotes:[UserID],
 	images:[ImageLink],
-	visits:[UserID],
-	slug:String
+	visits:[UserID]
 	/*username:{type:String,required:true,index:{unique:true}},
 	password:{type:String,required:true,select:false}*/
 },{ collection : 'stores' });
-
+StoreSchema.plugin(URLSlugs('name address.area address.city address.state address.country', {field: 'myslug'}));
 // var UserSchema = new Schema({
 // 	name:String,
 // 	address:String,

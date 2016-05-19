@@ -21,13 +21,7 @@ app.controller("MainController",["$scope","$http",function($scope,$http){
 	}).then(function(data){
 		console.log(data);
 	});
-	$http.get("http://localhost:3000/store/cities").then(function(obj){
-		console.log("cities");
-		$scope.locationList = obj.data;
-		console.log(obj.data);
-	}).then(function(data){
-		console.log(data);
-	});
+	
 
 	
 	$scope.address = {};

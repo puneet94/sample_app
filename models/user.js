@@ -1,10 +1,9 @@
 var mongoose = require('mongoose');
 var Schema  = mongoose.Schema;
-mongoose.connect('mongodb://localhost:27017/shop_dircetory');
+mongoose.connect('mongodb://localhost:27017/shop_directory');
 var bcrypt = require('bcrypt-nodejs')
 var UserSchema = new Schema({
 	name:String,
-	address:String,
 	username:{type:String,required:true,index:{unique:true}},
 	password:{type:String,required:true,select:false}
 });

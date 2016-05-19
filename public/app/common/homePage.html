@@ -66,42 +66,37 @@
                   <div layout="row" >
                      <div flex="20" flex-offset="2">
                         <md-autocomplete
-                           ng-disabled="ctrl.isDisabled"
-                           md-no-cache="ctrl.noCache"
-                           md-selected-item="ctrl.selectedItem"
-                           md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
-                           md-search-text="ctrl.searchText"
-                           md-selected-item-change="ctrl.selectedItemChange(item)"
-                           md-items="item in ctrl.querySearch(ctrl.searchText)"
-                           md-item-text="item.name"
+                           ng-disabled="hm.isDisabled"
+                           md-no-cache="hm.noCache"
+                           md-search-text="hm.searchText"
+                           md-items="item in hm.cities"
+                           md-selected-item="hm.selectedItem"
+                           md-search-text-change="hm.searchTextChange(hm.searchText)"
+                           
+                           md-selected-item-change="hm.selectedItemChange(item)"
+                           
+                           md-item-text="item.location"
                            md-min-length="0"
                            placeholder="Select a city"
                            md-menu-class="autocomplete-custom-template">
                            <md-item-template>
                               <span class="item-title">
                                  <md-icon md-svg-icon="img/icons/octicon-repo.svg"></md-icon>
-                                 <span> {{item.name}} </span>
-                              </span>
-                              <span class="item-metadata">
-                              <span class="item-metastat">
-                              <strong>{{item.watchers}}</strong> watchers
-                              </span>
-                              <span class="item-metastat">
-                              <strong>{{item.forks}}</strong> forks
-                              </span>
+                                 <span> {{item.location}} </span>
                               </span>
                            </md-item-template>
                         </md-autocomplete>
                      </div>
                      <div flex="59" >
+                     <!--
                         <md-autocomplete
-                           ng-disabled="ctrl.isDisabled"
-                           md-no-cache="ctrl.noCache"
-                           md-selected-item="ctrl.selectedItem"
-                           md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
-                           md-search-text="ctrl.searchText"
-                           md-selected-item-change="ctrl.selectedItemChange(item)"
-                           md-items="item in ctrl.querySearch(ctrl.searchText)"
+                           ng-disabled="hm.isDisabled"
+                           md-no-cache="hm.noCache"
+                           md-selected-item="hm.selectedItem"
+                           md-search-text-change="hm.searchTextChange(hm.searchText)"
+                           md-search-text="hm.searchText"
+                           md-selected-item-change="hm.selectedItemChange(item)"
+                           md-items="item in hm.querySearch(hm.searchText)"
                            md-item-text="item.name"
                            md-min-length="0"
                            placeholder="Select a store, product or brand"
@@ -120,7 +115,7 @@
                               </span>
                               </span>
                            </md-item-template>
-                        </md-autocomplete>
+                        </md-autocomplete>-->
                      </div>
                      <div flex="20" >
                         <md-button class="md-raised md-primary" style="width:100%;margin:0">Search</md-button>
