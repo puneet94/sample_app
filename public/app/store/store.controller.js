@@ -1,5 +1,6 @@
 angular.module('app.store')
-	.controller('StoreController',storeController);
+	.controller('StoreController',storeController)
+  .controller('StoreListController',["$http","$routeParams",storeListController]);
 	function storeController($http){
 		var sm = this;
 		console.log("store controller");
@@ -34,6 +35,19 @@ angular.module('app.store')
             
         };
 	}
+  function storeListController($http,$routeParams){
+    console.log($routeParams);
+    var location = $routeParams['location'];
+    var storeName = $routeParams['storeName'];
+    var url = 'http://localhost:3000/store/'+storeName+'/'+location;
+    $http.get(url).then(function(response){
+      console.log("storeList");
+      
+      console.log(response)
+    },function(response){
+      console.log(response)
+    });
+  }
 
 
 

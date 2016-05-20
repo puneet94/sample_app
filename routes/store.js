@@ -71,6 +71,17 @@ storeRouter.route('/stores')
 			res.json({message:"Store created"});
 		});
 	});
+storeRouter.route('/:storeName/:location')
+	.get(function(req,res){
+		Store.find({'name':req.params.storeName,'address.city':req.params.location},function(err,stores){
+			if(err){
+				res.send(err);
+			}
+			else{
+				res.json(stores);
+			}
+		})
+	})
 storeRouter.route('/stores/:store_id')
 	.get(function(req,res){
 		Store.findById(req.params.store_id,function(err,store){
