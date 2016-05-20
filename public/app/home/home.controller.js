@@ -9,7 +9,8 @@ angular.module('app.home')
 		hm.userSearchItemChange = userSearchItemChange;
 
 		function userSearchItemChange(item){
-			var url = item.userSearchString.split("#&#")[1]+"/"+item.userSearchString.split("#&#")[0]+"/"+item.userSearchString.split("#&#")[2];
+			var url = item.userSearchString.split("#&#")[1]+"sCollection/"+item.userSearchString.split("#&#")[0]+"/"+item.userSearchString.split("#&#")[2];
+			console.log(url);
 			changeBrowserURL.changeBrowserURLMethod(url);
 		}
 		function searchTextChange(searchText){

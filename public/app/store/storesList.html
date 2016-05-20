@@ -1,1 +1,14 @@
 <div ng-include="'app/home/searchBox.html'"></div>
+<br><br><br><br><br>
+<div ng-repeat="store in slc.storesList">
+	<strong><span ng-click="slc.getSingleStore(store)">{{store.name}}</span></strong>
+	{{store.address.city}}
+	{{store.address.country}}
+	{{store.address.state}}
+	{{store.address.zipCode}}
+	{{store.address.area}}
+	{{store.address.locality}}
+	{{store.myslug}}
+	{{store._id}}
+	<br>
+</div>

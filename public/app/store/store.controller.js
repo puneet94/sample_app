@@ -1,6 +1,7 @@
 angular.module('app.store')
 	.controller('StoreController',storeController)
-  .controller('StoreListController',["$http","$routeParams",storeListController]);
+  .controller('SingleStoreController',singleStoreController)
+  .controller('StoreListController',["httpService","$routeParams","changeBrowserURL",storeListController]);
 	function storeController($http){
 		var sm = this;
 		console.log("store controller");
@@ -35,18 +36,32 @@ angular.module('app.store')
             
         };
 	}
-  function storeListController($http,$routeParams){
-    console.log($routeParams);
-    var location = $routeParams['location'];
-    var storeName = $routeParams['storeName'];
-    var url = 'http://localhost:3000/store/'+storeName+'/'+location;
-    $http.get(url).then(function(response){
-      console.log("storeList");
-      
-      console.log(response)
-    },function(response){
-      console.log(response)
-    });
+  function singleStoreController(){
+    console.log("single store controller");
+  }
+  function storeListController(httpService,$routeParams,changeBrowserURL){
+    var slc = this;
+    activate();
+    slc.getSingleStore = getSingleStore;
+    function getSingleStore(store){
+      console.log("getSingleStore function");
+      var url = "singleStore/"+store._id+"/"+store.myslug;
+      changeBrowserURL.changeBrowserURLMethod(url);
+    }
+    function activate(){
+      var location = $routeParams['location'];
+      var storeName = $routeParams['storeName'];
+      var url = 'http://localhost:3000/store/storesCollection/'+storeName+'/'+location;
+      httpService.getService(url)
+        .then(function(response){
+          console.log("stores collection");
+          console.log(response.data);
+          slc.storesList = response.data;
+        },function(response){
+          console.log(response)
+        });
+    }
+    
   }
 
 
