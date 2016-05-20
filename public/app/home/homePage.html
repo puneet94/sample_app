@@ -29,6 +29,20 @@
       margin: auto 2%;
       font-family: 'Raleway', sans-serif !important;
    }
+   .chipElement{
+      background: rgb(224,224,224);
+    color: rgb(66,66,66);
+    cursor: default;
+    border-radius: 16px;
+    font-weight:900;
+    height: 32px;
+    line-height: 32px;
+    margin: 8px 8px 0 0;
+    padding: 0 12px;
+    box-sizing: border-box;
+    max-width: 100%;
+    position: relative;
+   }
 </style>
 <div flex="90" flex-offset="5">
    <header layout="row"  >
@@ -88,34 +102,36 @@
                         </md-autocomplete>
                      </div>
                      <div flex="59" >
-                     <!--
+                     
                         <md-autocomplete
-                           ng-disabled="hm.isDisabled"
+                           ng-disabled="!hm.searchText"
                            md-no-cache="hm.noCache"
-                           md-selected-item="hm.selectedItem"
-                           md-search-text-change="hm.searchTextChange(hm.searchText)"
-                           md-search-text="hm.searchText"
-                           md-selected-item-change="hm.selectedItemChange(item)"
-                           md-items="item in hm.querySearch(hm.searchText)"
-                           md-item-text="item.name"
+                           md-selected-item="hm.userSearchSelectedItem"
+                           md-search-text-change="hm.userSearchTextChange(hm.searchText)"
+                           md-search-text="hm.userSearchText"
+                           md-selected-item-change="hm.userSearchItemChange(item)"
+                           md-items="item in hm.userSearches"
+                           md-item-text="item.userSearchString"
                            md-min-length="0"
                            placeholder="Select a store, product or brand"
                            md-menu-class="autocomplete-custom-template">
                            <md-item-template>
                               <span class="item-title">
                                  <md-icon md-svg-icon="img/icons/octicon-repo.svg"></md-icon>
-                                 <span> {{item.name}} </span>
+                                 <span> {{item.userSearchString.split("#&#")[0]}} </span>
                               </span>
-                              <span class="item-metadata">
-                              <span class="item-metastat">
-                              <strong>{{item.watchers}}</strong> watchers
-                              </span>
-                              <span class="item-metastat">
-                              <strong>{{item.forks}}</strong> forks
-                              </span>
+                              <span >
+                                 <span>
+                                    <span class="chipElement">
+                                       <strong>{{item.userSearchString.split("#&#")[1]}}</strong>
+                                    </span> 
+                                 </span>
+                                 <span >
+                                    <strong>{{item.userSearchString.split("#&#")[2]}}</strong> 
+                                 </span>
                               </span>
                            </md-item-template>
-                        </md-autocomplete>-->
+                        </md-autocomplete>
                      </div>
                      <div flex="20" >
                         <md-button class="md-raised md-primary" style="width:100%;margin:0">Search</md-button>

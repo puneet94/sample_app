@@ -11,9 +11,9 @@ angular.module('app.home')
 		}
 		function selectedItemChange(item){
 			console.log(item);
-			searchService.getSearches(item.location).then(function(data){
-				console.log(data);
-				
+			searchService.getSearches(item.location).then(function(resource){
+				console.log(resource);
+				hm.userSearches = resource.data;
 			},function(data){
 				console.log(data);
 			});
