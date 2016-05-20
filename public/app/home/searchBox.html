@@ -1,0 +1,62 @@
+<div class="search-box-container" ng-controller="SearchBoxController as sbc">
+                  <div layout="row" >
+                     <div flex="20" flex-offset="2">
+                        <md-autocomplete
+                           ng-disabled="sbc.isDisabled"
+                           md-no-cache="sbc.noCache"
+                           md-search-text="sbc.searchText"
+                           md-items="item in sbc.cities|filter:sbc.searchText"
+                           md-selected-item="sbc.selectedItem"
+                           md-search-text-change="sbc.searchTextChange(sbc.searchText)"
+                           
+                           md-selected-item-change="sbc.selectedItemChange(item)"
+                           
+                           md-item-text="item.location"
+                           md-min-length="0"
+                           placeholder="Select a city"
+                           md-menu-class="autocomplete-custom-template">
+                           <md-item-template>
+                              <span class="item-title">
+                                 <md-icon md-svg-icon="img/icons/octicon-repo.svg"></md-icon>
+                                 <span> {{item.location}} </span>
+                              </span>
+                           </md-item-template>
+                        </md-autocomplete>
+                     </div>
+                     <div flex="59" >
+                     
+                        <md-autocomplete
+                           ng-disabled="!sbc.searchText"
+                           md-no-cache="sbc.noCache"
+                           md-selected-item="sbc.userSearchSelectedItem"
+                           md-search-text-change="sbc.userSearchTextChange(sbc.searchText)"
+                           md-search-text="sbc.userSearchText"
+                           md-selected-item-change="sbc.userSearchItemChange(item)"
+                           md-items="item in sbc.userSearches"
+                           md-item-text="item.userSearchString"
+                           md-min-length="0"
+                           placeholder="Select a store, product or brand"
+                           md-menu-class="autocomplete-custom-template">
+                           <md-item-template>
+                              <span class="item-title">
+                                 <md-icon md-svg-icon="img/icons/octicon-repo.svg"></md-icon>
+                                 <span> {{item.userSearchString.split("#&#")[0]}} </span>
+                              </span>
+                              <span >
+                                 <span>
+                                    <span class="chipElement">
+                                       <strong>{{item.userSearchString.split("#&#")[1]}}</strong>
+                                    </span> 
+                                 </span>
+                                 <span >
+                                    <strong>{{item.userSearchString.split("#&#")[2]}}</strong> 
+                                 </span>
+                              </span>
+                           </md-item-template>
+                        </md-autocomplete>
+                     </div>
+                     <div flex="20" >
+                        <md-button class="md-raised md-primary" style="width:100%;margin:0">Search</md-button>
+                     </div>
+                  </div>
+               </div>

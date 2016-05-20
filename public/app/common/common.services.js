@@ -1,6 +1,7 @@
 angular.module('app.common')
 	.service('citiesService', ["$http",citiesService])
-	.service('searchService', ["$http",searchService]);
+	.service('searchService', ["$http",searchService])
+	.service('changeBrowserURL', ["$location",changeBrowserURL]);
 	function citiesService($http){
    		this.getCities = function() {
    			var gc = this;
@@ -17,4 +18,10 @@ angular.module('app.common')
       		gs.searchesData = $http.get(url);
 			return  gs.searchesData;
    		}
+	};
+
+	function changeBrowserURL($location){
+		this.changeBrowserURLMethod = function(path){
+			$location.path(path);	
+		}
 	};
