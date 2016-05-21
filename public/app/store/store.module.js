@@ -9,7 +9,7 @@ angular.module('app.store',['app.home']).config(['$routeProvider',
         templateUrl: 'app/store/storesList.html',
         controller: 'StoreListController',
         controllerAs: 'slc'
-      }).when('/singleStore/:storeId/:myslug', {
+      }).when('/singleStore/:storeId/:myslug?/', {
         templateUrl: 'app/store/singleStore.html',
         controller: 'SingleStoreController',
         controllerAs: 'ssc'

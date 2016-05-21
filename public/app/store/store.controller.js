@@ -1,10 +1,18 @@
 angular.module('app.store')
 	.controller('StoreController',storeController)
-  .controller('SingleStoreController',singleStoreController)
+  .controller('SingleStoreController',["$scope","$location","$anchorScroll",singleStoreController])
   .controller('StoreListController',["httpService","$routeParams","changeBrowserURL",storeListController]);
 	
-  function singleStoreController(){
-    console.log("single store controller");
+  function singleStoreController($scope,$location,$anchorScroll){
+    console.log("single store controller yooyyooy");
+    if($location.search()["flowto"]!==undefined){
+      var flowId = $location.search()["flowto"];
+      console.log(flowId);
+      $location.hash(flowId);
+      // call $anchorScroll()
+      $anchorScroll();  
+    }
+    
   }
   function storeListController(httpService,$routeParams,changeBrowserURL){
     var slc = this;
