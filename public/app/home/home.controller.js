@@ -1,7 +1,8 @@
 angular.module('app.home')
-	.controller('HomeController',homeController)
-	.controller('SearchBoxController',searchBoxController);
-	function searchBoxController(citiesService,searchService,changeBrowserURL){
+	.controller('HomeController',["$scope","citiesService","searchService","changeBrowserURL",homeController])
+	.controller('HeaderController',["$scope","changeBrowserURL",headerController])
+	.controller('SearchBoxController',["$scope","citiesService","searchService","changeBrowserURL",searchBoxController]);
+	function searchBoxController($scope,citiesService,searchService,changeBrowserURL){
 		var hm= this;
 		activate();
 		hm.searchTextChange = searchTextChange;
@@ -46,7 +47,15 @@ angular.module('app.home')
 	    }
 		
 	}
-	function homeController(citiesService,searchService,changeBrowserURL){
+	function headerController($scope,changeBrowserURL){
+		var phc = this;
+		phc.toHomePage = toHomePage;
+		function toHomePage(){
+			changeBrowserURL.changeBrowserURLMethod('/');
+		}
+		console.log("header controller");
+	}
+	function homeController($scope,citiesService,searchService,changeBrowserURL){
 		/*var hm= this;
 		activate();
 		console.log("home controller");

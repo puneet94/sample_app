@@ -6,9 +6,17 @@
 	<title></title>
 	<link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
 	<link href='https://fonts.googleapis.com/css?family=Raleway:400,700' rel='stylesheet' type='text/css'>
+	<style type="text/css">
+	.md-scroll-mask{
+		position: initial;
+	}
+    
+	</style>
 </head>
-<body ng-app="myApp">
+<body ng-app="myApp" style="background-color: #ddd;">
+	<div flex="90" flex-offset="5">
 	<div ng-view></div>
+	</div>
 	<!--Vendor Scripts-->
 	<script type="text/javascript" src="bower_components/angular/angular.js"></script>
 	<script type="text/javascript" src="bower_components/angular-animate/angular-animate.js"></script>
