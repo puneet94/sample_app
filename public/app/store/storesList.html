@@ -1,14 +1,34 @@
-<div ng-include="'app/home/searchBox.html'"></div>
-<br><br><br><br><br>
-<div ng-repeat="store in slc.storesList">
-	<strong><span ng-click="slc.getSingleStore(store)">{{store.name}}</span></strong>
-	{{store.address.city}}
-	{{store.address.country}}
-	{{store.address.state}}
-	{{store.address.zipCode}}
-	{{store.address.area}}
-	{{store.address.locality}}
-	{{store.myslug}}
-	{{store._id}}
-	<br>
+<div flex="90" flex-offset="5">
+	<div ng-include="'app/home/searchBox.html'"></div>
+	<div ng-repeat="store in slc.storesList">
+		<md-card>
+	        <md-card-title>
+	          <md-card-title-text>
+	            <span class="md-headline">
+	            	<span ng-click="slc.getSingleStore(store)">{{store.name}}</span>
+	            </span>
+	            <span class="md-subhead">
+	            	<span>{{store.address.locality}}</span>
+	            	<span>{{store.address.area}}</span>
+	            	<span>{{store.address.city}}</span>
+	            	<span>{{store.address.state}}</span>
+	            </span>
+	          </md-card-title-text>
+	          <md-card-title-media>
+	            <div class="md-media-md card-media">
+	            	<img ng-src="{{store.images[0]}}">
+	            </div>
+	          </md-card-title-media>
+	        </md-card-title>
+	        <md-card-actions layout="row" layout-align="end center">
+	          <md-button>Action 1</md-button>
+	          <md-button>Action 2</md-button>
+	        </md-card-actions>
+	    </md-card>
+		
+		
+		{{store.myslug}}
+		{{store._id}}
+
+	</div>
 </div>

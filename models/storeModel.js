@@ -7,7 +7,7 @@ mongoose.createConnection("mongodb://localhost:27017/shop_directory",function (e
   }
 });
 var ImageLink = new Schema({
-	imageLink : String
+	imageLink : {type:String}
 });
 var UserID = new Schema({
 	userId : String
@@ -52,7 +52,7 @@ var StoreSchema = new Schema({
 	reviews:[Review],
 	products:[Product],
 	upvotes:[UserID],
-	images:[ImageLink],
+	images:[String],
 	visits:[UserID]
 	/*username:{type:String,required:true,index:{unique:true}},
 	password:{type:String,required:true,select:false}*/
