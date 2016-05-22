@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
 URLSlugs = require('mongoose-url-slugs');
+var mongoosePaginate = require('mongoose-paginate');
+
 var Schema  = mongoose.Schema;
 mongoose.createConnection("mongodb://localhost:27017/shop_directory",function (err) {
   if (err) {
@@ -58,6 +60,7 @@ var StoreSchema = new Schema({
 	password:{type:String,required:true,select:false}*/
 },{ collection : 'stores' });
 StoreSchema.plugin(URLSlugs('name address.area address.city address.state address.country', {field: 'myslug'}));
+StoreSchema.plugin(mongoosePaginate);
 // var UserSchema = new Schema({
 // 	name:String,
 // 	address:String,

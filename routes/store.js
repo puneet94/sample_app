@@ -84,8 +84,26 @@ storeRouter.route('/storesCollection/:storeName/:location')
 			}
 		})
 	});
-storeRouter.route('/categories')
+
+storeRouter.route('/categories/:pageNo')
 	.get(function(req,res){
+		Store.paginate({
+			/*category: { $in: ['category1'] }*/
+		}, { select:'category', page: req.params.pageNo, limit: 10 }, function(err, result) {
+		    if(err){
+				res.send(err);
+			}
+			else{
+				// result.docs 
+		    // result.total 
+		    // result.limit - 10 
+		    // result.page - 3 
+		    // result.pages 
+				console.log(result);
+				res.json(result);
+			}
+		});
+		/*
 		Store.find({},{category:1},function(err,categories){
 			if(err){
 				res.send(err);
@@ -94,7 +112,7 @@ storeRouter.route('/categories')
 				console.log(categories);
 				res.json(categories);
 			}
-		})
+		})*/
 	})
 storeRouter.route('/stores/:store_id')
 	.get(function(req,res){
