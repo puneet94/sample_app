@@ -89,7 +89,7 @@ storeRouter.route('/categories/:pageNo')
 	.get(function(req,res){
 		Store.paginate({
 			/*category: { $in: ['category1'] }*/
-		}, { select:'category', page: req.params.pageNo, limit: 10 }, function(err, result) {
+		}, { select:'category', page: req.params.pageNo, limit: 1 }, function(err, result) {
 		    if(err){
 				res.send(err);
 			}

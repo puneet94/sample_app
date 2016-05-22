@@ -60,13 +60,17 @@ angular.module('app.home')
 		console.log("category list controller");
 		var clc = this;
 		clc.cateList = [];
+		clc.categLoadMore = false;
+		clc.pageNo = 1; //for fetching categories 
+		clc.fetchMoreCats = fetchMoreCats;
 		activate();
 		function activate(){
 			getCategories();
 		}
 		function getCategories(){
 			//getCategoryService.getCategoryList
-			$http.get('http://localhost:3000/store/categories/1')
+			var url = "http://localhost:3000/store/categories/"+""+clc.pageNo;
+			$http.get(url)
 				.then(
 					function(response){
 						console.log(response);
@@ -84,6 +88,31 @@ angular.module('app.home')
 						console.log(response);
 					}
 				);
+		}
+		function fetchMoreCats(){
+			clc.pageNo = clc.pageNo + 1;
+			var url = "http://localhost:3000/store/categories/"+""+clc.pageNo;
+			$http.get(url)
+				.then(
+					function(response){
+						console.log(response);
+						if(response.data.docs.length==0){
+							clc.categLoadMore = true;
+						}
+						angular.forEach(response.data.docs, function(item){
+							angular.forEach(item.category, function(cat1){
+								if(clc.cateList.indexOf(cat1)==-1){
+									clc.cateList.push(cat1);	
+								}
+								
+						});
+					});
+						
+					},
+					function(response){
+						console.log(response);
+					}
+				);	
 		}
 	}
 	function homeController($scope,citiesService,searchService,changeBrowserURL){
