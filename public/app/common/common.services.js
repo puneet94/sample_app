@@ -2,6 +2,7 @@ angular.module('app.common')
 	.service('citiesService', ["$http",citiesService])
 	.service('searchService', ["$http",searchService])
 	.service('httpService', ["$http",httpService])
+	.service('sortService',[sortService])
 	.service('changeBrowserURL', ["$location",changeBrowserURL]);
 	function citiesService($http){
    		this.getCities = function() {
@@ -24,7 +25,16 @@ angular.module('app.common')
 		this.getService = function(url){
 			return $http.get(url);
 		}
+	};
+	function sortService(){
+		this.sortByKey = function(array, key) {
+		    return array.sort(function(a, b) {
+		        var x = a[key]; var y = b[key];
+		        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+		    	});
+		}	
 	}
+	
 	function changeBrowserURL($location){
 		this.changeBrowserURLMethod = function(path){
 			$location.path(path);	
