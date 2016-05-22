@@ -53,7 +53,7 @@
       <div ng-include="'app/home/pageHeader.html'" flex></div>
    </header>
    <main>
-        <div layout="row">
+      <div layout="row">
          <div class="search-banner">
             <div class="dark-mask-absolute"></div>
             <div layout="row" layout-align="center center">
@@ -68,6 +68,12 @@
             </div>
          </div>
          </div>
+         <div layout="row" layout-wrap>
+          <div flex="20">
+            <div ng-include="'app/home/storeCategoryList.html'"></div>
+          </div>
+          <div flex="59"></div>
+          <div flex="20"></div>
          <div  flex >
          <md-grid-list
             md-cols="1" md-cols-sm="2" md-cols-md="3" md-cols-gt-md="6"

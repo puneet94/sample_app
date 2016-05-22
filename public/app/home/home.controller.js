@@ -1,7 +1,8 @@
 angular.module('app.home')
 	.controller('HomeController',["$scope","citiesService","searchService","changeBrowserURL",homeController])
 	.controller('HeaderController',["$scope","changeBrowserURL",headerController])
-	.controller('SearchBoxController',["$scope","citiesService","searchService","changeBrowserURL",searchBoxController]);
+	.controller('SearchBoxController',["$scope","citiesService","searchService","changeBrowserURL",searchBoxController])
+	.controller('CategoryListController',["$scope","$http","getCategoryService",categoryListController]);
 	function searchBoxController($scope,citiesService,searchService,changeBrowserURL){
 		var hm= this;
 		activate();
@@ -54,6 +55,36 @@ angular.module('app.home')
 			changeBrowserURL.changeBrowserURLMethod('/');
 		}
 		console.log("header controller");
+	}
+	function categoryListController($scope,$http,getCategoryService){
+		console.log("category list controller");
+		var clc = this;
+		clc.cateList = [];
+		activate();
+		function activate(){
+			getCategories();
+		}
+		function getCategories(){
+			//getCategoryService.getCategoryList
+			$http.get('http://localhost:3000/store/categories/1')
+				.then(
+					function(response){
+						console.log(response);
+						angular.forEach(response.data.docs, function(item){
+							angular.forEach(item.category, function(cat1){
+								if(clc.cateList.indexOf(cat1)==-1){
+									clc.cateList.push(cat1);	
+								}
+								
+						});
+						});
+						
+					},
+					function(response){
+						console.log(response);
+					}
+				);
+		}
 	}
 	function homeController($scope,citiesService,searchService,changeBrowserURL){
 		/*var hm= this;

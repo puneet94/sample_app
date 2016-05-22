@@ -1,5 +1,6 @@
 angular.module('app.common')
 	.service('citiesService', ["$http",citiesService])
+	.service('getCategoryService',function(){})
 	.service('searchService', ["$http",searchService])
 	.service('httpService', ["$http",httpService])
 	.service('sortService',[sortService])

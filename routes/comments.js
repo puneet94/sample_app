@@ -22,6 +22,7 @@ storeRouter.route('/products/:category/:pageNo')
 				path: 'Product',
   				match: { 
   					category: { $eq: strCat }
+  								{ $elemMatch: { $eq: strCat, $lt: 85 } }
   				}
   			},page: req.params.pageNo, limit: 10 }, function(err, result) {
 		    if(err){
