@@ -16,6 +16,7 @@ var adminRouter = require('./routes/admin');
 var userApiRouter = require('./routes/user/api');
 var storeRouter = require('./routes/store');
 var searchRouter = require('./routes/searchRoute');
+var productRouter = require('./routes/productRoute');
 //Middleware from built-in methods
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
@@ -27,6 +28,7 @@ app.use('/admin',adminRouter);
 app.use('/api',userApiRouter);
 app.use('/store',storeRouter);
 app.use('/search',searchRouter);
+app.use('/product',productRouter);
 app.use(express.static(__dirname + '/public')); 
 app.get('*', function (req, res) {
         res.sendFile(__dirname + '/public/index.html'); // load the single view file (angular will handle the page changes on the front-end)

@@ -1,7 +1,11 @@
 var express = require('express');
-var Store = require('..//models/storeModel');
+var models = require('..//models/storeModel');
+var Store = models.Store;
+console.log("*************uououoo**************************************");
+console.log(typeof(models));
 var UserSearch = require('..//models/user_search');
 var storeRouter = express.Router();
+var commons = require('./commonRouteFunctions');
 
 storeRouter.use(function(req,res,next){
 	console.log("store");
@@ -9,17 +13,7 @@ storeRouter.use(function(req,res,next){
 	next();
 });
 
-var saveSearchList = function(query,kind,location,req,res){
-	var userSearch = new UserSearch();
-		var delimiter = "#&#";
-		userSearch.userSearchString = query+delimiter+kind+delimiter+location;
-		userSearch.location = location;
-		userSearch.save(function(err){
-			if(err){
-				console.log(err)	
-			}
-		});
-};
+
 storeRouter.route('/cities')
 	.get(function(req,res){
 		UserSearch.find(function(err,cities){
@@ -59,7 +53,7 @@ storeRouter.route('/stores')
 					return res.send(err)
 				}
 			}
-			saveSearchList(req.body.name,"store",city_name,req,res);
+			commons.saveSearchList(req.body.name,"store",city_name,req,res);
 			res.json({message:"Store created"});
 		});
 	});
