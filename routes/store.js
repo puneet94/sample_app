@@ -1,8 +1,6 @@
 var express = require('express');
 var models = require('..//models/storeModel');
 var Store = models.Store;
-console.log("*************uououoo**************************************");
-console.log(typeof(models));
 var UserSearch = require('..//models/user_search');
 var storeRouter = express.Router();
 var commons = require('./commonRouteFunctions');

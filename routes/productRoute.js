@@ -2,8 +2,10 @@ var express = require('express');
 var models = require('..//models/storeModel');
 var Product = models.Product;
 var Store = models.Store;
+var mongoose = require('mongoose');
 var productRouter = express.Router();
 var commons = require('./commonRouteFunctions');
+var ObjectId = require('mongoose').Schema.ObjectId;
 
 productRouter.use(function(req,res,next){
 	console.log("product");
@@ -35,18 +37,21 @@ productRouter.route('/products/:storeId')
 		product.subCategory=recData.subCatgeory;
 		//product.price=recData.price;
 		product.sizesAvailable=recData.sizesAvailable;
-		product.store = ""+req.params.storeId;
-		console.log(req.params.storeId);
-		var city_name = "not insta";
-		Store.findById(product.store,function(err,store){
+		product.store = mongoose.Types.ObjectId(req.params.storeId);
+		console.log(typeof(req.params.storeId));
+		var city_name = "nopeeeeejjjje";//ObjectId.fromString new ObjectId(product.store)
+		Store.findById(mongoose.Types.ObjectId(req.params.storeId),function(err,store){
 				if(err){
 					console.log("inside save of product");
-					res.send(err);
+					//res.send(err);
+					console.log(err);
 
 				}
 				else{
 					console.log("999999999999999999999")
 					console.log(store);
+					
+					//res.send(stores);
 					city_name = store.address.city;
 				}
 		})
