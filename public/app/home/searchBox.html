@@ -32,7 +32,7 @@
                            md-search-text-change="sbc.userSearchTextChange(sbc.searchText)"
                            md-search-text="sbc.userSearchText"
                            md-selected-item-change="sbc.userSearchItemChange(item)"
-                           md-items="item in sbc.userSearches"
+                           md-items="item in sbc.userSearches|filter:sbc.userSearchText"
                            md-item-text="item.userSearchString"
                            md-min-length="0"
                            placeholder="Select a store, product or brand"

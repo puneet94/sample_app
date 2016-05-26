@@ -42,6 +42,7 @@ storeRouter.route('/stores')
 		store.name = recData.name;
 		var city_name = recData.address.city;
 		store.address = recData.address;
+		store.category = recData.category; //make sure its an array of categories
 		store.save(function(err){
 			if(err){
 				if(err.code == 11000){
@@ -52,6 +53,10 @@ storeRouter.route('/stores')
 				}
 			}
 			commons.saveSearchList(req.body.name,"store",city_name,req,res);
+			for (var i = store.category.length - 1; i >= 0; i--) {
+				commons.saveSearchList(store.category[i],"store-category",city_name,req,res);
+			};
+			
 			res.json({message:"Store created"});
 		});
 	});
@@ -81,7 +86,7 @@ storeRouter.route('/categories/:pageNo')
 	.get(function(req,res){
 		Store.paginate({
 			/*category: { $in: ['category1'] }*/
-		}, { select:'category', page: req.params.pageNo, limit: 1 }, function(err, result) {
+		}, { select:'category', page: req.params.pageNo, limit: 2 }, function(err, result) {
 		    if(err){
 				res.send(err);
 			}

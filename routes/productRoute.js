@@ -68,8 +68,8 @@ productRouter.route('/products/:storeId')
 			}
 			
 			commons.saveSearchList(recData.name,"product",city_name,req,res);
-			commons.saveSearchList(recData.category,"category",city_name,req,res);
-			commons.saveSearchList(recData.subCatgeory,"subcategory",city_name,req,res);
+			commons.saveSearchList(recData.category,"product-category",city_name,req,res);
+			commons.saveSearchList(recData.subCatgeory,"product-subcategory",city_name,req,res);
 			res.json({message:"Product created"});
 		});
 	});

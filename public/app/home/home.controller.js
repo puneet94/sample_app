@@ -2,7 +2,7 @@ angular.module('app.home')
 	.controller('HomeController',["$scope","citiesService","searchService","changeBrowserURL",homeController])
 	.controller('HeaderController',["$scope","changeBrowserURL",headerController])
 	.controller('SearchBoxController',["$scope","citiesService","searchService","changeBrowserURL",searchBoxController])
-	.controller('CategoryListController',["$scope","$http","getCategoryService",categoryListController]);
+	.controller('CategoryListController',["$scope","$http","getCategoryService","arrayUniqueCopy",categoryListController]);
 	function searchBoxController($scope,citiesService,searchService,changeBrowserURL){
 		var hm= this;
 		activate();
@@ -11,16 +11,47 @@ angular.module('app.home')
 		hm.userSearchItemChange = userSearchItemChange;
 
 		function userSearchItemChange(item){
-			var url = item.userSearchString.split("#&#")[1]+"sCollection/"+item.userSearchString.split("#&#")[0]+"/"+item.userSearchString.split("#&#")[2];
-			console.log(url);
-			changeBrowserURL.changeBrowserURLMethod(url);
+			var changeEntity = item.userSearchString.split("#&#")[1];
+			var entityName = item.userSearchString.split("#&#")[0];
+			var location = item.userSearchString.split("#&#")[2];
+			
+			if(changeEntity == "store"){
+				var slug = entityName + "-stores-in-" + location;
+				var url = "/store/storesCollectionName/"+entityName+"/"+location+"/"+slug;
+				
+				changeBrowserURL.changeBrowserURLMethod(url);	
+			}
+			else if(changeEntity == "store-category"){
+				var slug = entityName + "-stores-in-" + location;
+				var url = "/store/storesCollectionCategory/"+entityName+"/"+location+"/"+slug;
+				
+				changeBrowserURL.changeBrowserURLMethod(url);	
+			}
+			else if(changeEntity == "product"){
+				var slug = entityName + "-in-" + location;
+				var url = "/product/singleProductName/"+entityName+"/"+location+"/"+slug;
+				
+				changeBrowserURL.changeBrowserURLMethod(url);	
+			}
+			else if(changeEntity == "product-category"){
+				var slug = entityName + "-products-in-" + location;
+				var url = "/product/productsCollectionCategory/"+entityName+"/"+location+"/"+slug;
+				
+				changeBrowserURL.changeBrowserURLMethod(url);	
+			}
+			else if(changeEntity == "product-subcategory"){
+				var slug = entityName + "-products-in-" + location;
+				var url = "/product/productsCollectionSubCategory/"+entityName+"/"+location+"/"+slug;
+				changeBrowserURL.changeBrowserURLMethod(url);	
+			}
+			
+
+			
 		}
 		function searchTextChange(searchText){
 			console.log(searchText);
 		}
 		function selectedItemChange(item){
-			//hm.userSearchText = "";
-			console.log(item);
 			searchService.getSearches(item.location).then(function(resource){
 				console.log(resource);
 				hm.userSearches = resource.data;
@@ -33,18 +64,10 @@ angular.module('app.home')
 	    function activate() {
 	    	citiesService.getCities()
 				.then(function(obj){			
-					console.log(obj);
 					hm.cities =  obj.data;
-					console.log("then");
-					console.log(hm.cities);
 				},function(obj){
-					console.log(obj);
 					hm.cities =  obj;
 				});
-	        /*return dataservice.getAvengers().then(function(data) {
-	            vm.avengers = data;
-	            return vm.avengers;
-	        });*/
 	    }
 		
 	}
@@ -54,66 +77,39 @@ angular.module('app.home')
 		function toHomePage(){
 			changeBrowserURL.changeBrowserURLMethod('/');
 		}
-		console.log("header controller");
 	}
-	function categoryListController($scope,$http,getCategoryService){
-		console.log("category list controller");
+	function categoryListController($scope,$http,getCategoryService,arrayUniqueCopy){
 		var clc = this;
 		clc.cateList = [];
 		clc.categLoadMore = false;
-		clc.pageNo = 1; //for fetching categories 
-		clc.fetchMoreCats = fetchMoreCats;
+		clc.pageNo = 0; //for fetching categories 
+		clc.getCategories = getCategories;
 		activate();
+
 		function activate(){
-			getCategories();
+			clc.getCategories();
 		}
 		function getCategories(){
 			//getCategoryService.getCategoryList
+			
+			clc.pageNo = clc.pageNo + 1;
 			var url = "http://localhost:3000/store/categories/"+""+clc.pageNo;
 			$http.get(url)
 				.then(
 					function(response){
-						console.log(response);
 						angular.forEach(response.data.docs, function(item){
-							angular.forEach(item.category, function(cat1){
-								if(clc.cateList.indexOf(cat1)==-1){
-									clc.cateList.push(cat1);	
-								}
-								
+							clc.cateList = arrayUniqueCopy.getUniqueCopyFunction(item.category,clc.cateList);	
 						});
-						});
+						console.log(clc.cateList);
 						
 					},
 					function(response){
 						console.log(response);
 					}
 				);
+			
 		}
-		function fetchMoreCats(){
-			clc.pageNo = clc.pageNo + 1;
-			var url = "http://localhost:3000/store/categories/"+""+clc.pageNo;
-			$http.get(url)
-				.then(
-					function(response){
-						console.log(response);
-						if(response.data.docs.length==0){
-							clc.categLoadMore = true;
-						}
-						angular.forEach(response.data.docs, function(item){
-							angular.forEach(item.category, function(cat1){
-								if(clc.cateList.indexOf(cat1)==-1){
-									clc.cateList.push(cat1);	
-								}
-								
-						});
-					});
-						
-					},
-					function(response){
-						console.log(response);
-					}
-				);	
-		}
+		
 	}
 	function homeController($scope,citiesService,searchService,changeBrowserURL){
 		/*var hm= this;
@@ -154,7 +150,6 @@ angular.module('app.home')
 				});
 	        
 	    }*/
-		
 	}
 
 /*git clone https://github.com/mrvautin/adminMongo.git && cd adminMongo*/
