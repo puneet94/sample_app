@@ -69,14 +69,14 @@ angular.module('app.common')
 		this.protocol = "https:";
 		this.baseUrl = this.protocol+"//"+this.host+this.port+"/"
 		
-		this.getStoresWithCatgeoryLocation = this.baseUrl + "store/storesColl/category/";//:category/:location?";
-		this.getStoresWithNameLocation = this.baseUrl + "store/storesColl/storeName/";
+		this.getStoresWithCatgeoryLocation = this.baseUrl + "store/storesCollection/category/";//:category/:location?";
+		this.getStoresWithNameLocation = this.baseUrl + "store/storesCollection/storeName/";
 		this.getSingleStoreWithId = this.baseUrl + "store/singleStore/";
 
-		this.getProductsWithCatgeoryLocation = this.baseUrl + "product/productsColl/category/";//:product/:location?";
-		this.getProductsWithSubCatgeoryLocation = this.baseUrl + "product/productsColl/subCategory/";//:product/:location?";
-		this.getProductsWithNameLocation = this.baseUrl + "product/productsColl/productName/";
-		this.getProductsWithStoreId = this.baseUrl + "product/productsColl/store/";
+		this.getProductsWithCatgeoryLocation = this.baseUrl + "product/productsCollection/category/";//:product/:location?";
+		this.getProductsWithSubCatgeoryLocation = this.baseUrl + "product/productsCollection/subCategory/";//:product/:location?";
+		this.getProductsWithNameLocation = this.baseUrl + "product/productsCollection/productName/";
+		this.getProductsWithStoreId = this.baseUrl + "product/productsCollection/store/";
 		this.getSingleProductWithId = this.baseUrl + "product/singleProduct/";
 
 		this.getCategoriesWithLocation = this.baseUrl + "categories/location";

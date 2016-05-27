@@ -17,20 +17,19 @@ angular.module('app.home')
 			
 			if(changeEntity == "store"){
 				var slug = entityName + "-stores-in-" + location;
-				var url = "/store/storesCollectionName/"+entityName+"/"+location+"/"+slug;
+				var url = "/store/storesCollection/storeName/"+entityName+"/"+location+"/"+slug;
 				
 				changeBrowserURL.changeBrowserURLMethod(url);	
 			}
 			else if(changeEntity == "store-category"){
 				var slug = entityName + "-stores-in-" + location;
-				var url = "/store/storesCollectionCategory/"+entityName+"/"+location+"/"+slug;
-				
+				var url = "/store/storesCollection/category/"+entityName+"/"+location+"/"+slug;
+				console.log(url);
 				changeBrowserURL.changeBrowserURLMethod(url);	
 			}
 			else if(changeEntity == "product"){
 				var slug = entityName + "-in-" + location;
 				var url = "/product/singleProductName/"+entityName+"/"+location+"/"+slug;
-				
 				changeBrowserURL.changeBrowserURLMethod(url);	
 			}
 			else if(changeEntity == "product-category"){

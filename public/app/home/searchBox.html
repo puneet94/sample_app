@@ -2,8 +2,6 @@
                   <div layout="row" >
                      <div flex="20" flex-offset="2">
                         <md-autocomplete
-                           ng-disabled="sbc.isDisabled"
-                           md-no-cache="sbc.noCache"
                            md-search-text="sbc.searchText"
                            md-items="item in sbc.cities|filter:sbc.searchText"
                            md-selected-item="sbc.selectedItem"
@@ -27,7 +25,6 @@
                      
                         <md-autocomplete
                            ng-disabled="!sbc.searchText"
-                           md-no-cache="sbc.noCache"
                            md-selected-item="sbc.userSearchSelectedItem"
                            md-search-text-change="sbc.userSearchTextChange(sbc.searchText)"
                            md-search-text="sbc.userSearchText"

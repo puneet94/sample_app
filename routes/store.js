@@ -60,26 +60,33 @@ storeRouter.route('/stores')
 			res.json({message:"Store created"});
 		});
 	});
-storeRouter.route('/storesCollection/:storeName/:location')
+storeRouter.route('/storesCollection/storeName/:storeName/:location/:pageNo')
 	.get(function(req,res){
-		Store.find({'name':req.params.storeName,'address.city':req.params.location},/*{products:0,reviews:0},*/function(err,stores){
-			if(err){
+		Store.paginate({'name':req.params.storeName,'address.city':req.params.location}, 
+			{page: req.params.pageNo, limit: 1 }, function(err, result) {
+		    if(err){
 				res.send(err);
 			}
 			else{
-				console.log(stores);
-				console.log(stores[0].products.length);
-				for (var i = stores.length - 1; i >= 0; i--) {
-
-					stores[i]['products']=stores[i].products.length;
-					stores[i]['reviews']=stores[i].reviews.length;
-					stores[i]['visits']=stores[i].visits.length;
-					stores[i]['upvotes']=stores[i].upvotes.length;
-				};
-				console.log(stores);
-				res.json(stores);
+				console.log(result);
+				res.json(result);
 			}
-		})
+		});
+		
+	});
+storeRouter.route('/storesCollection/category/:category/:location/:pageNo')
+	.get(function(req,res){
+		Store.paginate({'category':req.params.category,'address.city':req.params.location}, 
+			{page: req.params.pageNo, limit: 1 }, function(err, result) {
+		    if(err){
+				res.send(err);
+			}
+			else{
+				console.log(result);
+				res.json(result);
+			}
+		});
+		
 	});
 
 storeRouter.route('/categories/:pageNo')
