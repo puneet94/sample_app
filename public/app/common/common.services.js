@@ -5,6 +5,7 @@ angular.module('app.common')
 	.service('httpService', ["$http",httpService])
 	.service('sortService',[sortService])
 	.service('changeBrowserURL', ["$location",changeBrowserURL])
+	.service('arrayObjectMapper',[arrayObjectMapper])
 	.service('arrayUniqueCopy',[arrayUniqueCopy]);
 	function citiesService($http){
    		this.getCities = function() {
@@ -42,6 +43,15 @@ angular.module('app.common')
 			$location.path(path);	
 		}
 	};
+	function arrayObjectMapper(){
+		this.getArrayFunction = function(arrayObj,item){
+			var arr1 = [];
+			for (var i = arrayObj.length - 1; i >= 0; i--) {
+						arr1.push(arrayObj[i][item]);
+			};
+			return arr1;
+		}
+	}
 	function arrayUniqueCopy(){
 		this.getUniqueCopyFunction = function(sourceArray,destArray){
 			angular.forEach(sourceArray, function(item){

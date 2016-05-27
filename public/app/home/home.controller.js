@@ -1,9 +1,9 @@
 angular.module('app.home')
 	.controller('HomeController',["$scope","citiesService","searchService","changeBrowserURL",homeController])
 	.controller('HeaderController',["$scope","changeBrowserURL",headerController])
-	.controller('SearchBoxController',["$scope","citiesService","searchService","changeBrowserURL",searchBoxController])
-	.controller('CategoryListController',["$scope","$http","getCategoryService","arrayUniqueCopy",categoryListController]);
-	function searchBoxController($scope,citiesService,searchService,changeBrowserURL){
+	.controller('SearchBoxController',["$scope","citiesService","searchService","changeBrowserURL","arrayUniqueCopy","arrayObjectMapper",searchBoxController])
+	.controller('CategoryListController',["$scope","$http","getCategoryService","arrayUniqueCopy","arrayObjectMapper",categoryListController]);
+	function searchBoxController($scope,citiesService,searchService,changeBrowserURL,arrayUniqueCopy,arrayObjectMapper){
 		var hm= this;
 		activate();
 		hm.searchTextChange = searchTextChange;
@@ -52,8 +52,7 @@ angular.module('app.home')
 			console.log(searchText);
 		}
 		function selectedItemChange(item){
-			searchService.getSearches(item.location).then(function(resource){
-				console.log(resource);
+			searchService.getSearches(item).then(function(resource){
 				hm.userSearches = resource.data;
 			},function(data){
 				console.log(data);
@@ -63,8 +62,11 @@ angular.module('app.home')
 
 	    function activate() {
 	    	citiesService.getCities()
-				.then(function(obj){			
-					hm.cities =  obj.data;
+				.then(function(obj){	
+					hm.cities = [];	
+					hm.cities2 = [];
+					hm.cities2 = arrayObjectMapper.getArrayFunction(obj.data,"location");
+					hm.cities =  arrayUniqueCopy.getUniqueCopyFunction(hm.cities2,hm.cities);
 				},function(obj){
 					hm.cities =  obj;
 				});
@@ -78,7 +80,7 @@ angular.module('app.home')
 			changeBrowserURL.changeBrowserURLMethod('/');
 		}
 	}
-	function categoryListController($scope,$http,getCategoryService,arrayUniqueCopy){
+	function categoryListController($scope,$http,getCategoryService,arrayUniqueCopy,arrayObjectMapper){
 		var clc = this;
 		clc.cateList = [];
 		clc.categLoadMore = false;
