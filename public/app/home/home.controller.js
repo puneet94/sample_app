@@ -6,6 +6,7 @@ angular.module('app.home')
 	function searchBoxController($scope,citiesService,searchService,changeBrowserURL,arrayUniqueCopy,arrayObjectMapper){
 		var hm= this;
 		activate();
+		hm.userSearches = [];
 		hm.searchTextChange = searchTextChange;
 		hm.selectedItemChange = selectedItemChange;
 		hm.userSearchItemChange = userSearchItemChange;
@@ -52,7 +53,11 @@ angular.module('app.home')
 		}
 		function selectedItemChange(item){
 			searchService.getSearches(item).then(function(resource){
-				hm.userSearches = resource.data;
+				hm.userSearches = [];
+				for (var i = resource.data.length - 1; i >= 0; i--) {
+					hm.userSearches.push(resource.data[i]);
+				};
+				console.log(hm.userSearches);
 			},function(data){
 				console.log(data);
 			});

@@ -17,6 +17,8 @@ angular.module('app.common')
 	};
 	function searchService($http){
    		this.getSearches = function(userLocation) {
+   			console.log("inside http");
+   			console.log(userLocation);
    			var gs = this;
    			gs.searchesData  = undefined;
    			var url = "http://localhost:3000/search/searches/"+userLocation;
