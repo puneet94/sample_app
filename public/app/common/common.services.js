@@ -6,7 +6,8 @@ angular.module('app.common')
 	.service('sortService',[sortService])
 	.service('changeBrowserURL', ["$location",changeBrowserURL])
 	.service('arrayObjectMapper',[arrayObjectMapper])
-	.service('arrayUniqueCopy',[arrayUniqueCopy]);
+	.service('arrayUniqueCopy',[arrayUniqueCopy])
+	.service('userLocationService',[userLocationService]);
 	function citiesService($http){
    		this.getCities = function() {
    			var gc = this;
@@ -63,6 +64,18 @@ angular.module('app.common')
 				
 			});
 			return destArray;
+		}
+	}
+	function userLocationService(){
+		var userLocation = "";
+		this.setUserLocation = setUserLocation;
+		this.getUserLocation = getUserLocation;
+
+		function setUserLocation(userLocation2){
+			userLocation = userLocation2;
+		}
+		function getUserLocation(){
+			return userLocation;
 		}
 	}
 	function ajaxURL(){

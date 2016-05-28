@@ -1,9 +1,9 @@
 angular.module('app.home')
 	.controller('HomeController',["$scope","citiesService","searchService","changeBrowserURL",homeController])
 	.controller('HeaderController',["$scope","changeBrowserURL",headerController])
-	.controller('SearchBoxController',["$scope","citiesService","searchService","changeBrowserURL","arrayUniqueCopy","arrayObjectMapper",searchBoxController])
-	.controller('CategoryListController',["$scope","$http","getCategoryService","arrayUniqueCopy","arrayObjectMapper",categoryListController]);
-	function searchBoxController($scope,citiesService,searchService,changeBrowserURL,arrayUniqueCopy,arrayObjectMapper){
+	.controller('SearchBoxController',["$scope","citiesService","searchService","changeBrowserURL","arrayUniqueCopy","arrayObjectMapper","userLocationService",searchBoxController])
+	.controller('CategoryListController',["$scope","$http","getCategoryService","arrayUniqueCopy","arrayObjectMapper","userLocationService","changeBrowserURL",categoryListController]);
+	function searchBoxController($scope,citiesService,searchService,changeBrowserURL,arrayUniqueCopy,arrayObjectMapper,userLocationService){
 		var hm= this;
 		activate();
 		hm.userSearches = [];
@@ -12,6 +12,7 @@ angular.module('app.home')
 		hm.userSearchItemChange = userSearchItemChange;
 
 		function userSearchItemChange(item){
+
 			var changeEntity = item.userSearchString.split("#&#")[1];
 			var entityName = item.userSearchString.split("#&#")[0];
 			var location = item.userSearchString.split("#&#")[2];
@@ -52,6 +53,7 @@ angular.module('app.home')
 			console.log(searchText);
 		}
 		function selectedItemChange(item){
+			userLocationService.setUserLocation(item);
 			searchService.getSearches(item).then(function(resource){
 				hm.userSearches = [];
 				for (var i = resource.data.length - 1; i >= 0; i--) {
@@ -84,16 +86,26 @@ angular.module('app.home')
 			changeBrowserURL.changeBrowserURLMethod('/');
 		}
 	}
-	function categoryListController($scope,$http,getCategoryService,arrayUniqueCopy,arrayObjectMapper){
+	function categoryListController($scope,$http,getCategoryService,arrayUniqueCopy,arrayObjectMapper,userLocationService,changeBrowserURL){
 		var clc = this;
 		clc.cateList = [];
 		clc.categLoadMore = false;
 		clc.pageNo = 0; //for fetching categories 
 		clc.getCategories = getCategories;
+		clc.categoryLinkClicked = categoryLinkClicked;
 		activate();
 
 		function activate(){
 			clc.getCategories();
+		}
+		function categoryLinkClicked(category){
+			var location = userLocationService.getUserLocation();
+			var slug = category + "-stores-in-" + location;
+			var url = "/store/storesCollection/category/"+category+"/"+location+"/"+slug;
+			console.log(url);
+			changeBrowserURL.changeBrowserURLMethod(url);	
+			
+
 		}
 		function getCategories(){
 			//getCategoryService.getCategoryList
