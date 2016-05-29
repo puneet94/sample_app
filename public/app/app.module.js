@@ -1,7 +1,19 @@
-angular.module('myApp',['ngRoute','app.common','app.home','app.store','ngMaterial']).config(['$routeProvider',
-  function($routeProvider) {
+angular.module('myApp',['ngRoute','app.common','app.home','app.store','ngMaterial']).config(['$routeProvider','$mdThemingProvider',
+  function($routeProvider,$mdThemingProvider) {
+      $mdThemingProvider.theme('default')
+    .primaryPalette('amber')
+    .accentPalette('orange')
+     .warnPalette('blue');;
       $routeProvider.
       otherwise({
         redirectTo: '/home'
       });
   }]);
+
+// red, pink, purple, deep-purple, indigo, blue, light-blue, cyan, teal, green, 
+//light-green, lime, yellow, amber, orange, deep-orange, brown, grey, blue-grey
+// .config(function($mdThemingProvider) {
+//   $mdThemingProvider.theme('default')
+//     .primaryPalette('pink')
+//     .accentPalette('orange');
+// });
