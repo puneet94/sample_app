@@ -25,16 +25,18 @@ storeRouter.route('/cities')
 		}).select({ "location": 1, "_id": 0});
 	})
 
-storeRouter.route('/stores')
+storeRouter.route('/storesCollection/stores/:location/:pageNo')
 	.get(function(req,res){
-		Store.find(function(err,stores){
-			if(err){
+		Store.paginate({'address.city':req.params.location}, 
+			{page: req.params.pageNo, limit: 3}, function(err, result) {
+		    if(err){
 				res.send(err);
 			}
-			console.log("hello");
-			res.json(stores);
-			//res.render("stores",{"stores":stores});
-		})
+			else{
+				console.log(result);
+				res.json(result);
+			}
+		});
 	})
 	.post(function(req,res){
 		var store = new Store();

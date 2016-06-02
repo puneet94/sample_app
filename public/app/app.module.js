@@ -3,7 +3,8 @@ angular.module('myApp',['ngRoute','app.common','app.home','app.store','ngMateria
       $mdThemingProvider.theme('default')
     .primaryPalette('amber')
     .accentPalette('orange')
-     .warnPalette('blue');;
+     .warnPalette('blue');
+     //.backgroundPalette('blue-grey');
       $routeProvider.
       otherwise({
         redirectTo: '/home'

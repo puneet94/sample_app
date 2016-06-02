@@ -1,36 +1,36 @@
 
 <div ng-controller="StoreListController as slc">
 	<div ng-repeat="store in slc.storesList">
-				<md-card>
-					<md-card-title>
-						<md-card-title-text>
-							<span class="md-headline">
-								<span ng-click="slc.getSingleStore(store)">{{store.name}}</span>
-							</span>
-							<span class="md-subhead">
-								<span>{{store.address.locality}}</span>
-								<span>{{store.address.area}}</span>
-								<span>{{store.address.city}}</span>
-								<span>{{store.address.state}}</span>
-							</span>
-							<span class="md-subhead">
-								<span>{{store.upvotes.length}} Upvotes</span>
-								<span>{{store.visits.length}} Visits</span>
-
-							</span>
-						</md-card-title-text>
-						<md-card-title-media>
-							<div class="md-media-md card-media">
-								<img ng-src="{{store.images[0]}}">
-							</div>
-						</md-card-title-media>
-					</md-card-title>
-					<span layout="row" layout-align="end center">
-						<!--Add flow to query parameter-->
-						<span>{{store.reviews.length}} Reviews </span>
-						<span> {{store.products.length}} Products</span>
+		<md-card>
+			<md-card-title>
+				<md-card-title-text>
+					<span class="md-headline">
+						<span ng-click="slc.getSingleStore(store)">{{store.name}}</span>
 					</span>
-				</md-card>
+					<span class="md-subhead">
+						<span>{{store.address.locality}}</span>
+						<span>{{store.address.area}}</span>
+						<span>{{store.address.city}}</span>
+						<span>{{store.address.state}}</span>
+					</span>
+					<span class="md-subhead">
+						<span>{{store.upvotes.length}} Upvotes</span>
+						<span>{{store.visits.length}} Visits</span>
+
+					</span>
+				</md-card-title-text>
+				<md-card-title-media>
+					<div class="md-media-md card-media">
+						<img ng-src="{{store.images[0]}}">
+					</div>
+				</md-card-title-media>
+			</md-card-title>
+			<span layout="row" layout-align="end center">
+				<!--Add flow to query parameter-->
+				<span>{{store.reviews.length}} Reviews </span>
+				<span> {{store.products.length}} Products</span>
+			</span>
+		</md-card>
 	</div>
 	<button ng-click="slc.getStoresCollection()">LoadMore</button>
 </div>

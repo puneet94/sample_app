@@ -32,7 +32,7 @@ angular.module('app.store')
     }
     function getStoresCollection(){
       slc.pageNo = slc.pageNo + 1;
-      var location = $routeParams['location'];
+      var location = $routeParams['location']||'hyderabad';
       
       if($location.absUrl().indexOf("/category/")!=-1){
         var category = $routeParams['category'];
@@ -41,6 +41,9 @@ angular.module('app.store')
       else if($location.absUrl().indexOf("/storeName/")!=-1){
         var storeName = $routeParams['storeName'];
         var url = 'http://localhost:3000/store/storesCollection/storeName/'+storeName+'/'+location+'/'+slc.pageNo;  
+      }
+      else{
+        var url = 'http://localhost:3000/store/storesCollection/stores'+'/'+location+'/'+slc.pageNo;  
       }
       
       httpService.getService(url)
