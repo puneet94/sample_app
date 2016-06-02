@@ -120,7 +120,7 @@ storeRouter.route('/categories/:pageNo')
 			}
 		})*/
 	})
-storeRouter.route('/stores/:store_id')
+storeRouter.route('/singleStore/:store_id/:slug')
 	.get(function(req,res){
 		Store.findById(req.params.store_id,function(err,store){
 			if(err){

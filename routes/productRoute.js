@@ -27,7 +27,7 @@ productRouter.route('/products')
 			//res.render("stores",{"stores":stores});
 		})
 	})
-productRouter.route('/products/:storeId')
+productRouter.route('/products/:storeId/:pageNo')
 	.post(function(req,res){
 		var product = new Product();
 		var recData = req.body;
@@ -72,8 +72,32 @@ productRouter.route('/products/:storeId')
 			commons.saveSearchList(recData.subCatgeory,"product-subcategory",city_name,req,res);
 			res.json({message:"Product created"});
 		});
-	});
-
+	})
+	.get(function(req,res){
+		Product.paginate({'store':req.params.storeId}, 
+			{page: req.params.pageNo, limit: 10 }, function(err, result) {
+		    if(err){
+				res.send(err);
+			}
+			else{
+				console.log(result);
+				res.json(result);
+			}
+		});
+	})
+productRouter.route('/products/category/:storeId/:category/:pageNo')
+	.get(function(req,res){
+		Product.paginate({'store':req.params.storeId,'category':req.params.category}, 
+			{page: req.params.pageNo, limit: 10 }, function(err, result) {
+		    if(err){
+				res.send(err);
+			}
+			else{
+				console.log(result);
+				res.json(result);
+			}
+		});
+	})
 
 
 module.exports = productRouter;

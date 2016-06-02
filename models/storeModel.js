@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 URLSlugs = require('mongoose-url-slugs');
 var mongoosePaginate = require('mongoose-paginate');
-var relationship = require("mongoose-relationship");
+var relationship = require("mongoose-relationship"); //Refer https://www.npmjs.com/package/mongoose-relationship
 var Schema  = mongoose.Schema;
 
 mongoose.createConnection("mongodb://localhost:27017/shop_directory",function (err) {
@@ -11,9 +11,7 @@ mongoose.createConnection("mongodb://localhost:27017/shop_directory",function (e
 });
 
 
-var ImageLink = new Schema({
-	imageLink : {type:String}
-});
+
 var UserID = new Schema({
 	userId : String
 });
@@ -60,7 +58,7 @@ var ProductSchema = new Schema({
 	sizesAvailable:String,
 	comments:[Review],
 	upvotes:[UserID],
-	images:[ImageLink],
+	images:[String],
 	store: { type:Schema.ObjectId, ref:"Store", childPath:"products" }
 });
 ProductSchema.plugin(relationship, { relationshipPathName:'store' });
@@ -68,6 +66,7 @@ ProductSchema.plugin(relationship, { relationshipPathName:'store' });
 
 StoreSchema.plugin(URLSlugs('name address.area address.city address.state address.country', {field: 'myslug'}));
 StoreSchema.plugin(mongoosePaginate);
+ProductSchema.plugin(mongoosePaginate);
 exports.Store = mongoose.model('Store',StoreSchema);
 exports.Product = mongoose.model("Product", ProductSchema);
 
