@@ -7,13 +7,20 @@
             <span class="md-headline" style="" ng-click="phc.toHomePage()">
             shoppins
             </span>
-            <span flex></span>
-            <md-button class="md-raised" aria-label="Learn More">
-               Login
-            </md-button>
-            <md-button class="md-raised" aria-label="Learn More">
-               SignUp
-            </md-button>
+            <div ng-if="phc.isAuth">
+               <md-button class="md-raised" aria-label="Logout" ng-click="phc.authLogout()">
+                  Logout
+               </md-button>
+            </div>
+            <div ng-if="!phc.isAuth">
+               <md-button class="md-raised" aria-label="Login">
+                  Login
+               </md-button>
+               <md-button class="md-raised" aria-label="Signup" ng-click="phc.authenticate('facebook')">
+                  Login with facebook
+               </md-button>   
+            </div>
+            
          </div>
       </md-toolbar>
 </div>

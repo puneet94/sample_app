@@ -33,12 +33,26 @@
 	</style>
 </head>
 <body ng-app="myApp" style="">
+	<!--[if lte IE 8]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
 	<md-content>
 		<div flex="90" flex-offset="5">
 			<div ng-view></div>
 		</div>
 	</md-content>
 	
+	<!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+     <script>
+       !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
+       (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
+       r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
+       }(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+       ga('create', 'UA-XXXXX-X');
+       ga('send', 'pageview');
+    </script>
 	<!--Vendor Scripts-->
 	<script type="text/javascript" src="bower_components/angular/angular.js"></script>
 	<script type="text/javascript" src="bower_components/angular-animate/angular-animate.js"></script>
@@ -46,6 +60,8 @@
 	<script type="text/javascript" src="bower_components/angular-material/angular-material.js"></script>
 	<script type="text/javascript" src="bower_components/angular-messages/angular-messages.js"></script>
 	<script type="text/javascript" src="bower_components/angular-route/angular-route.js"></script>
+	<script src="bower_components/angular-cookies/angular-cookies.js"></script>
+	<script src="bower_components/satellizer/satellizer.js"></script>
 	<!--Common scripts-->
 	<script type="text/javascript" src="app/common/common.module.js"></script>
 	<script type="text/javascript" src="app/common/common.services.js"></script>
@@ -58,6 +74,21 @@
 
 	<script type="text/javascript" src="app/store/store.module.js"></script>
 	<script type="text/javascript" src="app/store/store.controller.js"></script>
+
+	
+ 	<script src="app/authentication/scripts/app.js"></script>
+	<script src="app/authentication/scripts/directives/sameas.js"></script>
+    <script src="app/authentication/scripts/controllers/register.js"></script>
+    
+    <script src="app/authentication/scripts/controllers/header.js"></script>
+    <script src="app/authentication/scripts/controllers/logout.js"></script>
+	<script src="app/authentication/scripts/controllers/jobs.js"></script>
+    <script src="app/authentication/scripts/controllers/login.js"></script>
+    
+    <script src="app/authentication/scripts/controllers/reviews.js"></script>
+    <script src="app/authentication/scripts/services/userdata.js"></script>
+
+
 
 
 

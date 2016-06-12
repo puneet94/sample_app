@@ -1,6 +1,6 @@
 angular.module('app.home')
 	.controller('HomeController',["$scope","citiesService","searchService","changeBrowserURL",homeController])
-	.controller('HeaderController',["$scope","changeBrowserURL",headerController])
+	.controller('HeaderController',["$scope","changeBrowserURL","$auth",headerController])
 	.controller('SearchBoxController',["$scope","citiesService","searchService","changeBrowserURL","arrayUniqueCopy","arrayObjectMapper","userLocationService",searchBoxController])
 	.controller('CategoryListController',["$scope","$http","getCategoryService","arrayUniqueCopy","arrayObjectMapper","userLocationService","changeBrowserURL",categoryListController]);
 	function searchBoxController($scope,citiesService,searchService,changeBrowserURL,arrayUniqueCopy,arrayObjectMapper,userLocationService){
@@ -79,12 +79,23 @@ angular.module('app.home')
 	    }
 		
 	}
-	function headerController($scope,changeBrowserURL){
+	function headerController($scope,changeBrowserURL,$auth){
 		var phc = this;
 		phc.toHomePage = toHomePage;
+		phc.authenticate = authenticate;
+		phc.authLogout = authLogout;
+		phc.isAuth = $auth.isAuthenticated();
+		console.log("header is"+$auth.isAuthenticated());
 		function toHomePage(){
 			changeBrowserURL.changeBrowserURLMethod('/');
 		}
+		function authenticate(provider) {
+	    	$auth.authenticate(provider);
+	    	toHomePage();
+    	}
+    	function authLogout(){
+    		$auth.logout();toHomePage();
+    	}
 	}
 	function categoryListController($scope,$http,getCategoryService,arrayUniqueCopy,arrayObjectMapper,userLocationService,changeBrowserURL){
 		var clc = this;

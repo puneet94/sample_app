@@ -1,0 +1,10 @@
+
+<p>This is the login view.</p>
+<h1>Login</h1>
+<form name="loginForm" ng-submit="login.submitLogin()" novalidate="novalidate" class="form-signin">
+  <input type="email" name="email" placeholder="Email" ng-model="login.user.email" required="required" class="form-control"/>
+  <p ng-show="loginForm.email.$dirty &amp;&amp; loginForm.email.$invalid" class="help-block">please put valid email</p>
+  <input type="password" name="password" ng-model="login.user.password" placeholder="Password" required="required" class="form-control"/>
+  <button type="submit" ng-disabled="loginForm.$invalid">Login</button>
+  <button ng-click="login.authenticate('facebook')">Sign in with Facebook</button>
+</form>

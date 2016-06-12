@@ -1,0 +1,10 @@
+
+<div class="reviewsSection">
+  <div class="reviewsList">
+    <div ng-repeat="review in reviews.reviewsList"><span ng-bind="review.description"></span><span ng-bind="review.user"></span><span ng-bind="review.time"></span><span ng-bind="review.date"></span></div>
+  </div>
+  <div class="reviewsSubmit">
+    <input type="text" ng-model="reviews.user.description"/>
+    <button ng-click="reviews.submitReview()">Submit</button>
+  </div>
+</div>

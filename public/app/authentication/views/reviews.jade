@@ -1,0 +1,11 @@
+.reviewsSection
+	.reviewsList
+		div(ng-repeat="review in reviews.reviewsList")
+			span(ng-bind="review.description")
+			span(ng-bind="review.user")
+			span(ng-bind="review.time")
+			span(ng-bind="review.date")
+	.reviewsSubmit
+		input(type="text" ng-model="reviews.user.description")
+		button(ng-click="reviews.submitReview()") Submit
+

@@ -1,0 +1,8 @@
+
+<div ng-if="!jobs.unAuth"><span ng-bind="jobs.user"></span><span ng-bind="jobs.user.displayName"></span><img ng-src="{{jobs.user.picture}}"/></div>
+<div ng-if="!jobs.unAuth">
+  <ul>
+    <li ng-repeat="job in jobs.jobsList"><span ng-bind="job"></span></li>
+  </ul>
+</div>
+<div ng-show="jobs.unAuth"><span ng-bind="jobs.message"></span><span>Hello</span></div>

@@ -15,10 +15,12 @@ storeRouter.use(function(req,res,next){
 storeRouter.route('/cities')
 	.get(function(req,res){
 		UserSearch.find(function(err,cities){
+			console.log("yo");
 			if(err){
+				console.log(err);
 				res.send(err);
 			}
-			console.log("cities route");
+			console.log("cities route yo");
 			console.log(cities);
 			res.json(cities);
 			//res.render("stores",{"stores":stores});

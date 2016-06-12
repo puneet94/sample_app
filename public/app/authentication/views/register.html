@@ -1,0 +1,11 @@
+
+<p>This is the register view.</p>
+<h1>Sign up</h1>
+<form name="register" ng-submit="rcl.formSubmit()" novalidate="novalidate" class="form-signin">
+  <input type="email" name="email" placeholder="Email" ng-model="rcl.user.email" required="required" class="form-control"/>
+  <p ng-show="register.email.$dirty &amp;&amp; register.email.$invalid" class="help-block">please put valid email</p>
+  <input type="password" name="password" ng-model="rcl.user.password" placeholder="Password" required="required" class="form-control"/>
+  <input type="password" name="password_confirm" ng-model="rcl.password_confirm" placeholder="Confirm Password" same-as="rcl.user.password" class="form-control"/>
+  <p ng-show="register.password_confirm.$dirty &amp;&amp; register.password_confirm.$invalid" class="help-block">please match the passwords</p>
+  <button type="submit" ng-disabled="register.$invalid">Sign up</button>
+</form>

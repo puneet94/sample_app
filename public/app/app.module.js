@@ -1,4 +1,7 @@
-angular.module('myApp',['ngRoute','app.common','app.home','app.store','ngMaterial']).config(['$routeProvider','$mdThemingProvider',
+angular.module('myApp',
+  ['ngRoute','ngCookies','satellizer',
+  'authModApp','app.common','app.home','app.store','ngMaterial']
+  ).config(['$routeProvider','$mdThemingProvider',
   function($routeProvider,$mdThemingProvider) {
       $mdThemingProvider.theme('default')
     .primaryPalette('amber')
