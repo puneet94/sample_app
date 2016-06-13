@@ -9,18 +9,17 @@
             </span>
             <div ng-if="phc.isAuth">
                <md-button class="md-raised" aria-label="Logout" ng-click="phc.authLogout()">
-                  Logout
                </md-button>
             </div>
+            <span flex></span>
             <div ng-if="!phc.isAuth">
-               <md-button class="md-raised" aria-label="Login">
-                  Login
+               <md-button class="md-primary md-raised" ng-click="phc.showAdvanced($event)" flex="100" flex-gt-md="auto">
+                 Login
                </md-button>
                <md-button class="md-raised" aria-label="Signup" ng-click="phc.authenticate('facebook')">
                   Login with facebook
                </md-button>   
             </div>
-            
          </div>
       </md-toolbar>
 </div>
