@@ -52,7 +52,7 @@ app.use(express.static(__dirname + '/public'));
 app.get('*', function (req, res) {
         res.sendFile(__dirname + '/public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
 });
-mongoose.connect("mongodb://localhost:27017/shop_directory");
+mongoose.connect("mongodb://shop_dir:shop_dir@ds023912.mlab.com:23912/shoppins");
 app.listen(3000,function(){
 	console.log("Listening");
 	console.log(__dirname);

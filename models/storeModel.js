@@ -4,7 +4,7 @@ var mongoosePaginate = require('mongoose-paginate');
 var relationship = require("mongoose-relationship"); //Refer https://www.npmjs.com/package/mongoose-relationship
 var Schema  = mongoose.Schema;
 
-mongoose.createConnection("mongodb://localhost:27017/shop_directory",function (err) {
+mongoose.createConnection("mongodb://shop_dir:shop_dir@ds023912.mlab.com:23912/shoppins",function (err) {
   if (err) {
     console.log(err);
   }
@@ -51,13 +51,13 @@ ReviewSchema.plugin(relationship, { relationshipPathName:'store' });
 ReviewSchema.plugin(relationship, { relationshipPathName:'product' });
 
 var UserSchema = new Schema({
-	firstName:String,
-	lastName:String,
-	email:String,
-	password:String,
-	facebook: String,
-	picture:String,
-	displayName: String,
+	"firstName":String,
+	"lastName":String,
+	"email":String,
+	"password":String,
+	"facebook": String,
+	"picture":String,
+	"displayName": String,
 	reviews:[{ type:Schema.ObjectId, ref:"Review" }],
 	visits:[{ type:Schema.ObjectId, ref:"Visit" }],
 	upvotes:[{ type:Schema.ObjectId, ref:"Upvote" }]
