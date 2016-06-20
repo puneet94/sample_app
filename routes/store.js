@@ -11,7 +11,31 @@ storeRouter.use(function(req,res,next){
 	next();
 });
 
-
+storeRouter.route('/store')
+	.post(function (req,res) {
+		var store = new Store();
+		var recData = req.body;
+		store.name = recData.name;
+		var city_name = recData.address.city;
+		store.address = recData.address;
+		store.category = recData.category; //make sure its an array of categories
+		store.save(function(err){
+			if(err){
+				if(err.code == 11000){
+					return res.json({success:false,'message':'User already exists'});
+				}
+				else{
+					return res.send(err)
+				}
+			}
+			commons.saveSearchList(req.body.name,"store",city_name,req,res);
+			for (var i = store.category.length - 1; i >= 0; i--) {
+				commons.saveSearchList(store.category[i],"store-category",city_name,req,res);
+			};
+			
+			res.json({message:"Store created"});
+		});
+	})
 storeRouter.route('/cities')
 	.get(function(req,res){
 		UserSearch.find(function(err,cities){

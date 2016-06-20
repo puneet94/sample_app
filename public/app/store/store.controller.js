@@ -77,7 +77,7 @@ angular.module('app.store')
           'Content-Type': 'application/json'  
       }
     }
-    $http.post("http://localhost:3000/store/stores", data, config)
+    $http.post("http://localhost:3000/store/store", data, config)
       .then(
         function(response){         
           console.log(response);

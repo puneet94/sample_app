@@ -1,85 +1,10 @@
 angular.module('app.home')
 	.controller('HomeController',["$scope","citiesService","searchService","changeBrowserURL",homeController])
-	.controller('SearchBoxController',["$scope","citiesService","searchService","changeBrowserURL","arrayUniqueCopy","arrayObjectMapper","userLocationService",searchBoxController])
+	
 	.controller('CategoryListController',["$scope","$http","getCategoryService","arrayUniqueCopy","arrayObjectMapper","userLocationService","changeBrowserURL",categoryListController])
-	.controller('ModalFormLoginController',["$scope","$mdDialog",modalFormLoginController])
-	.controller('HeaderController',["$scope","changeBrowserURL","$auth","$mdDialog", "$mdMedia",headerController]);
-	function searchBoxController($scope,citiesService,searchService,changeBrowserURL,arrayUniqueCopy,arrayObjectMapper,userLocationService){
-		var hm= this;
-		activate();
-		hm.userSearches = [];
-		hm.searchTextChange = searchTextChange;
-		hm.selectedItemChange = selectedItemChange;
-		hm.userSearchItemChange = userSearchItemChange;
-
-		function userSearchItemChange(item){
-
-			var changeEntity = item.userSearchString.split("#&#")[1];
-			var entityName = item.userSearchString.split("#&#")[0];
-			var location = item.userSearchString.split("#&#")[2];
-			
-			if(changeEntity == "store"){
-				var slug = entityName + "-stores-in-" + location;
-				var url = "/store/storesCollection/storeName/"+entityName+"/"+location+"/"+slug;
-				
-				changeBrowserURL.changeBrowserURLMethod(url);	
-			}
-			else if(changeEntity == "store-category"){
-				var slug = entityName + "-stores-in-" + location;
-				var url = "/store/storesCollection/category/"+entityName+"/"+location+"/"+slug;
-				console.log(url);
-				changeBrowserURL.changeBrowserURLMethod(url);	
-			}
-			else if(changeEntity == "product"){
-				var slug = entityName + "-in-" + location;
-				var url = "/product/singleProductName/"+entityName+"/"+location+"/"+slug;
-				changeBrowserURL.changeBrowserURLMethod(url);	
-			}
-			else if(changeEntity == "product-category"){
-				var slug = entityName + "-products-in-" + location;
-				var url = "/product/productsCollectionCategory/"+entityName+"/"+location+"/"+slug;
-				
-				changeBrowserURL.changeBrowserURLMethod(url);	
-			}
-			else if(changeEntity == "product-subcategory"){
-				var slug = entityName + "-products-in-" + location;
-				var url = "/product/productsCollectionSubCategory/"+entityName+"/"+location+"/"+slug;
-				changeBrowserURL.changeBrowserURLMethod(url);	
-			}
-			
-
-			
-		}
-		function searchTextChange(searchText){
-			console.log(searchText);
-		}
-		function selectedItemChange(item){
-			userLocationService.setUserLocation(item);
-			searchService.getSearches(item).then(function(resource){
-				hm.userSearches = [];
-				for (var i = resource.data.length - 1; i >= 0; i--) {
-					hm.userSearches.push(resource.data[i]);
-				};
-				console.log(hm.userSearches);
-			},function(data){
-				console.log(data);
-			});
-		}
-		
-
-	    function activate() {
-	    	citiesService.getCities()
-				.then(function(obj){	
-					hm.cities = [];	
-					hm.cities2 = [];
-					hm.cities2 = arrayObjectMapper.getArrayFunction(obj.data,"location");
-					hm.cities =  arrayUniqueCopy.getUniqueCopyFunction(hm.cities2,hm.cities);
-				},function(obj){
-					hm.cities =  obj;
-				});
-	    }
-		
-	}
+	.controller('ModalFormLoginController',["$scope","$mdDialog",modalFormLoginController]);
+	
+	
 	function modalFormLoginController($scope,$mdDialog){
 		$scope.hide = function() {
     		$mdDialog.hide();
@@ -91,50 +16,7 @@ angular.module('app.home')
 			$mdDialog.hide(answer);
 		};
 	}
-	function headerController($scope,changeBrowserURL,$auth,$mdDialog, $mdMedia){
-		var phc = this;
-		phc.toHomePage = toHomePage;
-		phc.authenticate = authenticate;
-		phc.authLogout = authLogout;
-		phc.showAdvanced = showAdvanced;
-		phc.customFullscreen = undefined;
-		phc.isAuth = $auth.isAuthenticated();
-		console.log("header is"+$auth.isAuthenticated());
-		function toHomePage(){
-			changeBrowserURL.changeBrowserURLMethod('/');
-		}
-		function authenticate(provider) {
-	    	$auth.authenticate(provider);
-	    	toHomePage();
-    	}
-    	function authLogout(){
-    		$auth.logout();toHomePage();
-    	}
-    	function showAdvanced(ev) {
-		    var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
-		    $mdDialog.show({
-		      controller: 'ModalFormLoginController',
-		      templateUrl: 'app/home/views/modalFormLogin.html',
-		      parent: angular.element(document.body),
-		      targetEvent: ev,
-		      clickOutsideToClose:true,
-		      fullscreen: phc.customFullscreen
-		    })
-		    .then(function(answer) {
-		      $scope.status = 'You said the information was "' + answer + '".';
-		    }, function() {
-		      $scope.status = 'You cancelled the dialog.';
-		    });
-		    $scope.$watch(function() {
-		    	console.log("From watch",$mdMedia('xl') || $mdMedia('md'));
-      			return $mdMedia('md') || $mdMedia('xl');
-    		}, function(wantsFullScreen) {
-	      		phc.customFullscreen = (wantsFullScreen === true);
-	      		console.log(phc.customFullscreen);
-    		});
-		    
-  		}
-	}
+	
 	function categoryListController($scope,$http,getCategoryService,arrayUniqueCopy,arrayObjectMapper,userLocationService,changeBrowserURL){
 		var clc = this;
 		clc.cateList = [];
