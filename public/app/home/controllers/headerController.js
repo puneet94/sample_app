@@ -1,7 +1,7 @@
 angular.module('app.home')
-.controller('HeaderController',["$scope","changeBrowserURL","$auth","$mdDialog", "$mdMedia",headerController]);
+.controller('HeaderController',["$scope","changeBrowserURL","$auth","$mdDialog", "$mdMedia","$timeout", "$mdSidenav", "$log",headerController]);
 
-function headerController($scope,changeBrowserURL,$auth,$mdDialog, $mdMedia){
+function headerController($scope,changeBrowserURL,$auth,$mdDialog, $mdMedia,$timeout, $mdSidenav, $log){
 		var phc = this;
 		phc.toHomePage = toHomePage;
 		phc.authenticate = authenticate;
@@ -9,6 +9,21 @@ function headerController($scope,changeBrowserURL,$auth,$mdDialog, $mdMedia){
 		phc.showAdvanced = showAdvanced;
 		phc.customFullscreen = undefined;
 		phc.isAuth = $auth.isAuthenticated();
+		phc.isOpenLeft = function(){
+      return $mdSidenav('left').isOpen();
+    };
+   phc.toggleLeft = buildToggler('left'); 
+    
+  function buildToggler(navID) {
+      return function() {
+        // Component lookup should always be available since we are not using `ng-if`
+        $mdSidenav(navID)
+          .toggle()
+          .then(function () {
+            $log.debug("toggle " + navID + " is done");
+          });
+      }
+    }
 		console.log("header is"+$auth.isAuthenticated());
 		function toHomePage(){
 			changeBrowserURL.changeBrowserURLMethod('/');
