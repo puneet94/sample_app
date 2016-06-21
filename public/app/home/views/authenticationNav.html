@@ -1,11 +1,11 @@
 
 <div ng-controller='AuthController as ahc'>
-  <div ng-if="ahc.isAuth" hide-xs>
+  <div ng-if="ahc.isAuth" >
     <md-button class="md-raised" aria-label="Logout" ng-click="ahc.authLogout()">Logout
     </md-button>
   </div>
 
-  <div ng-if="!ahc.isAuth" hide-xs layout-xs="column" layout-align-xs="space-between center">
+  <div ng-if="!ahc.isAuth"  layout-xs="column" layout-align-xs="space-between center">
     <md-button class="md-raised" aria-label="login">
       Login
     </md-button>
