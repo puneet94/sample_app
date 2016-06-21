@@ -7,6 +7,36 @@
 	<link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
 	<link href='https://fonts.googleapis.com/css?family=Raleway:400,700' rel='stylesheet' type='text/css'>
 	<style type="text/css">
+	.search-icon{
+  margin-right:10px;
+  font-size:25px;
+  color:white;
+}
+.menu-icon{
+  display:flex;
+  flex-direction:column;
+  justify-content: space-between;
+  height:20px;
+  margin-left:10px;
+}
+.menu-icon-span{
+  background:white;
+  width:30px;
+  height:3px;
+}
+.menu-icon-span:nth-child(1):hover{
+  transform:rotate(45deg);
+  transition: all 0.3s ease-in-out;
+}
+.menu-icon-span:nth-child(3):hover{
+  transform:rotate(-45deg);
+  transition: all 0.3s ease-in-out;
+}
+.menu-icon:hover{
+  height:25px;
+  transform:rotate(45deg);
+  transition: all 1.3s ease-in-out;
+}
 		md-content.md-default-theme, md-content {
 	  		background-color: #eee;
 	  		height:100%;
@@ -38,7 +68,7 @@
     <![endif]-->
 
 	<md-content>
-		<div flex="90" flex-offset="5">
+		<div flex="90" flex-offset="5" flex-xs="100" flex-offset-xs="0">
 			<div ng-view></div>
 		</div>
 	</md-content>
@@ -73,7 +103,7 @@
 	<script type="text/javascript" src="app/home/home.controller.js"></script>
 	<script type="text/javascript" src="app/home/controllers/searchBoxController.js"></script>
 	<script type="text/javascript" src="app/home/controllers/headerController.js"></script>
-
+	<script type="text/javascript" src="app/home/controllers/authController.js"></script>
 	<script type="text/javascript" src="app/store/store.module.js"></script>
 	<script type="text/javascript" src="app/store/store.controller.js"></script>
 

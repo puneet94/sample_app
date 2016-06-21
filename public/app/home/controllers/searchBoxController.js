@@ -17,33 +17,33 @@ function searchBoxController($scope,citiesService,searchService,changeBrowserURL
 			hm.slug = entityName + "-"+changeEntity.split("-")[0]+"s-in-" + location;
 			if(changeEntity == "store"){
 				
-				hm.url = "/store/storesCollection/storeName/"+entityName+"/"+location+"/"+hm.slug;
+				hm.url = "/store/storesCollection/storeName/";
 				
 				
 			}
 			else if(changeEntity == "store-category"){
 				
-				hm.url = "/store/storesCollection/category/"+entityName+"/"+location+"/"+hm.slug;
+				hm.url = "/store/storesCollection/category/";
 				
 				
 			}
 			else if(changeEntity == "product"){
 				
-				hm.url = "/product/singleProductName/"+entityName+"/"+location+"/"+hm.slug;
+				hm.url = "/product/singleProductName/";
 				
 			}
 			else if(changeEntity == "product-category"){
 				
-				hm.url = "/product/productsCollectionCategory/"+entityName+"/"+location+"/"+hm.slug;
+				hm.url = "/product/productsCollectionCategory/";
 				
 				
 			}
 			else if(changeEntity == "product-subcategory"){
 				
-				hm.url = "/product/productsCollectionSubCategory/"+entityName+"/"+location+"/"+hm.slug;
+				hm.url = "/product/productsCollectionSubCategory/";
 				
 			}
-			changeBrowserURL.changeBrowserURLMethod(hm.url);	
+			changeBrowserURL.changeBrowserURLMethod(hm.url+entityName+"/"+location+"/"+hm.slug);	
 			
 
 			
