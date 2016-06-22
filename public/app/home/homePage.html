@@ -8,13 +8,13 @@
     }
    .search-banner{
       width:100%;
-      height:200px;
+      height:85vh;
       position: relative;
       background-image: url('https://upload.wikimedia.org/wikipedia/commons/1/1e/Shoppers_on_Dundas,_near_Yonge.jpg');
       background-position: 0 0;
       background-size: 100% 100%;
       background-repeat: no-repeat;
-      padding-top:50px;
+      
       padding-bottom:50px;
    }
    .dark-mask-absolute {
@@ -47,6 +47,34 @@
     max-width: 100%;
     position: relative;
    }
+   @media (max-width: 959px) and (min-width: 600px){
+    .search-banner{
+      
+      height:75vh;
+      
+   }
+    .search-box-container{
+      margin: auto 10%;
+      font-family: 'Raleway', sans-serif !important;
+   }
+   .search-box-container > div:first-child{
+    height:250px;
+   }
+   }
+   @media (max-width: 599px) {
+    .search-banner{
+      
+      height:75vh;
+      
+   }
+    .search-box-container{
+      margin: auto 10%;
+      font-family: 'Raleway', sans-serif !important;
+   }
+   .search-box-container > div:first-child{
+    height:250px;
+   }
+   }
 </style>
 
    <header layout="row">
@@ -54,7 +82,7 @@
    </header>
    <main>
       <div layout="row">
-         <div class="search-banner">
+         <div class="search-banner" layout="column"       layout-align="center center">
             <div class="dark-mask-absolute"></div>
             <div layout="row" layout-align="center center">
                <div class="search-content">
@@ -63,9 +91,9 @@
                   </div>
                </div>
             </div>
-            <div  >
-               <div ng-include="'app/home/searchBox.html'"></div>
-            </div>
+            
+               <div style="width:100%" ng-include="'app/home/searchBox.html'"></div>
+           
          </div>
       </div><!--
      <div layout="row" layout-wrap>
