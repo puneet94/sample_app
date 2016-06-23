@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Schema  = mongoose.Schema;
 //mongoose.createConnection('mongodb://localhost:27017/shop_directory');
-mongoose.createConnection("mongodb://localhost:27017/shop_directory",function (err) {
+mongoose.createConnection("mongodb://shop_dir:shop_dir@ds023912.mlab.com:23912/shoppins",function (err) {
   if (err) {
     console.log(err);
   }

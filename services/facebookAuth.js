@@ -7,6 +7,7 @@ var createJWT = require('./jwtService.js');
 
 
 module.exports =  function(req, res) {
+  console.log(req.body.redirectUri )
   var fields = ['id', 'email', 'first_name', 'last_name', 'link', 'name'];
   var accessTokenUrl = 'https://graph.facebook.com/v2.5/oauth/access_token';
   var graphApiUrl = 'https://graph.facebook.com/v2.5/me?fields=' + fields.join(',');
@@ -14,7 +15,7 @@ module.exports =  function(req, res) {
     code: req.body.code,
     client_id: req.body.clientId,
     client_secret: 'e04daa2193386bd48ffe509b336aeb99',
-    redirect_uri: req.body.redirectUri
+    redirect_uri: req.body.redirectUri 
   };
 
   // Step 1. Exchange authorization code for access token.

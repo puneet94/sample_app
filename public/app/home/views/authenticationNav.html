@@ -6,7 +6,7 @@
   </div>
 
   <div ng-if="!ahc.isAuth"  layout-xs="column" layout-align-xs="space-between center">
-    <md-button class="md-raised" aria-label="login">
+    <md-button class="md-raised" aria-label="login" ng-click="ahc.loginPage()">
       Login
     </md-button>
     <md-button class="md-raised" aria-label="Login with facebook" ng-click="ahc.authenticate('facebook')">
