@@ -1,9 +1,40 @@
 
+<div layout="row" layout-align="center center" >
 
-<form name="loginForm" ng-submit="login.submitLogin()" novalidate="novalidate" class="form-signin">
-  <input type="email" name="email" placeholder="Email" ng-model="login.user.email" required="required" class="form-control"/>
-  <p ng-show="loginForm.email.$dirty &amp;&amp; loginForm.email.$invalid" class="help-block">please put valid email</p>
-  <input type="password" name="password" ng-model="login.user.password" placeholder="Password" required="required" class="form-control"/>
-  <button type="submit" ng-disabled="loginForm.$invalid">Login</button>
-  <button ng-click="login.authenticate('facebook')">Sign in with Facebook</button>
+<form name="loginForm"  novalidate="novalidate">
+	<md-toolbar>
+		<div class="md-toolbar-tools">
+			<h2>Login</h2><span flex="flex"></span>
+
+		</div>
+	</md-toolbar>
+	<md-content layout="row">
+		<div class="md-dialog-content">
+			<md-input-container class="md-block">
+				<label>Email</label>
+				<input ng-model="login.user.email" type="email" name="email" placeholder="Email (required)" required="true"/>
+				<div ng-messages="loginForm.email.$error">
+					<div ng-message="required">This is required.....</div>
+					<!--<div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>-->
+				</div>
+			</md-input-container>
+
+			<md-input-container class="md-block">
+				<label>Password</label>
+				<input ng-model="login.user.password" type="password" name="password" placeholder="Password (required)" required="true"/>
+				<div ng-messages="loginForm.password.$error">
+					<div ng-message="required">This is required.</div>
+					<!--<div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>-->
+				</div>
+			</md-input-container>
+			<section layout="row" layout-sm="column" layout-align="center center" layout-wrap="layout-wrap">
+				<md-button ng-click="login.submitLogin()" class="md-raised md-primary" ng-disabled="loginForm.$invalid">Login</md-button>
+			</section>
+			<section layout="row" layout-sm="column" layout-align="center center" layout-wrap="layout-wrap">
+				<md-button ng-click="login.signUp()" class="md-raised md-primary" >Signup</md-button>
+			</section>
+		</div>
+	</md-content>
+
 </form>
+</div>

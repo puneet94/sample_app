@@ -6,6 +6,7 @@ var qs = require('querystring');
 var moment = require('moment');
 var request = require('request');
 var jwt = require('jwt-simple');
+var bcrypt = require('bcrypt-nodejs');
 var User = models.User;
 
 var facebookAuth  = require('../services/facebookAuth.js');

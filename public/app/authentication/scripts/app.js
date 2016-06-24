@@ -16,7 +16,7 @@ angular
   ])
   .config(function ($routeProvider,$httpProvider,$authProvider) {
     $routeProvider
-      .when('/register',{
+      .when('/signup',{
         templateUrl:'app/authentication/views/register.html',
         controller: 'RegisterCtrl',
         controllerAs: 'rcl'
@@ -26,7 +26,7 @@ angular
       })
       .when('/login', {
         templateUrl: 'app/authentication/views/login.html',
-        controller: 'LoginCtrl',
+        controller: 'LoginController',
         controllerAs: 'login'
       });
       $authProvider.loginUrl = "http://localhost:3000/authenticate/login";

@@ -8,18 +8,23 @@
  * Controller of the authModApp
  */
 angular.module('authModApp')
-  .controller('LoginCtrl', ["$location","$auth",loginCtrl]);
+  .controller('LoginController', ["$location","$auth","userData",loginCtrl]);
 
-  function loginCtrl($location,$auth) {
+  function loginCtrl($location,$auth,userData) {
     var logCl = this;
     logCl.user = {};
     logCl.submitLogin = submitLogin;
+    logCl.signUp = signUp;
+    console.log("form thr ontdg");
     logCl.authenticate = function(provider) {
       $auth.authenticate(provider);
 
       $location.path("/");
       
     };
+    function signUp(){
+      $location.path("/signup");
+    }
     function submitLogin(){
     	//authorize.login(logCl.user)
       $auth.login(logCl.user)
