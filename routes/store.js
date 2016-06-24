@@ -32,7 +32,7 @@ storeRouter.route('/store')
 			for (var i = store.category.length - 1; i >= 0; i--) {
 				commons.saveSearchList(store.category[i],"store-category",city_name,req,res);
 			};
-			
+
 			res.json({message:"Store created"});
 		});
 	})
@@ -53,7 +53,7 @@ storeRouter.route('/cities')
 
 storeRouter.route('/storesCollection/stores/:location/:pageNo')
 	.get(function(req,res){
-		Store.paginate({'address.city':req.params.location}, 
+		Store.paginate({'address.city':req.params.location},
 			{page: req.params.pageNo, limit: 3}, function(err, result) {
 		    if(err){
 				res.send(err);
@@ -84,13 +84,13 @@ storeRouter.route('/storesCollection/stores/:location/:pageNo')
 			for (var i = store.category.length - 1; i >= 0; i--) {
 				commons.saveSearchList(store.category[i],"store-category",city_name,req,res);
 			};
-			
+
 			res.json({message:"Store created"});
 		});
 	});
 storeRouter.route('/storesCollection/storeName/:storeName/:location/:pageNo')
 	.get(function(req,res){
-		Store.paginate({'name':req.params.storeName,'address.city':req.params.location}, 
+		Store.paginate({'name':req.params.storeName,'address.city':req.params.location},
 			{page: req.params.pageNo, limit: 1 }, function(err, result) {
 		    if(err){
 				res.send(err);
@@ -100,11 +100,11 @@ storeRouter.route('/storesCollection/storeName/:storeName/:location/:pageNo')
 				res.json(result);
 			}
 		});
-		
+
 	});
 storeRouter.route('/storesCollection/category/:category/:location/:pageNo')
 	.get(function(req,res){
-		Store.paginate({'category':req.params.category,'address.city':req.params.location}, 
+		Store.paginate({'category':req.params.category,'address.city':req.params.location},
 			{page: req.params.pageNo, limit: 1 }, function(err, result) {
 		    if(err){
 				res.send(err);
@@ -114,7 +114,7 @@ storeRouter.route('/storesCollection/category/:category/:location/:pageNo')
 				res.json(result);
 			}
 		});
-		
+
 	});
 
 storeRouter.route('/categories/:pageNo')
@@ -126,11 +126,11 @@ storeRouter.route('/categories/:pageNo')
 				res.send(err);
 			}
 			else{
-				// result.docs 
-		    // result.total 
-		    // result.limit - 10 
-		    // result.page - 3 
-		    // result.pages 
+				// result.docs
+		    // result.total
+		    // result.limit - 10
+		    // result.page - 3
+		    // result.pages
 				console.log(result);
 				res.json(result);
 			}
@@ -146,7 +146,7 @@ storeRouter.route('/categories/:pageNo')
 			}
 		})*/
 	})
-storeRouter.route('/singleStore/:store_id/:slug')
+storeRouter.route('/singleStore/:store_id/:slug?')
 	.get(function(req,res){
 		Store.findById(req.params.store_id,function(err,store){
 			if(err){
@@ -181,6 +181,6 @@ storeRouter.route('/singleStore/:store_id/:slug')
 				}
 				res.json({message:"user updated"});
 			})
-		})	
+		})
 	})*/
 module.exports = storeRouter;
