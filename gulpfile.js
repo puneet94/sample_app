@@ -10,6 +10,7 @@ var imagemin = require('gulp-imagemin'),
 var minifycss = require('gulp-minify-css');
 var sass = require('gulp-sass');
 var browserSync = require('browser-sync');
+var nodemon = require('gulp-nodemon');
 /*
 gulp.task('browser-sync', function() {
   browserSync({
@@ -18,7 +19,29 @@ gulp.task('browser-sync', function() {
     }
   });
 });*/
+gulp.task('browser-sync', ['nodemon'], function() {
+	browserSync.init(null, {
+		proxy: "http://localhost:3000",
+        files: ["public/**/*.*"],
+        browser: "google chrome",
+        port: 7000,
+	});
+});
+gulp.task('nodemon', function (cb) {
 
+	var started = false;
+
+	return nodemon({
+		script: 'server.js'
+	}).on('start', function () {
+		// to avoid nodemon being started multiple times
+		// thanks @matthisk
+		if (!started) {
+			cb();
+			started = true;
+		}
+	});
+});
 gulp.task('bs-reload', function () {
   browserSync.reload();
 });
@@ -46,7 +69,7 @@ gulp.task('styles', function(){
 });
 
 gulp.task('scripts', function(){
-  return gulp.src('src/scripts/**/*.js')
+  return gulp.src('public/app/reviews/scripts/**/*.js')
     .pipe(plumber({
       errorHandler: function (error) {
         console.log(error.message);
@@ -55,15 +78,15 @@ gulp.task('scripts', function(){
     .pipe(jshint())
     .pipe(jshint.reporter('default'))
     .pipe(concat('main.js'))
-    .pipe(gulp.dest('dist/scripts/'))
+    .pipe(gulp.dest('public/dist/scripts/'))
     .pipe(rename({suffix: '.min'}))
     .pipe(uglify())
-    .pipe(gulp.dest('dist/scripts/'))
+    .pipe(gulp.dest('public/dist/scripts/'))
     //.pipe(browserSync.reload({stream:true}))
 });
 
-gulp.task('default', function(){
+gulp.task('default', ['browser-sync'],function(){
   gulp.watch("src/styles/**/*.scss", ['styles']);
-  gulp.watch("src/scripts/**/*.js", ['scripts']);
+  gulp.watch("public/app/reviews/scripts/**/*.js", ['scripts']);
   gulp.watch("*.html");
 });

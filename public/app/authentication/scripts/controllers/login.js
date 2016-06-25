@@ -18,9 +18,8 @@ angular.module('authModApp')
     console.log("form thr ontdg");
     logCl.authenticate = function(provider) {
       $auth.authenticate(provider);
-
       $location.path("/");
-      
+
     };
     function signUp(){
       $location.path("/signup");
@@ -30,7 +29,6 @@ angular.module('authModApp')
       $auth.login(logCl.user)
     	.then(function(response){
 	    		$location.path("/");
-          console.log($auth.isAuthenticated());
           userData.setUser(response.data.user);
           console.log(userData.getUser());
     		},function(response){

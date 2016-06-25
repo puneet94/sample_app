@@ -1,0 +1,16 @@
+<div class="" ng-controller="ReviewSubmitController as rsv">
+  <form class="" name="reviewSubmitForm">
+    <md-content layout="row">
+        <md-input-container class="md-block">
+          <label>My Review</label>
+          <textarea ng-model="rsv.review.description" name="review" required="true"></textarea>
+          <!-- <div ng-messages="reviewSubmitForm.review.$error">
+            <div ng-message="required">This is required.....</div>
+          </div> -->
+        </md-input-container>
+    </md-content>
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="layout-wrap">
+      <md-button ng-click="rsv.submitReview()" class="md-raised md-primary" >Submit</md-button>
+    </section>
+  </form>
+</div>
