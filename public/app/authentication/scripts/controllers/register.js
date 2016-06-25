@@ -1,3 +1,4 @@
+(function(angular){
 'use strict';
 
 /**
@@ -17,7 +18,7 @@ angular.module('authModApp')
 	    //var url = 'http://localhost:8000/register';
 
 	    function formSubmit(){
-	    	
+
 		    $auth.signup(rc.user)
 				.then(function(response){
 					console.log(response);
@@ -30,7 +31,7 @@ angular.module('authModApp')
 				});
 		}
 	}
-
+})(window.angular);
 // $http.post(url,rc.user).then(function(res){
 			    	// 	authToken.setToken(res.data.token);
 			    	// 	console.log(res);

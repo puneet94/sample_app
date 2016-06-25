@@ -69,7 +69,7 @@ gulp.task('styles', function(){
 });
 
 gulp.task('scripts', function(){
-  return gulp.src('public/app/reviews/scripts/**/*.js')
+  return gulp.src('public/app/**/*.js')
     .pipe(plumber({
       errorHandler: function (error) {
         console.log(error.message);

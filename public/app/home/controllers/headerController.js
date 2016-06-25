@@ -1,8 +1,10 @@
 angular.module('app.home')
-.controller('HeaderController',["$scope","changeBrowserURL","$auth","$mdDialog", "$mdMedia","$timeout", "$mdSidenav", "$log",headerController]);
+.controller('HeaderController',["userData","$scope","changeBrowserURL","$auth","$mdDialog", "$mdMedia","$timeout", "$mdSidenav", "$log",headerController]);
 
-function headerController($scope,changeBrowserURL,$auth,$mdDialog, $mdMedia,$timeout, $mdSidenav, $log){
+function headerController(userData,$scope,changeBrowserURL,$auth,$mdDialog, $mdMedia,$timeout, $mdSidenav, $log){
 		var phc = this;
+		console.log("header controller*********");
+		console.log(userData.getUser());
 		phc.toHomePage = toHomePage;
 		phc.authenticate = authenticate;
 		phc.authLogout = authLogout;
@@ -12,8 +14,8 @@ function headerController($scope,changeBrowserURL,$auth,$mdDialog, $mdMedia,$tim
 		phc.isOpenLeft = function(){
       return $mdSidenav('left').isOpen();
     };
-   phc.toggleLeft = buildToggler('left'); 
-    
+   phc.toggleLeft = buildToggler('left');
+
   function buildToggler(navID) {
       return function() {
         // Component lookup should always be available since we are not using `ng-if`
@@ -57,6 +59,6 @@ function headerController($scope,changeBrowserURL,$auth,$mdDialog, $mdMedia,$tim
 	      		phc.customFullscreen = (wantsFullScreen === true);
 	      		console.log(phc.customFullscreen);
     		});
-		    
+
   		}
 }

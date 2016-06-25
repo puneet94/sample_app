@@ -30,6 +30,15 @@ reviewRouter.route('/reviews')
 
 reviewRouter.route('/reviews/store/:storeId')
 .get(function(req,res){
+	Review.find({'store':req.params.storeId}, function(err, result) {
+      if(err){
+      res.send(err);
+    }
+    else{
+      console.log(result);
+      res.json(result);
+    }
+  });/*
   Review.paginate({'store':req.params.storeId},
     {page: req.params.pageNo, limit: 10 }, function(err, result) {
       if(err){
@@ -39,11 +48,12 @@ reviewRouter.route('/reviews/store/:storeId')
       console.log(result);
       res.json(result);
     }
-  });
+  });*/
 })
 .post(commons.ensureAuthenticated,function(req,res){
   var review = new Review();
   var recData = req.body;
+	console.log(recData);
   review.description=recData.description;
   review.user=recData.userId;
   review.store = mongoose.Types.ObjectId(req.params.storeId);

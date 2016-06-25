@@ -1,3 +1,4 @@
+(function(angular){
 'use strict';
 
 /**
@@ -37,8 +38,8 @@ angular.module('authModApp')
     }
   }
 
-
-  /*
+})(window.angular);
+  /* please work
 	<script>
   window.fbAsyncInit = function() {
     FB.init({

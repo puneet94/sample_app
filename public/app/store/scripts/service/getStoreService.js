@@ -1,3 +1,5 @@
+(function(angular){
+  'use strict';
 /*
   *Service for getting a single store with its id
 */
@@ -14,3 +16,4 @@ function getSingleStoreWithId($http){
     return $http.get("http://localhost:3000/store/singleStore/"+id);
   }
 }
+})(window.angular);

@@ -1,3 +1,5 @@
+(function(angular){
+  'use strict';
 angular.module('app.store')
 
   .controller('SingleStoreController',["$scope","$location","$anchorScroll","$routeParams","getSingleStore",singleStoreController]);
@@ -14,3 +16,4 @@ angular.module('app.store')
       $anchorScroll();
     }
   }
+})(window.angular);

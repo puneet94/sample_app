@@ -1,0 +1,15 @@
+<div class="" ng-controller="StoreReviewListController as srl">
+  <md-content>
+        <md-list flex="">
+          <md-subheader class="md-no-sticky">Reviews</md-subheader>
+          <md-list-item class="md-2-line" ng-repeat="review in srl.reviewList" ng-click="null">
+            <img ng-src="{{item.face}}?{{$index}}" class="md-avatar" alt="{{review.user}}">
+            <div class="md-list-item-text" layout="column">
+              <h6>{{ review.user }}</h6>
+              <p>{{ review.description }}</p>
+            </div>
+          </md-list-item>
+          <md-divider></md-divider>
+        </md-list>
+  </md-content>
+</div>

@@ -15,6 +15,7 @@ angular.module('authModApp')
     //console.log($auth.getPayload()["sub"]);
     function logOut(){
         $auth.logout();
+        console.log('********logout*******');
         console.log(userData.getUser());
         userData.removeUser();
         console.log(userData.getUser());
