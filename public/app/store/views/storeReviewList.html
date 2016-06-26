@@ -5,7 +5,7 @@
           <md-list-item class="md-2-line" ng-repeat="review in srl.reviewList" ng-click="null">
             <img ng-src="{{item.face}}?{{$index}}" class="md-avatar" alt="{{review.user}}">
             <div class="md-list-item-text" layout="column">
-              <h6>{{ review.user }}</h6>
+              <span>{{ review.user }}</span>
               <p>{{ review.description }}</p>
             </div>
           </md-list-item>

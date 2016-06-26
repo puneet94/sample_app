@@ -23,10 +23,10 @@ angular.module('authModApp')
       },
       getUser: function(){
         return JSON.parse(storage.getItem('user'));
-        if(!cachedUser){
-          cachedUser = storage.getItem('user');
-        }
-      return cachedUser;
+      //   if(!cachedUser){
+      //     cachedUser = storage.getItem('user');
+      //   }
+      // return cachedUser;
       },
       removeUser: function(){
         cachedUser = null;

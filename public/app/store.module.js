@@ -1,4 +1,4 @@
-angular.module('app.store',['app.home']).config(['$routeProvider',
+angular.module('app.store',[]).config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
       when('/store', {

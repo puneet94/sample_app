@@ -78,15 +78,20 @@ gulp.task('scripts', function(){
     .pipe(jshint())
     .pipe(jshint.reporter('default'))
     .pipe(concat('main.js'))
-    .pipe(gulp.dest('public/dist/scripts/'))
+    .pipe(gulp.dest('public/dist2/scripts/'))
     .pipe(rename({suffix: '.min'}))
     .pipe(uglify())
-    .pipe(gulp.dest('public/dist/scripts/'))
+    .pipe(gulp.dest('public/dist2/scripts/'))
     //.pipe(browserSync.reload({stream:true}))
 });
 
 gulp.task('default', ['browser-sync'],function(){
+  var date = new Date();
+var current_hour = date.getHours();
+console.log(current_hour);
+var current_minutes = date.getMinutes();
+console.log(current_minutes);
   gulp.watch("src/styles/**/*.scss", ['styles']);
-  gulp.watch("public/app/reviews/scripts/**/*.js", ['scripts']);
+  gulp.watch("public/app/**/*.js", ['scripts']);
   gulp.watch("*.html");
 });

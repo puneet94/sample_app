@@ -1,6 +1,8 @@
+(function(angular){
+'use strict';
 angular.module('app.common')
 	.service('citiesService', ["$http",citiesService])
-	.service('getCategoryService',function(){})
+	.service('getCategoryService',[function(){}])
 	.service('searchService', ["$http",searchService])
 	.service('httpService', ["$http",httpService])
 	.service('sortService',[sortService])
@@ -14,8 +16,8 @@ angular.module('app.common')
    			gc.cityData  = undefined;
       		gc.cityData = $http.get("http://localhost:3000/store/cities");
 			return  gc.cityData;
-   		}
-	};
+		};
+	}
 	function searchService($http){
    		this.getSearches = function(userLocation) {
    			console.log("inside http");
@@ -25,46 +27,46 @@ angular.module('app.common')
    			var url = "http://localhost:3000/search/searches/"+userLocation;
       		gs.searchesData = $http.get(url);
 			return  gs.searchesData;
-   		}
-	};
+		};
+	}
 	function httpService($http){
 		this.getService = function(url){
 			return $http.get(url);
-		}
-	};
+		};
+	}
 	function sortService(){
 		this.sortByKey = function(array, key) {
 		    return array.sort(function(a, b) {
 		        var x = a[key]; var y = b[key];
 		        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
 		    	});
-		}	
+		};
 	}
-	
+
 	function changeBrowserURL($location){
 		this.changeBrowserURLMethod = function(path){
-			$location.path(path);	
-		}
-	};
+			$location.path(path);
+		};
+	}
 	function arrayObjectMapper(){
 		this.getArrayFunction = function(arrayObj,item){
 			var arr1 = [];
 			for (var i = arrayObj.length - 1; i >= 0; i--) {
 						arr1.push(arrayObj[i][item]);
-			};
+			}
 			return arr1;
-		}
+		};
 	}
 	function arrayUniqueCopy(){
 		this.getUniqueCopyFunction = function(sourceArray,destArray){
 			angular.forEach(sourceArray, function(item){
 				if(destArray.indexOf(item)==-1){
-					destArray.push(item);	
-				}		
-				
+					destArray.push(item);
+				}
+
 			});
 			return destArray;
-		}
+		};
 	}
 	function userLocationService(){
 		var userLocation = "";
@@ -82,8 +84,8 @@ angular.module('app.common')
 		this.port = 3000;
 		this.host = "localhost:";
 		this.protocol = "https:";
-		this.baseUrl = this.protocol+"//"+this.host+this.port+"/"
-		
+		this.baseUrl = this.protocol+"//"+this.host+this.port+"/";
+
 		this.getStoresWithCatgeoryLocation = this.baseUrl + "store/storesCollection/category/";//:category/:location?";
 		this.getStoresWithNameLocation = this.baseUrl + "store/storesCollection/storeName/";
 		this.getSingleStoreWithId = this.baseUrl + "store/singleStore/";
@@ -97,3 +99,4 @@ angular.module('app.common')
 		this.getCategoriesWithLocation = this.baseUrl + "categories/location";
 
 	}
+})(window.angular);

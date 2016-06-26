@@ -1,6 +1,6 @@
 angular.module('app.home')
-	.controller('SearchBoxController',["$scope","citiesService","searchService","changeBrowserURL","arrayUniqueCopy","arrayObjectMapper","userLocationService",searchBoxController])
-	
+	.controller('SearchBoxController',["$scope","citiesService","searchService","changeBrowserURL","arrayUniqueCopy","arrayObjectMapper","userLocationService",searchBoxController]);
+
 
 function searchBoxController($scope,citiesService,searchService,changeBrowserURL,arrayUniqueCopy,arrayObjectMapper,userLocationService){
 		var hm= this;
@@ -16,37 +16,37 @@ function searchBoxController($scope,citiesService,searchService,changeBrowserURL
 			var location = item.userSearchString.split("#&#")[2];
 			hm.slug = entityName + "-"+changeEntity.split("-")[0]+"s-in-" + location;
 			if(changeEntity == "store"){
-				
+
 				hm.url = "/store/storesCollection/storeName/";
-				
-				
+
+
 			}
 			else if(changeEntity == "store-category"){
-				
+
 				hm.url = "/store/storesCollection/category/";
-				
-				
+
+
 			}
 			else if(changeEntity == "product"){
-				
+
 				hm.url = "/product/singleProductName/";
-				
+
 			}
 			else if(changeEntity == "product-category"){
-				
+
 				hm.url = "/product/productsCollectionCategory/";
-				
-				
+
+
 			}
 			else if(changeEntity == "product-subcategory"){
-				
-				hm.url = "/product/productsCollectionSubCategory/";
-				
-			}
-			changeBrowserURL.changeBrowserURLMethod(hm.url+entityName+"/"+location+"/"+hm.slug);	
-			
 
-			
+				hm.url = "/product/productsCollectionSubCategory/";
+
+			}
+			changeBrowserURL.changeBrowserURLMethod(hm.url+entityName+"/"+location+"/"+hm.slug);
+
+
+
 		}
 		function searchTextChange(searchText){
 			console.log(searchText);
@@ -63,13 +63,13 @@ function searchBoxController($scope,citiesService,searchService,changeBrowserURL
 				console.log(data);
 			});
 		}
-		
+
 
 	    function activate() {
 	    	citiesService.getCities()
 				.then(function(obj){
 					console.log(obj);
-					hm.cities = [];	
+					hm.cities = [];
 					hm.cities2 = [];
 					hm.cities2 = arrayObjectMapper.getArrayFunction(obj.data,"location");
 					hm.cities =  arrayUniqueCopy.getUniqueCopyFunction(hm.cities2,hm.cities);
@@ -78,5 +78,5 @@ function searchBoxController($scope,citiesService,searchService,changeBrowserURL
 					hm.cities =  obj;
 				});
 	    }
-		
+
 }

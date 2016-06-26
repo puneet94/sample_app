@@ -15,14 +15,14 @@ var VisitSchema = new Schema({
     date  : { type : Date, default: Date.now},
     time : { type : Date, default: Date.now },
     store : { type:Schema.ObjectId, ref:"Store",childPath:"visits" },
-    user : { type:Schema.ObjectId, ref:"User",childPath:"visits" } 
+    user : { type:Schema.ObjectId, ref:"User",childPath:"visits" }
 },{ collection : 'visits' });
 
 VisitSchema.plugin(relationship, { relationshipPathName:'user' });
 VisitSchema.plugin(relationship, { relationshipPathName:'store' });
 
 
-var UpvoteSchema = new Schema({    
+var UpvoteSchema = new Schema({
     date  : { type : Date, default: Date.now},
     time : { type : Date, default: Date.now },
     store : { type:Schema.ObjectId, ref:"Store",childPath:"upvotes" },
@@ -38,7 +38,7 @@ UpvoteSchema.plugin(relationship, { relationshipPathName:'review' });
 
 
 var ReviewSchema = new Schema({
-    description  : String, 
+    description  : String,
     date  : { type : Date, default: Date.now},
     time : { type : Date, default: Date.now },
     store : { type:Schema.ObjectId, ref:"Store",childPath:"reviews" },
@@ -57,7 +57,7 @@ var UserSchema = new Schema({
 	"email":String,
 	"password":String,
 	"facebook": String,
-	"picture":String,
+	"picture":{type:String,default:'https://cdn3.iconfinder.com/data/icons/black-easy/512/538303-user_512x512.png'},
 	"displayName": String,
 	reviews:[{ type:Schema.ObjectId, ref:"Review" }],
 	visits:[{ type:Schema.ObjectId, ref:"Visit" }],
@@ -151,7 +151,7 @@ var ParentSchema = new Schema({
     children:[{ type:Schema.ObjectId, ref:"Child" }]
 });
 var Parent = mongoose.model("Parent", ParentSchema);
- 
+
 var ChildSchema = new Schema({
     parent: { type:Schema.ObjectId, ref:"Parent", childPath:"children" }
 });
@@ -164,7 +164,6 @@ var Child = mongoose.model("Child", ChildSchema)
 var parent = new Parent({});
 parent.save();
 var child = new Child({parent:parent._id});
-child.save() //the parent children property will now contain child's id 
-child.remove() //the parent children property will no longer contain the child's id 
+child.save() //the parent children property will now contain child's id
+child.remove() //the parent children property will no longer contain the child's id
 */
-

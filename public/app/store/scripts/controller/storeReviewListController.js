@@ -13,14 +13,14 @@ angular.module('app.store')
     }
     function getStoreReviews(){
       reviewService.getStoreReviews().then(function(res){
+        console.log('****review list****');
         console.log(res);
         slc.reviewList = res.data;
       },function(res){
         console.log(res);
-      })
+      });
     }
-    console.log($routeParams['storeId']);
-    console.log("review controller ");
+
 
   }
 })(window.angular);

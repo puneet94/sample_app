@@ -1,3 +1,18 @@
+(function(angular){
+	angular.module('app.home',[])
+		.config(['$routeProvider',config]);
+		 function config($routeProvider) {
+		    $routeProvider.
+		      when('/home', {
+		        templateUrl: 'app/home/homePage.html',
+		        controller: 'HomeController',
+		        controllerAs: 'hm'
+		      });
+		 }
+
+})(window.angular);
+
+
 angular.module('app.home')
 	.controller("AuthController",["$scope","changeBrowserURL","$auth","$window","userData",authController]);
 function authController($scope,changeBrowserURL,$auth,$window,userData){

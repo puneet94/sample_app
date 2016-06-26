@@ -1,4 +1,4 @@
-'use strict';
+
 
 /**
  * @ngdoc directive
@@ -6,7 +6,8 @@
  * @description
  * # sameAs
  */
-(function(){
+ (function(angular){
+ 'use strict';
 	angular.module('authModApp')
 		.directive('sameAs', function () {
 			return {
@@ -28,4 +29,4 @@
 			};
 		});
 
-})();
+})(window.angular);

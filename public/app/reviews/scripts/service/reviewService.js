@@ -10,7 +10,7 @@
           return $http.post('http://localhost:3000/review/reviews/store/'+review.storeId,review);
         }
         function getStoreReviews(){
-          var storeId = $routeParams['storeId'];
+          var storeId = $routeParams.storeId;
           return $http.get('http://localhost:3000/review/reviews/store/'+storeId);
         }
 

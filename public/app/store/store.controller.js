@@ -25,7 +25,7 @@ angular.module('app.store')
     function getStoresCollection(){
       slc.pageNo = slc.pageNo + 1;
       var location = $routeParams['location']||'hyderabad';
-
+var url ='';
       if($location.absUrl().indexOf("/category/")!=-1){
         var category = $routeParams['category'];
         var url = 'http://localhost:3000/store/storesCollection/category/'+category+'/'+location+'/'+slc.pageNo;
