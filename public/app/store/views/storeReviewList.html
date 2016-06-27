@@ -1,12 +1,15 @@
 <div class="" ng-controller="StoreReviewListController as srl">
   <md-content>
-        <md-list flex="">
+        <md-list class="md-dense" flex>
           <md-subheader class="md-no-sticky">Reviews</md-subheader>
-          <md-list-item class="md-2-line" ng-repeat="review in srl.reviewList" ng-click="null">
-            <img ng-src="{{item.face}}?{{$index}}" class="md-avatar" alt="{{review.user}}">
+          <md-list-item class="md-3-line" ng-repeat="review in srl.reviewList" >
+            <img ng-src="{{review.user.picture}}" class="md-avatar" alt="{{review.user.displayName}}">
             <div class="md-list-item-text" layout="column">
-              <span>{{ review.user }}</span>
-              <p>{{ review.description }}</p>
+              <h3>{{ review.user.displayName }}</h3>
+              <span>{{ review.description }}</span>
+              <div class="" layout="row">
+                <a href="#">Upvote</a>
+              </div>
             </div>
           </md-list-item>
           <md-divider></md-divider>

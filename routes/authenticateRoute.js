@@ -22,7 +22,8 @@ authenticateRouter.route('/signup')
 	    var user = new User({
 	      displayName: req.body.displayName,
 	      email: req.body.email,
-	      password: req.body.password
+	      password: req.body.password,
+				displayName:req.body.firstName + " "+req.body.lastName
 	    });
 	    user.save(function(err, result) {
 	      if (err) {
@@ -50,7 +51,7 @@ authenticateRouter.route('/login')
 	      res.send({ user:user.toJSON(),token: createJWT(user) });
 	    });
   	});
-	
+
 });
 
 
@@ -76,4 +77,4 @@ function ensureAuthenticated(req, res, next) {
 }
 module.exports = authenticateRouter;
 
-//mongod.exe --storageEngine=mmapv1 
+//mongod.exe --storageEngine=mmapv1

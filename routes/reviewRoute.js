@@ -1,6 +1,7 @@
 var express = require('express');
 var models = require('..//models/storeModel');
 var Review = models.Review;
+var User = models.User;
 var Store = models.Store;
 var mongoose = require('mongoose');
 var reviewRouter = express.Router();
@@ -30,15 +31,23 @@ reviewRouter.route('/reviews')
 
 reviewRouter.route('/reviews/store/:storeId')
 .get(function(req,res){
-	Review.find({'store':req.params.storeId}, function(err, result) {
-      if(err){
-      res.send(err);
-    }
-    else{
-      console.log(result);
-      res.json(result);
-    }
-  });/*
+	Review.find({'store':req.params.storeId})
+				.populate({
+					path: 'user',
+					model: 'User'
+				})
+				.exec(function(err, result) {
+						if(err){
+						res.send(err);
+					}
+					else{
+						console.log(result);
+						res.json(result);
+					}
+				});
+
+
+	/*
   Review.paginate({'store':req.params.storeId},
     {page: req.params.pageNo, limit: 10 }, function(err, result) {
       if(err){
