@@ -2,13 +2,26 @@
       <div ng-include="'app/home/pageHeader.html'" flex></div>
 </header>
 <div ng-include="'app/home/searchBox.html'"></div>
+<main flex>
+  <div class="" layout="row">
+    <div class="storeLeftPane" flex="70">
+      <div class="storeBannerImage" style='background-image:url("{{ssc.storeData.bannerImage}}")'>
+        
+      </div>
+      <div class="" ng-include="'app/store/views/storeReviewList.html'">
+
+      </div>
+      <div class="" ng-include="'app/reviews/views/storeReviewSubmit.html'">
+
+      </div>
+    </div>
+    <div class="storeRightPane" flex="30">
+
+    </div>
+  </div>
+
+</main>
 <!--
 <div id="flowProducts">Products list yo</div>
 
 <div id="flowReviews">Reviews list yo</div>-->
-<div class="" ng-include="'app/store/views/storeReviewList.html'">
-
-</div>
-<div class="" ng-include="'app/reviews/views/storeReviewSubmit.html'">
-
-</div>

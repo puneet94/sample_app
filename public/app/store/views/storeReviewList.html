@@ -1,18 +1,40 @@
-<div class="" ng-controller="StoreReviewListController as srl">
-  <md-content>
-        <md-list class="md-dense" flex>
-          <md-subheader class="md-no-sticky">Reviews</md-subheader>
-          <md-list-item class="md-3-line" ng-repeat="review in srl.reviewList" >
-            <img ng-src="{{review.user.picture}}" class="md-avatar" alt="{{review.user.displayName}}">
-            <div class="md-list-item-text" layout="column">
-              <h3>{{ review.user.displayName }}</h3>
-              <span>{{ review.description }}</span>
-              <div class="" layout="row">
-                <a href="#">Upvote</a>
-              </div>
-            </div>
-          </md-list-item>
-          <md-divider></md-divider>
-        </md-list>
-  </md-content>
+<div  ng-controller="StoreReviewListController as srl" class="reviewListSection">
+  <h1>Reviews</h1>
+  <div layout="row" layout-sm="column" layout-xs="column" class="singleReview" ng-repeat-start="review in srl.reviewList">
+      <div flex="30" flex-xs="100" flex-sm="100" class="userSection">
+        <div layout="row" class="userProfile">
+          <div class="userImgSection">
+            <div class="userImg" style='background-image:url("{{review.user.picture}}")'></div>
+          </div>
+          <div class="userStats">
+            <ul>
+              <li class="userName"><a href="#">{{ review.user.displayName }}</a></li>
+              <li class="userLocation">Hyderabad, Telangana</li>
+              <li class="userFollowers">25 followers</li>
+              <li>
+
+                650 reviews
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div flex="70" flex-xs="100" flex-sm="100" class="contentSection">
+        <div class="ratingSection">
+          <span ng-repeat="i in srl.getRating(review)">
+            <i aria-hidden="true" class="fa fa-star"></i>
+          </span>
+        </div>
+        <div class="reviewContent">
+          {{ review.description }}
+        </div>
+        <div class="contentRatingSection">
+          <div class="reviewStats"><span>25 Upvotes</span></div>
+        </div>
+      </div>
+
+  </div>
+  <md-divider ng-repeat-end=""></md-divider>
+
+
 </div>

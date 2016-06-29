@@ -5,19 +5,23 @@
         <img ng-src="{{rsv.user.picture}}" class="md-avatar" alt="{{rsv.user.displayName}}">
       </div>
       <div class="" layout="column" flex="grow" flex="70" flex-xs="60" flex-sm="60" flex-offset="5">
-        <div class="">
-          <span >{{rsv.user.displayName}}</span>
+
+        <label>My Review</label>
+        <div class="userRatingSection">
+          <fieldset class="rating">
+            <input ng-repeat-start="i in [1,2,3,4,5]" id="star{{i}}" type="radio" name="rating" value="{{i}}" ng-click="rsv.ratingClick($event)"/>
+            <label ng-repeat-end="" for="star{{i}}" title="Awesome - 5 stars" class="full"></label>
+          </fieldset>
         </div>
-        <md-input-container class="md-block" >
-          <label>My Review</label>
-          <textarea ng-model="rsv.review.description" name="review" required="true"></textarea>
-        </md-input-container>
-      </div>
-      <div class="" flex="10" flex="nogrow">
-        <md-button ng-click="rsv.submitReview()" class="md-raised md-primary" >Submit</md-button>
+        <textarea ng-model="rsv.review.description" name="review" required="true"></textarea>
+
       </div>
 
+
     </md-content>
+    <div >
+      <md-button ng-click="rsv.submitReview()" class="md-raised md-primary" >Submit</md-button>
+    </div>
 
   </form>
 </div>

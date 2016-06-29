@@ -44,7 +44,8 @@ var ReviewSchema = new Schema({
     store : { type:Schema.ObjectId, ref:"Store",childPath:"reviews" },
     product : { type:Schema.ObjectId, ref:"Product",childPath:"reviews" },
     user : { type:Schema.ObjectId, ref:"User",childPath:"reviews" },
-    upvotes:[{ type:Schema.ObjectId, ref:"Upvote" }]
+    upvotes:[{ type:Schema.ObjectId, ref:"Upvote" }],
+    rating:{type:String,default:'0'}
 },{ collection : 'reviews' });
 
 ReviewSchema.plugin(relationship, { relationshipPathName:'user' });
@@ -62,6 +63,7 @@ var UserSchema = new Schema({
 	reviews:[{ type:Schema.ObjectId, ref:"Review" }],
 	visits:[{ type:Schema.ObjectId, ref:"Visit" }],
 	upvotes:[{ type:Schema.ObjectId, ref:"Upvote" }]
+
 },{ collection : 'users' });
 
 UserSchema.methods.toJSON = function(){
@@ -114,7 +116,8 @@ var StoreSchema = new Schema({
 	reviews:[{ type:Schema.ObjectId, ref:"Review" }],
 	products:[{ type:Schema.ObjectId, ref:"Product" }],
 	upvotes:[{ type:Schema.ObjectId, ref:"Upvote" }],
-	images:[String],
+	bannerImage:{type:String,default:'https://upload.wikimedia.org/wikipedia/commons/3/3a/SM_Department_Store_Cubao.jpg'},
+  storeImages:[String],
 	visits:[{ type:Schema.ObjectId, ref:"Visit" }]
 },{ collection : 'stores' });
 

@@ -53,7 +53,7 @@ gulp.task('images', function(){
 });
 
 gulp.task('styles', function(){
-  gulp.src(['src/styles/**/*.scss'])
+  gulp.src('public/app/**/*.sass')
     .pipe(plumber({
       errorHandler: function (error) {
         console.log(error.message);
@@ -61,11 +61,12 @@ gulp.task('styles', function(){
     }}))
     .pipe(sass())
     .pipe(autoprefixer('last 2 versions'))
-    .pipe(gulp.dest('dist/styles/'))
+    .pipe(concat('main.css'))
+    .pipe(gulp.dest('public/dist2/styles/'))
     .pipe(rename({suffix: '.min'}))
     .pipe(minifycss())
-    .pipe(gulp.dest('dist/styles/'))
-   // .pipe(browserSync.reload({stream:true}))
+    .pipe(gulp.dest('public/dist2/styles/'))
+   .pipe(browserSync.reload({stream:true}))
 });
 
 gulp.task('scripts', function(){
@@ -82,7 +83,7 @@ gulp.task('scripts', function(){
     .pipe(rename({suffix: '.min'}))
     .pipe(uglify())
     .pipe(gulp.dest('public/dist2/scripts/'))
-    //.pipe(browserSync.reload({stream:true}))
+    .pipe(browserSync.reload({stream:true}))
 });
 
 gulp.task('default', ['browser-sync'],function(){
@@ -91,7 +92,7 @@ var current_hour = date.getHours();
 console.log(current_hour);
 var current_minutes = date.getMinutes();
 console.log(current_minutes);
-  gulp.watch("src/styles/**/*.scss", ['styles']);
+  gulp.watch("public/app/**/*.sass", ['styles']);
   gulp.watch("public/app/**/*.js", ['scripts']);
   gulp.watch("*.html");
 });

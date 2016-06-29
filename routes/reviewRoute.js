@@ -66,6 +66,7 @@ reviewRouter.route('/reviews/store/:storeId')
   review.description=recData.description;
   review.user=recData.userId;
   review.store = mongoose.Types.ObjectId(req.params.storeId);
+	review.rating = recData.rating;
   console.log(typeof(req.params.storeId));
 
 

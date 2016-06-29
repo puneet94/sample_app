@@ -983,39 +983,6 @@ angular.module('authModApp')
 //     }
 //   }
 
-
-
-/**
- * @ngdoc directive
- * @name authModApp.directive:sameAs
- * @description
- * # sameAs
- */
- (function(angular){
- 'use strict';
-	angular.module('authModApp')
-		.directive('sameAs', function () {
-			return {
-				require: 'ngModel',
-				restrict: 'EA',
-				link: function postLink(scope, element, attrs,ngModelCtrl) {
-					console.log(scope.$eval(attrs.sameAs));
-					function validateEqual(value){
-						var valid = (value === scope.$eval(attrs.sameAs));
-						ngModelCtrl.$setValidity('equal',valid);
-						return valid ? value : undefined;
-					}
-					ngModelCtrl.$parsers.push(validateEqual);
-					ngModelCtrl.$formatters.push(validateEqual);
-					scope.$watch(attrs.sameAs,function(){
-						ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
-					});
-				}
-			};
-		});
-
-})(window.angular);
-
 (function(angular){
 'use strict';
 
@@ -1061,6 +1028,39 @@ angular.module('authModApp')
   }
 })(window.angular);
 
+
+
+/**
+ * @ngdoc directive
+ * @name authModApp.directive:sameAs
+ * @description
+ * # sameAs
+ */
+ (function(angular){
+ 'use strict';
+	angular.module('authModApp')
+		.directive('sameAs', function () {
+			return {
+				require: 'ngModel',
+				restrict: 'EA',
+				link: function postLink(scope, element, attrs,ngModelCtrl) {
+					console.log(scope.$eval(attrs.sameAs));
+					function validateEqual(value){
+						var valid = (value === scope.$eval(attrs.sameAs));
+						ngModelCtrl.$setValidity('equal',valid);
+						return valid ? value : undefined;
+					}
+					ngModelCtrl.$parsers.push(validateEqual);
+					ngModelCtrl.$formatters.push(validateEqual);
+					scope.$watch(attrs.sameAs,function(){
+						ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
+					});
+				}
+			};
+		});
+
+})(window.angular);
+
 (function(angular){
   'use strict';
   angular.module('app.review')
@@ -1070,6 +1070,8 @@ angular.module('authModApp')
         rsv.review = {};
         rsv.user = {};
         rsv.review.storeId = $routeParams.storeId;
+        rsv.ratingClick = ratingClick;
+        
         console.log('*****review submit******');
         console.log(userData.getUser());
         if(userData.getUser()){
@@ -1082,7 +1084,12 @@ angular.module('authModApp')
         }
 
         rsv.submitReview = submitReview;
-
+        function ratingClick(obj){
+          console.log("user rating");
+          var rating = 6-obj.currentTarget.attributes.value.nodeValue;
+          console.log(6-obj.currentTarget.attributes.value.nodeValue);
+          rsv.review.rating = rating;
+        }
         function submitReview(){
           reviewService.submitStoreReview(rsv.review)
             .then(function(res){
@@ -1120,10 +1127,14 @@ angular.module('app.store')
 
   .controller('SingleStoreController',["$scope","$location","$anchorScroll","$routeParams","getSingleStore",singleStoreController]);
   function singleStoreController($scope,$location,$anchorScroll,$routeParams,getSingleStore){
-
+    var ssc = this;
+    ssc.storeData = {};
   getSingleStore.getStore($routeParams.storeId)
   .then(function(res){
       console.log(res);
+      ssc.storeData = res.data;
+      console.log('store independe');
+      console.log(ssc.storeData.bannerImage);
     });
     if($location.search().flowto!==undefined){
       var flowId = $location.search().flowto;
@@ -1216,6 +1227,7 @@ angular.module('app.store')
     var slc = this;
     slc.activate = activate;
     slc.getStoreReviews = getStoreReviews;
+    slc.getRating = getRating;
     slc.activate();
     function activate(){
       slc.getStoreReviews();
@@ -1228,6 +1240,16 @@ angular.module('app.store')
       },function(res){
         console.log(res);
       });
+    }
+    function getRating(review){
+
+      var rating2 = parseInt(review.rating);
+      var x = [];
+      for(var i=0;i<rating2;i++){
+        x.push(i);
+      }
+      console.log(x);
+      return x;
     }
 
 
