@@ -3,10 +3,13 @@
 </header>
 <div ng-include="'app/home/searchBox.html'"></div>
 <main flex>
-  <div class="" layout="row">
-    <div class="storeLeftPane" flex="70">
+  <div class="" layout="row" layout-xs="column" layout-sm="column">
+    <div class="storeLeftPane" flex-sm="100" flex-xs="100" flex="70" >
       <div class="storeBannerImage" style='background-image:url("{{ssc.storeData.bannerImage}}")'>
-        
+
+      </div>
+      <div class="" ng-include="'app/store/views/storeAddressDetails.html'">
+
       </div>
       <div class="" ng-include="'app/store/views/storeReviewList.html'">
 
@@ -15,8 +18,8 @@
 
       </div>
     </div>
-    <div class="storeRightPane" flex="30">
-
+    <div class="storeRightPane" flex="30" flex-sm="100" flex-xs="100">
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
     </div>
   </div>
 
