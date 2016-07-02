@@ -1,8 +1,8 @@
 angular.module('app.home')
-	.controller('SearchBoxController',["$scope","citiesService","searchService","changeBrowserURL","arrayUniqueCopy","arrayObjectMapper","userLocationService",searchBoxController]);
+	.controller('SearchBoxController',["$scope","citiesService","searchService","changeBrowserURL","arrayUniqueCopy","arrayObjectMapper","userLocationService",SearchBoxController]);
 
 
-function searchBoxController($scope,citiesService,searchService,changeBrowserURL,arrayUniqueCopy,arrayObjectMapper,userLocationService){
+function SearchBoxController($scope,citiesService,searchService,changeBrowserURL,arrayUniqueCopy,arrayObjectMapper,userLocationService){
 		var hm= this;
 		activate();
 		hm.userSearches = [];
@@ -57,7 +57,7 @@ function searchBoxController($scope,citiesService,searchService,changeBrowserURL
 				hm.userSearches = [];
 				for (var i = resource.data.length - 1; i >= 0; i--) {
 					hm.userSearches.push(resource.data[i]);
-				};
+				}
 				console.log(hm.userSearches);
 			},function(data){
 				console.log(data);

@@ -86,7 +86,7 @@ gulp.task('scripts', function(){
     .pipe(browserSync.reload({stream:true}))
 });
 
-gulp.task('default', ['browser-sync'],function(){
+gulp.task('default', function(){
   var date = new Date();
 var current_hour = date.getHours();
 console.log(current_hour);

@@ -2,8 +2,8 @@
   'use strict';
 angular.module('app.store')
 
-  .controller('StoreReviewListController',["$scope","$routeParams",'reviewService',storeReviewListController]);
-  function storeReviewListController($scope,$routeParams,reviewService){
+  .controller('StoreReviewListController',["$scope","$routeParams",'reviewService',StoreReviewListController]);
+  function StoreReviewListController($scope,$routeParams,reviewService){
     var slc = this;
     slc.activate = activate;
     slc.getStoreReviews = getStoreReviews;
@@ -14,11 +14,11 @@ angular.module('app.store')
     }
     function getStoreReviews(){
       reviewService.getStoreReviews().then(function(res){
-        console.log('****review list****');
-        console.log(res);
+
+
         slc.reviewList = res.data;
       },function(res){
-        console.log(res);
+
       });
     }
     function getRating(review){
@@ -28,7 +28,7 @@ angular.module('app.store')
       for(var i=0;i<rating2;i++){
         x.push(i);
       }
-      console.log(x);
+
       return x;
     }
 

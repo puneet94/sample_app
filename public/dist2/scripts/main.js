@@ -61,7 +61,8 @@ angular
     'ngRoute',
     'satellizer'
   ])
-  .config(function ($routeProvider,$httpProvider,$authProvider) {
+  .config(["$routeProvider","$httpProvider","$authProvider",authConfig]);
+  function authConfig($routeProvider,$httpProvider,$authProvider) {
     $routeProvider
       .when('/signup',{
         templateUrl:'app/authentication/views/register.html',
@@ -85,7 +86,7 @@ angular
         redirectUri: 'http://localhost:3000/'
       });
       //$httpProvider.interceptors.push('authInterceptor');
-  });
+  }
 })(window.angular);
 
 (function(angular){
@@ -184,16 +185,17 @@ angular.module('app.common',[]);
 (function(angular){
 'use strict';
 angular.module('app.common')
-	.service('citiesService', ["$http",citiesService])
+	.service('citiesService', ["$http",CitiesService])
 	.service('getCategoryService',[function(){}])
-	.service('searchService', ["$http",searchService])
-	.service('httpService', ["$http",httpService])
-	.service('sortService',[sortService])
-	.service('changeBrowserURL', ["$location",changeBrowserURL])
-	.service('arrayObjectMapper',[arrayObjectMapper])
-	.service('arrayUniqueCopy',[arrayUniqueCopy])
-	.service('userLocationService',[userLocationService]);
-	function citiesService($http){
+	.service('searchService', ["$http",SearchService])
+	.service('httpService', ["$http",HttpService])
+	.service('sortService',[SortService])
+	.service('changeBrowserURL', ["$location",ChangeBrowserURL])
+	.service('arrayObjectMapper',[ArrayObjectMapper])
+	.service('arrayUniqueCopy',[ArrayUniqueCopy])
+	.service('userLocationService',[UserLocationService])
+	.service('anchorSmoothScroll',[AnchorSmoothScroll]);
+	function CitiesService($http){
    		this.getCities = function() {
    			var gc = this;
    			gc.cityData  = undefined;
@@ -201,7 +203,7 @@ angular.module('app.common')
 			return  gc.cityData;
 		};
 	}
-	function searchService($http){
+	function SearchService($http){
    		this.getSearches = function(userLocation) {
    			console.log("inside http");
    			console.log(userLocation);
@@ -212,12 +214,12 @@ angular.module('app.common')
 			return  gs.searchesData;
 		};
 	}
-	function httpService($http){
+	function HttpService($http){
 		this.getService = function(url){
 			return $http.get(url);
 		};
 	}
-	function sortService(){
+	function SortService(){
 		this.sortByKey = function(array, key) {
 		    return array.sort(function(a, b) {
 		        var x = a[key]; var y = b[key];
@@ -226,12 +228,12 @@ angular.module('app.common')
 		};
 	}
 
-	function changeBrowserURL($location){
+	function ChangeBrowserURL($location){
 		this.changeBrowserURLMethod = function(path){
 			$location.path(path);
 		};
 	}
-	function arrayObjectMapper(){
+	function ArrayObjectMapper(){
 		this.getArrayFunction = function(arrayObj,item){
 			var arr1 = [];
 			for (var i = arrayObj.length - 1; i >= 0; i--) {
@@ -240,7 +242,7 @@ angular.module('app.common')
 			return arr1;
 		};
 	}
-	function arrayUniqueCopy(){
+	function ArrayUniqueCopy(){
 		this.getUniqueCopyFunction = function(sourceArray,destArray){
 			angular.forEach(sourceArray, function(item){
 				if(destArray.indexOf(item)==-1){
@@ -251,7 +253,7 @@ angular.module('app.common')
 			return destArray;
 		};
 	}
-	function userLocationService(){
+	function UserLocationService(){
 		var userLocation = "";
 		this.setUserLocation = setUserLocation;
 		this.getUserLocation = getUserLocation;
@@ -263,7 +265,7 @@ angular.module('app.common')
 			return userLocation;
 		}
 	}
-	function ajaxURL(){
+	function AjaxURL(){
 		this.port = 3000;
 		this.host = "localhost:";
 		this.protocol = "https:";
@@ -280,6 +282,59 @@ angular.module('app.common')
 		this.getSingleProductWithId = this.baseUrl + "product/singleProduct/";
 
 		this.getCategoriesWithLocation = this.baseUrl + "categories/location";
+
+	}
+	function AnchorSmoothScroll(){
+
+    this.scrollTo = function(eID) {
+
+        // This scrolling function
+        // is from http://www.itnewb.com/tutorial/Creating-the-Smooth-Scroll-Effect-with-JavaScript
+
+        var startY = currentYPosition();
+        var stopY = elmYPosition(eID);
+        var distance = stopY > startY ? stopY - startY : startY - stopY;
+        if (distance < 100) {
+            scrollTo(0, stopY); return;
+        }
+        var speed = Math.round(distance / 100);
+        if (speed >= 20) speed = 20;
+        var step = Math.round(distance / 25);
+        var leapY = stopY > startY ? startY + step : startY - step;
+        var timer = 0;
+        if (stopY > startY) {
+            for ( var i=startY; i<stopY; i+=step ) {
+                setTimeout("window.scrollTo(0, "+leapY+")", timer * speed);
+                leapY += step; if (leapY > stopY) leapY = stopY; timer++;
+            } return;
+        }
+        for ( var i=startY; i>stopY; i-=step ) {
+            setTimeout("window.scrollTo(0, "+leapY+")", timer * speed);
+            leapY -= step; if (leapY < stopY) leapY = stopY; timer++;
+        }
+
+        function currentYPosition() {
+            // Firefox, Chrome, Opera, Safari
+            if (self.pageYOffset) return self.pageYOffset;
+            // Internet Explorer 6 - standards mode
+            if (document.documentElement && document.documentElement.scrollTop)
+                return document.documentElement.scrollTop;
+            // Internet Explorer 6, 7 and 8
+            if (document.body.scrollTop) return document.body.scrollTop;
+            return 0;
+        }
+
+        function elmYPosition(eID) {
+            var elm = document.getElementById(eID);
+            var y = elm.offsetTop;
+            var node = elm;
+            while (node.offsetParent && node.offsetParent != document.body) {
+                node = node.offsetParent;
+                y += node.offsetTop;
+            } return y;
+        }
+
+    };
 
 	}
 })(window.angular);
@@ -310,28 +365,28 @@ angular.module('app.store')
     }
     function getStoresCollection(){
       slc.pageNo = slc.pageNo + 1;
-      var location = $routeParams['location']||'hyderabad';
-var url ='';
+      var location = $routeParams.location||'hyderabad';
+      var url ='';
       if($location.absUrl().indexOf("/category/")!=-1){
-        var category = $routeParams['category'];
-        var url = 'http://localhost:3000/store/storesCollection/category/'+category+'/'+location+'/'+slc.pageNo;
+        var category = $routeParams.category;
+         url = 'http://localhost:3000/store/storesCollection/category/'+category+'/'+location+'/'+slc.pageNo;
       }
       else if($location.absUrl().indexOf("/storeName/")!=-1){
-        var storeName = $routeParams['storeName'];
-        var url = 'http://localhost:3000/store/storesCollection/storeName/'+storeName+'/'+location+'/'+slc.pageNo;
+        var storeName = $routeParams.storeName;
+         url = 'http://localhost:3000/store/storesCollection/storeName/'+storeName+'/'+location+'/'+slc.pageNo;
       }
       else{
-        var url = 'http://localhost:3000/store/storesCollection/stores'+'/'+location+'/'+slc.pageNo;
+         url = 'http://localhost:3000/store/storesCollection/stores'+'/'+location+'/'+slc.pageNo;
       }
 
       httpService.getService(url)
       .then(function(response){
         for (var i = response.data.docs.length - 1; i >= 0; i--) {
           slc.storesList.push(response.data.docs[i]);
-        };
+        }
 
       },function(response){
-        console.log(response)
+        console.log(response);
       });
     }
     function activate(){
@@ -354,7 +409,7 @@ var url ='';
         headers : {
           'Content-Type': 'application/json'
       }
-    }
+    };
     $http.post("http://localhost:3000/store/store", data, config)
       .then(
         function(response){
@@ -427,8 +482,8 @@ angular
 
 
 angular.module('app.home')
-	.controller("AuthController",["$scope","changeBrowserURL","$auth","$window","userData",authController]);
-function authController($scope,changeBrowserURL,$auth,$window,userData){
+	.controller("AuthController",["$scope","changeBrowserURL","$auth","$window","userData",AuthController]);
+function AuthController($scope,changeBrowserURL,$auth,$window,userData){
 		var phc = this;
 		phc.toHomePage = toHomePage;
 		phc.authenticate = authenticate;
@@ -446,30 +501,29 @@ function authController($scope,changeBrowserURL,$auth,$window,userData){
 			changeBrowserURL.changeBrowserURLMethod('/login');
 		}
 		function authenticate(provider) {
-	    	$auth.authenticate(provider);
-				console.log('********logoin*******');
-	    	console.log($auth.getPayload());
-	    	//$window.location.reload();
-
+	    	$auth.authenticate(provider).then(function(response) {
+					userData.setUser();
+					//$window.location.reload();
+					//console.log(response);
+          // $window.localStorage.currentUser = JSON.stringify(response.data.user);
+          // $rootScope.currentUser = JSON.parse($window.localStorage.currentUser);
+					//console.log('********logoin*******');
+		    	//console.log($auth.getPayload());
+        });
     	}
     	function authLogout(){
-    		$auth.logout();
-				console.log('********logout*******');
-        console.log(userData.getUser());
+				$auth.logout();
         userData.removeUser();
-        console.log(userData.getUser());
 				toHomePage();
     	}
 }
 
 (function(angular){
 	angular.module('app.home')
-	.controller('HeaderController',["$scope","userData","changeBrowserURL","$auth","$mdDialog", "$mdMedia","$timeout", "$mdSidenav", "$log",headerController]);
+	.controller('HeaderController',["$scope","userData","changeBrowserURL","$auth","$mdDialog", "$mdMedia","$timeout", "$mdSidenav", "$log",HeaderController]);
 
-	function headerController($scope,userData,changeBrowserURL,$auth,$mdDialog, $mdMedia,$timeout, $mdSidenav, $log){
+	function HeaderController($scope,userData,changeBrowserURL,$auth,$mdDialog, $mdMedia,$timeout, $mdSidenav, $log){
 			var phc = this;
-			console.log("header controller*********");
-			console.log(userData.getUser());
 			phc.toHomePage = toHomePage;
 			phc.authenticate = authenticate;
 			phc.authLogout = authLogout;
@@ -491,7 +545,6 @@ function authController($scope,changeBrowserURL,$auth,$window,userData){
 	          });
 	      };
 	    }
-			console.log("header is"+$auth.isAuthenticated());
 			function toHomePage(){
 				changeBrowserURL.changeBrowserURLMethod('/');
 			}
@@ -518,11 +571,11 @@ function authController($scope,changeBrowserURL,$auth,$window,userData){
 			      $scope.status = 'You cancelled the dialog.';
 			    });
 			    $scope.$watch(function() {
-			    	console.log("From watch",$mdMedia('xl') || $mdMedia('md'));
+
 	      			return $mdMedia('md') || $mdMedia('xl');
 	    		}, function(wantsFullScreen) {
 		      		phc.customFullscreen = (wantsFullScreen === true);
-		      		console.log(phc.customFullscreen);
+
 	    		});
 
 	  		}
@@ -533,10 +586,10 @@ function authController($scope,changeBrowserURL,$auth,$window,userData){
 angular.module('app.home')
 	.controller('HomeController',["$scope","citiesService","searchService","changeBrowserURL",homeController])
 
-	.controller('CategoryListController',["$scope","$http","getCategoryService","arrayUniqueCopy","arrayObjectMapper","userLocationService","changeBrowserURL",categoryListController]);
-	
+	.controller('CategoryListController',["$scope","$http","getCategoryService","arrayUniqueCopy","arrayObjectMapper","userLocationService","changeBrowserURL",CategoryListController]);
 
-	function categoryListController($scope,$http,getCategoryService,arrayUniqueCopy,arrayObjectMapper,userLocationService,changeBrowserURL){
+
+	function CategoryListController($scope,$http,getCategoryService,arrayUniqueCopy,arrayObjectMapper,userLocationService,changeBrowserURL){
 		var clc = this;
 		clc.cateList = [];
 		clc.categLoadMore = false;
@@ -552,7 +605,6 @@ angular.module('app.home')
 			var location = userLocationService.getUserLocation();
 			var slug = category + "-stores-in-" + location;
 			var url = "/store/storesCollection/category/"+category+"/"+location+"/"+slug;
-			console.log(url);
 			changeBrowserURL.changeBrowserURLMethod(url);
 
 
@@ -568,11 +620,11 @@ angular.module('app.home')
 						angular.forEach(response.data.docs, function(item){
 							clc.cateList = arrayUniqueCopy.getUniqueCopyFunction(item.category,clc.cateList);
 						});
-						console.log(clc.cateList);
+
 
 					},
 					function(response){
-						console.log(response);
+
 					}
 				);
 
@@ -623,8 +675,8 @@ angular.module('app.home')
 /*git clone https://github.com/mrvautin/adminMongo.git && cd adminMongo*/
 
 angular.module('app.home')
-	.controller('HomeLeftController',["$timeout", "$mdSidenav", "$log",leftCtrl]);
-	function leftCtrl($timeout, $mdSidenav, $log){
+	.controller('HomeLeftController',["$timeout", "$mdSidenav", "$log",LeftCtrl]);
+	function LeftCtrl($timeout, $mdSidenav, $log){
   this.close = function () {
       // Component lookup should always be available since we are not using `ng-if`
       $mdSidenav('left').close()
@@ -635,10 +687,10 @@ angular.module('app.home')
 }
 
 angular.module('app.home')
-	.controller('SearchBoxController',["$scope","citiesService","searchService","changeBrowserURL","arrayUniqueCopy","arrayObjectMapper","userLocationService",searchBoxController]);
+	.controller('SearchBoxController',["$scope","citiesService","searchService","changeBrowserURL","arrayUniqueCopy","arrayObjectMapper","userLocationService",SearchBoxController]);
 
 
-function searchBoxController($scope,citiesService,searchService,changeBrowserURL,arrayUniqueCopy,arrayObjectMapper,userLocationService){
+function SearchBoxController($scope,citiesService,searchService,changeBrowserURL,arrayUniqueCopy,arrayObjectMapper,userLocationService){
 		var hm= this;
 		activate();
 		hm.userSearches = [];
@@ -693,7 +745,7 @@ function searchBoxController($scope,citiesService,searchService,changeBrowserURL
 				hm.userSearches = [];
 				for (var i = resource.data.length - 1; i >= 0; i--) {
 					hm.userSearches.push(resource.data[i]);
-				};
+				}
 				console.log(hm.userSearches);
 			},function(data){
 				console.log(data);
@@ -838,9 +890,9 @@ angular
  * Controller of the authModApp
  */
 angular.module('authModApp')
-  .controller('LoginController', ["$location","$auth","userData",loginCtrl]);
+  .controller('LoginController', ["$location","$auth","userData",LoginCtrl]);
 
-  function loginCtrl($location,$auth,userData) {
+  function LoginCtrl($location,$auth,userData) {
     var logCl = this;
     logCl.user = {};
     logCl.submitLogin = submitLogin;
@@ -915,9 +967,9 @@ angular.module('authModApp')
  * Controller of the authModApp
  */
 angular.module('authModApp')
-	.controller('RegisterCtrl', ["$scope","userData","$auth","$location",registerCtrl]);
+	.controller('RegisterCtrl', ["$scope","userData","$auth","$location",RegisterCtrl]);
 
-	function registerCtrl($scope,userData,$auth,$location) {
+	function RegisterCtrl($scope,userData,$auth,$location) {
 		var rc = this;
 		rc.user = {};
 	    rc.formSubmit = formSubmit;
@@ -994,19 +1046,33 @@ angular.module('authModApp')
  * Factory in the authModApp.
  */
 angular.module('authModApp')
-  .factory('userData', ['$window',userData]);
+  .factory('userData',['$window','$auth','$http',userData]);
 
-  function userData($window) {
+  function userData($window,$auth,$http) {
     var storage = $window.localStorage;
     var cachedUser={};
     var obj1 =  {
       setUser: function (user) {
-        cachedUser = user;
-          console.log('**************from factory');
-        storage.setItem('user',JSON.stringify(user));
-        console.log(JSON.parse(storage.getItem('user')));
+        if(user){
+          storage.setItem('user',JSON.stringify(user));
+          //console.log(storage.getItem('user'));
+        }
+        else{
+          //console.log('Inside for facebook auth')
+          var userId = $auth.getPayload().sub;
+          if(userId){
+            $http.get('http://localhost:3000/authenticate/user/'+userId).then(function(res){
+              storage.setItem('user',JSON.stringify(res.data.user));
+              //console.log('from storage ..............');
+              //console.log(storage.getItem('user'));
+            },function(res){
+              console.log(res);
+            });
+          }
+        }
       },
       getUser: function(){
+
         return JSON.parse(storage.getItem('user'));
       //   if(!cachedUser){
       //     cachedUser = storage.getItem('user');
@@ -1015,6 +1081,7 @@ angular.module('authModApp')
       },
       removeUser: function(){
         cachedUser = null;
+        //console.log('***********logged out*************');
         storage.removeItem('user');
       },
       isUserExists: function(){
@@ -1064,16 +1131,16 @@ angular.module('authModApp')
 (function(angular){
   'use strict';
   angular.module('app.review')
-      .controller('ReviewSubmitController',['$auth','$routeParams','userData','reviewService',reviewSubmitController]);
-      function reviewSubmitController($auth,$routeParams,userData,reviewService){
+      .controller('ReviewSubmitController',['$auth','$routeParams','userData','reviewService',ReviewSubmitController]);
+      function ReviewSubmitController($auth,$routeParams,userData,reviewService){
         var rsv  = this;
         rsv.review = {};
         rsv.user = {};
         rsv.review.storeId = $routeParams.storeId;
         rsv.ratingClick = ratingClick;
-        
-        console.log('*****review submit******');
-        console.log(userData.getUser());
+
+
+
         if(userData.getUser()){
           rsv.review.userId = userData.getUser()._id;
           rsv.user.picture = userData.getUser().picture;
@@ -1085,17 +1152,17 @@ angular.module('authModApp')
 
         rsv.submitReview = submitReview;
         function ratingClick(obj){
-          console.log("user rating");
+
           var rating = 6-obj.currentTarget.attributes.value.nodeValue;
-          console.log(6-obj.currentTarget.attributes.value.nodeValue);
+
           rsv.review.rating = rating;
         }
         function submitReview(){
           reviewService.submitStoreReview(rsv.review)
             .then(function(res){
-              console.log(res);
+
             },function(res){
-              console.log(res);
+
             });
         }
 
@@ -1105,8 +1172,8 @@ angular.module('authModApp')
 (function(angular){
   'use strict';
   angular.module('app.review')
-      .service('reviewService',['$http','$routeParams',reviewService]);
-      function reviewService($http,$routeParams){
+      .service('reviewService',['$http','$routeParams',ReviewService]);
+      function ReviewService($http,$routeParams){
         var rs  = this;
         rs.submitStoreReview = submitStoreReview;
         rs.getStoreReviews = getStoreReviews;
@@ -1125,31 +1192,37 @@ angular.module('authModApp')
   'use strict';
 angular.module('app.store')
 
-  .controller('SingleStoreController',["$scope","$location","$anchorScroll","$routeParams","getSingleStore",singleStoreController]);
-  function singleStoreController($scope,$location,$anchorScroll,$routeParams,getSingleStore){
+  .controller('SingleStoreController',["$scope",'$location','$anchorScroll',"$routeParams","anchorSmoothScroll","getSingleStore",SingleStoreController]);
+  function SingleStoreController($scope,$location,$anchorScroll,$routeParams,anchorSmoothScroll,getSingleStore){
     var ssc = this;
     ssc.storeData = {};
-  getSingleStore.getStore($routeParams.storeId)
-  .then(function(res){
-      console.log(res);
-      ssc.storeData = res.data;
-      console.log('store independe');
-      console.log(ssc.storeData.bannerImage);
-    });
-    if($location.search().flowto!==undefined){
-      var flowId = $location.search().flowto;
-      $location.hash(flowId);
-      $anchorScroll();
+    ssc.flowToId = flowToId;
+
+    getSingleStore.getStore($routeParams.storeId)
+    .then(function(res){
+        ssc.storeData = res.data;
+        console.log('*******stores*****');
+        console.log(ssc.storeData);
+      });
+      if($location.search().flowto!==undefined){
+        var flowId = $location.search().flowto;
+        flowToId(flowId);
+      }
+      function flowToId(flowId){
+        $location.hash(flowId);
+        anchorSmoothScroll.scrollTo(flowId);
+        //$anchorScroll();
+      }
     }
-  }
+
 })(window.angular);
 
 (function(angular){
   angular.module('app.store')
 
-    .controller('StoreCategoryCollectionController',["$location",storeCategoryCollectionController]);
-    
-    function storeCategoryCollectionController($location){
+    .controller('StoreCategoryCollectionController',["$location",StoreCategoryCollectionController]);
+
+    function StoreCategoryCollectionController($location){
       console.log($location.absUrl());
     }
 
@@ -1158,10 +1231,10 @@ angular.module('app.store')
 (function(angular){
   angular.module('app.store')
 
-    .controller('StoreListController',["httpService","$routeParams","changeBrowserURL","$location",storeListController])
+    .controller('StoreListController',["httpService","$routeParams","changeBrowserURL","$location",StoreListController]);
 
 
-    function storeListController(httpService,$routeParams,changeBrowserURL,$location){
+    function StoreListController(httpService,$routeParams,changeBrowserURL,$location){
       var slc = this;
       slc.pageNo = 0;
       slc.storesList = [];
@@ -1175,28 +1248,28 @@ angular.module('app.store')
       }
       function getStoresCollection(){
         slc.pageNo = slc.pageNo + 1;
-        var location = $routeParams['location']||'hyderabad';
+        var location = $routeParams.location||'hyderabad';
         var url ='';
         if($location.absUrl().indexOf("/category/")!=-1){
-          var category = $routeParams['category'];
-          var url = 'http://localhost:3000/store/storesCollection/category/'+category+'/'+location+'/'+slc.pageNo;
+          var category = $routeParams.category;
+           url = 'http://localhost:3000/store/storesCollection/category/'+category+'/'+location+'/'+slc.pageNo;
         }
         else if($location.absUrl().indexOf("/storeName/")!=-1){
-          var storeName = $routeParams['storeName'];
-          var url = 'http://localhost:3000/store/storesCollection/storeName/'+storeName+'/'+location+'/'+slc.pageNo;
+          var storeName = $routeParams.storeName;
+           url = 'http://localhost:3000/store/storesCollection/storeName/'+storeName+'/'+location+'/'+slc.pageNo;
         }
         else{
-          var url = 'http://localhost:3000/store/storesCollection/stores'+'/'+location+'/'+slc.pageNo;
+           url = 'http://localhost:3000/store/storesCollection/stores'+'/'+location+'/'+slc.pageNo;
         }
 
         httpService.getService(url)
         .then(function(response){
           for (var i = response.data.docs.length - 1; i >= 0; i--) {
             slc.storesList.push(response.data.docs[i]);
-          };
+          }
 
         },function(response){
-          console.log(response)
+          console.log(response);
         });
       }
       function activate(){
@@ -1222,8 +1295,8 @@ angular.module('app.store')
   'use strict';
 angular.module('app.store')
 
-  .controller('StoreReviewListController',["$scope","$routeParams",'reviewService',storeReviewListController]);
-  function storeReviewListController($scope,$routeParams,reviewService){
+  .controller('StoreReviewListController',["$scope","$routeParams",'reviewService',StoreReviewListController]);
+  function StoreReviewListController($scope,$routeParams,reviewService){
     var slc = this;
     slc.activate = activate;
     slc.getStoreReviews = getStoreReviews;
@@ -1234,11 +1307,11 @@ angular.module('app.store')
     }
     function getStoreReviews(){
       reviewService.getStoreReviews().then(function(res){
-        console.log('****review list****');
-        console.log(res);
+
+
         slc.reviewList = res.data;
       },function(res){
-        console.log(res);
+
       });
     }
     function getRating(review){
@@ -1248,7 +1321,7 @@ angular.module('app.store')
       for(var i=0;i<rating2;i++){
         x.push(i);
       }
-      console.log(x);
+
       return x;
     }
 
@@ -1257,21 +1330,85 @@ angular.module('app.store')
 })(window.angular);
 
 (function(angular){
+  angular.module('app.store')
+
+    .controller('UserStoreVisitController',["$scope","$auth","$routeParams","userData","userVisitService",UserStoreVisitController]);
+
+    function UserStoreVisitController($scope,$auth,$routeParams,userData,userVisitService){
+      var usv = this;
+      usv.visit = {};
+      usv.toggleVisitCheck = toggleVisitCheck;
+      usv.visit.storeId = $routeParams.storeId;
+      usv.userStoreVisited = userStoreVisited;
+      console.log('*****user from visit*****');
+      console.log(userData.getUser());
+      function userStoreVisited(storeData){
+        console.log('inside visit check');
+        for (var storeId in storeData.visits) {
+          var storeIdSingle = storeData.visits[storeId];
+          if (userData.getUser().visits.indexOf(storeIdSingle)!=-1) {
+            console.log('yes');
+            return true;
+          }
+        }
+        return false;
+      }
+      function toggleVisitCheck(){
+        if(usv.visitCheck === 'visited'){
+          if(userData.getUser()){
+            usv.visit.userId = userData.getUser()._id;
+          }
+          else{
+            usv.visit.userId = $auth.getPayload().sub;
+          }
+          userVisitService.submitVisit(usv.visit).then(function(res){console.log(res);},function(res){console.log(res);});
+        }
+      }
+
+
+    }
+
+})(window.angular);
+
+(function(angular){
   'use strict';
 /*
   *Service for getting a single store with its id
 */
 angular.module('app.store')
-  .service('getSingleStore',["$http",getSingleStoreWithId]);
+  .service('getSingleStore',["$http",GetSingleStoreWithId]);
 
 /*
   * This servic has a function names getStore which takes id as parameter and returns a promise
 */
-function getSingleStoreWithId($http){
+function GetSingleStoreWithId($http){
   this.getStore = getStore;
 
   function getStore(id){
     return $http.get("http://localhost:3000/store/singleStore/"+id);
+  }
+}
+})(window.angular);
+
+(function(angular){
+  'use strict';
+/*
+  *Service for getting a single store with its id
+*/
+angular.module('app.store')
+  .service('userVisitService',["$http",UserVisitService]);
+
+/*
+  * This servic has a function names getStore which takes id as parameter and returns a promise
+*/
+function UserVisitService($http){
+  this.submitVisit = submitVisit;
+
+  function submitVisit(visitData){
+    return $http.post("http://localhost:3000/visit/visits/store",visitData);
+  }
+  function deleteVisit(visitData){
+    return $http.delete("http://localhost:3000/visit/visits",{data:visitData});
   }
 }
 })(window.angular);

@@ -1,16 +1,17 @@
 (function(angular){
 'use strict';
 angular.module('app.common')
-	.service('citiesService', ["$http",citiesService])
+	.service('citiesService', ["$http",CitiesService])
 	.service('getCategoryService',[function(){}])
-	.service('searchService', ["$http",searchService])
-	.service('httpService', ["$http",httpService])
-	.service('sortService',[sortService])
-	.service('changeBrowserURL', ["$location",changeBrowserURL])
-	.service('arrayObjectMapper',[arrayObjectMapper])
-	.service('arrayUniqueCopy',[arrayUniqueCopy])
-	.service('userLocationService',[userLocationService]);
-	function citiesService($http){
+	.service('searchService', ["$http",SearchService])
+	.service('httpService', ["$http",HttpService])
+	.service('sortService',[SortService])
+	.service('changeBrowserURL', ["$location",ChangeBrowserURL])
+	.service('arrayObjectMapper',[ArrayObjectMapper])
+	.service('arrayUniqueCopy',[ArrayUniqueCopy])
+	.service('userLocationService',[UserLocationService])
+	.service('anchorSmoothScroll',[AnchorSmoothScroll]);
+	function CitiesService($http){
    		this.getCities = function() {
    			var gc = this;
    			gc.cityData  = undefined;
@@ -18,7 +19,7 @@ angular.module('app.common')
 			return  gc.cityData;
 		};
 	}
-	function searchService($http){
+	function SearchService($http){
    		this.getSearches = function(userLocation) {
    			console.log("inside http");
    			console.log(userLocation);
@@ -29,12 +30,12 @@ angular.module('app.common')
 			return  gs.searchesData;
 		};
 	}
-	function httpService($http){
+	function HttpService($http){
 		this.getService = function(url){
 			return $http.get(url);
 		};
 	}
-	function sortService(){
+	function SortService(){
 		this.sortByKey = function(array, key) {
 		    return array.sort(function(a, b) {
 		        var x = a[key]; var y = b[key];
@@ -43,12 +44,12 @@ angular.module('app.common')
 		};
 	}
 
-	function changeBrowserURL($location){
+	function ChangeBrowserURL($location){
 		this.changeBrowserURLMethod = function(path){
 			$location.path(path);
 		};
 	}
-	function arrayObjectMapper(){
+	function ArrayObjectMapper(){
 		this.getArrayFunction = function(arrayObj,item){
 			var arr1 = [];
 			for (var i = arrayObj.length - 1; i >= 0; i--) {
@@ -57,7 +58,7 @@ angular.module('app.common')
 			return arr1;
 		};
 	}
-	function arrayUniqueCopy(){
+	function ArrayUniqueCopy(){
 		this.getUniqueCopyFunction = function(sourceArray,destArray){
 			angular.forEach(sourceArray, function(item){
 				if(destArray.indexOf(item)==-1){
@@ -68,7 +69,7 @@ angular.module('app.common')
 			return destArray;
 		};
 	}
-	function userLocationService(){
+	function UserLocationService(){
 		var userLocation = "";
 		this.setUserLocation = setUserLocation;
 		this.getUserLocation = getUserLocation;
@@ -80,7 +81,7 @@ angular.module('app.common')
 			return userLocation;
 		}
 	}
-	function ajaxURL(){
+	function AjaxURL(){
 		this.port = 3000;
 		this.host = "localhost:";
 		this.protocol = "https:";
@@ -97,6 +98,59 @@ angular.module('app.common')
 		this.getSingleProductWithId = this.baseUrl + "product/singleProduct/";
 
 		this.getCategoriesWithLocation = this.baseUrl + "categories/location";
+
+	}
+	function AnchorSmoothScroll(){
+
+    this.scrollTo = function(eID) {
+
+        // This scrolling function
+        // is from http://www.itnewb.com/tutorial/Creating-the-Smooth-Scroll-Effect-with-JavaScript
+
+        var startY = currentYPosition();
+        var stopY = elmYPosition(eID);
+        var distance = stopY > startY ? stopY - startY : startY - stopY;
+        if (distance < 100) {
+            scrollTo(0, stopY); return;
+        }
+        var speed = Math.round(distance / 100);
+        if (speed >= 20) speed = 20;
+        var step = Math.round(distance / 25);
+        var leapY = stopY > startY ? startY + step : startY - step;
+        var timer = 0;
+        if (stopY > startY) {
+            for ( var i=startY; i<stopY; i+=step ) {
+                setTimeout("window.scrollTo(0, "+leapY+")", timer * speed);
+                leapY += step; if (leapY > stopY) leapY = stopY; timer++;
+            } return;
+        }
+        for ( var i=startY; i>stopY; i-=step ) {
+            setTimeout("window.scrollTo(0, "+leapY+")", timer * speed);
+            leapY -= step; if (leapY < stopY) leapY = stopY; timer++;
+        }
+
+        function currentYPosition() {
+            // Firefox, Chrome, Opera, Safari
+            if (self.pageYOffset) return self.pageYOffset;
+            // Internet Explorer 6 - standards mode
+            if (document.documentElement && document.documentElement.scrollTop)
+                return document.documentElement.scrollTop;
+            // Internet Explorer 6, 7 and 8
+            if (document.body.scrollTop) return document.body.scrollTop;
+            return 0;
+        }
+
+        function elmYPosition(eID) {
+            var elm = document.getElementById(eID);
+            var y = elm.offsetTop;
+            var node = elm;
+            while (node.offsetParent && node.offsetParent != document.body) {
+                node = node.offsetParent;
+                y += node.offsetTop;
+            } return y;
+        }
+
+    };
 
 	}
 })(window.angular);

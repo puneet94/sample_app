@@ -14,8 +14,8 @@
 
 
 angular.module('app.home')
-	.controller("AuthController",["$scope","changeBrowserURL","$auth","$window","userData",authController]);
-function authController($scope,changeBrowserURL,$auth,$window,userData){
+	.controller("AuthController",["$scope","changeBrowserURL","$auth","$window","userData",AuthController]);
+function AuthController($scope,changeBrowserURL,$auth,$window,userData){
 		var phc = this;
 		phc.toHomePage = toHomePage;
 		phc.authenticate = authenticate;
@@ -33,18 +33,19 @@ function authController($scope,changeBrowserURL,$auth,$window,userData){
 			changeBrowserURL.changeBrowserURLMethod('/login');
 		}
 		function authenticate(provider) {
-	    	$auth.authenticate(provider);
-				console.log('********logoin*******');
-	    	console.log($auth.getPayload());
-	    	//$window.location.reload();
-
+	    	$auth.authenticate(provider).then(function(response) {
+					userData.setUser();
+					//$window.location.reload();
+					//console.log(response);
+          // $window.localStorage.currentUser = JSON.stringify(response.data.user);
+          // $rootScope.currentUser = JSON.parse($window.localStorage.currentUser);
+					//console.log('********logoin*******');
+		    	//console.log($auth.getPayload());
+        });
     	}
     	function authLogout(){
-    		$auth.logout();
-				console.log('********logout*******');
-        console.log(userData.getUser());
+				$auth.logout();
         userData.removeUser();
-        console.log(userData.getUser());
 				toHomePage();
     	}
 }

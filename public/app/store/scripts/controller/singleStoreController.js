@@ -2,21 +2,27 @@
   'use strict';
 angular.module('app.store')
 
-  .controller('SingleStoreController',["$scope","$location","$anchorScroll","$routeParams","getSingleStore",singleStoreController]);
-  function singleStoreController($scope,$location,$anchorScroll,$routeParams,getSingleStore){
+  .controller('SingleStoreController',["$scope",'$location','$anchorScroll',"$routeParams","anchorSmoothScroll","getSingleStore",SingleStoreController]);
+  function SingleStoreController($scope,$location,$anchorScroll,$routeParams,anchorSmoothScroll,getSingleStore){
     var ssc = this;
     ssc.storeData = {};
-  getSingleStore.getStore($routeParams.storeId)
-  .then(function(res){
-      console.log(res);
-      ssc.storeData = res.data;
-      console.log('store independe');
-      console.log(ssc.storeData.bannerImage);
-    });
-    if($location.search().flowto!==undefined){
-      var flowId = $location.search().flowto;
-      $location.hash(flowId);
-      $anchorScroll();
+    ssc.flowToId = flowToId;
+
+    getSingleStore.getStore($routeParams.storeId)
+    .then(function(res){
+        ssc.storeData = res.data;
+        console.log('*******stores*****');
+        console.log(ssc.storeData);
+      });
+      if($location.search().flowto!==undefined){
+        var flowId = $location.search().flowto;
+        flowToId(flowId);
+      }
+      function flowToId(flowId){
+        $location.hash(flowId);
+        anchorSmoothScroll.scrollTo(flowId);
+        //$anchorScroll();
+      }
     }
-  }
+
 })(window.angular);

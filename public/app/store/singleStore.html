@@ -8,10 +8,38 @@
       <div class="storeBannerImage" style='background-image:url("{{ssc.storeData.bannerImage}}")'>
 
       </div>
-      <div class="" ng-include="'app/store/views/storeAddressDetails.html'">
+      <div class="userInteractionNav" layout="row">
+        <div class="" ng-controller="UserStoreVisitController as usv">
+          <div class="userStoreVisitCheck">
+            <input type="checkbox" name="userVisit" ng-checked="usv.userStoreVisited(ssc.storeData)" ng-change="usv.toggleVisitCheck()" ng-model="usv.visitCheck" ng-true-value="'visited'" ng-false-value="'not-visited'">Visited
+          </div>
+        </div>
+      </div>
+      <div class="storePageStatsNav" layout="row" >
+        <div class="statsContent"  >
+            <h4 class="statsContentText"><span><i class="fa fa-building" aria-hidden="true"></i></span>Address</h4>
+        </div>
+        <md-divider></md-divider>
+        <div class="statsContent" ng-click="ssc.flowToId('flowProducts')">
+            <h4 class="statsContentText"><span><i class="fa fa-suitcase" aria-hidden="true"></i></span>Products-({{ssc.storeData.products.length}})</h4>
+        </div>
+        <md-divider></md-divider>
+        <div class="statsContent" ng-click="ssc.flowToId('flowReviews')">
+            <h4 class="statsContentText"><span><i class="fa fa-pencil-square" aria-hidden="true"></i></span>Reviews-({{ssc.storeData.reviews.length}})</h4>
+        </div>
+
+        <md-divider></md-divider>
+        <div class="statsContent">
+            <h4 class="statsContentText"><span><i class="fa fa-motorcycle" aria-hidden="true"></i></span>Visits-({{ssc.storeData.visits.length}})</h4>
+        </div>
+
+        <md-divider></md-divider>
 
       </div>
-      <div class="" ng-include="'app/store/views/storeReviewList.html'">
+      <div  id="flowAddress" class="" ng-include="'app/store/views/storeAddressDetails.html'">
+
+      </div>
+      <div   class="" ng-include="'app/store/views/storeReviewList.html'">
 
       </div>
       <div class="" ng-include="'app/reviews/views/storeReviewSubmit.html'">
@@ -27,4 +55,4 @@
 <!--
 <div id="flowProducts">Products list yo</div>
 
-<div id="flowReviews">Reviews list yo</div>-->
+<div>Reviews list yo</div>-->

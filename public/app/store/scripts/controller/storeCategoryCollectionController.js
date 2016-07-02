@@ -1,9 +1,9 @@
 (function(angular){
   angular.module('app.store')
 
-    .controller('StoreCategoryCollectionController',["$location",storeCategoryCollectionController]);
-    
-    function storeCategoryCollectionController($location){
+    .controller('StoreCategoryCollectionController',["$location",StoreCategoryCollectionController]);
+
+    function StoreCategoryCollectionController($location){
       console.log($location.absUrl());
     }
 

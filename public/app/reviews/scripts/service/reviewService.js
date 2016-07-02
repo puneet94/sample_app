@@ -1,8 +1,8 @@
 (function(angular){
   'use strict';
   angular.module('app.review')
-      .service('reviewService',['$http','$routeParams',reviewService]);
-      function reviewService($http,$routeParams){
+      .service('reviewService',['$http','$routeParams',ReviewService]);
+      function ReviewService($http,$routeParams){
         var rs  = this;
         rs.submitStoreReview = submitStoreReview;
         rs.getStoreReviews = getStoreReviews;

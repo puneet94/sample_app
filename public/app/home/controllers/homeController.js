@@ -1,10 +1,10 @@
 angular.module('app.home')
 	.controller('HomeController',["$scope","citiesService","searchService","changeBrowserURL",homeController])
 
-	.controller('CategoryListController',["$scope","$http","getCategoryService","arrayUniqueCopy","arrayObjectMapper","userLocationService","changeBrowserURL",categoryListController]);
-	
+	.controller('CategoryListController',["$scope","$http","getCategoryService","arrayUniqueCopy","arrayObjectMapper","userLocationService","changeBrowserURL",CategoryListController]);
 
-	function categoryListController($scope,$http,getCategoryService,arrayUniqueCopy,arrayObjectMapper,userLocationService,changeBrowserURL){
+
+	function CategoryListController($scope,$http,getCategoryService,arrayUniqueCopy,arrayObjectMapper,userLocationService,changeBrowserURL){
 		var clc = this;
 		clc.cateList = [];
 		clc.categLoadMore = false;
@@ -20,7 +20,6 @@ angular.module('app.home')
 			var location = userLocationService.getUserLocation();
 			var slug = category + "-stores-in-" + location;
 			var url = "/store/storesCollection/category/"+category+"/"+location+"/"+slug;
-			console.log(url);
 			changeBrowserURL.changeBrowserURLMethod(url);
 
 
@@ -36,11 +35,11 @@ angular.module('app.home')
 						angular.forEach(response.data.docs, function(item){
 							clc.cateList = arrayUniqueCopy.getUniqueCopyFunction(item.category,clc.cateList);
 						});
-						console.log(clc.cateList);
+
 
 					},
 					function(response){
-						console.log(response);
+
 					}
 				);
 

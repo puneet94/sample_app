@@ -15,7 +15,8 @@ angular
     'ngRoute',
     'satellizer'
   ])
-  .config(function ($routeProvider,$httpProvider,$authProvider) {
+  .config(["$routeProvider","$httpProvider","$authProvider",authConfig]);
+  function authConfig($routeProvider,$httpProvider,$authProvider) {
     $routeProvider
       .when('/signup',{
         templateUrl:'app/authentication/views/register.html',
@@ -39,5 +40,5 @@ angular
         redirectUri: 'http://localhost:3000/'
       });
       //$httpProvider.interceptors.push('authInterceptor');
-  });
+  }
 })(window.angular);

@@ -53,9 +53,9 @@ angular
  * Controller of the authModApp
  */
 angular.module('authModApp')
-  .controller('LoginController', ["$location","$auth","userData",loginCtrl]);
+  .controller('LoginController', ["$location","$auth","userData",LoginCtrl]);
 
-  function loginCtrl($location,$auth,userData) {
+  function LoginCtrl($location,$auth,userData) {
     var logCl = this;
     logCl.user = {};
     logCl.submitLogin = submitLogin;

@@ -1,11 +1,9 @@
 (function(angular){
 	angular.module('app.home')
-	.controller('HeaderController',["$scope","userData","changeBrowserURL","$auth","$mdDialog", "$mdMedia","$timeout", "$mdSidenav", "$log",headerController]);
+	.controller('HeaderController',["$scope","userData","changeBrowserURL","$auth","$mdDialog", "$mdMedia","$timeout", "$mdSidenav", "$log",HeaderController]);
 
-	function headerController($scope,userData,changeBrowserURL,$auth,$mdDialog, $mdMedia,$timeout, $mdSidenav, $log){
+	function HeaderController($scope,userData,changeBrowserURL,$auth,$mdDialog, $mdMedia,$timeout, $mdSidenav, $log){
 			var phc = this;
-			console.log("header controller*********");
-			console.log(userData.getUser());
 			phc.toHomePage = toHomePage;
 			phc.authenticate = authenticate;
 			phc.authLogout = authLogout;
@@ -27,7 +25,6 @@
 	          });
 	      };
 	    }
-			console.log("header is"+$auth.isAuthenticated());
 			function toHomePage(){
 				changeBrowserURL.changeBrowserURLMethod('/');
 			}
@@ -54,11 +51,11 @@
 			      $scope.status = 'You cancelled the dialog.';
 			    });
 			    $scope.$watch(function() {
-			    	console.log("From watch",$mdMedia('xl') || $mdMedia('md'));
+
 	      			return $mdMedia('md') || $mdMedia('xl');
 	    		}, function(wantsFullScreen) {
 		      		phc.customFullscreen = (wantsFullScreen === true);
-		      		console.log(phc.customFullscreen);
+
 	    		});
 
 	  		}

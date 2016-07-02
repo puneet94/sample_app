@@ -26,6 +26,7 @@ var searchRouter = require('./routes/searchRoute');
 var productRouter = require('./routes/productRoute');
 var authenticateRouter = require('./routes/authenticateRoute');
 var reviewRouter = require('./routes/reviewRoute');
+var visitRouter = require('./routes/visitRoute');
 
 
 
@@ -50,6 +51,7 @@ app.use('/search',searchRouter);
 app.use('/product',productRouter);
 app.use('/authenticate',authenticateRouter);
 app.use('/review',reviewRouter);
+app.use('/visit',visitRouter);
 app.use(express.static(__dirname + '/public'));
 app.get('*', function (req, res) {
         res.sendFile(__dirname + '/public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
