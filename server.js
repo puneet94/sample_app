@@ -33,6 +33,7 @@ var adminRouter = require('./routes/adminRoute');
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
+app.set('port', process.env.PORT || 3000);
 app.set('views',__dirname+"/views");
 app.set('view engine',"jade");
 
@@ -60,7 +61,7 @@ app.get('*', function (req, res) {
         res.sendFile(__dirname + '/public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
 });
 mongoose.connect("mongodb://shop_dir:shop_dir@ds023912.mlab.com:23912/shoppins");
-app.listen(3000,function(){
+app.listen(app.get('port'),function(){
 	console.log("Listening");
 	console.log(__dirname);
 })
