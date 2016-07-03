@@ -10,7 +10,8 @@ angular.module('app.common')
 	.service('arrayObjectMapper',[ArrayObjectMapper])
 	.service('arrayUniqueCopy',[ArrayUniqueCopy])
 	.service('userLocationService',[UserLocationService])
-	.service('anchorSmoothScroll',[AnchorSmoothScroll]);
+	.service('anchorSmoothScroll',[AnchorSmoothScroll])
+	.service('baseUrlService',[AjaxURL]);
 	function CitiesService($http){
    		this.getCities = function() {
    			var gc = this;
@@ -82,10 +83,7 @@ angular.module('app.common')
 		}
 	}
 	function AjaxURL(){
-		this.port = 3000;
-		this.host = "localhost:";
-		this.protocol = "https:";
-		this.baseUrl = this.protocol+"//"+this.host+this.port+"/";
+		this.baseUrl = "http://localhost:3000/";
 
 		this.getStoresWithCatgeoryLocation = this.baseUrl + "store/storesCollection/category/";//:category/:location?";
 		this.getStoresWithNameLocation = this.baseUrl + "store/storesCollection/storeName/";

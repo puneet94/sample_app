@@ -194,7 +194,8 @@ angular.module('app.common')
 	.service('arrayObjectMapper',[ArrayObjectMapper])
 	.service('arrayUniqueCopy',[ArrayUniqueCopy])
 	.service('userLocationService',[UserLocationService])
-	.service('anchorSmoothScroll',[AnchorSmoothScroll]);
+	.service('anchorSmoothScroll',[AnchorSmoothScroll])
+	.service('baseUrlService',[AjaxURL]);
 	function CitiesService($http){
    		this.getCities = function() {
    			var gc = this;
@@ -266,10 +267,7 @@ angular.module('app.common')
 		}
 	}
 	function AjaxURL(){
-		this.port = 3000;
-		this.host = "localhost:";
-		this.protocol = "https:";
-		this.baseUrl = this.protocol+"//"+this.host+this.port+"/";
+		this.baseUrl = "http://localhost:3000/";
 
 		this.getStoresWithCatgeoryLocation = this.baseUrl + "store/storesCollection/category/";//:category/:location?";
 		this.getStoresWithNameLocation = this.baseUrl + "store/storesCollection/storeName/";
@@ -584,10 +582,10 @@ function AuthController($scope,changeBrowserURL,$auth,$window,$route,userData){
 angular.module('app.home')
 	.controller('HomeController',["$scope","citiesService","searchService","changeBrowserURL",homeController])
 
-	.controller('CategoryListController',["$scope","$http","getCategoryService","arrayUniqueCopy","arrayObjectMapper","userLocationService","changeBrowserURL",CategoryListController]);
+	.controller('CategoryListController',["$scope","$http","getCategoryService","arrayUniqueCopy","arrayObjectMapper","userLocationService","changeBrowserURL","baseUrlService",CategoryListController]);
 
 
-	function CategoryListController($scope,$http,getCategoryService,arrayUniqueCopy,arrayObjectMapper,userLocationService,changeBrowserURL){
+	function CategoryListController($scope,$http,getCategoryService,arrayUniqueCopy,arrayObjectMapper,userLocationService,changeBrowserURL,baseUrlService){
 		var clc = this;
 		clc.cateList = [];
 		clc.categLoadMore = false;
@@ -611,7 +609,7 @@ angular.module('app.home')
 			//getCategoryService.getCategoryList
 
 			clc.pageNo = clc.pageNo + 1;
-			var url = "http://localhost:3000/store/categories/"+""+clc.pageNo;
+			var url = baseUrlService.baseUrl+"store/categories/"+""+clc.pageNo;
 			$http.get(url)
 				.then(
 					function(response){
@@ -889,9 +887,9 @@ angular
  * Controller of the authModApp
  */
 angular.module('authModApp')
-  .controller('LoginController', ["$location","$auth","userData",LoginCtrl]);
+  .controller('LoginController', ["$location","$auth","userData","baseUrlService",LoginCtrl]);
 
-  function LoginCtrl($location,$auth,userData) {
+  function LoginCtrl($location,$auth,userData,baseUrlService) {
     var logCl = this;
     logCl.user = {};
     logCl.submitLogin = submitLogin;
@@ -1078,9 +1076,9 @@ angular.module('authModApp')
  * Factory in the authModApp.
  */
 angular.module('authModApp')
-  .factory('userData',['$window','$route','$auth','$http',userData]);
+  .factory('userData',['$window','$route','$auth','$http',"baseUrlService",userData]);
 
-  function userData($window,$route,$auth,$http) {
+  function userData($window,$route,$auth,$http,baseUrlService) {
     var storage = $window.localStorage;
     var cachedUser={};
     var obj1 =  {
@@ -1093,7 +1091,7 @@ angular.module('authModApp')
 
           var userId = $auth.getPayload().sub;
           if(userId){
-            $http.get('http://localhost:3000/authenticate/user/'+userId).then(function(res){
+            $http.get(baseUrlService.baseUrl+'authenticate/user/'+userId).then(function(res){
               console.log('without param');
               if(obj1.isUserExists()){
                   storage.removeItem('user');
@@ -1179,17 +1177,17 @@ angular.module('authModApp')
 (function(angular){
   'use strict';
   angular.module('app.review')
-      .service('reviewService',['$http','$routeParams',ReviewService]);
-      function ReviewService($http,$routeParams){
+      .service('reviewService',['$http','$routeParams','baseUrlService',ReviewService]);
+      function ReviewService($http,$routeParams,baseUrlService){
         var rs  = this;
         rs.submitStoreReview = submitStoreReview;
         rs.getStoreReviews = getStoreReviews;
         function submitStoreReview(review){
-          return $http.post('http://localhost:3000/review/reviews/store/'+review.storeId,review);
+          return $http.post(baseUrlService.baseUrl+'review/reviews/store/'+review.storeId,review);
         }
         function getStoreReviews(){
           var storeId = $routeParams.storeId;
-          return $http.get('http://localhost:3000/review/reviews/store/'+storeId);
+          return $http.get(baseUrlService.baseUrl+'review/reviews/store/'+storeId);
         }
 
       }
@@ -1241,10 +1239,10 @@ angular.module('app.store')
 (function(angular){
   angular.module('app.store')
 
-    .controller('StoreListController',["httpService","$routeParams","changeBrowserURL","$location",StoreListController]);
+    .controller('StoreListController',["httpService","$routeParams","changeBrowserURL","$location","baseUrlService",StoreListController]);
 
 
-    function StoreListController(httpService,$routeParams,changeBrowserURL,$location){
+    function StoreListController(httpService,$routeParams,changeBrowserURL,$location,baseUrlService){
       var slc = this;
       slc.pageNo = 0;
       slc.storesList = [];
@@ -1262,14 +1260,14 @@ angular.module('app.store')
         var url ='';
         if($location.absUrl().indexOf("/category/")!=-1){
           var category = $routeParams.category;
-           url = 'http://localhost:3000/store/storesCollection/category/'+category+'/'+location+'/'+slc.pageNo;
+           url = baseUrlService.baseUrl+'store/storesCollection/category/'+category+'/'+location+'/'+slc.pageNo;
         }
         else if($location.absUrl().indexOf("/storeName/")!=-1){
           var storeName = $routeParams.storeName;
-           url = 'http://localhost:3000/store/storesCollection/storeName/'+storeName+'/'+location+'/'+slc.pageNo;
+           url = baseUrlService.baseUrl+'store/storesCollection/storeName/'+storeName+'/'+location+'/'+slc.pageNo;
         }
         else{
-           url = 'http://localhost:3000/store/storesCollection/stores'+'/'+location+'/'+slc.pageNo;
+           url = baseUrlService.baseUrl+'store/storesCollection/stores'+'/'+location+'/'+slc.pageNo;
         }
 
         httpService.getService(url)
@@ -1416,16 +1414,16 @@ angular.module('app.store')
   *Service for getting a single store with its id
 */
 angular.module('app.store')
-  .service('getSingleStore',["$http","storeData",GetSingleStoreWithId]);
+  .service('getSingleStore',["$http","storeData","baseUrlService",GetSingleStoreWithId]);
 
 /*
   * This servic has a function names getStore which takes id as parameter and returns a promise
 */
-function GetSingleStoreWithId($http,storeData){
+function GetSingleStoreWithId($http,storeData,baseUrlService){
   this.getStore = getStore;
 
   function getStore(id){
-    return $http.get("http://localhost:3000/store/singleStore/"+id);
+    return $http.get(baseUrlService.baseUrl+"store/singleStore/"+id);
     // return $http.get("http://localhost:3000/store/singleStore/"+id).then(function(res){
     //   storeData.setStore(res.data);
     // });
@@ -1475,19 +1473,19 @@ function storeData($window) {
   *Service for getting a single store with its id
 */
 angular.module('app.store')
-  .service('userVisitService',["$http",UserVisitService]);
+  .service('userVisitService',["$http","baseUrlService",UserVisitService]);
 
 /*
   * This servic has a function names getStore which takes id as parameter and returns a promise
 */
-function UserVisitService($http){
+function UserVisitService($http,baseUrlService){
   this.submitVisit = submitVisit;
   this.deleteVisit = deleteVisit;
   function submitVisit(visitData){
-    return $http.post("http://localhost:3000/visit/visits/store",visitData);
+    return $http.post(baseUrlService.baseUrl+"visit/visits/store",visitData);
   }
   function deleteVisit(visitId){
-    return $http.delete("http://localhost:3000/visit/visits/"+visitId);
+    return $http.delete(baseUrlService.baseUrl+"visit/visits/"+visitId);
   }
 }
 })(window.angular);

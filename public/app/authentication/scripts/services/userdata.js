@@ -9,9 +9,9 @@
  * Factory in the authModApp.
  */
 angular.module('authModApp')
-  .factory('userData',['$window','$route','$auth','$http',userData]);
+  .factory('userData',['$window','$route','$auth','$http',"baseUrlService",userData]);
 
-  function userData($window,$route,$auth,$http) {
+  function userData($window,$route,$auth,$http,baseUrlService) {
     var storage = $window.localStorage;
     var cachedUser={};
     var obj1 =  {
@@ -24,7 +24,7 @@ angular.module('authModApp')
 
           var userId = $auth.getPayload().sub;
           if(userId){
-            $http.get('http://localhost:3000/authenticate/user/'+userId).then(function(res){
+            $http.get(baseUrlService.baseUrl+'authenticate/user/'+userId).then(function(res){
               console.log('without param');
               if(obj1.isUserExists()){
                   storage.removeItem('user');

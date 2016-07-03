@@ -1,10 +1,10 @@
 angular.module('app.home')
 	.controller('HomeController',["$scope","citiesService","searchService","changeBrowserURL",homeController])
 
-	.controller('CategoryListController',["$scope","$http","getCategoryService","arrayUniqueCopy","arrayObjectMapper","userLocationService","changeBrowserURL",CategoryListController]);
+	.controller('CategoryListController',["$scope","$http","getCategoryService","arrayUniqueCopy","arrayObjectMapper","userLocationService","changeBrowserURL","baseUrlService",CategoryListController]);
 
 
-	function CategoryListController($scope,$http,getCategoryService,arrayUniqueCopy,arrayObjectMapper,userLocationService,changeBrowserURL){
+	function CategoryListController($scope,$http,getCategoryService,arrayUniqueCopy,arrayObjectMapper,userLocationService,changeBrowserURL,baseUrlService){
 		var clc = this;
 		clc.cateList = [];
 		clc.categLoadMore = false;
@@ -28,7 +28,7 @@ angular.module('app.home')
 			//getCategoryService.getCategoryList
 
 			clc.pageNo = clc.pageNo + 1;
-			var url = "http://localhost:3000/store/categories/"+""+clc.pageNo;
+			var url = baseUrlService.baseUrl+"store/categories/"+""+clc.pageNo;
 			$http.get(url)
 				.then(
 					function(response){

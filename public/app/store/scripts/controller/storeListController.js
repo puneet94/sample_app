@@ -1,10 +1,10 @@
 (function(angular){
   angular.module('app.store')
 
-    .controller('StoreListController',["httpService","$routeParams","changeBrowserURL","$location",StoreListController]);
+    .controller('StoreListController',["httpService","$routeParams","changeBrowserURL","$location","baseUrlService",StoreListController]);
 
 
-    function StoreListController(httpService,$routeParams,changeBrowserURL,$location){
+    function StoreListController(httpService,$routeParams,changeBrowserURL,$location,baseUrlService){
       var slc = this;
       slc.pageNo = 0;
       slc.storesList = [];
@@ -22,14 +22,14 @@
         var url ='';
         if($location.absUrl().indexOf("/category/")!=-1){
           var category = $routeParams.category;
-           url = 'http://localhost:3000/store/storesCollection/category/'+category+'/'+location+'/'+slc.pageNo;
+           url = baseUrlService.baseUrl+'store/storesCollection/category/'+category+'/'+location+'/'+slc.pageNo;
         }
         else if($location.absUrl().indexOf("/storeName/")!=-1){
           var storeName = $routeParams.storeName;
-           url = 'http://localhost:3000/store/storesCollection/storeName/'+storeName+'/'+location+'/'+slc.pageNo;
+           url = baseUrlService.baseUrl+'store/storesCollection/storeName/'+storeName+'/'+location+'/'+slc.pageNo;
         }
         else{
-           url = 'http://localhost:3000/store/storesCollection/stores'+'/'+location+'/'+slc.pageNo;
+           url = baseUrlService.baseUrl+'store/storesCollection/stores'+'/'+location+'/'+slc.pageNo;
         }
 
         httpService.getService(url)

@@ -4,16 +4,16 @@
   *Service for getting a single store with its id
 */
 angular.module('app.store')
-  .service('getSingleStore',["$http","storeData",GetSingleStoreWithId]);
+  .service('getSingleStore',["$http","storeData","baseUrlService",GetSingleStoreWithId]);
 
 /*
   * This servic has a function names getStore which takes id as parameter and returns a promise
 */
-function GetSingleStoreWithId($http,storeData){
+function GetSingleStoreWithId($http,storeData,baseUrlService){
   this.getStore = getStore;
 
   function getStore(id){
-    return $http.get("http://localhost:3000/store/singleStore/"+id);
+    return $http.get(baseUrlService.baseUrl+"store/singleStore/"+id);
     // return $http.get("http://localhost:3000/store/singleStore/"+id).then(function(res){
     //   storeData.setStore(res.data);
     // });
