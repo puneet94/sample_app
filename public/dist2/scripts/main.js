@@ -482,8 +482,8 @@ angular
 
 
 angular.module('app.home')
-	.controller("AuthController",["$scope","changeBrowserURL","$auth","$window","userData",AuthController]);
-function AuthController($scope,changeBrowserURL,$auth,$window,userData){
+	.controller("AuthController",["$scope","changeBrowserURL","$auth","$window","$route","userData",AuthController]);
+function AuthController($scope,changeBrowserURL,$auth,$window,$route,userData){
 		var phc = this;
 		phc.toHomePage = toHomePage;
 		phc.authenticate = authenticate;
@@ -500,6 +500,7 @@ function AuthController($scope,changeBrowserURL,$auth,$window,userData){
 		function authenticate(provider) {
 	    	$auth.authenticate(provider).then(function(response) {
 					userData.setUser();
+					$route.reload();
 					//$window.location.reload();
 					//console.log(response);
           // $window.localStorage.currentUser = JSON.stringify(response.data.user);
@@ -849,7 +850,8 @@ angular
     'ngRoute',
     'satellizer'
   ])
-  .config(function ($routeProvider,$httpProvider,$authProvider) {
+  .config(["$routeProvider","$httpProvider","$authProvider",configFn]);
+  function configFn($routeProvider,$httpProvider,$authProvider) {
     $routeProvider
       .when('/signup',{
         templateUrl:'app/authentication/views/register.html',
@@ -873,7 +875,7 @@ angular
         redirectUri: 'http://localhost:3000/'
       });
       //$httpProvider.interceptors.push('authInterceptor');
-  });
+  }
 })(window.angular);
 
 (function(angular){
@@ -1076,32 +1078,38 @@ angular.module('authModApp')
  * Factory in the authModApp.
  */
 angular.module('authModApp')
-  .factory('userData',['$window','$auth','$http',userData]);
+  .factory('userData',['$window','$route','$auth','$http',userData]);
 
-  function userData($window,$auth,$http) {
+  function userData($window,$route,$auth,$http) {
     var storage = $window.localStorage;
     var cachedUser={};
     var obj1 =  {
       setUser: function (user) {
+        console.log("called me yo");
         if(user){
           storage.setItem('user',JSON.stringify(user));
-          //console.log(storage.getItem('user'));
-          $window.location.reload();
         }
         else{
-          //console.log('Inside for facebook auth')
+
           var userId = $auth.getPayload().sub;
           if(userId){
             $http.get('http://localhost:3000/authenticate/user/'+userId).then(function(res){
+              console.log('without param');
+              if(obj1.isUserExists()){
+                  storage.removeItem('user');
+              }
+
               storage.setItem('user',JSON.stringify(res.data.user));
-              //console.log('from storage ..............');
-              //console.log(storage.getItem('user'));
-              $window.location.reload();
+              //
+              //$route.reload();
+            //  $window.location.reload();
+
             },function(res){
               console.log(res);
             });
           }
         }
+        console.log(storage.getItem('user'));
 
       },
       getUser: function(){
@@ -1131,15 +1139,13 @@ angular.module('authModApp')
 (function(angular){
   'use strict';
   angular.module('app.review')
-      .controller('ReviewSubmitController',['$auth','$routeParams','userData','reviewService',ReviewSubmitController]);
-      function ReviewSubmitController($auth,$routeParams,userData,reviewService){
+      .controller('ReviewSubmitController',['$auth','$routeParams','$route','userData','reviewService',ReviewSubmitController]);
+      function ReviewSubmitController($auth,$routeParams,$route,userData,reviewService){
         var rsv  = this;
         rsv.review = {};
         rsv.user = {};
         rsv.review.storeId = $routeParams.storeId;
         rsv.ratingClick = ratingClick;
-
-
 
         if(userData.getUser()){
           rsv.review.userId = userData.getUser()._id;
@@ -1160,7 +1166,8 @@ angular.module('authModApp')
         function submitReview(){
           reviewService.submitStoreReview(rsv.review)
             .then(function(res){
-
+              userData.setUser();
+              $route.reload();
             },function(res){
 
             });
@@ -1192,12 +1199,12 @@ angular.module('authModApp')
   'use strict';
 angular.module('app.store')
 
-  .controller('SingleStoreController',["$scope",'$location','$anchorScroll',"$routeParams","anchorSmoothScroll","storeData","getSingleStore",SingleStoreController]);
-  function SingleStoreController($scope,$location,$anchorScroll,$routeParams,anchorSmoothScroll,storeData,getSingleStore){
+  .controller('SingleStoreController',["$scope","$auth",'$location','$anchorScroll',"$routeParams","anchorSmoothScroll","storeData","getSingleStore",SingleStoreController]);
+  function SingleStoreController($scope,$auth,$location,$anchorScroll,$routeParams,anchorSmoothScroll,storeData,getSingleStore){
     var ssc = this;
     ssc.storeData = {};
     ssc.flowToId = flowToId;
-
+    ssc.authCheck = $auth.isAuthenticated();
     getSingleStore.getStore($routeParams.storeId)
     .then(function(res){
       console.log('*******stores*****');
@@ -1349,20 +1356,22 @@ angular.module('app.store')
       activate();
 
       function userStoreVisited(storeData){
-        console.log(storeData);
-        console.log('inside visit check');
+        //userData.setUser();
+        console.log('**********visit function called****************');
         for (var storeId in storeData.visits) {
           var storeIdSingle = storeData.visits[storeId];
+          console.log(storeData.visits[storeId]);
           if (userData.getUser().visits.indexOf(storeIdSingle)!=-1) {
             usv.userStoreVisitId = storeIdSingle;
             usv.visitCheck = true;
+
           }
         }
       }
       function toggleVisitCheck(){
         console.log('inside togle');
         console.log(usv.visitCheck);
-      if(usv.visitCheck ){
+      if(usv.visitCheck){
           if(userData.getUser()){
             usv.visit.userId = userData.getUser()._id;
           }
@@ -1373,7 +1382,6 @@ angular.module('app.store')
             .then(function(res){
                     console.log(res);
                     userData.setUser();
-                    //$window.location.reload();
                   },
                   function(res){
                     console.log(res);
@@ -1394,6 +1402,7 @@ angular.module('app.store')
         }
       }
       function activate(){
+        userData.setUser();
         userStoreVisited(storeData.getStore());
       }
 

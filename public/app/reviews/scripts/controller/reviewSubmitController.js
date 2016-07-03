@@ -1,15 +1,13 @@
 (function(angular){
   'use strict';
   angular.module('app.review')
-      .controller('ReviewSubmitController',['$auth','$routeParams','userData','reviewService',ReviewSubmitController]);
-      function ReviewSubmitController($auth,$routeParams,userData,reviewService){
+      .controller('ReviewSubmitController',['$auth','$routeParams','$route','userData','reviewService',ReviewSubmitController]);
+      function ReviewSubmitController($auth,$routeParams,$route,userData,reviewService){
         var rsv  = this;
         rsv.review = {};
         rsv.user = {};
         rsv.review.storeId = $routeParams.storeId;
         rsv.ratingClick = ratingClick;
-
-
 
         if(userData.getUser()){
           rsv.review.userId = userData.getUser()._id;
@@ -30,7 +28,8 @@
         function submitReview(){
           reviewService.submitStoreReview(rsv.review)
             .then(function(res){
-
+              userData.setUser();
+              $route.reload();
             },function(res){
 
             });

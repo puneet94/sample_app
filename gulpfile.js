@@ -87,11 +87,6 @@ gulp.task('scripts', function(){
 });
 
 gulp.task('default', function(){
-  var date = new Date();
-var current_hour = date.getHours();
-console.log(current_hour);
-var current_minutes = date.getMinutes();
-console.log(current_minutes);
   gulp.watch("public/app/**/*.sass", ['styles']);
   gulp.watch("public/app/**/*.js", ['scripts']);
   gulp.watch("*.html");

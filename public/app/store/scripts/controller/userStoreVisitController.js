@@ -15,20 +15,22 @@
       activate();
 
       function userStoreVisited(storeData){
-        console.log(storeData);
-        console.log('inside visit check');
+        //userData.setUser();
+        console.log('**********visit function called****************');
         for (var storeId in storeData.visits) {
           var storeIdSingle = storeData.visits[storeId];
+          console.log(storeData.visits[storeId]);
           if (userData.getUser().visits.indexOf(storeIdSingle)!=-1) {
             usv.userStoreVisitId = storeIdSingle;
             usv.visitCheck = true;
+
           }
         }
       }
       function toggleVisitCheck(){
         console.log('inside togle');
         console.log(usv.visitCheck);
-      if(usv.visitCheck ){
+      if(usv.visitCheck){
           if(userData.getUser()){
             usv.visit.userId = userData.getUser()._id;
           }
@@ -39,7 +41,6 @@
             .then(function(res){
                     console.log(res);
                     userData.setUser();
-                    //$window.location.reload();
                   },
                   function(res){
                     console.log(res);
@@ -60,6 +61,7 @@
         }
       }
       function activate(){
+        userData.setUser();
         userStoreVisited(storeData.getStore());
       }
 

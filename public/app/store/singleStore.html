@@ -5,10 +5,11 @@
 <main flex>
   <div class="" layout="row" layout-xs="column" layout-sm="column">
     <div class="storeLeftPane" flex-sm="100" flex-xs="100" flex="70" >
+      <h1>{{ssc.storeData.name}}</h1>
       <div class="storeBannerImage" style='background-image:url("{{ssc.storeData.bannerImage}}")'>
 
       </div>
-      <div class="userInteractionNav" layout="row">
+      <div class="userInteractionNav" layout="row" ng-if="ssc.authCheck">
         <div class="" ng-controller="UserStoreVisitController as usv">
           <div class="userStoreVisitCheck">
             <input type="checkbox" name="userVisit"  ng-change="usv.toggleVisitCheck()" ng-model="usv.visitCheck" >Visited
@@ -42,7 +43,7 @@
       <div   class="" ng-include="'app/store/views/storeReviewList.html'">
 
       </div>
-      <div class="" ng-include="'app/reviews/views/storeReviewSubmit.html'">
+      <div class="" ng-include="'app/reviews/views/storeReviewSubmit.html'" ng-if="ssc.authCheck">
 
       </div>
     </div>

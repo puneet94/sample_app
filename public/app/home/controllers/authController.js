@@ -14,8 +14,8 @@
 
 
 angular.module('app.home')
-	.controller("AuthController",["$scope","changeBrowserURL","$auth","$window","userData",AuthController]);
-function AuthController($scope,changeBrowserURL,$auth,$window,userData){
+	.controller("AuthController",["$scope","changeBrowserURL","$auth","$window","$route","userData",AuthController]);
+function AuthController($scope,changeBrowserURL,$auth,$window,$route,userData){
 		var phc = this;
 		phc.toHomePage = toHomePage;
 		phc.authenticate = authenticate;
@@ -32,6 +32,7 @@ function AuthController($scope,changeBrowserURL,$auth,$window,userData){
 		function authenticate(provider) {
 	    	$auth.authenticate(provider).then(function(response) {
 					userData.setUser();
+					$route.reload();
 					//$window.location.reload();
 					//console.log(response);
           // $window.localStorage.currentUser = JSON.stringify(response.data.user);

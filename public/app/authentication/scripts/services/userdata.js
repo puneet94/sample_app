@@ -9,32 +9,38 @@
  * Factory in the authModApp.
  */
 angular.module('authModApp')
-  .factory('userData',['$window','$auth','$http',userData]);
+  .factory('userData',['$window','$route','$auth','$http',userData]);
 
-  function userData($window,$auth,$http) {
+  function userData($window,$route,$auth,$http) {
     var storage = $window.localStorage;
     var cachedUser={};
     var obj1 =  {
       setUser: function (user) {
+        console.log("called me yo");
         if(user){
           storage.setItem('user',JSON.stringify(user));
-          //console.log(storage.getItem('user'));
-          $window.location.reload();
         }
         else{
-          //console.log('Inside for facebook auth')
+
           var userId = $auth.getPayload().sub;
           if(userId){
             $http.get('http://localhost:3000/authenticate/user/'+userId).then(function(res){
+              console.log('without param');
+              if(obj1.isUserExists()){
+                  storage.removeItem('user');
+              }
+
               storage.setItem('user',JSON.stringify(res.data.user));
-              //console.log('from storage ..............');
-              //console.log(storage.getItem('user'));
-              $window.location.reload();
+              //
+              //$route.reload();
+            //  $window.location.reload();
+
             },function(res){
               console.log(res);
             });
           }
         }
+        console.log(storage.getItem('user'));
 
       },
       getUser: function(){

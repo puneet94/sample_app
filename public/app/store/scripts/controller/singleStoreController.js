@@ -2,12 +2,12 @@
   'use strict';
 angular.module('app.store')
 
-  .controller('SingleStoreController',["$scope",'$location','$anchorScroll',"$routeParams","anchorSmoothScroll","storeData","getSingleStore",SingleStoreController]);
-  function SingleStoreController($scope,$location,$anchorScroll,$routeParams,anchorSmoothScroll,storeData,getSingleStore){
+  .controller('SingleStoreController',["$scope","$auth",'$location','$anchorScroll',"$routeParams","anchorSmoothScroll","storeData","getSingleStore",SingleStoreController]);
+  function SingleStoreController($scope,$auth,$location,$anchorScroll,$routeParams,anchorSmoothScroll,storeData,getSingleStore){
     var ssc = this;
     ssc.storeData = {};
     ssc.flowToId = flowToId;
-
+    ssc.authCheck = $auth.isAuthenticated();
     getSingleStore.getStore($routeParams.storeId)
     .then(function(res){
       console.log('*******stores*****');
