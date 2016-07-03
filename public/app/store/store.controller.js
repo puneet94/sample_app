@@ -1,6 +1,6 @@
 angular.module('app.store')
-  .controller('StoreController',storeController)
-  .controller('StoreListController',["httpService","$routeParams","changeBrowserURL","$location",storeListController])
+  .controller('StoreController',["baseUrlService","$http",storeController])
+  .controller('StoreListController',["httpService","$routeParams","changeBrowserURL","$location","baseUrlService",storeListController])
   .controller('StoreNameCollectionController',[storeNameCollectionController])
   .controller('StoreCategoryCollectionController',["$location",storeCategoryCollectionController]);
   function storeNameCollectionController(){
@@ -10,7 +10,7 @@ angular.module('app.store')
     console.log($location.absUrl());
   }
 
-  function storeListController(httpService,$routeParams,changeBrowserURL,$location){
+  function storeListController(httpService,$routeParams,changeBrowserURL,$location,baseUrlService){
     var slc = this;
     slc.pageNo = 0;
     slc.storesList = [];
@@ -28,14 +28,14 @@ angular.module('app.store')
       var url ='';
       if($location.absUrl().indexOf("/category/")!=-1){
         var category = $routeParams.category;
-         url = 'http://localhost:3000/store/storesCollection/category/'+category+'/'+location+'/'+slc.pageNo;
+         url = baseUrlService.baseUrl+'store/storesCollection/category/'+category+'/'+location+'/'+slc.pageNo;
       }
       else if($location.absUrl().indexOf("/storeName/")!=-1){
         var storeName = $routeParams.storeName;
-         url = 'http://localhost:3000/store/storesCollection/storeName/'+storeName+'/'+location+'/'+slc.pageNo;
+         url = baseUrlService.baseUrl+'store/storesCollection/storeName/'+storeName+'/'+location+'/'+slc.pageNo;
       }
       else{
-         url = 'http://localhost:3000/store/storesCollection/stores'+'/'+location+'/'+slc.pageNo;
+         url = baseUrlService.baseUrl+'store/storesCollection/stores'+'/'+location+'/'+slc.pageNo;
       }
 
       httpService.getService(url)
@@ -53,7 +53,7 @@ angular.module('app.store')
     }
 
   }
-  function storeController($http){
+  function storeController(baseUrlService,$http){
     var sm = this;
     console.log("store controller");
     sm.address = {};
@@ -69,7 +69,7 @@ angular.module('app.store')
           'Content-Type': 'application/json'
       }
     };
-    $http.post("http://localhost:3000/store/store", data, config)
+    $http.post(baseUrlService.baseUrl+"store/store", data, config)
       .then(
         function(response){
           console.log(response);

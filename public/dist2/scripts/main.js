@@ -77,13 +77,13 @@ angular
         controller: 'LoginController',
         controllerAs: 'login'
       });
-      $authProvider.loginUrl = "http://localhost:3000/authenticate/login";
-      $authProvider.signupUrl = "http://localhost:3000/authenticate/signup";
+      $authProvider.loginUrl = "http://shoppinss.herokuapp.com/authenticate/login";
+      $authProvider.signupUrl = "http://shoppinss.herokuapp.com/authenticate/signup";
 
       $authProvider.facebook({
         clientId: '1068203956594250',
-        url:'http://localhost:3000/authenticate/auth/facebook',
-        redirectUri: 'http://localhost:3000/'
+        url:'http://shoppinss.herokuapp.com/authenticate/auth/facebook',
+        redirectUri: 'http://shoppinss.herokuapp.com/'
       });
       //$httpProvider.interceptors.push('authInterceptor');
   }
@@ -185,9 +185,9 @@ angular.module('app.common',[]);
 (function(angular){
 'use strict';
 angular.module('app.common')
-	.service('citiesService', ["$http",CitiesService])
+	.service('citiesService', ["$http","baseUrlService",CitiesService])
 	.service('getCategoryService',[function(){}])
-	.service('searchService', ["$http",SearchService])
+	.service('searchService', ["baseUrlService","$http",SearchService])
 	.service('httpService', ["$http",HttpService])
 	.service('sortService',[SortService])
 	.service('changeBrowserURL', ["$location",ChangeBrowserURL])
@@ -196,21 +196,21 @@ angular.module('app.common')
 	.service('userLocationService',[UserLocationService])
 	.service('anchorSmoothScroll',[AnchorSmoothScroll])
 	.service('baseUrlService',[AjaxURL]);
-	function CitiesService($http){
+	function CitiesService($http,baseUrlService){
    		this.getCities = function() {
    			var gc = this;
    			gc.cityData  = undefined;
-      		gc.cityData = $http.get("http://localhost:3000/store/cities");
+      		gc.cityData = $http.get(baseUrlService.baseUrl+"store/cities");
 			return  gc.cityData;
 		};
 	}
-	function SearchService($http){
+	function SearchService(baseUrlService,$http){
    		this.getSearches = function(userLocation) {
    			console.log("inside http");
    			console.log(userLocation);
    			var gs = this;
    			gs.searchesData  = undefined;
-   			var url = "http://localhost:3000/search/searches/"+userLocation;
+   			var url = baseUrlService.baseUrl+"search/searches/"+userLocation;
       		gs.searchesData = $http.get(url);
 			return  gs.searchesData;
 		};
@@ -267,7 +267,7 @@ angular.module('app.common')
 		}
 	}
 	function AjaxURL(){
-		this.baseUrl = "http://localhost:3000/";
+		this.baseUrl = "http://shoppinss.herokuapp.com/";
 
 		this.getStoresWithCatgeoryLocation = this.baseUrl + "store/storesCollection/category/";//:category/:location?";
 		this.getStoresWithNameLocation = this.baseUrl + "store/storesCollection/storeName/";
@@ -338,8 +338,8 @@ angular.module('app.common')
 })(window.angular);
 
 angular.module('app.store')
-  .controller('StoreController',storeController)
-  .controller('StoreListController',["httpService","$routeParams","changeBrowserURL","$location",storeListController])
+  .controller('StoreController',["baseUrlService","$http",storeController])
+  .controller('StoreListController',["httpService","$routeParams","changeBrowserURL","$location","baseUrlService",storeListController])
   .controller('StoreNameCollectionController',[storeNameCollectionController])
   .controller('StoreCategoryCollectionController',["$location",storeCategoryCollectionController]);
   function storeNameCollectionController(){
@@ -349,7 +349,7 @@ angular.module('app.store')
     console.log($location.absUrl());
   }
 
-  function storeListController(httpService,$routeParams,changeBrowserURL,$location){
+  function storeListController(httpService,$routeParams,changeBrowserURL,$location,baseUrlService){
     var slc = this;
     slc.pageNo = 0;
     slc.storesList = [];
@@ -367,14 +367,14 @@ angular.module('app.store')
       var url ='';
       if($location.absUrl().indexOf("/category/")!=-1){
         var category = $routeParams.category;
-         url = 'http://localhost:3000/store/storesCollection/category/'+category+'/'+location+'/'+slc.pageNo;
+         url = baseUrlService.baseUrl+'store/storesCollection/category/'+category+'/'+location+'/'+slc.pageNo;
       }
       else if($location.absUrl().indexOf("/storeName/")!=-1){
         var storeName = $routeParams.storeName;
-         url = 'http://localhost:3000/store/storesCollection/storeName/'+storeName+'/'+location+'/'+slc.pageNo;
+         url = baseUrlService.baseUrl+'store/storesCollection/storeName/'+storeName+'/'+location+'/'+slc.pageNo;
       }
       else{
-         url = 'http://localhost:3000/store/storesCollection/stores'+'/'+location+'/'+slc.pageNo;
+         url = baseUrlService.baseUrl+'store/storesCollection/stores'+'/'+location+'/'+slc.pageNo;
       }
 
       httpService.getService(url)
@@ -392,7 +392,7 @@ angular.module('app.store')
     }
 
   }
-  function storeController($http){
+  function storeController(baseUrlService,$http){
     var sm = this;
     console.log("store controller");
     sm.address = {};
@@ -408,7 +408,7 @@ angular.module('app.store')
           'Content-Type': 'application/json'
       }
     };
-    $http.post("http://localhost:3000/store/store", data, config)
+    $http.post(baseUrlService.baseUrl+"store/store", data, config)
       .then(
         function(response){
           console.log(response);
@@ -419,50 +419,6 @@ angular.module('app.store')
       );
     };
   }
-
-(function(angular){
-'use strict';
-
-/**
- * @ngdoc overview
- * @name authModApp
- * @description
- * # authModApp
- *
- * Main module of the application.
- */
-angular
-  .module('authModApp', [
-    'ngCookies',
-    'ngRoute',
-    'satellizer'
-  ])
-  .config(function ($routeProvider,$httpProvider,$authProvider) {
-    $routeProvider
-      .when('/signup',{
-        templateUrl:'app/authentication/views/register.html',
-        controller: 'RegisterCtrl',
-        controllerAs: 'rcl'
-      })
-      .when('/logout',{
-        controller: 'LogoutCtrl'
-      })
-      .when('/login', {
-        templateUrl: 'app/authentication/views/login.html',
-        controller: 'LoginController',
-        controllerAs: 'login'
-      });
-      $authProvider.loginUrl = "http://localhost:3000/authenticate/login";
-      $authProvider.signupUrl = "http://localhost:3000/authenticate/signup";
-
-      $authProvider.facebook({
-        clientId: '1068203956594250',
-        url:'http://localhost:3000/authenticate/auth/facebook',
-        redirectUri: 'http://localhost:3000/'
-      });
-      //$httpProvider.interceptors.push('authInterceptor');
-  });
-})(window.angular);
 
 (function(angular){
 	angular.module('app.home',[])
@@ -780,28 +736,6 @@ function SearchBoxController($scope,citiesService,searchService,changeBrowserURL
   angular.module('app.review',[]);
 })(window.angular);
 
-angular.module('app.store',[]).config(['$routeProvider',
-  function($routeProvider) {
-    $routeProvider.
-      when('/store', {
-        templateUrl: 'app/store/storePost.html',
-        controller: 'StoreController',
-        controllerAs: 'sm'
-      }).when('/store/storesCollection/storeName/:storeName/:location/:slug?', {
-        templateUrl: 'app/store/storesNameCollection.html',
-        controller: 'StoreNameCollectionController',
-        controllerAs: 'sncc'
-      }).when('/store/storesCollection/category/:category/:location/:slug?', {
-        templateUrl: 'app/store/storesCategoryCollection.html',
-        controller: 'StoreCategoryCollectionController',
-        controllerAs: 'sccc'
-      }).when('/store/singleStore/:storeId/:myslug?/', {
-        templateUrl: 'app/store/singleStore.html',
-        controller: 'SingleStoreController',
-        controllerAs: 'ssc'
-      });
-  }]);
-
 
 // 'use strict';
 //
@@ -864,13 +798,13 @@ angular
         controller: 'LoginController',
         controllerAs: 'login'
       });
-      $authProvider.loginUrl = "http://localhost:3000/authenticate/login";
-      $authProvider.signupUrl = "http://localhost:3000/authenticate/signup";
+      $authProvider.loginUrl = "http://shoppinss.herokuapp.com/authenticate/login";
+      $authProvider.signupUrl = "http://shoppinss.herokuapp.com/authenticate/signup";
 
       $authProvider.facebook({
         clientId: '1068203956594250',
-        url:'http://localhost:3000/authenticate/auth/facebook',
-        redirectUri: 'http://localhost:3000/'
+        url:'http://shoppinss.herokuapp.com/authenticate/auth/facebook',
+        redirectUri: 'http://shoppinss.herokuapp.com/'
       });
       //$httpProvider.interceptors.push('authInterceptor');
   }
@@ -1032,39 +966,6 @@ angular.module('authModApp')
 //     }
 //   }
 
-
-
-/**
- * @ngdoc directive
- * @name authModApp.directive:sameAs
- * @description
- * # sameAs
- */
- (function(angular){
- 'use strict';
-	angular.module('authModApp')
-		.directive('sameAs', function () {
-			return {
-				require: 'ngModel',
-				restrict: 'EA',
-				link: function postLink(scope, element, attrs,ngModelCtrl) {
-					console.log(scope.$eval(attrs.sameAs));
-					function validateEqual(value){
-						var valid = (value === scope.$eval(attrs.sameAs));
-						ngModelCtrl.$setValidity('equal',valid);
-						return valid ? value : undefined;
-					}
-					ngModelCtrl.$parsers.push(validateEqual);
-					ngModelCtrl.$formatters.push(validateEqual);
-					scope.$watch(attrs.sameAs,function(){
-						ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
-					});
-				}
-			};
-		});
-
-})(window.angular);
-
 (function(angular){
 'use strict';
 
@@ -1132,6 +1033,39 @@ angular.module('authModApp')
     };
     return obj1;
   }
+})(window.angular);
+
+
+
+/**
+ * @ngdoc directive
+ * @name authModApp.directive:sameAs
+ * @description
+ * # sameAs
+ */
+ (function(angular){
+ 'use strict';
+	angular.module('authModApp')
+		.directive('sameAs', function () {
+			return {
+				require: 'ngModel',
+				restrict: 'EA',
+				link: function postLink(scope, element, attrs,ngModelCtrl) {
+					console.log(scope.$eval(attrs.sameAs));
+					function validateEqual(value){
+						var valid = (value === scope.$eval(attrs.sameAs));
+						ngModelCtrl.$setValidity('equal',valid);
+						return valid ? value : undefined;
+					}
+					ngModelCtrl.$parsers.push(validateEqual);
+					ngModelCtrl.$formatters.push(validateEqual);
+					scope.$watch(attrs.sameAs,function(){
+						ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
+					});
+				}
+			};
+		});
+
 })(window.angular);
 
 (function(angular){
@@ -1424,7 +1358,7 @@ function GetSingleStoreWithId($http,storeData,baseUrlService){
 
   function getStore(id){
     return $http.get(baseUrlService.baseUrl+"store/singleStore/"+id);
-    // return $http.get("http://localhost:3000/store/singleStore/"+id).then(function(res){
+    // return $http.get("http://shoppinss.herokuapp.com/store/singleStore/"+id).then(function(res){
     //   storeData.setStore(res.data);
     // });
   }

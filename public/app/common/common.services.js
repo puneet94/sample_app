@@ -1,9 +1,9 @@
 (function(angular){
 'use strict';
 angular.module('app.common')
-	.service('citiesService', ["$http",CitiesService])
+	.service('citiesService', ["$http","baseUrlService",CitiesService])
 	.service('getCategoryService',[function(){}])
-	.service('searchService', ["$http",SearchService])
+	.service('searchService', ["baseUrlService","$http",SearchService])
 	.service('httpService', ["$http",HttpService])
 	.service('sortService',[SortService])
 	.service('changeBrowserURL', ["$location",ChangeBrowserURL])
@@ -12,21 +12,21 @@ angular.module('app.common')
 	.service('userLocationService',[UserLocationService])
 	.service('anchorSmoothScroll',[AnchorSmoothScroll])
 	.service('baseUrlService',[AjaxURL]);
-	function CitiesService($http){
+	function CitiesService($http,baseUrlService){
    		this.getCities = function() {
    			var gc = this;
    			gc.cityData  = undefined;
-      		gc.cityData = $http.get("http://localhost:3000/store/cities");
+      		gc.cityData = $http.get(baseUrlService.baseUrl+"store/cities");
 			return  gc.cityData;
 		};
 	}
-	function SearchService($http){
+	function SearchService(baseUrlService,$http){
    		this.getSearches = function(userLocation) {
    			console.log("inside http");
    			console.log(userLocation);
    			var gs = this;
    			gs.searchesData  = undefined;
-   			var url = "http://localhost:3000/search/searches/"+userLocation;
+   			var url = baseUrlService.baseUrl+"search/searches/"+userLocation;
       		gs.searchesData = $http.get(url);
 			return  gs.searchesData;
 		};
