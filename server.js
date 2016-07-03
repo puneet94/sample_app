@@ -18,8 +18,7 @@ var app = express();
 var facebookAuth  = require('./services/facebookAuth.js');
 var createJWT = require('./services/jwtService.js');
 
-//var UserSearch = require('./models/user_search');
-//var Store = require('./models/storeModel');
+
 
 var storeRouter = require('./routes/store');
 var searchRouter = require('./routes/searchRoute');
@@ -27,7 +26,7 @@ var productRouter = require('./routes/productRoute');
 var authenticateRouter = require('./routes/authenticateRoute');
 var reviewRouter = require('./routes/reviewRoute');
 var visitRouter = require('./routes/visitRoute');
-
+var adminRouter = require('./routes/adminRoute');
 
 
 //Middleware from built-in methods
@@ -52,7 +51,11 @@ app.use('/product',productRouter);
 app.use('/authenticate',authenticateRouter);
 app.use('/review',reviewRouter);
 app.use('/visit',visitRouter);
+app.use('/admin',adminRouter);
 app.use(express.static(__dirname + '/public'));
+/*app.get('/admin', function (req, res) {
+        res.send('admin'); // load the single view file (angular will handle the page changes on the front-end)
+});*/
 app.get('*', function (req, res) {
         res.sendFile(__dirname + '/public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
 });

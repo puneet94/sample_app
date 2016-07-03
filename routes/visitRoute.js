@@ -15,6 +15,21 @@ visitRouter.use(function(req,res,next){
 });
 
 /*finding the reviews of a particular store using the store id*/
+visitRouter.route('/visits/:visitId')
+.delete(function(req,res){
+  var visitId = req.params.visitId;
+	Visit.findOne({'_id':visitId})
+				.exec(function(err, visit) {
+						if(err){
+						res.send(err);
+					}
+					else{
+						visit.remove(function (err) {
+        			res.send('removed viit');
+    				});
+					}
+				});
+});
 visitRouter.route('/visits/store/')
 .get(function(req,res){
   var storeId = req.body.storeId;
@@ -28,7 +43,7 @@ visitRouter.route('/visits/store/')
 						res.send(err);
 					}
 					else{
-						console.log(result);
+
 						res.json(result);
 					}
 				});
@@ -36,7 +51,7 @@ visitRouter.route('/visits/store/')
 .post(commons.ensureAuthenticated,function(req,res){
   var visit = new Visit();
   var recData = req.body;
-	console.log(recData);
+
   visit.user=recData.userId;
   visit.store = mongoose.Types.ObjectId(recData.storeId);
 
@@ -70,7 +85,7 @@ visitRouter.route('/visits/user/')
 						res.send(err);
 					}
 					else{
-						console.log(result);
+
 						res.json(result);
 					}
 				});

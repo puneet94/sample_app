@@ -23,7 +23,7 @@ reviewRouter.route('/reviews')
 			if(err){
 				res.send(err);
 			}
-			console.log("hello");
+
 			res.json(reviews);
 			//res.render("stores",{"stores":stores});
 		})
@@ -41,7 +41,7 @@ reviewRouter.route('/reviews/store/:storeId')
 						res.send(err);
 					}
 					else{
-						console.log(result);
+
 						res.json(result);
 					}
 				});
@@ -62,12 +62,12 @@ reviewRouter.route('/reviews/store/:storeId')
 .post(commons.ensureAuthenticated,function(req,res){
   var review = new Review();
   var recData = req.body;
-	console.log(recData);
+
   review.description=recData.description;
   review.user=recData.userId;
   review.store = mongoose.Types.ObjectId(req.params.storeId);
 	review.rating = recData.rating;
-  console.log(typeof(req.params.storeId));
+
 
 
   review.save(function(err){

@@ -22,10 +22,7 @@ function AuthController($scope,changeBrowserURL,$auth,$window,userData){
 		phc.authLogout = authLogout;
 		phc.loginPage = loginPage;
 		phc.isAuth = $auth.isAuthenticated();
-		console.log('*****payload*****');
-		console.log($auth.getPayload());
-		console.log('*****payload*****');
-		console.log("header is"+$auth.isAuthenticated());
+
 		function toHomePage(){
 			changeBrowserURL.changeBrowserURLMethod('/');
 		}

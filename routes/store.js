@@ -39,13 +39,12 @@ storeRouter.route('/store')
 storeRouter.route('/cities')
 	.get(function(req,res){
 		UserSearch.find(function(err,cities){
-			console.log("yo");
+
 			if(err){
 				console.log(err);
 				res.send(err);
 			}
-			console.log("cities route yo");
-			console.log(cities);
+
 			res.json(cities);
 			//res.render("stores",{"stores":stores});
 		}).select({ "location": 1, "_id": 0});
@@ -59,7 +58,7 @@ storeRouter.route('/storesCollection/stores/:location/:pageNo')
 				res.send(err);
 			}
 			else{
-				console.log(result);
+
 				res.json(result);
 			}
 		});
@@ -96,7 +95,7 @@ storeRouter.route('/storesCollection/storeName/:storeName/:location/:pageNo')
 				res.send(err);
 			}
 			else{
-				console.log(result);
+
 				res.json(result);
 			}
 		});
@@ -110,7 +109,7 @@ storeRouter.route('/storesCollection/category/:category/:location/:pageNo')
 				res.send(err);
 			}
 			else{
-				console.log(result);
+
 				res.json(result);
 			}
 		});
@@ -131,7 +130,7 @@ storeRouter.route('/categories/:pageNo')
 		    // result.limit - 10
 		    // result.page - 3
 		    // result.pages
-				console.log(result);
+
 				res.json(result);
 			}
 		});

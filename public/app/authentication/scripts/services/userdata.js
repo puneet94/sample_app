@@ -19,6 +19,7 @@ angular.module('authModApp')
         if(user){
           storage.setItem('user',JSON.stringify(user));
           //console.log(storage.getItem('user'));
+          $window.location.reload();
         }
         else{
           //console.log('Inside for facebook auth')
@@ -28,11 +29,13 @@ angular.module('authModApp')
               storage.setItem('user',JSON.stringify(res.data.user));
               //console.log('from storage ..............');
               //console.log(storage.getItem('user'));
+              $window.location.reload();
             },function(res){
               console.log(res);
             });
           }
         }
+
       },
       getUser: function(){
 

@@ -17,10 +17,9 @@ searchRouter.route('/searches/:location_name')
 				console.log(err);
 				res.send(err);
 			}
-			console.log("location searches");
-			console.log(searches);
+
 			res.json(searches);
 		})
 	});
-	
+
 module.exports = searchRouter;

@@ -1,39 +1,67 @@
 (function(angular){
   angular.module('app.store')
 
-    .controller('UserStoreVisitController',["$scope","$auth","$routeParams","userData","userVisitService",UserStoreVisitController]);
+    .controller('UserStoreVisitController',["$scope","$window","$auth","$routeParams","userData","storeData","userVisitService",UserStoreVisitController]);
 
-    function UserStoreVisitController($scope,$auth,$routeParams,userData,userVisitService){
+    function UserStoreVisitController($scope,$window,$auth,$routeParams,userData,storeData,userVisitService){
       var usv = this;
       usv.visit = {};
+      usv.visitCheck = false;
+      console.log('checking store data inside controller');
+      console.log(userData.getUser());
       usv.toggleVisitCheck = toggleVisitCheck;
       usv.visit.storeId = $routeParams.storeId;
       usv.userStoreVisited = userStoreVisited;
-      console.log('*****user from visit*****');
-      console.log(userData.getUser());
+      activate();
+
       function userStoreVisited(storeData){
+        console.log(storeData);
         console.log('inside visit check');
         for (var storeId in storeData.visits) {
           var storeIdSingle = storeData.visits[storeId];
           if (userData.getUser().visits.indexOf(storeIdSingle)!=-1) {
-            console.log('yes');
-            return true;
+            usv.userStoreVisitId = storeIdSingle;
+            usv.visitCheck = true;
           }
         }
-        return false;
       }
       function toggleVisitCheck(){
-        if(usv.visitCheck === 'visited'){
+        console.log('inside togle');
+        console.log(usv.visitCheck);
+      if(usv.visitCheck ){
           if(userData.getUser()){
             usv.visit.userId = userData.getUser()._id;
           }
           else{
             usv.visit.userId = $auth.getPayload().sub;
           }
-          userVisitService.submitVisit(usv.visit).then(function(res){console.log(res);},function(res){console.log(res);});
+          userVisitService.submitVisit(usv.visit)
+            .then(function(res){
+                    console.log(res);
+                    userData.setUser();
+                    //$window.location.reload();
+                  },
+                  function(res){
+                    console.log(res);
+                  });
+        }
+        else {
+          console.log('inside delte visit');
+          userVisitService.deleteVisit(usv.userStoreVisitId)
+            .then(function(res){
+              console.log(res);
+              userData.setUser();
+              //$window.location.reload();
+            },
+              function(res)
+              {
+                console.log(res);
+              });
         }
       }
-
+      function activate(){
+        userStoreVisited(storeData.getStore());
+      }
 
     }
 

@@ -490,10 +490,7 @@ function AuthController($scope,changeBrowserURL,$auth,$window,userData){
 		phc.authLogout = authLogout;
 		phc.loginPage = loginPage;
 		phc.isAuth = $auth.isAuthenticated();
-		console.log('*****payload*****');
-		console.log($auth.getPayload());
-		console.log('*****payload*****');
-		console.log("header is"+$auth.isAuthenticated());
+
 		function toHomePage(){
 			changeBrowserURL.changeBrowserURLMethod('/');
 		}
@@ -1035,66 +1032,6 @@ angular.module('authModApp')
 //     }
 //   }
 
-(function(angular){
-'use strict';
-
-/**
- * @ngdoc service
- * @name authModApp.userData
- * @description
- * # userData
- * Factory in the authModApp.
- */
-angular.module('authModApp')
-  .factory('userData',['$window','$auth','$http',userData]);
-
-  function userData($window,$auth,$http) {
-    var storage = $window.localStorage;
-    var cachedUser={};
-    var obj1 =  {
-      setUser: function (user) {
-        if(user){
-          storage.setItem('user',JSON.stringify(user));
-          //console.log(storage.getItem('user'));
-        }
-        else{
-          //console.log('Inside for facebook auth')
-          var userId = $auth.getPayload().sub;
-          if(userId){
-            $http.get('http://localhost:3000/authenticate/user/'+userId).then(function(res){
-              storage.setItem('user',JSON.stringify(res.data.user));
-              //console.log('from storage ..............');
-              //console.log(storage.getItem('user'));
-            },function(res){
-              console.log(res);
-            });
-          }
-        }
-      },
-      getUser: function(){
-
-        return JSON.parse(storage.getItem('user'));
-      //   if(!cachedUser){
-      //     cachedUser = storage.getItem('user');
-      //   }
-      // return cachedUser;
-      },
-      removeUser: function(){
-        cachedUser = null;
-        //console.log('***********logged out*************');
-        storage.removeItem('user');
-      },
-      isUserExists: function(){
-        if(obj1.getUser()){
-          return true;
-        }
-        return false;
-      }
-    };
-    return obj1;
-  }
-})(window.angular);
-
 
 
 /**
@@ -1126,6 +1063,69 @@ angular.module('authModApp')
 			};
 		});
 
+})(window.angular);
+
+(function(angular){
+'use strict';
+
+/**
+ * @ngdoc service
+ * @name authModApp.userData
+ * @description
+ * # userData
+ * Factory in the authModApp.
+ */
+angular.module('authModApp')
+  .factory('userData',['$window','$auth','$http',userData]);
+
+  function userData($window,$auth,$http) {
+    var storage = $window.localStorage;
+    var cachedUser={};
+    var obj1 =  {
+      setUser: function (user) {
+        if(user){
+          storage.setItem('user',JSON.stringify(user));
+          //console.log(storage.getItem('user'));
+          $window.location.reload();
+        }
+        else{
+          //console.log('Inside for facebook auth')
+          var userId = $auth.getPayload().sub;
+          if(userId){
+            $http.get('http://localhost:3000/authenticate/user/'+userId).then(function(res){
+              storage.setItem('user',JSON.stringify(res.data.user));
+              //console.log('from storage ..............');
+              //console.log(storage.getItem('user'));
+              $window.location.reload();
+            },function(res){
+              console.log(res);
+            });
+          }
+        }
+
+      },
+      getUser: function(){
+
+        return JSON.parse(storage.getItem('user'));
+      //   if(!cachedUser){
+      //     cachedUser = storage.getItem('user');
+      //   }
+      // return cachedUser;
+      },
+      removeUser: function(){
+        cachedUser = null;
+        //console.log('***********logged out*************');
+        storage.removeItem('user');
+      },
+      isUserExists: function(){
+        if(obj1.getUser()){
+          return true;
+        }
+        return false;
+      }
+    };
+    return obj1;
+  }
 })(window.angular);
 
 (function(angular){
@@ -1192,16 +1192,19 @@ angular.module('authModApp')
   'use strict';
 angular.module('app.store')
 
-  .controller('SingleStoreController',["$scope",'$location','$anchorScroll',"$routeParams","anchorSmoothScroll","getSingleStore",SingleStoreController]);
-  function SingleStoreController($scope,$location,$anchorScroll,$routeParams,anchorSmoothScroll,getSingleStore){
+  .controller('SingleStoreController',["$scope",'$location','$anchorScroll',"$routeParams","anchorSmoothScroll","storeData","getSingleStore",SingleStoreController]);
+  function SingleStoreController($scope,$location,$anchorScroll,$routeParams,anchorSmoothScroll,storeData,getSingleStore){
     var ssc = this;
     ssc.storeData = {};
     ssc.flowToId = flowToId;
 
     getSingleStore.getStore($routeParams.storeId)
     .then(function(res){
+      console.log('*******stores*****');
+      console.log(res);
+      storeData.setStore(res.data);
         ssc.storeData = res.data;
-        console.log('*******stores*****');
+
         console.log(ssc.storeData);
       });
       if($location.search().flowto!==undefined){
@@ -1332,39 +1335,67 @@ angular.module('app.store')
 (function(angular){
   angular.module('app.store')
 
-    .controller('UserStoreVisitController',["$scope","$auth","$routeParams","userData","userVisitService",UserStoreVisitController]);
+    .controller('UserStoreVisitController',["$scope","$window","$auth","$routeParams","userData","storeData","userVisitService",UserStoreVisitController]);
 
-    function UserStoreVisitController($scope,$auth,$routeParams,userData,userVisitService){
+    function UserStoreVisitController($scope,$window,$auth,$routeParams,userData,storeData,userVisitService){
       var usv = this;
       usv.visit = {};
+      usv.visitCheck = false;
+      console.log('checking store data inside controller');
+      console.log(userData.getUser());
       usv.toggleVisitCheck = toggleVisitCheck;
       usv.visit.storeId = $routeParams.storeId;
       usv.userStoreVisited = userStoreVisited;
-      console.log('*****user from visit*****');
-      console.log(userData.getUser());
+      activate();
+
       function userStoreVisited(storeData){
+        console.log(storeData);
         console.log('inside visit check');
         for (var storeId in storeData.visits) {
           var storeIdSingle = storeData.visits[storeId];
           if (userData.getUser().visits.indexOf(storeIdSingle)!=-1) {
-            console.log('yes');
-            return true;
+            usv.userStoreVisitId = storeIdSingle;
+            usv.visitCheck = true;
           }
         }
-        return false;
       }
       function toggleVisitCheck(){
-        if(usv.visitCheck === 'visited'){
+        console.log('inside togle');
+        console.log(usv.visitCheck);
+      if(usv.visitCheck ){
           if(userData.getUser()){
             usv.visit.userId = userData.getUser()._id;
           }
           else{
             usv.visit.userId = $auth.getPayload().sub;
           }
-          userVisitService.submitVisit(usv.visit).then(function(res){console.log(res);},function(res){console.log(res);});
+          userVisitService.submitVisit(usv.visit)
+            .then(function(res){
+                    console.log(res);
+                    userData.setUser();
+                    //$window.location.reload();
+                  },
+                  function(res){
+                    console.log(res);
+                  });
+        }
+        else {
+          console.log('inside delte visit');
+          userVisitService.deleteVisit(usv.userStoreVisitId)
+            .then(function(res){
+              console.log(res);
+              userData.setUser();
+              //$window.location.reload();
+            },
+              function(res)
+              {
+                console.log(res);
+              });
         }
       }
-
+      function activate(){
+        userStoreVisited(storeData.getStore());
+      }
 
     }
 
@@ -1376,18 +1407,57 @@ angular.module('app.store')
   *Service for getting a single store with its id
 */
 angular.module('app.store')
-  .service('getSingleStore',["$http",GetSingleStoreWithId]);
+  .service('getSingleStore',["$http","storeData",GetSingleStoreWithId]);
 
 /*
   * This servic has a function names getStore which takes id as parameter and returns a promise
 */
-function GetSingleStoreWithId($http){
+function GetSingleStoreWithId($http,storeData){
   this.getStore = getStore;
 
   function getStore(id){
     return $http.get("http://localhost:3000/store/singleStore/"+id);
+    // return $http.get("http://localhost:3000/store/singleStore/"+id).then(function(res){
+    //   storeData.setStore(res.data);
+    // });
   }
 }
+})(window.angular);
+
+(function(angular){
+  'use strict';
+
+angular.module('app.store')
+  .factory('storeData',["$window",storeData]);
+
+/*
+  * This factory is used to get store details from window storage
+*/
+function storeData($window) {
+  var storage = $window.localStorage;
+  var obj1 = {
+    setStore: function (store) {
+        console.log('****from the storeData factory*****');
+        console.log(store);
+        storage.setItem('store',JSON.stringify(store));
+
+
+    },
+    getStore: function(){
+
+      return JSON.parse(storage.getItem('store'));
+
+    },
+    removeStore: function(){
+
+      storage.removeItem('store');
+    }
+  };
+    return obj1;
+  }
+
+
+
 })(window.angular);
 
 (function(angular){
@@ -1403,12 +1473,12 @@ angular.module('app.store')
 */
 function UserVisitService($http){
   this.submitVisit = submitVisit;
-
+  this.deleteVisit = deleteVisit;
   function submitVisit(visitData){
     return $http.post("http://localhost:3000/visit/visits/store",visitData);
   }
-  function deleteVisit(visitData){
-    return $http.delete("http://localhost:3000/visit/visits",{data:visitData});
+  function deleteVisit(visitId){
+    return $http.delete("http://localhost:3000/visit/visits/"+visitId);
   }
 }
 })(window.angular);

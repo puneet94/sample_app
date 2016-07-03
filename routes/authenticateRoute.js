@@ -56,8 +56,7 @@ authenticateRouter.route('/login')
 
 authenticateRouter.route('/user/:userId')
 	.get(function(req,res){
-		console.log('************************user auth**************');
-		console.log(req.params.userId);
+
 		User.findById(req.params.userId, function(err, user) {
 			console.log(err);
 	    if (!user) {

@@ -11,12 +11,12 @@ angular.module('app.store')
 */
 function UserVisitService($http){
   this.submitVisit = submitVisit;
-
+  this.deleteVisit = deleteVisit;
   function submitVisit(visitData){
     return $http.post("http://localhost:3000/visit/visits/store",visitData);
   }
-  function deleteVisit(visitData){
-    return $http.delete("http://localhost:3000/visit/visits",{data:visitData});
+  function deleteVisit(visitId){
+    return $http.delete("http://localhost:3000/visit/visits/"+visitId);
   }
 }
 })(window.angular);

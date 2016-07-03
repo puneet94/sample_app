@@ -2,16 +2,19 @@
   'use strict';
 angular.module('app.store')
 
-  .controller('SingleStoreController',["$scope",'$location','$anchorScroll',"$routeParams","anchorSmoothScroll","getSingleStore",SingleStoreController]);
-  function SingleStoreController($scope,$location,$anchorScroll,$routeParams,anchorSmoothScroll,getSingleStore){
+  .controller('SingleStoreController',["$scope",'$location','$anchorScroll',"$routeParams","anchorSmoothScroll","storeData","getSingleStore",SingleStoreController]);
+  function SingleStoreController($scope,$location,$anchorScroll,$routeParams,anchorSmoothScroll,storeData,getSingleStore){
     var ssc = this;
     ssc.storeData = {};
     ssc.flowToId = flowToId;
 
     getSingleStore.getStore($routeParams.storeId)
     .then(function(res){
+      console.log('*******stores*****');
+      console.log(res);
+      storeData.setStore(res.data);
         ssc.storeData = res.data;
-        console.log('*******stores*****');
+
         console.log(ssc.storeData);
       });
       if($location.search().flowto!==undefined){
