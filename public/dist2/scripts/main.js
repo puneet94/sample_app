@@ -4,8 +4,8 @@ angular.module('myApp',
   ).config(['$routeProvider','$mdThemingProvider',
   function($routeProvider,$mdThemingProvider) {
       $mdThemingProvider.theme('default')
-    .primaryPalette('amber')
-    .accentPalette('orange')
+    .primaryPalette('blue-grey')
+    .accentPalette('light-blue')
      .warnPalette('blue');
      //.backgroundPalette('blue-grey');
       $routeProvider.
@@ -21,28 +21,6 @@ angular.module('myApp',
 //     .primaryPalette('pink')
 //     .accentPalette('orange');
 // });
-
-angular.module('app.store',[]).config(['$routeProvider',
-  function($routeProvider) {
-    $routeProvider.
-      when('/store', {
-        templateUrl: 'app/store/storePost.html',
-        controller: 'StoreController',
-        controllerAs: 'sm'
-      }).when('/store/storesCollection/storeName/:storeName/:location/:slug?', {
-        templateUrl: 'app/store/storesNameCollection.html',
-        controller: 'StoreNameCollectionController',
-        controllerAs: 'sncc'
-      }).when('/store/storesCollection/category/:category/:location/:slug?', {
-        templateUrl: 'app/store/storesCategoryCollection.html',
-        controller: 'StoreCategoryCollectionController',
-        controllerAs: 'sccc'
-      }).when('/store/singleStore/:storeId/:myslug?/', {
-        templateUrl: 'app/store/singleStore.html',
-        controller: 'SingleStoreController',
-        controllerAs: 'ssc'
-      });
-  }]);
 
 (function(angular){
 'use strict';
@@ -337,88 +315,6 @@ angular.module('app.common')
 	}
 })(window.angular);
 
-angular.module('app.store')
-  .controller('StoreController',["baseUrlService","$http",storeController])
-  .controller('StoreListController',["httpService","$routeParams","changeBrowserURL","$location","baseUrlService",storeListController])
-  .controller('StoreNameCollectionController',[storeNameCollectionController])
-  .controller('StoreCategoryCollectionController',["$location",storeCategoryCollectionController]);
-  function storeNameCollectionController(){
-
-  }
-  function storeCategoryCollectionController($location){
-    console.log($location.absUrl());
-  }
-
-  function storeListController(httpService,$routeParams,changeBrowserURL,$location,baseUrlService){
-    var slc = this;
-    slc.pageNo = 0;
-    slc.storesList = [];
-
-    slc.getSingleStore = getSingleStore;
-    slc.getStoresCollection = getStoresCollection;
-    activate();
-    function getSingleStore(store){
-      var url = "store/singleStore/"+store._id+"/"+store.myslug;
-      changeBrowserURL.changeBrowserURLMethod(url);
-    }
-    function getStoresCollection(){
-      slc.pageNo = slc.pageNo + 1;
-      var location = $routeParams.location||'hyderabad';
-      var url ='';
-      if($location.absUrl().indexOf("/category/")!=-1){
-        var category = $routeParams.category;
-         url = baseUrlService.baseUrl+'store/storesCollection/category/'+category+'/'+location+'/'+slc.pageNo;
-      }
-      else if($location.absUrl().indexOf("/storeName/")!=-1){
-        var storeName = $routeParams.storeName;
-         url = baseUrlService.baseUrl+'store/storesCollection/storeName/'+storeName+'/'+location+'/'+slc.pageNo;
-      }
-      else{
-         url = baseUrlService.baseUrl+'store/storesCollection/stores'+'/'+location+'/'+slc.pageNo;
-      }
-
-      httpService.getService(url)
-      .then(function(response){
-        for (var i = response.data.docs.length - 1; i >= 0; i--) {
-          slc.storesList.push(response.data.docs[i]);
-        }
-
-      },function(response){
-        console.log(response);
-      });
-    }
-    function activate(){
-      slc.getStoresCollection();
-    }
-
-  }
-  function storeController(baseUrlService,$http){
-    var sm = this;
-    console.log("store controller");
-    sm.address = {};
-    sm.SendData = function () {
-      data = {};
-      data.name = sm.name;
-      data.city = sm.address.city;
-      data.address = sm.address;
-      data.category = sm.categoryString.split(",");
-      console.log(data.category);
-      var config = {
-        headers : {
-          'Content-Type': 'application/json'
-      }
-    };
-    $http.post(baseUrlService.baseUrl+"store/store", data, config)
-      .then(
-        function(response){
-          console.log(response);
-        },
-        function(response){
-          console.log(response);
-        }
-      );
-    };
-  }
 
 (function(angular){
 	angular.module('app.home',[])
@@ -966,6 +862,39 @@ angular.module('authModApp')
 //     }
 //   }
 
+
+
+/**
+ * @ngdoc directive
+ * @name authModApp.directive:sameAs
+ * @description
+ * # sameAs
+ */
+ (function(angular){
+ 'use strict';
+	angular.module('authModApp')
+		.directive('sameAs', function () {
+			return {
+				require: 'ngModel',
+				restrict: 'EA',
+				link: function postLink(scope, element, attrs,ngModelCtrl) {
+					console.log(scope.$eval(attrs.sameAs));
+					function validateEqual(value){
+						var valid = (value === scope.$eval(attrs.sameAs));
+						ngModelCtrl.$setValidity('equal',valid);
+						return valid ? value : undefined;
+					}
+					ngModelCtrl.$parsers.push(validateEqual);
+					ngModelCtrl.$formatters.push(validateEqual);
+					scope.$watch(attrs.sameAs,function(){
+						ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
+					});
+				}
+			};
+		});
+
+})(window.angular);
+
 (function(angular){
 'use strict';
 
@@ -1035,39 +964,6 @@ angular.module('authModApp')
   }
 })(window.angular);
 
-
-
-/**
- * @ngdoc directive
- * @name authModApp.directive:sameAs
- * @description
- * # sameAs
- */
- (function(angular){
- 'use strict';
-	angular.module('authModApp')
-		.directive('sameAs', function () {
-			return {
-				require: 'ngModel',
-				restrict: 'EA',
-				link: function postLink(scope, element, attrs,ngModelCtrl) {
-					console.log(scope.$eval(attrs.sameAs));
-					function validateEqual(value){
-						var valid = (value === scope.$eval(attrs.sameAs));
-						ngModelCtrl.$setValidity('equal',valid);
-						return valid ? value : undefined;
-					}
-					ngModelCtrl.$parsers.push(validateEqual);
-					ngModelCtrl.$formatters.push(validateEqual);
-					scope.$watch(attrs.sameAs,function(){
-						ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
-					});
-				}
-			};
-		});
-
-})(window.angular);
-
 (function(angular){
   'use strict';
   angular.module('app.review')
@@ -1106,6 +1002,44 @@ angular.module('authModApp')
         }
 
       }
+})(window.angular);
+
+(function(angular){
+  'use strict';
+angular.module('app.review')
+
+  .controller('StoreReviewListController',["$scope","$routeParams",'reviewService',StoreReviewListController]);
+  function StoreReviewListController($scope,$routeParams,reviewService){
+    var slc = this;
+    slc.activate = activate;
+    slc.getStoreReviews = getStoreReviews;
+    slc.getRating = getRating;
+    slc.activate();
+    function activate(){
+      slc.getStoreReviews();
+    }
+    function getStoreReviews(){
+      reviewService.getStoreReviews().then(function(res){
+        slc.reviewList = res.data;
+        console.log("**************from store list**********");
+        console.log(slc.reviewList);
+      },function(res){
+
+      });
+    }
+    function getRating(review){
+
+      var rating2 = parseInt(review.rating);
+      var x = [];
+      for(var i=0;i<rating2;i++){
+        x.push(i);
+      }
+
+      return x;
+    }
+
+
+  }
 })(window.angular);
 
 (function(angular){
@@ -1171,6 +1105,40 @@ angular.module('app.store')
 })(window.angular);
 
 (function(angular){
+
+
+  angular.module('app.store')
+    .controller('StoreController',["baseUrlService","$http",storeController]);
+  function storeController(baseUrlService,$http){
+    var sm = this;
+    console.log("store controller");
+    sm.address = {};
+    sm.SendData = function () {
+      data = {};
+      data.name = sm.name;
+      data.city = sm.address.city;
+      data.address = sm.address;
+      data.category = sm.categoryString.split(",");
+      console.log(data.category);
+      var config = {
+        headers : {
+          'Content-Type': 'application/json'
+      }
+    };
+    $http.post(baseUrlService.baseUrl+"store/store", data, config)
+      .then(
+        function(response){
+          console.log(response);
+        },
+        function(response){
+          console.log(response);
+        }
+      );
+    };
+  }
+})(window.angular);
+
+(function(angular){
   angular.module('app.store')
 
     .controller('StoreListController',["httpService","$routeParams","changeBrowserURL","$location","baseUrlService",StoreListController]);
@@ -1224,51 +1192,11 @@ angular.module('app.store')
 
 (function(angular){
   angular.module('app.store')
-    .controller('StoreController',storeController)
-    .controller('StoreListController',["httpService","$routeParams","changeBrowserURL","$location",storeListController])
-    .controller('StoreNameCollectionController',[storeNameCollectionController])
-    .controller('StoreCategoryCollectionController',["$location",storeCategoryCollectionController]);
+
+    .controller('StoreNameCollectionController',[storeNameCollectionController]);
     function storeNameCollectionController(){
 
     }
-})(window.angular);
-
-(function(angular){
-  'use strict';
-angular.module('app.store')
-
-  .controller('StoreReviewListController',["$scope","$routeParams",'reviewService',StoreReviewListController]);
-  function StoreReviewListController($scope,$routeParams,reviewService){
-    var slc = this;
-    slc.activate = activate;
-    slc.getStoreReviews = getStoreReviews;
-    slc.getRating = getRating;
-    slc.activate();
-    function activate(){
-      slc.getStoreReviews();
-    }
-    function getStoreReviews(){
-      reviewService.getStoreReviews().then(function(res){
-
-
-        slc.reviewList = res.data;
-      },function(res){
-
-      });
-    }
-    function getRating(review){
-
-      var rating2 = parseInt(review.rating);
-      var x = [];
-      for(var i=0;i<rating2;i++){
-        x.push(i);
-      }
-
-      return x;
-    }
-
-
-  }
 })(window.angular);
 
 (function(angular){

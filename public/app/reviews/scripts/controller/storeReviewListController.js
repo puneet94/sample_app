@@ -1,6 +1,6 @@
 (function(angular){
   'use strict';
-angular.module('app.store')
+angular.module('app.review')
 
   .controller('StoreReviewListController',["$scope","$routeParams",'reviewService',StoreReviewListController]);
   function StoreReviewListController($scope,$routeParams,reviewService){
@@ -14,9 +14,9 @@ angular.module('app.store')
     }
     function getStoreReviews(){
       reviewService.getStoreReviews().then(function(res){
-
-
         slc.reviewList = res.data;
+        console.log("**************from store list**********");
+        console.log(slc.reviewList);
       },function(res){
 
       });

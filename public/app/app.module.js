@@ -4,8 +4,8 @@ angular.module('myApp',
   ).config(['$routeProvider','$mdThemingProvider',
   function($routeProvider,$mdThemingProvider) {
       $mdThemingProvider.theme('default')
-    .primaryPalette('amber')
-    .accentPalette('orange')
+    .primaryPalette('blue-grey')
+    .accentPalette('light-blue')
      .warnPalette('blue');
      //.backgroundPalette('blue-grey');
       $routeProvider.
