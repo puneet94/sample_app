@@ -323,7 +323,7 @@ function scrollDown($window,$location) {
   return {
     restrict: 'A',
     link: function(scope, element, attrs) {
-      console.log('dircetives****************');
+      console.log('dircetives************');
       var lastScrollTop = 0;
       var path = $location.path();
       console.log($location.path());
@@ -332,9 +332,9 @@ function scrollDown($window,$location) {
 
         $(window).on("scroll", function() {
           windowWidth = window.innerWidth ? window.innerWidth : $(window).width();
-          if(path.indexOf('/home')==-1 && ($(window).scrollTop()>150)){
+          if(path.indexOf('/home')==-1 && ($(window).scrollTop()>170)){
           //  console.log($(document).scrollTop());
-            if (windowWidth <= 601) {
+            if (windowWidth <= 601 && path.indexOf('/home')==-1 && ($(window).scrollTop()>170)) {
               var st = $(this).scrollTop();
               if (st > lastScrollTop) {
 
@@ -1330,7 +1330,7 @@ function GetSingleStoreWithId($http,storeData,baseUrlService){
 
   function getStore(id){
     return $http.get(baseUrlService.baseUrl+"store/singleStore/"+id);
-    // return $http.get("http://shoppinss.herokuapp.com/store/singleStore/"+id).then(function(res){
+    // return $http.get("http://localhost:3000/store/singleStore/"+id).then(function(res){
     //   storeData.setStore(res.data);
     // });
   }
