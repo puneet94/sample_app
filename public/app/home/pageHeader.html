@@ -1,6 +1,6 @@
 <div ng-controller="HeaderController as phc">
 
-   <md-toolbar md-scroll-shrink ng-if="true" ng-class="{'headerFixed':phc.headerFixed}">
+   <md-toolbar md-scroll-shrink ng-if="true" ng-class="{'headerFixed':phc.headerFixed}" class="fixedTopHeader">
       <div layout-xs="row" layout-align-xs="space-between center" >
          <div hide show-xs>
             <div class="menu-icon" ng-click="phc.toggleLeft()" ng-hide="phc.isOpenLeft()">
@@ -19,7 +19,7 @@
             <div class="authSection" hide-xs>
                <div ng-include="'app/home/views/authenticationNav.html'"></div>
             </div>
-            
+
          </div>
          <div hide show-xs>
                <div class="search-icon">&#128269;</div>

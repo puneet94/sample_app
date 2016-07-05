@@ -1,3 +1,27 @@
+@media (max-width: 599px) {
+  body {
+    height: auto; }
+  .fixedTopHeader {
+    position: fixed;
+    z-index: 1000; }
+  .scrollUpSearch {
+    position: fixed;
+    top: 55px;
+    width: 100%; }
+  .fixedHeaderMain {
+    margin-top: 180px; }
+  .homePageDiv > main {
+    height: 125vh; }
+  .homePageDiv .fixedTopHeader {
+    position: fixed; }
+  .homePageDiv .scrollUpSearch {
+    position: relative; }
+  .homePageDiv .search-box-container {
+    margin: auto 5%;
+    width: auto; }
+  .homePageDiv .search-banner {
+    height: 100vh; } }
+
 .userRatingSection {
   width: 175px; }
   .userRatingSection .rating {
