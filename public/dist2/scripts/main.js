@@ -55,13 +55,13 @@ angular
         controller: 'LoginController',
         controllerAs: 'login'
       });
-      $authProvider.loginUrl = "http://localhost:3000/authenticate/login";
-      $authProvider.signupUrl = "http://localhost:3000/authenticate/signup";
+      $authProvider.loginUrl = "http://shoppinss.herokuapp.com/authenticate/login";
+      $authProvider.signupUrl = "http://shoppinss.herokuapp.com/authenticate/signup";
 
       $authProvider.facebook({
         clientId: '1068203956594250',
-        url:'http://localhost:3000/authenticate/auth/facebook',
-        redirectUri: 'http://localhost:3000/'
+        url:'http://shoppinss.herokuapp.com/authenticate/auth/facebook',
+        redirectUri: 'http://shoppinss.herokuapp.com/'
       });
       //$httpProvider.interceptors.push('authInterceptor');
   }
@@ -245,7 +245,7 @@ angular.module('app.common')
 		}
 	}
 	function AjaxURL(){
-		this.baseUrl = "http://localhost:3000/";
+		this.baseUrl = "http://shoppinss.herokuapp.com/";
 
 		this.getStoresWithCatgeoryLocation = this.baseUrl + "store/storesCollection/category/";//:category/:location?";
 		this.getStoresWithNameLocation = this.baseUrl + "store/storesCollection/storeName/";
@@ -335,7 +335,7 @@ angular.module('app.common')
           }
 
         });
-        
+
 
         console.log('****toggle dircetives************');
         var lastScrollTop = 0;
@@ -770,13 +770,13 @@ angular
         controller: 'LoginController',
         controllerAs: 'login'
       });
-      $authProvider.loginUrl = "http://localhost:3000/authenticate/login";
-      $authProvider.signupUrl = "http://localhost:3000/authenticate/signup";
+      $authProvider.loginUrl = "http://shoppinss.herokuapp.com/authenticate/login";
+      $authProvider.signupUrl = "http://shoppinss.herokuapp.com/authenticate/signup";
 
       $authProvider.facebook({
         clientId: '1068203956594250',
-        url:'http://localhost:3000/authenticate/auth/facebook',
-        redirectUri: 'http://localhost:3000/'
+        url:'http://shoppinss.herokuapp.com/authenticate/auth/facebook',
+        redirectUri: 'http://shoppinss.herokuapp.com/'
       });
       //$httpProvider.interceptors.push('authInterceptor');
   }
@@ -1362,7 +1362,7 @@ function GetSingleStoreWithId($http,storeData,baseUrlService){
 
   function getStore(id){
     return $http.get(baseUrlService.baseUrl+"store/singleStore/"+id);
-    
+
   }
 }
 })(window.angular);
