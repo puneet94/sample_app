@@ -55,13 +55,13 @@ angular
         controller: 'LoginController',
         controllerAs: 'login'
       });
-      $authProvider.loginUrl = "http://shoppinss.herokuapp.com/authenticate/login";
-      $authProvider.signupUrl = "http://shoppinss.herokuapp.com/authenticate/signup";
+      $authProvider.loginUrl = "http://localhost:3000/authenticate/login";
+      $authProvider.signupUrl = "http://localhost:3000/authenticate/signup";
 
       $authProvider.facebook({
         clientId: '1068203956594250',
-        url:'http://shoppinss.herokuapp.com/authenticate/auth/facebook',
-        redirectUri: 'http://shoppinss.herokuapp.com/'
+        url:'http://localhost:3000/authenticate/auth/facebook',
+        redirectUri: 'http://localhost:3000/'
       });
       //$httpProvider.interceptors.push('authInterceptor');
   }
@@ -245,7 +245,7 @@ angular.module('app.common')
 		}
 	}
 	function AjaxURL(){
-		this.baseUrl = "http://shoppinss.herokuapp.com/";
+		this.baseUrl = "http://localhost:3000/";
 
 		this.getStoresWithCatgeoryLocation = this.baseUrl + "store/storesCollection/category/";//:category/:location?";
 		this.getStoresWithNameLocation = this.baseUrl + "store/storesCollection/storeName/";
@@ -317,7 +317,39 @@ angular.module('app.common')
 
 (function(angular){
   angular.module('app.common')
+  .directive('toggleElement',["$window","$location", toggleElement])
   .directive('scrollDown', ["$window","$location", scrollDown]);
+  function toggleElement($window,$location) {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attrs) {
+        var path = $location.path();
+        //$( element[0]).trigger( "click" );
+
+        console.log(element);
+        console.log(attrs.toggleElement);
+        $(element[0]).on('click',function(){
+          console.log('click works');
+          if(path.indexOf('/home')==-1){
+              $(attrs.toggleElement).slideToggle();
+          }
+
+        });
+        
+
+        console.log('****toggle dircetives************');
+        var lastScrollTop = 0;
+
+        if(path.indexOf('/home')==-1){
+          console.log("can try this");
+
+
+        }
+
+      }
+    };
+  }
+
 
 function scrollDown($window,$location) {
   return {
@@ -738,13 +770,13 @@ angular
         controller: 'LoginController',
         controllerAs: 'login'
       });
-      $authProvider.loginUrl = "http://shoppinss.herokuapp.com/authenticate/login";
-      $authProvider.signupUrl = "http://shoppinss.herokuapp.com/authenticate/signup";
+      $authProvider.loginUrl = "http://localhost:3000/authenticate/login";
+      $authProvider.signupUrl = "http://localhost:3000/authenticate/signup";
 
       $authProvider.facebook({
         clientId: '1068203956594250',
-        url:'http://shoppinss.herokuapp.com/authenticate/auth/facebook',
-        redirectUri: 'http://shoppinss.herokuapp.com/'
+        url:'http://localhost:3000/authenticate/auth/facebook',
+        redirectUri: 'http://localhost:3000/'
       });
       //$httpProvider.interceptors.push('authInterceptor');
   }

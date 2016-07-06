@@ -7,15 +7,14 @@
   .scrollUpSearch {
     position: fixed;
     top: 55px;
-    width: 100%; }
+    width: 100%;
+    display: none; }
   .fixedHeaderMain {
-    margin-top: 180px; }
+    margin-top: 65px; }
   .homePageDiv > main {
     height: 125vh; }
   .homePageDiv .fixedTopHeader {
     position: fixed; }
-  .homePageDiv .scrollUpSearch {
-    position: relative; }
   .homePageDiv .search-box-container {
     margin: auto 5%;
     width: auto; }

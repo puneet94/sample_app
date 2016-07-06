@@ -1,6 +1,38 @@
 (function(angular){
   angular.module('app.common')
+  .directive('toggleElement',["$window","$location", toggleElement])
   .directive('scrollDown', ["$window","$location", scrollDown]);
+  function toggleElement($window,$location) {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attrs) {
+        var path = $location.path();
+        //$( element[0]).trigger( "click" );
+
+        console.log(element);
+        console.log(attrs.toggleElement);
+        $(element[0]).on('click',function(){
+          console.log('click works');
+          if(path.indexOf('/home')==-1){
+              $(attrs.toggleElement).slideToggle();
+          }
+
+        });
+        
+
+        console.log('****toggle dircetives************');
+        var lastScrollTop = 0;
+
+        if(path.indexOf('/home')==-1){
+          console.log("can try this");
+
+
+        }
+
+      }
+    };
+  }
+
 
 function scrollDown($window,$location) {
   return {

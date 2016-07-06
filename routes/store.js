@@ -53,7 +53,7 @@ storeRouter.route('/cities')
 storeRouter.route('/storesCollection/stores/:location/:pageNo')
 	.get(function(req,res){
 		Store.paginate({'address.city':req.params.location},
-			{page: req.params.pageNo, limit: 3}, function(err, result) {
+			{page: req.params.pageNo, limit: 30}, function(err, result) {
 		    if(err){
 				res.send(err);
 			}
@@ -90,7 +90,7 @@ storeRouter.route('/storesCollection/stores/:location/:pageNo')
 storeRouter.route('/storesCollection/storeName/:storeName/:location/:pageNo')
 	.get(function(req,res){
 		Store.paginate({'name':req.params.storeName,'address.city':req.params.location},
-			{page: req.params.pageNo, limit: 1 }, function(err, result) {
+			{page: req.params.pageNo, limit: 30 }, function(err, result) {
 		    if(err){
 				res.send(err);
 			}
@@ -104,7 +104,7 @@ storeRouter.route('/storesCollection/storeName/:storeName/:location/:pageNo')
 storeRouter.route('/storesCollection/category/:category/:location/:pageNo')
 	.get(function(req,res){
 		Store.paginate({'category':req.params.category,'address.city':req.params.location},
-			{page: req.params.pageNo, limit: 1 }, function(err, result) {
+			{page: req.params.pageNo, limit: 30 }, function(err, result) {
 		    if(err){
 				res.send(err);
 			}
