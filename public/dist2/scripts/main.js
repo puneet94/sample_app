@@ -55,13 +55,13 @@ angular
         controller: 'LoginController',
         controllerAs: 'login'
       });
-      $authProvider.loginUrl = "http://shoppinss.herokuapp.com/authenticate/login";
-      $authProvider.signupUrl = "http://shoppinss.herokuapp.com/authenticate/signup";
+      $authProvider.loginUrl = "http://localhost:3000/authenticate/login";
+      $authProvider.signupUrl = "http://localhost:3000/authenticate/signup";
 
       $authProvider.facebook({
         clientId: '1068203956594250',
-        url:'http://shoppinss.herokuapp.com/authenticate/auth/facebook',
-        redirectUri: 'http://shoppinss.herokuapp.com/'
+        url:'http://localhost:3000/authenticate/auth/facebook',
+        redirectUri: 'http://localhost:3000/'
       });
       //$httpProvider.interceptors.push('authInterceptor');
   }
@@ -245,7 +245,7 @@ angular.module('app.common')
 		}
 	}
 	function AjaxURL(){
-		this.baseUrl = "http://shoppinss.herokuapp.com/";
+		this.baseUrl = "http://localhost:3000/";
 
 		this.getStoresWithCatgeoryLocation = this.baseUrl + "store/storesCollection/category/";//:category/:location?";
 		this.getStoresWithNameLocation = this.baseUrl + "store/storesCollection/storeName/";
@@ -324,8 +324,6 @@ angular.module('app.common')
       restrict: 'A',
       link: function(scope, element, attrs) {
         var path = $location.path();
-        //$( element[0]).trigger( "click" );
-
         console.log(element);
         console.log(attrs.toggleElement);
         $(element[0]).on('click',function(){
@@ -337,7 +335,7 @@ angular.module('app.common')
         });
 
 
-        console.log('****toggle dircetives************');
+        console.log('****toggle dircetives**********');
         var lastScrollTop = 0;
 
         if(path.indexOf('/home')==-1){
@@ -617,10 +615,11 @@ angular.module('app.home')
 function SearchBoxController($scope,citiesService,searchService,changeBrowserURL,arrayUniqueCopy,arrayObjectMapper,userLocationService){
 		var hm= this;
 		activate();
+		hm.selectedItem = 'hyderabad';
 		hm.userSearches = [];
 		hm.selectedItemChange = selectedItemChange;
 		hm.userSearchItemChange = userSearchItemChange;
-
+		hm.selectedItemChange(hm.selectedItem);
 		function userSearchItemChange(item){
 
 			var changeEntity = item.userSearchString.split("#&#")[1];
@@ -770,13 +769,13 @@ angular
         controller: 'LoginController',
         controllerAs: 'login'
       });
-      $authProvider.loginUrl = "http://shoppinss.herokuapp.com/authenticate/login";
-      $authProvider.signupUrl = "http://shoppinss.herokuapp.com/authenticate/signup";
+      $authProvider.loginUrl = "http://localhost:3000/authenticate/login";
+      $authProvider.signupUrl = "http://localhost:3000/authenticate/signup";
 
       $authProvider.facebook({
         clientId: '1068203956594250',
-        url:'http://shoppinss.herokuapp.com/authenticate/auth/facebook',
-        redirectUri: 'http://shoppinss.herokuapp.com/'
+        url:'http://localhost:3000/authenticate/auth/facebook',
+        redirectUri: 'http://localhost:3000/'
       });
       //$httpProvider.interceptors.push('authInterceptor');
   }
@@ -1293,7 +1292,7 @@ angular.module('app.store')
 
       function userStoreVisited(storeData){
         //userData.setUser();
-        console.log('**********visit function called****************');
+        console.log('********visit function called****************');
         for (var storeId in storeData.visits) {
           var storeIdSingle = storeData.visits[storeId];
           console.log(storeData.visits[storeId]);
@@ -1352,6 +1351,27 @@ angular.module('app.store')
   *Service for getting a single store with its id
 */
 angular.module('app.store')
+  .service('getStoreCollectionService',["$http","storeData","baseUrlService",GetStoreCollectionService]);
+
+/*
+  * This servic has a function to get collection of stores`
+*/
+function GetStoreCollectionService($http,storeData,baseUrlService){
+  this.getStore = getStore;
+
+  function getStore(id){
+    return $http.get(baseUrlService.baseUrl+"store/singleStore/"+id);
+
+  }
+}
+})(window.angular);
+
+(function(angular){
+  'use strict';
+/*
+  *Service for getting a single store with its id
+*/
+angular.module('app.store')
   .service('getSingleStore',["$http","storeData","baseUrlService",GetSingleStoreWithId]);
 
 /*
@@ -1362,7 +1382,7 @@ function GetSingleStoreWithId($http,storeData,baseUrlService){
 
   function getStore(id){
     return $http.get(baseUrlService.baseUrl+"store/singleStore/"+id);
-
+    
   }
 }
 })(window.angular);

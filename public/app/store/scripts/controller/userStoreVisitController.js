@@ -16,7 +16,7 @@
 
       function userStoreVisited(storeData){
         //userData.setUser();
-        console.log('**********visit function called****************');
+        console.log('********visit function called****************');
         for (var storeId in storeData.visits) {
           var storeIdSingle = storeData.visits[storeId];
           console.log(storeData.visits[storeId]);

@@ -5,10 +5,11 @@ angular.module('app.home')
 function SearchBoxController($scope,citiesService,searchService,changeBrowserURL,arrayUniqueCopy,arrayObjectMapper,userLocationService){
 		var hm= this;
 		activate();
+		hm.selectedItem = 'hyderabad';
 		hm.userSearches = [];
 		hm.selectedItemChange = selectedItemChange;
 		hm.userSearchItemChange = userSearchItemChange;
-
+		hm.selectedItemChange(hm.selectedItem);
 		function userSearchItemChange(item){
 
 			var changeEntity = item.userSearchString.split("#&#")[1];

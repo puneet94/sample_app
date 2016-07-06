@@ -7,8 +7,6 @@
       restrict: 'A',
       link: function(scope, element, attrs) {
         var path = $location.path();
-        //$( element[0]).trigger( "click" );
-
         console.log(element);
         console.log(attrs.toggleElement);
         $(element[0]).on('click',function(){
@@ -18,9 +16,9 @@
           }
 
         });
-        
 
-        console.log('****toggle dircetives************');
+
+        console.log('****toggle dircetives**********');
         var lastScrollTop = 0;
 
         if(path.indexOf('/home')==-1){

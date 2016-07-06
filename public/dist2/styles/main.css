@@ -12,7 +12,8 @@
   .fixedHeaderMain {
     margin-top: 65px; }
   .homePageDiv > main {
-    height: 125vh; }
+    height: 120vh;
+    margin-top: 60px; }
   .homePageDiv .fixedTopHeader {
     position: fixed; }
   .homePageDiv .search-box-container {
