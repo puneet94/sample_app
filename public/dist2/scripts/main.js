@@ -1362,9 +1362,7 @@ function GetSingleStoreWithId($http,storeData,baseUrlService){
 
   function getStore(id){
     return $http.get(baseUrlService.baseUrl+"store/singleStore/"+id);
-    // return $http.get("http://localhost:3000/store/singleStore/"+id).then(function(res){
-    //   storeData.setStore(res.data);
-    // });
+    
   }
 }
 })(window.angular);
