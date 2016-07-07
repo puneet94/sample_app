@@ -9,13 +9,16 @@
     top: 55px;
     width: 100%;
     display: none; }
+  .search-icon-div {
+    padding: 10px; }
   .fixedHeaderMain {
     margin-top: 65px; }
   .homePageDiv > main {
-    height: 120vh;
-    margin-top: 60px; }
+    height: 120vh; }
+  .homePageDiv .searchBoxLayout {
+    height: 300px; }
   .homePageDiv .fixedTopHeader {
-    position: fixed; }
+    position: relative; }
   .homePageDiv .search-box-container {
     margin: auto 5%;
     width: auto; }
@@ -69,6 +72,16 @@
 .storeAddressPartial {
   background-color: white;
   padding: 5px; }
+
+.storeNameHeading {
+  text-transform: capitalize;
+  font-weight: bold;
+  color: gray;
+  cursor: pointer; }
+  .storeNameHeading span {
+    color: red;
+    font-size: 12px;
+    padding-left: 5px; }
 
 .userImg {
   width: 50px;

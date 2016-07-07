@@ -5,7 +5,7 @@
 			<md-card-title>
 				<md-card-title-text>
 					<span class="md-headline">
-						<span ng-click="slc.getSingleStore(store)">{{store.name}}</span>
+						<span ng-click="slc.getSingleStore(store)" class="storeNameHeading">{{store.name}}<span>Visit Store</span></span>
 					</span>
 					<span class="md-subhead">
 						<span>{{store.address.locality}}</span>
@@ -20,7 +20,7 @@
 					</span>
 				</md-card-title-text>
 				<md-card-title-media>
-					<div class="md-media-md card-media">
+					<div ng-click="slc.getSingleStore(store)" class="md-media-md card-media">
 						<img ng-src="{{store.bannerImage}}">
 					</div>
 				</md-card-title-media>
