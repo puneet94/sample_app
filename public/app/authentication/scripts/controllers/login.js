@@ -2,51 +2,6 @@
 'use strict';
 
 /**
- * @ngdoc overview
- * @name authModApp
- * @description
- * # authModApp
- *
- * Main module of the application.
- */
-angular
-  .module('authModApp', [
-    'ngCookies',
-    'ngRoute',
-    'satellizer'
-  ])
-  .config(["$routeProvider","$httpProvider","$authProvider",configFn]);
-  function configFn($routeProvider,$httpProvider,$authProvider) {
-    $routeProvider
-      .when('/signup',{
-        templateUrl:'app/authentication/views/register.html',
-        controller: 'RegisterCtrl',
-        controllerAs: 'rcl'
-      })
-      .when('/logout',{
-        controller: 'LogoutCtrl'
-      })
-      .when('/login', {
-        templateUrl: 'app/authentication/views/login.html',
-        controller: 'LoginController',
-        controllerAs: 'login'
-      });
-      $authProvider.loginUrl = "http://localhost:3000/authenticate/login";
-      $authProvider.signupUrl = "http://localhost:3000/authenticate/signup";
-
-      $authProvider.facebook({
-        clientId: '1068203956594250',
-        url:'http://localhost:3000/authenticate/auth/facebook',
-        redirectUri: 'http://localhost:3000/'
-      });
-      //$httpProvider.interceptors.push('authInterceptor');
-  }
-})(window.angular);
-
-(function(angular){
-'use strict';
-
-/**
  * @ngdoc function
  * @name authModApp.controller:LoginCtrl
  * @description
@@ -54,9 +9,9 @@ angular
  * Controller of the authModApp
  */
 angular.module('authModApp')
-  .controller('LoginController', ["$location","$auth","userData","baseUrlService",LoginCtrl]);
+  .controller('LoginController', ["$location","$window","$auth","userData","baseUrlService",LoginCtrl]);
 
-  function LoginCtrl($location,$auth,userData,baseUrlService) {
+  function LoginCtrl($location,$window,$auth,userData,baseUrlService) {
     var logCl = this;
     logCl.user = {};
     logCl.submitLogin = submitLogin;
@@ -74,9 +29,12 @@ angular.module('authModApp')
     	//authorize.login(logCl.user)
       $auth.login(logCl.user)
     	.then(function(response){
-	    		$location.path("/");
+
           userData.setUser(response.data.user);
-          console.log(userData.getUser());
+          //console.log(userData.getUser());
+          console.log('history url');
+          alert("Login successfull")
+          window.history.back();
     		},function(response){
     			console.log(response);
     		});

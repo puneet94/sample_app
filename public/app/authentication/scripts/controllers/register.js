@@ -22,10 +22,11 @@ angular.module('authModApp')
 		    $auth.signup(rc.user)
 				.then(function(response){
 					console.log(response);
-			    		$location.path("/");
+			    		
 			    		$auth.setToken(response.data.token);
 			    		userData.setUser(response.data.user);
-			    		console.log(userData.getUser());
+			    		//console.log(userData.getUser());
+							window.history.back();
 					},function(response){
 						console.log(response);
 				});

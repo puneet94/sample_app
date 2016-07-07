@@ -134,16 +134,6 @@ storeRouter.route('/categories/:pageNo')
 				res.json(result);
 			}
 		});
-		/*
-		Store.find({},{category:1},function(err,categories){
-			if(err){
-				res.send(err);
-			}
-			else{
-				console.log(categories);
-				res.json(categories);
-			}
-		})*/
 	})
 storeRouter.route('/singleStore/:store_id/:slug?')
 	.get(function(req,res){
@@ -156,30 +146,5 @@ storeRouter.route('/singleStore/:store_id/:slug?')
 			}
 		})
 	})
-	/*.put(function(req,res){
-		User.findById(req.params.user_id,function(err,user){
-			if(err){
-				res.send(err);
-			}
-			if(req.body.name){
-				user.name = req.body.name;
-			}
-			if(req.body.username){
-				user.username = req.body.username;
-			}
-			if(req.body.password){
-				user.password = req.body.password;
-			}
-			if(req.body.address){
-				console.log("address getting updated");
-				user.address = req.body.address;
-			}
-			user.save(function(err){
-				if(err){
-					res.send(err);
-				}
-				res.json({message:"user updated"});
-			})
-		})
-	})*/
+
 module.exports = storeRouter;

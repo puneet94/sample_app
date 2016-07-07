@@ -32,7 +32,9 @@ function AuthController($scope,changeBrowserURL,$auth,$window,$route,userData){
 		function authenticate(provider) {
 	    	$auth.authenticate(provider).then(function(response) {
 					userData.setUser();
+					alert('login with facebook successfull');
 					$route.reload();
+
 					//$window.location.reload();
 					//console.log(response);
           // $window.localStorage.currentUser = JSON.stringify(response.data.user);
