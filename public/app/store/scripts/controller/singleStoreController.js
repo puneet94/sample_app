@@ -10,7 +10,7 @@ angular.module('app.store')
     ssc.authCheck = $auth.isAuthenticated();
     getSingleStore.getStore($routeParams.storeId)
     .then(function(res){
-      console.log('*******stores*****');
+      console.log('****stores*****');
       console.log(res);
       storeData.setStore(res.data);
         ssc.storeData = res.data;

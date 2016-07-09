@@ -16,7 +16,7 @@ visitRouter.use(function(req,res,next){
 
 /*finding the reviews of a particular store using the store id*/
 visitRouter.route('/visits/:visitId')
-.delete(function(req,res){
+.delete(commons.ensureAuthenticated,function(req,res){
   var visitId = req.params.visitId;
 	Visit.findOne({'_id':visitId})
 				.exec(function(err, visit) {

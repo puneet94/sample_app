@@ -5,17 +5,13 @@
            md-search-text="sbc.searchText"
            md-items="item in sbc.cities|filter:sbc.searchText"
            md-selected-item="sbc.selectedItem"
-           md-search-text-change="sbc.searchTextChange(sbc.searchText)"
-
            md-selected-item-change="sbc.selectedItemChange(item)"
-
            md-item-text="item"
            md-min-length="0"
            placeholder="Select a city"
            md-menu-class="autocomplete-custom-template">
            <md-item-template>
               <span class="item-title">
-
                  <span> {{item}} </span>
               </span>
            </md-item-template>
@@ -27,7 +23,6 @@
            ng-disabled="!sbc.searchText"
            md-no-cache = "true"
            md-selected-item="sbc.userSearchSelectedItem"
-           md-search-text-change="sbc.userSearchTextChange(sbc.searchText)"
            md-search-text="sbc.userSearchText"
            md-selected-item-change="sbc.userSearchItemChange(item)"
            md-items="item in sbc.userSearches|filter:sbc.userSearchText"
@@ -54,7 +49,7 @@
         </md-autocomplete>
      </div>
      <div flex="20" flex-sm="100" flex-xs="100">
-        <md-button class="md-raised md-primary" style="width:100%;margin:0">Search</md-button>
+        <md-button class="md-raised md-primary" style="width:100%;margin:0" ng-click="sbc.locationSearch()">Search</md-button>
      </div>
   </div>
 </div>

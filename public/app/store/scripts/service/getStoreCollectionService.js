@@ -10,10 +10,10 @@ angular.module('app.store')
   * This servic has a function to get collection of stores`
 */
 function GetStoreCollectionService($http,storeData,baseUrlService){
-  this.getStore = getStore;
+  this.getStoreCollection = getStoreCollection;
 
-  function getStore(id){
-    return $http.get(baseUrlService.baseUrl+"store/singleStore/"+id);
+  function getStoreCollection(url,paramData){
+    return $http.get(baseUrlService.baseUrl+url,{params:paramData});
 
   }
 }

@@ -1,4 +1,7 @@
-angular.module('app.home')
+(function(angular){
+	'use strict';
+
+	angular.module('app.home')
 	.controller('HomeController',["$scope","citiesService","searchService","changeBrowserURL",homeController])
 
 	.controller('CategoryListController',["$scope","$http","getCategoryService","arrayUniqueCopy","arrayObjectMapper","userLocationService","changeBrowserURL","baseUrlService",CategoryListController]);
@@ -86,5 +89,5 @@ angular.module('app.home')
 
 	    }*/
 	}
-
+})(window.angular);
 /*git clone https://github.com/mrvautin/adminMongo.git && cd adminMongo*/

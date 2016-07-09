@@ -38,6 +38,7 @@ storeRouter.route('/store')
 	})
 storeRouter.route('/cities')
 	.get(function(req,res){
+
 		UserSearch.find(function(err,cities){
 
 			if(err){
@@ -46,19 +47,33 @@ storeRouter.route('/cities')
 			}
 
 			res.json(cities);
-			//res.render("stores",{"stores":stores});
+			
 		}).select({ "location": 1, "_id": 0});
 	})
 
 storeRouter.route('/storesCollection/stores/:location/:pageNo')
 	.get(function(req,res){
-		Store.paginate({'address.city':req.params.location},
+		console.log(req.query);
+		var queryObject = {'address.city':req.params.location};
+		if(req.query.area){
+				queryObject['address.area']=req.query.area;
+		}
+		if(req.query.locality){
+				queryObject['address.locality']=req.query.locality;
+		}
+		if(req.query.category){
+			console.log('catgeoty hete********');
+			console.log(req.query.category);
+			queryObject['category']=req.query.category;
+		}
+		console.log(queryObject);
+		Store.paginate(queryObject,
 			{page: req.params.pageNo, limit: 30}, function(err, result) {
 		    if(err){
 				res.send(err);
 			}
 			else{
-
+				console.log(result);
 				res.json(result);
 			}
 		});
@@ -89,7 +104,13 @@ storeRouter.route('/storesCollection/stores/:location/:pageNo')
 	});
 storeRouter.route('/storesCollection/storeName/:storeName/:location/:pageNo')
 	.get(function(req,res){
-		Store.paginate({'name':req.params.storeName,'address.city':req.params.location},
+		console.log(req.query);
+		var queryObject = {'name':req.params.storeName,'address.city':req.params.location};
+		if(req.query.area){
+				queryObject['address.area']=req.query.area;
+		}
+
+		Store.paginate(queryObject,
 			{page: req.params.pageNo, limit: 30 }, function(err, result) {
 		    if(err){
 				res.send(err);
@@ -103,7 +124,12 @@ storeRouter.route('/storesCollection/storeName/:storeName/:location/:pageNo')
 	});
 storeRouter.route('/storesCollection/category/:category/:location/:pageNo')
 	.get(function(req,res){
-		Store.paginate({'category':req.params.category,'address.city':req.params.location},
+		console.log(req.query);
+		var queryObject = {'category':req.params.category,'address.city':req.params.location};
+		if(req.query.area){
+				queryObject['address.area']=req.query.area;
+		}
+		Store.paginate(queryObject,
 			{page: req.params.pageNo, limit: 30 }, function(err, result) {
 		    if(err){
 				res.send(err);
@@ -125,12 +151,6 @@ storeRouter.route('/categories/:pageNo')
 				res.send(err);
 			}
 			else{
-				// result.docs
-		    // result.total
-		    // result.limit - 10
-		    // result.page - 3
-		    // result.pages
-
 				res.json(result);
 			}
 		});

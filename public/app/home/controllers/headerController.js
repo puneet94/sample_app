@@ -1,4 +1,6 @@
 (function(angular){
+	'use strict';
+
 	angular.module('app.home')
 	.controller('HeaderController',["$scope","userData","changeBrowserURL","$auth","$mdDialog", "$mdMedia","$timeout", "$mdSidenav", "$log",HeaderController]);
 

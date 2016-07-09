@@ -33,7 +33,7 @@ angular.module('authModApp')
           userData.setUser(response.data.user);
           //console.log(userData.getUser());
           console.log('history url');
-          alert("Login successfull")
+          alert("Login successfull");
           window.history.back();
     		},function(response){
     			console.log(response);

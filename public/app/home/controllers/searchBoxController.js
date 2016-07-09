@@ -1,3 +1,6 @@
+(function(angular){
+	'use strict';
+
 angular.module('app.home')
 	.controller('SearchBoxController',["$scope","citiesService","searchService","changeBrowserURL","arrayUniqueCopy","arrayObjectMapper","userLocationService",SearchBoxController]);
 
@@ -9,6 +12,7 @@ function SearchBoxController($scope,citiesService,searchService,changeBrowserURL
 		hm.userSearches = [];
 		hm.selectedItemChange = selectedItemChange;
 		hm.userSearchItemChange = userSearchItemChange;
+		hm.locationSearch = locationSearch;
 		hm.selectedItemChange(hm.selectedItem);
 		function userSearchItemChange(item){
 
@@ -49,6 +53,7 @@ function SearchBoxController($scope,citiesService,searchService,changeBrowserURL
 
 
 		}
+		//md-search-text-change="sbc.searchTextChange(sbc.searchText)"
 		function searchTextChange(searchText){
 			console.log(searchText);
 		}
@@ -64,7 +69,16 @@ function SearchBoxController($scope,citiesService,searchService,changeBrowserURL
 				console.log(data);
 			});
 		}
-
+		function locationSearch(){
+			if(hm.cities.indexOf(hm.selectedItem)!=-1){
+				if(!hm.userSearchText||hm.userSearchText.length===0){
+					hm.url = "/store/storesCollection/location";
+					var location = hm.selectedItem;
+					hm.slug = "stores-in-" + location;
+					changeBrowserURL.changeBrowserURLMethod(hm.url+"/"+location+"/"+hm.slug);
+				}
+			}
+		}
 
 	    function activate() {
 	    	citiesService.getCities()
@@ -81,3 +95,4 @@ function SearchBoxController($scope,citiesService,searchService,changeBrowserURL
 	    }
 
 }
+})(window.angular);

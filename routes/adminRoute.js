@@ -14,10 +14,13 @@ adminRouter.use(function(req,res,next){
 
 /*finding the reviews of a particular store using the store id*/
 adminRouter.route('/store')
-.get(function(req,res){
+.get(commons.ensureAuthenticated,function(req,res){
   res.send('store');
 })
-
+adminRouter.route('/store/products')
+.get(commons.ensureAuthenticated,function(req,res){
+  res.send('store');
+})
 adminRouter.route('/')
 .get(function(req,res){
   res.send('yo');

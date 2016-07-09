@@ -139,7 +139,11 @@ angular.module('app.store',[]).config(['$routeProvider',
         templateUrl: 'app/store/storesCategoryCollection.html',
         controller: 'StoreCategoryCollectionController',
         controllerAs: 'sccc'
-      }).when('/store/singleStore/:storeId/:myslug?/', {
+      }).when('/store/storesCollection/location/:location/:slug?', {
+        templateUrl: 'app/store/views/storesLocationCollection.html',
+        controller: 'StoreLocationCollectionController',
+        controllerAs: 'slcc'
+      }).when('/store/singleStore/:storeId/:myslug?', {
         templateUrl: 'app/store/singleStore.html',
         controller: 'SingleStoreController',
         controllerAs: 'ssc'
@@ -177,7 +181,7 @@ angular.module('app.common')
 	function CitiesService($http,baseUrlService){
    		this.getCities = function() {
    			var gc = this;
-   			gc.cityData  = undefined;
+   		
       		gc.cityData = $http.get(baseUrlService.baseUrl+"store/cities");
 			return  gc.cityData;
 		};
@@ -391,58 +395,51 @@ function scrollDown($window,$location) {
 
 
 (function(angular){
-	angular.module('app.home',[])
-		.config(['$routeProvider',config]);
-		 function config($routeProvider) {
-		    $routeProvider.
-		      when('/home', {
-		        templateUrl: 'app/home/homePage.html',
-		        controller: 'HomeController',
-		        controllerAs: 'hm'
-		      });
-		 }
+	'use strict';
+
+	angular.module('app.home')
+		.controller("AuthController",["$scope","changeBrowserURL","$auth","$window","$route","userData",AuthController]);
+	function AuthController($scope,changeBrowserURL,$auth,$window,$route,userData){
+			var phc = this;
+			phc.toHomePage = toHomePage;
+			phc.authenticate = authenticate;
+			phc.authLogout = authLogout;
+			phc.loginPage = loginPage;
+			phc.isAuth = $auth.isAuthenticated();
+
+			function toHomePage(){
+				changeBrowserURL.changeBrowserURLMethod('/');
+			}
+			function loginPage(){
+				changeBrowserURL.changeBrowserURLMethod('/login');
+			}
+			function authenticate(provider) {
+		    	$auth.authenticate(provider).then(function(response) {
+						userData.setUser();
+						alert('login with facebook successfull');
+						$route.reload();
+
+						//$window.location.reload();
+						//console.log(response);
+	          // $window.localStorage.currentUser = JSON.stringify(response.data.user);
+	          // $rootScope.currentUser = JSON.parse($window.localStorage.currentUser);
+						//console.log('********logoin*******');
+			    	//console.log($auth.getPayload());
+	        });
+	    	}
+	    	function authLogout(){
+					$auth.logout();
+	        userData.removeUser();
+					toHomePage();
+	    	}
+	}
+
 
 })(window.angular);
 
-
-angular.module('app.home')
-	.controller("AuthController",["$scope","changeBrowserURL","$auth","$window","$route","userData",AuthController]);
-function AuthController($scope,changeBrowserURL,$auth,$window,$route,userData){
-		var phc = this;
-		phc.toHomePage = toHomePage;
-		phc.authenticate = authenticate;
-		phc.authLogout = authLogout;
-		phc.loginPage = loginPage;
-		phc.isAuth = $auth.isAuthenticated();
-
-		function toHomePage(){
-			changeBrowserURL.changeBrowserURLMethod('/');
-		}
-		function loginPage(){
-			changeBrowserURL.changeBrowserURLMethod('/login');
-		}
-		function authenticate(provider) {
-	    	$auth.authenticate(provider).then(function(response) {
-					userData.setUser();
-					alert('login with facebook successfull');
-					$route.reload();
-
-					//$window.location.reload();
-					//console.log(response);
-          // $window.localStorage.currentUser = JSON.stringify(response.data.user);
-          // $rootScope.currentUser = JSON.parse($window.localStorage.currentUser);
-					//console.log('********logoin*******');
-		    	//console.log($auth.getPayload());
-        });
-    	}
-    	function authLogout(){
-				$auth.logout();
-        userData.removeUser();
-				toHomePage();
-    	}
-}
-
 (function(angular){
+	'use strict';
+
 	angular.module('app.home')
 	.controller('HeaderController',["$scope","userData","changeBrowserURL","$auth","$mdDialog", "$mdMedia","$timeout", "$mdSidenav", "$log",HeaderController]);
 
@@ -507,7 +504,10 @@ function AuthController($scope,changeBrowserURL,$auth,$window,$route,userData){
 
 })(window.angular);
 
-angular.module('app.home')
+(function(angular){
+	'use strict';
+
+	angular.module('app.home')
 	.controller('HomeController',["$scope","citiesService","searchService","changeBrowserURL",homeController])
 
 	.controller('CategoryListController',["$scope","$http","getCategoryService","arrayUniqueCopy","arrayObjectMapper","userLocationService","changeBrowserURL","baseUrlService",CategoryListController]);
@@ -595,20 +595,27 @@ angular.module('app.home')
 
 	    }*/
 	}
-
+})(window.angular);
 /*git clone https://github.com/mrvautin/adminMongo.git && cd adminMongo*/
 
-angular.module('app.home')
+(function(angular){
+	'use strict';
+
+	angular.module('app.home')
 	.controller('HomeLeftController',["$timeout", "$mdSidenav", "$log",LeftCtrl]);
 	function LeftCtrl($timeout, $mdSidenav, $log){
-  this.close = function () {
-      // Component lookup should always be available since we are not using `ng-if`
-      $mdSidenav('left').close()
-        .then(function () {
-          $log.debug("close RIGHT is done");
-        });
-    };
-}
+		this.close = function () {
+			// Component lookup should always be available since we are not using `ng-if`
+			$mdSidenav('left').close()
+			.then(function () {
+				$log.debug("close RIGHT is done");
+			});
+		};
+	}
+})(window.angular);
+
+(function(angular){
+	'use strict';
 
 angular.module('app.home')
 	.controller('SearchBoxController',["$scope","citiesService","searchService","changeBrowserURL","arrayUniqueCopy","arrayObjectMapper","userLocationService",SearchBoxController]);
@@ -621,6 +628,7 @@ function SearchBoxController($scope,citiesService,searchService,changeBrowserURL
 		hm.userSearches = [];
 		hm.selectedItemChange = selectedItemChange;
 		hm.userSearchItemChange = userSearchItemChange;
+		hm.locationSearch = locationSearch;
 		hm.selectedItemChange(hm.selectedItem);
 		function userSearchItemChange(item){
 
@@ -661,6 +669,7 @@ function SearchBoxController($scope,citiesService,searchService,changeBrowserURL
 
 
 		}
+		//md-search-text-change="sbc.searchTextChange(sbc.searchText)"
 		function searchTextChange(searchText){
 			console.log(searchText);
 		}
@@ -676,7 +685,16 @@ function SearchBoxController($scope,citiesService,searchService,changeBrowserURL
 				console.log(data);
 			});
 		}
-
+		function locationSearch(){
+			if(hm.cities.indexOf(hm.selectedItem)!=-1){
+				if(!hm.userSearchText||hm.userSearchText.length===0){
+					hm.url = "/store/storesCollection/location";
+					var location = hm.selectedItem;
+					hm.slug = "stores-in-" + location;
+					changeBrowserURL.changeBrowserURLMethod(hm.url+"/"+location+"/"+hm.slug);
+				}
+			}
+		}
 
 	    function activate() {
 	    	citiesService.getCities()
@@ -693,6 +711,7 @@ function SearchBoxController($scope,citiesService,searchService,changeBrowserURL
 	    }
 
 }
+})(window.angular);
 
 (function(angular){
 
@@ -773,7 +792,7 @@ angular.module('authModApp')
           userData.setUser(response.data.user);
           //console.log(userData.getUser());
           console.log('history url');
-          alert("Login successfull")
+          alert("Login successfull");
           window.history.back();
     		},function(response){
     			console.log(response);
@@ -1109,7 +1128,7 @@ angular.module('app.store')
     ssc.authCheck = $auth.isAuthenticated();
     getSingleStore.getStore($routeParams.storeId)
     .then(function(res){
-      console.log('*******stores*****');
+      console.log('****stores*****');
       console.log(res);
       storeData.setStore(res.data);
         ssc.storeData = res.data;
@@ -1175,12 +1194,14 @@ angular.module('app.store')
 })(window.angular);
 
 (function(angular){
+  'use strict';
+
   angular.module('app.store')
 
-    .controller('StoreListController',["httpService","$routeParams","changeBrowserURL","$location","baseUrlService",StoreListController]);
+    .controller('StoreListController',["$scope","httpService","$routeParams","changeBrowserURL","$location","baseUrlService","getStoreCollectionService",StoreListController]);
 
 
-    function StoreListController(httpService,$routeParams,changeBrowserURL,$location,baseUrlService){
+    function StoreListController($scope,httpService,$routeParams,changeBrowserURL,$location,baseUrlService,getStoreCollectionService){
       var slc = this;
       slc.pageNo = 0;
       slc.storesList = [];
@@ -1188,31 +1209,38 @@ angular.module('app.store')
       slc.getSingleStore = getSingleStore;
       slc.getStoresCollection = getStoresCollection;
       activate();
+      $scope.$on('parent', function (event, data) {
+        slc.pageNo = 0;
+        slc.getStoresCollection(data);
+      });
       function getSingleStore(store){
         var url = "store/singleStore/"+store._id+"/"+store.myslug;
         changeBrowserURL.changeBrowserURLMethod(url);
       }
-      function getStoresCollection(){
+      function getStoresCollection(paramData){
         slc.pageNo = slc.pageNo + 1;
         var location = $routeParams.location||'hyderabad';
         var url ='';
         if($location.absUrl().indexOf("/category/")!=-1){
           var category = $routeParams.category;
-           url = baseUrlService.baseUrl+'store/storesCollection/category/'+category+'/'+location+'/'+slc.pageNo;
+           url = 'store/storesCollection/category/'+category+'/'+location+'/'+slc.pageNo;
         }
         else if($location.absUrl().indexOf("/storeName/")!=-1){
           var storeName = $routeParams.storeName;
-           url = baseUrlService.baseUrl+'store/storesCollection/storeName/'+storeName+'/'+location+'/'+slc.pageNo;
+           url = 'store/storesCollection/storeName/'+storeName+'/'+location+'/'+slc.pageNo;
         }
         else{
-           url = baseUrlService.baseUrl+'store/storesCollection/stores'+'/'+location+'/'+slc.pageNo;
+           url = 'store/storesCollection/stores'+'/'+location+'/'+slc.pageNo;
         }
-
-        httpService.getService(url)
+        getStoreCollectionService.getStoreCollection(url,paramData)
+        //httpService.getService(url)
         .then(function(response){
+          var tempStoreList = [];
           for (var i = response.data.docs.length - 1; i >= 0; i--) {
-            slc.storesList.push(response.data.docs[i]);
+
+            tempStoreList.push(response.data.docs[i]);
           }
+          slc.storesList = tempStoreList;
 
         },function(response){
           console.log(response);
@@ -1224,6 +1252,20 @@ angular.module('app.store')
 
     }
 
+})(window.angular);
+
+(function(angular){
+  angular.module('app.store')
+    .controller('StoreLocationCollectionController',["$scope",StoreLocationCollectionController]);
+
+  function StoreLocationCollectionController($scope){
+    var slcc = this;
+    slcc.launchFilterEvent = launchFilterEvent;
+    function launchFilterEvent(){
+        $scope.$broadcast('parent', {'category':'disco3'}); 
+    }
+
+  }
 })(window.angular);
 
 (function(angular){
@@ -1318,10 +1360,10 @@ angular.module('app.store')
   * This servic has a function to get collection of stores`
 */
 function GetStoreCollectionService($http,storeData,baseUrlService){
-  this.getStore = getStore;
+  this.getStoreCollection = getStoreCollection;
 
-  function getStore(id){
-    return $http.get(baseUrlService.baseUrl+"store/singleStore/"+id);
+  function getStoreCollection(url,paramData){
+    return $http.get(baseUrlService.baseUrl+url,{params:paramData});
 
   }
 }

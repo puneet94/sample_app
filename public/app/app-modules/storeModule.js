@@ -13,7 +13,11 @@ angular.module('app.store',[]).config(['$routeProvider',
         templateUrl: 'app/store/storesCategoryCollection.html',
         controller: 'StoreCategoryCollectionController',
         controllerAs: 'sccc'
-      }).when('/store/singleStore/:storeId/:myslug?/', {
+      }).when('/store/storesCollection/location/:location/:slug?', {
+        templateUrl: 'app/store/views/storesLocationCollection.html',
+        controller: 'StoreLocationCollectionController',
+        controllerAs: 'slcc'
+      }).when('/store/singleStore/:storeId/:myslug?', {
         templateUrl: 'app/store/singleStore.html',
         controller: 'SingleStoreController',
         controllerAs: 'ssc'

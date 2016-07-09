@@ -14,7 +14,7 @@
   .fixedHeaderMain {
     margin-top: 65px; }
   .homePageDiv > main {
-    height: 120vh; }
+    height: 100vh; }
   .homePageDiv .searchBoxLayout {
     height: 300px; }
   .homePageDiv .fixedTopHeader {
@@ -23,7 +23,8 @@
     margin: auto 5%;
     width: auto; }
   .homePageDiv .search-banner {
-    height: 100vh; } }
+    height: 100vh;
+    padding: 0; } }
 
 .userRatingSection {
   width: 175px; }

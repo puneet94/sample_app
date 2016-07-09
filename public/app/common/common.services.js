@@ -15,7 +15,7 @@ angular.module('app.common')
 	function CitiesService($http,baseUrlService){
    		this.getCities = function() {
    			var gc = this;
-   			gc.cityData  = undefined;
+   		
       		gc.cityData = $http.get(baseUrlService.baseUrl+"store/cities");
 			return  gc.cityData;
 		};

@@ -13,7 +13,9 @@ var jwt = require('jwt-simple');
 
 //Variables
 var port = process.env.PORT || 3000;
+var http = require('http');
 var app = express();
+var server = http.createServer(app);
 
 //Imports from custom made js
 var facebookAuth  = require('./services/facebookAuth.js');
@@ -62,7 +64,12 @@ app.get('*', function (req, res) {
         res.sendFile(__dirname + '/public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
 });
 mongoose.connect("mongodb://shop_dir:shop_dir@ds023912.mlab.com:23912/shoppins");
-app.listen(app.get('port'),function(){
+/*app.listen(app.get('port'),function(){
 	console.log("Listening");
 	console.log(__dirname);
+})*/
+
+server.listen(3000,'0.0.0.0',function(){
+  console.log("Listening");
+  console.log(__dirname);
 })
