@@ -4,10 +4,42 @@
 <div ng-include="'app/home/searchBox.html'"></div>
 
 <main class="fixedHeaderMain">
+	<h3 toggle-mobile=".locationFilters" hide-lg hide-md>Filters</h3>
 <div layout="row" layout-wrap>
 
-		<div flex="20" hide-sm hide-xs>
-      <button type="button" name="button" ng-click="slcc.launchFilterEvent()">Launch event</button>
+		<div class="locationFilters" flex="20" hide-sm hide-xs flex-sm="100" flex-xs="100" >
+			<h3 hide-sm hide-xs>Filters</h3>
+			<div class="" layout-sm="row" layout-xs="row" flex="grow" layout-wrap >
+				<div class="">
+
+
+						<h5>Area</h5>
+						<md-radio-group ng-model="slcc.areaModel['area']" ng-change="slcc.areaRadioClicked()">
+			        <md-radio-button ng-repeat="area in slcc.areas" value="{{area}}" >
+			          <span>
+			            {{area}}
+			          </span>
+			        </md-radio-button>
+			    </md-radio-group>
+			      <button type="button" name="button" ng-disabled="!slcc.areaModel['area']" ng-click="slcc.clearAreaFilters()">Clear</button>
+				</div>
+				<div class="">
+
+
+					<h5>Category</h5>
+					<md-radio-group ng-model="slcc.categoryModel['category']" ng-change="slcc.categoryRadioClicked()">
+		        <md-radio-button ng-repeat="category in slcc.categories" value="{{category}}" >
+		          <span>
+		            {{category}}
+		          </span>
+		        </md-radio-button>
+		    	</md-radio-group>
+		      <button type="button" name="button" ng-disabled="!slcc.categoryModel['category']" ng-click="slcc.clearCategoryFilters()">Clear</button>
+				</div>
+
+			</div>
+
+
     </div>
 		<div flex="60" flex-sm="100" flex-xs="100">
 			<div ng-include="'app/store/storesList.html'"></div>

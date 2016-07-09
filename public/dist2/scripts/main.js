@@ -177,11 +177,13 @@ angular.module('app.common')
 	.service('arrayUniqueCopy',[ArrayUniqueCopy])
 	.service('userLocationService',[UserLocationService])
 	.service('anchorSmoothScroll',[AnchorSmoothScroll])
-	.service('baseUrlService',[AjaxURL]);
+	.service('baseUrlService',[AjaxURL])
+	.service('getCityLocalitiesService',["$http","baseUrlService",GetCityLocalitiesService])
+	.service('getCityCategoriesService',["$http","baseUrlService",GetCityCategoriesService]);
 	function CitiesService($http,baseUrlService){
    		this.getCities = function() {
    			var gc = this;
-   		
+
       		gc.cityData = $http.get(baseUrlService.baseUrl+"store/cities");
 			return  gc.cityData;
 		};
@@ -317,12 +319,27 @@ angular.module('app.common')
     };
 
 	}
+	function GetCityLocalitiesService($http,baseUrlService){
+		this.getCityLocalities = getCityLocalities;
+		function getCityLocalities(city){
+			return $http.get(baseUrlService.baseUrl+"store/localities/"+city);
+		}
+	}
+	function GetCityCategoriesService($http,baseUrlService){
+		this.getCityCategories = getCityCategories;
+
+		function getCityCategories(city){
+				return $http.get(baseUrlService.baseUrl+"store/categories/"+city);
+		}
+
+	}
 })(window.angular);
 
 (function(angular){
   angular.module('app.common')
   .directive('toggleElement',["$window","$location", toggleElement])
-  .directive('scrollDown', ["$window","$location", scrollDown]);
+  .directive('scrollDown', ["$window","$location", scrollDown])
+  .directive('toggleMobile',["$window","$location", toggleMobile]);
   function toggleElement($window,$location) {
     return {
       restrict: 'A',
@@ -385,6 +402,33 @@ function scrollDown($window,$location) {
         });
 
       }
+
+    }
+  };
+}
+
+function toggleMobile($window,$location) {
+  return {
+    restrict: 'A',
+    link: function(scope, element, attrs) {
+      console.log('dircetives************');
+      $(element).on('click',function(){
+        windowWidth = window.innerWidth ? window.innerWidth : $(window).width();
+
+          if (windowWidth <= 961 ) {
+            console.log(attrs);
+            $(attrs.toggleMobile).slideToggle();
+            scope.$apply();
+
+          }
+
+
+      });
+
+
+
+
+
 
     }
   };
@@ -623,8 +667,9 @@ angular.module('app.home')
 
 function SearchBoxController($scope,citiesService,searchService,changeBrowserURL,arrayUniqueCopy,arrayObjectMapper,userLocationService){
 		var hm= this;
-		activate();
 		hm.selectedItem = 'hyderabad';
+		activate();
+
 		hm.userSearches = [];
 		hm.selectedItemChange = selectedItemChange;
 		hm.userSearchItemChange = userSearchItemChange;
@@ -675,6 +720,8 @@ function SearchBoxController($scope,citiesService,searchService,changeBrowserURL
 		}
 		function selectedItemChange(item){
 			userLocationService.setUserLocation(item);
+			console.log("here it is");
+			console.log(item);
 			searchService.getSearches(item).then(function(resource){
 				hm.userSearches = [];
 				for (var i = resource.data.length - 1; i >= 0; i--) {
@@ -697,14 +744,12 @@ function SearchBoxController($scope,citiesService,searchService,changeBrowserURL
 		}
 
 	    function activate() {
+
 	    	citiesService.getCities()
 				.then(function(obj){
 					console.log(obj);
-					hm.cities = [];
-					hm.cities2 = [];
-					hm.cities2 = arrayObjectMapper.getArrayFunction(obj.data,"location");
-					hm.cities =  arrayUniqueCopy.getUniqueCopyFunction(hm.cities2,hm.cities);
-					console.log(hm.cities);
+					hm.cities = obj.data;
+
 				},function(obj){
 					hm.cities =  obj;
 				});
@@ -1205,21 +1250,21 @@ angular.module('app.store')
       var slc = this;
       slc.pageNo = 0;
       slc.storesList = [];
-
       slc.getSingleStore = getSingleStore;
       slc.getStoresCollection = getStoresCollection;
       activate();
       $scope.$on('parent', function (event, data) {
         slc.pageNo = 0;
-        slc.getStoresCollection(data);
+        slc.paramData = data;
+        slc.getStoresCollection();
       });
       function getSingleStore(store){
         var url = "store/singleStore/"+store._id+"/"+store.myslug;
         changeBrowserURL.changeBrowserURLMethod(url);
       }
-      function getStoresCollection(paramData){
+      function getStoresCollection(){
         slc.pageNo = slc.pageNo + 1;
-        var location = $routeParams.location||'hyderabad';
+        var location = $routeParams.location;
         var url ='';
         if($location.absUrl().indexOf("/category/")!=-1){
           var category = $routeParams.category;
@@ -1232,15 +1277,33 @@ angular.module('app.store')
         else{
            url = 'store/storesCollection/stores'+'/'+location+'/'+slc.pageNo;
         }
-        getStoreCollectionService.getStoreCollection(url,paramData)
+
+        getStoreCollectionService.getStoreCollection(url,slc.paramData)
         //httpService.getService(url)
         .then(function(response){
-          var tempStoreList = [];
-          for (var i = response.data.docs.length - 1; i >= 0; i--) {
 
-            tempStoreList.push(response.data.docs[i]);
+          if(slc.storesList.length===0){
+            console.log("big if");
+            var tempStoreList = [];
+            for (var i = response.data.docs.length - 1; i >= 0; i--) {
+              tempStoreList.push(response.data.docs[i]);
+              console.log(response.data.docs[i]);
+            }
+            slc.storesList = tempStoreList;
           }
-          slc.storesList = tempStoreList;
+          else{
+
+            if(slc.paramData&&slc.pageNo==1){
+              console.log(slc.pageNo);
+              //alert("hit");
+              console.log("small if");
+              slc.storesList = [];
+            }
+            for (var j = response.data.docs.length - 1; j >= 0; j--) {
+              slc.storesList.push(response.data.docs[j]);
+            }
+
+          }
 
         },function(response){
           console.log(response);
@@ -1256,13 +1319,52 @@ angular.module('app.store')
 
 (function(angular){
   angular.module('app.store')
-    .controller('StoreLocationCollectionController',["$scope",StoreLocationCollectionController]);
+    .controller('StoreLocationCollectionController',["$scope","$routeParams","getCityLocalitiesService","getCityCategoriesService",StoreLocationCollectionController]);
 
-  function StoreLocationCollectionController($scope){
+  function StoreLocationCollectionController($scope,$routeParams,getCityLocalitiesService,getCityCategoriesService){
     var slcc = this;
+    slcc.areaModel = {};
+    slcc.categoryModel = {};
     slcc.launchFilterEvent = launchFilterEvent;
-    function launchFilterEvent(){
-        $scope.$broadcast('parent', {'category':'disco3'}); 
+    slcc.areaRadioClicked = areaRadioClicked;
+    slcc.categoryRadioClicked = categoryRadioClicked;
+    slcc.majorFilter = {};
+    slcc.clearAreaFilters = clearAreaFilters;
+    slcc.clearCategoryFilters = clearCategoryFilters;
+    function areaRadioClicked(){
+      slcc.majorFilter.area=slcc.areaModel.area;
+      launchFilterEvent(slcc.majorFilter);
+    }
+    function clearAreaFilters(){
+      delete slcc.majorFilter.area;
+      slcc.areaModel = {};
+      launchFilterEvent(slcc.majorFilter);
+    }
+    function categoryRadioClicked(){
+      slcc.majorFilter.category=slcc.categoryModel.category;
+      launchFilterEvent(slcc.majorFilter);
+    }
+    function clearCategoryFilters(){
+      delete slcc.majorFilter.category;
+      slcc.categoryModel = {};
+      launchFilterEvent(slcc.majorFilter);
+    }
+    var location = $routeParams.location;
+    getCityLocalitiesService.getCityLocalities(location)
+      .then(function(res){
+        slcc.areas = res.data;
+      },function(res){
+        console.log(res);
+      });
+      getCityCategoriesService.getCityCategories(location)
+        .then(function(res){
+          slcc.categories = res.data;
+          console.log(slcc.categories);
+        },function(res){
+          console.log(res);
+        });
+    function launchFilterEvent(obj){
+        $scope.$broadcast('parent', obj);
     }
 
   }

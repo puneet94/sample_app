@@ -7,8 +7,9 @@ angular.module('app.home')
 
 function SearchBoxController($scope,citiesService,searchService,changeBrowserURL,arrayUniqueCopy,arrayObjectMapper,userLocationService){
 		var hm= this;
-		activate();
 		hm.selectedItem = 'hyderabad';
+		activate();
+
 		hm.userSearches = [];
 		hm.selectedItemChange = selectedItemChange;
 		hm.userSearchItemChange = userSearchItemChange;
@@ -59,6 +60,8 @@ function SearchBoxController($scope,citiesService,searchService,changeBrowserURL
 		}
 		function selectedItemChange(item){
 			userLocationService.setUserLocation(item);
+			console.log("here it is");
+			console.log(item);
 			searchService.getSearches(item).then(function(resource){
 				hm.userSearches = [];
 				for (var i = resource.data.length - 1; i >= 0; i--) {
@@ -81,14 +84,12 @@ function SearchBoxController($scope,citiesService,searchService,changeBrowserURL
 		}
 
 	    function activate() {
+
 	    	citiesService.getCities()
 				.then(function(obj){
 					console.log(obj);
-					hm.cities = [];
-					hm.cities2 = [];
-					hm.cities2 = arrayObjectMapper.getArrayFunction(obj.data,"location");
-					hm.cities =  arrayUniqueCopy.getUniqueCopyFunction(hm.cities2,hm.cities);
-					console.log(hm.cities);
+					hm.cities = obj.data;
+
 				},function(obj){
 					hm.cities =  obj;
 				});

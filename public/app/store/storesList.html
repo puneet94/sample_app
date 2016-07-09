@@ -1,6 +1,8 @@
 
 <div ng-controller="StoreListController as slc">
-	<div ng-repeat="store in slc.storesList">
+	<h1 ng-if="slc.storesList.length==0">No stores available</h1>
+	<div ng-repeat="store in slc.storesList track by store._id">
+
 		<md-card>
 			<md-card-title>
 				<md-card-title-text>
@@ -32,5 +34,5 @@
 			</span>
 		</md-card>
 	</div>
-	<button ng-click="slc.getStoresCollection()">LoadMore</button>
+	<button ng-click="slc.getStoresCollection()" ng-cloak ng-if="slc.storesList.length>0">LoadMore</button>
 </div>

@@ -11,11 +11,13 @@ angular.module('app.common')
 	.service('arrayUniqueCopy',[ArrayUniqueCopy])
 	.service('userLocationService',[UserLocationService])
 	.service('anchorSmoothScroll',[AnchorSmoothScroll])
-	.service('baseUrlService',[AjaxURL]);
+	.service('baseUrlService',[AjaxURL])
+	.service('getCityLocalitiesService',["$http","baseUrlService",GetCityLocalitiesService])
+	.service('getCityCategoriesService',["$http","baseUrlService",GetCityCategoriesService]);
 	function CitiesService($http,baseUrlService){
    		this.getCities = function() {
    			var gc = this;
-   		
+
       		gc.cityData = $http.get(baseUrlService.baseUrl+"store/cities");
 			return  gc.cityData;
 		};
@@ -149,6 +151,20 @@ angular.module('app.common')
         }
 
     };
+
+	}
+	function GetCityLocalitiesService($http,baseUrlService){
+		this.getCityLocalities = getCityLocalities;
+		function getCityLocalities(city){
+			return $http.get(baseUrlService.baseUrl+"store/localities/"+city);
+		}
+	}
+	function GetCityCategoriesService($http,baseUrlService){
+		this.getCityCategories = getCityCategories;
+
+		function getCityCategories(city){
+				return $http.get(baseUrlService.baseUrl+"store/categories/"+city);
+		}
 
 	}
 })(window.angular);

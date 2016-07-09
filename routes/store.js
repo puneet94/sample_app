@@ -38,17 +38,32 @@ storeRouter.route('/store')
 	})
 storeRouter.route('/cities')
 	.get(function(req,res){
+		var query = UserSearch.find({}).select({"location": 1, "_id": 0});
+    query.exec(function (err, someValue) {
+        if (err) {
+						return next(err);
+				}
+				else{
+					var citiesArray = [];
+					for (var i = 0; i < someValue.length; i++) {
+						if(citiesArray.indexOf(someValue[i].location)==-1){
+							citiesArray.push(someValue[i].location);
+						}
+					}
+						res.json(citiesArray);
+				}
 
-		UserSearch.find(function(err,cities){
-
-			if(err){
-				console.log(err);
-				res.send(err);
-			}
-
-			res.json(cities);
-			
-		}).select({ "location": 1, "_id": 0});
+    });
+		// UserSearch.find(function(err,cities){
+		//
+		// 	if(err){
+		// 		console.log(err);
+		// 		res.send(err);
+		// 	}
+		//
+		// 	res.json(cities);
+		//
+		// }).select({ "location": 1, "_id": 0});
 	})
 
 storeRouter.route('/storesCollection/stores/:location/:pageNo')
@@ -62,18 +77,17 @@ storeRouter.route('/storesCollection/stores/:location/:pageNo')
 				queryObject['address.locality']=req.query.locality;
 		}
 		if(req.query.category){
-			console.log('catgeoty hete********');
 			console.log(req.query.category);
 			queryObject['category']=req.query.category;
 		}
 		console.log(queryObject);
 		Store.paginate(queryObject,
-			{page: req.params.pageNo, limit: 30}, function(err, result) {
+			{page: req.params.pageNo, limit: 5}, function(err, result) {
 		    if(err){
 				res.send(err);
 			}
 			else{
-				console.log(result);
+				
 				res.json(result);
 			}
 		});
@@ -111,7 +125,7 @@ storeRouter.route('/storesCollection/storeName/:storeName/:location/:pageNo')
 		}
 
 		Store.paginate(queryObject,
-			{page: req.params.pageNo, limit: 30 }, function(err, result) {
+			{page: req.params.pageNo, limit: 1 }, function(err, result) {
 		    if(err){
 				res.send(err);
 			}
@@ -130,7 +144,7 @@ storeRouter.route('/storesCollection/category/:category/:location/:pageNo')
 				queryObject['address.area']=req.query.area;
 		}
 		Store.paginate(queryObject,
-			{page: req.params.pageNo, limit: 30 }, function(err, result) {
+			{page: req.params.pageNo, limit: 1 }, function(err, result) {
 		    if(err){
 				res.send(err);
 			}
@@ -141,7 +155,48 @@ storeRouter.route('/storesCollection/category/:category/:location/:pageNo')
 		});
 
 	});
+storeRouter.route('/localities/:city')
+	.get(function(req,res){
+		var query = Store.find({'address.city':req.params.city}).select({ "address.area": 1, "_id": 0});
+    query.exec(function (err, someValue) {
+        if (err) {
+						return next(err);
+				}
+				else{
+					var areaArray = [];
+					for (var i = 0; i < someValue.length; i++) {
+						console.log(someValue[i].address.area);
+						if(areaArray.indexOf(someValue[i].address.area)==-1){
+							areaArray.push(someValue[i].address.area);
+						}
+					}
+						res.json(areaArray);
+				}
 
+    });
+	});
+	storeRouter.route('/categories/:city')
+		.get(function(req,res){
+			var query = Store.find({'address.city':req.params.city}).select({ "category": 1, "_id": 0});
+	    query.exec(function (err, someValue) {
+	        if (err) {
+							return next(err);
+					}
+					else{
+						var categoryArray = [];
+						for (var i = 0; i < someValue.length; i++) {
+							for(var j = 0;j<someValue[i].category.length;j++){
+								if(categoryArray.indexOf(someValue[i].category[j])==-1){
+									categoryArray.push(someValue[i].category[j]);
+								}
+							}
+
+						}
+							res.json(categoryArray);
+					}
+
+	    });
+		});
 storeRouter.route('/categories/:pageNo')
 	.get(function(req,res){
 		Store.paginate({

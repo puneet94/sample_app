@@ -1,7 +1,8 @@
 (function(angular){
   angular.module('app.common')
   .directive('toggleElement',["$window","$location", toggleElement])
-  .directive('scrollDown', ["$window","$location", scrollDown]);
+  .directive('scrollDown', ["$window","$location", scrollDown])
+  .directive('toggleMobile',["$window","$location", toggleMobile]);
   function toggleElement($window,$location) {
     return {
       restrict: 'A',
@@ -64,6 +65,33 @@ function scrollDown($window,$location) {
         });
 
       }
+
+    }
+  };
+}
+
+function toggleMobile($window,$location) {
+  return {
+    restrict: 'A',
+    link: function(scope, element, attrs) {
+      console.log('dircetives************');
+      $(element).on('click',function(){
+        windowWidth = window.innerWidth ? window.innerWidth : $(window).width();
+
+          if (windowWidth <= 961 ) {
+            console.log(attrs);
+            $(attrs.toggleMobile).slideToggle();
+            scope.$apply();
+
+          }
+
+
+      });
+
+
+
+
+
 
     }
   };
