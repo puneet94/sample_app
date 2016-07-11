@@ -35,12 +35,12 @@
       .then(function(res){
         slcc.areas = res.data;
       },function(res){
-        console.log(res);
+        
       });
       getCityCategoriesService.getCityCategories(location)
         .then(function(res){
           slcc.categories = res.data;
-          console.log(slcc.categories);
+          
         },function(res){
           console.log(res);
         });

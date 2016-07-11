@@ -12,6 +12,12 @@ angular.module('app.store')
 function UserVisitService($http,baseUrlService){
   this.submitVisit = submitVisit;
   this.deleteVisit = deleteVisit;
+  this.getVisit = getVisit;
+
+  function getVisit(visitData){
+    return $http.get(baseUrlService.baseUrl+"visit/visited",{"params":visitData});
+  }
+
   function submitVisit(visitData){
     return $http.post(baseUrlService.baseUrl+"visit/visits/store",visitData);
   }

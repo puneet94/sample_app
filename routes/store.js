@@ -28,9 +28,9 @@ storeRouter.route('/store')
 					return res.send(err)
 				}
 			}
-			commons.saveSearchList(req.body.name,"store",city_name,req,res);
+			commons.saveSearchList(req.body.name.toLowerCase(),"store",city_name,req,res);
 			for (var i = store.category.length - 1; i >= 0; i--) {
-				commons.saveSearchList(store.category[i],"store-category",city_name,req,res);
+				commons.saveSearchList(store.category[i].toLowerCase(),"store-category",city_name,req,res);
 			};
 
 			res.json({message:"Store created"});
@@ -87,7 +87,7 @@ storeRouter.route('/storesCollection/stores/:location/:pageNo')
 				res.send(err);
 			}
 			else{
-				
+
 				res.json(result);
 			}
 		});
@@ -108,9 +108,9 @@ storeRouter.route('/storesCollection/stores/:location/:pageNo')
 					return res.send(err)
 				}
 			}
-			commons.saveSearchList(req.body.name,"store",city_name,req,res);
+			commons.saveSearchList(req.body.name.toLowerCase(),"store",city_name,req,res);
 			for (var i = store.category.length - 1; i >= 0; i--) {
-				commons.saveSearchList(store.category[i],"store-category",city_name,req,res);
+				commons.saveSearchList(store.category[i].toLowerCase(),"store-category",city_name,req,res);
 			};
 
 			res.json({message:"Store created"});

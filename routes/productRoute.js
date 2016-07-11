@@ -48,9 +48,7 @@ productRouter.route('/products/:storeId/:pageNo')
 
 				}
 				else{
-					console.log("999999999999999999999")
-					console.log(store);
-					
+
 					//res.send(stores);
 					city_name = store.address.city;
 				}
@@ -66,15 +64,15 @@ productRouter.route('/products/:storeId/:pageNo')
 
 				}
 			}
-			
-			commons.saveSearchList(recData.name,"product",city_name,req,res);
-			commons.saveSearchList(recData.category,"product-category",city_name,req,res);
-			commons.saveSearchList(recData.subCatgeory,"product-subcategory",city_name,req,res);
+
+			commons.saveSearchList(recData.name.toLowerCase(),"product",city_name,req,res);
+			commons.saveSearchList(recData.category.toLowerCase(),"product-category",city_name,req,res);
+			commons.saveSearchList(recData.subCatgeory.toLowerCase(),"product-subcategory",city_name,req,res);
 			res.json({message:"Product created"});
 		});
 	})
 	.get(function(req,res){
-		Product.paginate({'store':req.params.storeId}, 
+		Product.paginate({'store':req.params.storeId},
 			{page: req.params.pageNo, limit: 10 }, function(err, result) {
 		    if(err){
 				res.send(err);
@@ -87,7 +85,7 @@ productRouter.route('/products/:storeId/:pageNo')
 	})
 productRouter.route('/products/category/:storeId/:category/:pageNo')
 	.get(function(req,res){
-		Product.paginate({'store':req.params.storeId,'category':req.params.category}, 
+		Product.paginate({'store':req.params.storeId,'category':req.params.category},
 			{page: req.params.pageNo, limit: 10 }, function(err, result) {
 		    if(err){
 				res.send(err);

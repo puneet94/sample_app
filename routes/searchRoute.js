@@ -11,7 +11,8 @@ searchRouter.use(function(req,res,next){
 
 searchRouter.route('/searches/:location_name')
 	.get(function(req,res){
-		UserSearch.find({ 'location': req.params.location_name },function(err,searches){
+		var city = req.params.location_name.toLowerCase();
+		UserSearch.find({ 'location':city  },function(err,searches){
 			if(err){
 				console.log("--------------------");
 				console.log(err);

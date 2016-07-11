@@ -56,18 +56,18 @@ function SearchBoxController($scope,citiesService,searchService,changeBrowserURL
 		}
 		//md-search-text-change="sbc.searchTextChange(sbc.searchText)"
 		function searchTextChange(searchText){
-			console.log(searchText);
+
 		}
 		function selectedItemChange(item){
 			userLocationService.setUserLocation(item);
-			console.log("here it is");
-			console.log(item);
+
+
 			searchService.getSearches(item).then(function(resource){
 				hm.userSearches = [];
 				for (var i = resource.data.length - 1; i >= 0; i--) {
 					hm.userSearches.push(resource.data[i]);
 				}
-				console.log(hm.userSearches);
+
 			},function(data){
 				console.log(data);
 			});
@@ -87,7 +87,7 @@ function SearchBoxController($scope,citiesService,searchService,changeBrowserURL
 
 	    	citiesService.getCities()
 				.then(function(obj){
-					console.log(obj);
+					
 					hm.cities = obj.data;
 
 				},function(obj){

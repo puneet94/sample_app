@@ -190,8 +190,6 @@ angular.module('app.common')
 	}
 	function SearchService(baseUrlService,$http){
    		this.getSearches = function(userLocation) {
-   			console.log("inside http");
-   			console.log(userLocation);
    			var gs = this;
    			gs.searchesData  = undefined;
    			var url = baseUrlService.baseUrl+"search/searches/"+userLocation;
@@ -345,10 +343,9 @@ angular.module('app.common')
       restrict: 'A',
       link: function(scope, element, attrs) {
         var path = $location.path();
-        console.log(element);
-        console.log(attrs.toggleElement);
+
         $(element[0]).on('click',function(){
-          console.log('click works');
+
           if(path.indexOf('/home')==-1){
               $(attrs.toggleElement).slideToggle();
           }
@@ -356,11 +353,10 @@ angular.module('app.common')
         });
 
 
-        console.log('****toggle dircetives**********');
+
         var lastScrollTop = 0;
 
         if(path.indexOf('/home')==-1){
-          console.log("can try this");
 
 
         }
@@ -374,12 +370,12 @@ function scrollDown($window,$location) {
   return {
     restrict: 'A',
     link: function(scope, element, attrs) {
-      console.log('dircetives************');
+
       var lastScrollTop = 0;
       var path = $location.path();
-      console.log($location.path());
+
       if(path.indexOf('/home')==-1){
-        console.log("can try this");
+
 
         $(window).on("scroll", function() {
           windowWidth = window.innerWidth ? window.innerWidth : $(window).width();
@@ -411,12 +407,12 @@ function toggleMobile($window,$location) {
   return {
     restrict: 'A',
     link: function(scope, element, attrs) {
-      console.log('dircetives************');
+      
       $(element).on('click',function(){
         windowWidth = window.innerWidth ? window.innerWidth : $(window).width();
 
           if (windowWidth <= 961 ) {
-            console.log(attrs);
+            
             $(attrs.toggleMobile).slideToggle();
             scope.$apply();
 
@@ -716,18 +712,18 @@ function SearchBoxController($scope,citiesService,searchService,changeBrowserURL
 		}
 		//md-search-text-change="sbc.searchTextChange(sbc.searchText)"
 		function searchTextChange(searchText){
-			console.log(searchText);
+
 		}
 		function selectedItemChange(item){
 			userLocationService.setUserLocation(item);
-			console.log("here it is");
-			console.log(item);
+
+
 			searchService.getSearches(item).then(function(resource){
 				hm.userSearches = [];
 				for (var i = resource.data.length - 1; i >= 0; i--) {
 					hm.userSearches.push(resource.data[i]);
 				}
-				console.log(hm.userSearches);
+
 			},function(data){
 				console.log(data);
 			});
@@ -747,7 +743,7 @@ function SearchBoxController($scope,citiesService,searchService,changeBrowserURL
 
 	    	citiesService.getCities()
 				.then(function(obj){
-					console.log(obj);
+					
 					hm.cities = obj.data;
 
 				},function(obj){
@@ -1173,12 +1169,12 @@ angular.module('app.store')
     ssc.authCheck = $auth.isAuthenticated();
     getSingleStore.getStore($routeParams.storeId)
     .then(function(res){
-      console.log('****stores*****');
-      console.log(res);
+      
+      
       storeData.setStore(res.data);
         ssc.storeData = res.data;
 
-        console.log(ssc.storeData);
+        
       });
       if($location.search().flowto!==undefined){
         var flowId = $location.search().flowto;
@@ -1211,7 +1207,7 @@ angular.module('app.store')
     .controller('StoreController',["baseUrlService","$http",storeController]);
   function storeController(baseUrlService,$http){
     var sm = this;
-    console.log("store controller");
+
     sm.address = {};
     sm.SendData = function () {
       data = {};
@@ -1219,7 +1215,7 @@ angular.module('app.store')
       data.city = sm.address.city;
       data.address = sm.address;
       data.category = sm.categoryString.split(",");
-      console.log(data.category);
+
       var config = {
         headers : {
           'Content-Type': 'application/json'
@@ -1228,7 +1224,7 @@ angular.module('app.store')
     $http.post(baseUrlService.baseUrl+"store/store", data, config)
       .then(
         function(response){
-          console.log(response);
+        
         },
         function(response){
           console.log(response);
@@ -1283,20 +1279,20 @@ angular.module('app.store')
         .then(function(response){
 
           if(slc.storesList.length===0){
-            console.log("big if");
+
             var tempStoreList = [];
             for (var i = response.data.docs.length - 1; i >= 0; i--) {
               tempStoreList.push(response.data.docs[i]);
-              console.log(response.data.docs[i]);
+
             }
             slc.storesList = tempStoreList;
           }
           else{
 
             if(slc.paramData&&slc.pageNo==1){
-              console.log(slc.pageNo);
+              
               //alert("hit");
-              console.log("small if");
+              
               slc.storesList = [];
             }
             for (var j = response.data.docs.length - 1; j >= 0; j--) {
@@ -1354,12 +1350,12 @@ angular.module('app.store')
       .then(function(res){
         slcc.areas = res.data;
       },function(res){
-        console.log(res);
+        
       });
       getCityCategoriesService.getCityCategories(location)
         .then(function(res){
           slcc.categories = res.data;
-          console.log(slcc.categories);
+          
         },function(res){
           console.log(res);
         });
@@ -1395,22 +1391,20 @@ angular.module('app.store')
       usv.userStoreVisited = userStoreVisited;
       activate();
 
-      function userStoreVisited(storeData){
+      function userStoreVisited(){
         //userData.setUser();
-        console.log('********visit function called****************');
-        for (var storeId in storeData.visits) {
-          var storeIdSingle = storeData.visits[storeId];
-          console.log(storeData.visits[storeId]);
-          if (userData.getUser().visits.indexOf(storeIdSingle)!=-1) {
-            usv.userStoreVisitId = storeIdSingle;
-            usv.visitCheck = true;
+        userVisitService.getVisit({"storeId":$routeParams.storeId,"userId":userData.getUser()._id})
+          .then(function(res){
+            if(res.data.length){
+                usv.visitCheck = true;
+                usv.userStoreVisitId  = res.data[0]._id;
+            }
 
-          }
-        }
+          });
       }
       function toggleVisitCheck(){
-        console.log('inside togle');
-        console.log(usv.visitCheck);
+
+
       if(usv.visitCheck){
           if(userData.getUser()){
             usv.visit.userId = userData.getUser()._id;
@@ -1443,7 +1437,7 @@ angular.module('app.store')
       }
       function activate(){
         userData.setUser();
-        userStoreVisited(storeData.getStore());
+        userStoreVisited();
       }
 
     }
@@ -1542,6 +1536,12 @@ angular.module('app.store')
 function UserVisitService($http,baseUrlService){
   this.submitVisit = submitVisit;
   this.deleteVisit = deleteVisit;
+  this.getVisit = getVisit;
+
+  function getVisit(visitData){
+    return $http.get(baseUrlService.baseUrl+"visit/visited",{"params":visitData});
+  }
+
   function submitVisit(visitData){
     return $http.post(baseUrlService.baseUrl+"visit/visits/store",visitData);
   }

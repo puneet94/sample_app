@@ -43,20 +43,20 @@
         .then(function(response){
 
           if(slc.storesList.length===0){
-            console.log("big if");
+
             var tempStoreList = [];
             for (var i = response.data.docs.length - 1; i >= 0; i--) {
               tempStoreList.push(response.data.docs[i]);
-              console.log(response.data.docs[i]);
+
             }
             slc.storesList = tempStoreList;
           }
           else{
 
             if(slc.paramData&&slc.pageNo==1){
-              console.log(slc.pageNo);
+              
               //alert("hit");
-              console.log("small if");
+              
               slc.storesList = [];
             }
             for (var j = response.data.docs.length - 1; j >= 0; j--) {

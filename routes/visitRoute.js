@@ -30,10 +30,26 @@ visitRouter.route('/visits/:visitId')
 					}
 				});
 });
+visitRouter.route('/visited')
+.get(function(req,res){
+	console.log("here is the visit");
+  var storeId = req.query.storeId;
+	var userId = req.query.userId;
+	Visit.find({'store':storeId,'user':userId})
+				.exec(function(err, result) {
+						if(err){
+							console.log(err);
+						res.send(err);
+					}
+					else{
+						res.json(result);
+					}
+				});
+})
 visitRouter.route('/visits/store/')
 .get(function(req,res){
   var storeId = req.body.storeId;
-	Review.find({'store':storeId})
+	Visit.find({'store':storeId})
 				.populate({
 					path: 'user',
 					model: 'User'
@@ -75,7 +91,7 @@ visitRouter.route('/visits/store/')
 visitRouter.route('/visits/user/')
 .get(function(req,res){
   var userId = req.body.userId;
-	Review.find({'user':userId})
+	Visit.find({'user':userId})
 				.populate({
 					path: 'store',
 					model: 'Store'

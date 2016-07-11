@@ -14,22 +14,20 @@
       usv.userStoreVisited = userStoreVisited;
       activate();
 
-      function userStoreVisited(storeData){
+      function userStoreVisited(){
         //userData.setUser();
-        console.log('********visit function called****************');
-        for (var storeId in storeData.visits) {
-          var storeIdSingle = storeData.visits[storeId];
-          console.log(storeData.visits[storeId]);
-          if (userData.getUser().visits.indexOf(storeIdSingle)!=-1) {
-            usv.userStoreVisitId = storeIdSingle;
-            usv.visitCheck = true;
+        userVisitService.getVisit({"storeId":$routeParams.storeId,"userId":userData.getUser()._id})
+          .then(function(res){
+            if(res.data.length){
+                usv.visitCheck = true;
+                usv.userStoreVisitId  = res.data[0]._id;
+            }
 
-          }
-        }
+          });
       }
       function toggleVisitCheck(){
-        console.log('inside togle');
-        console.log(usv.visitCheck);
+
+
       if(usv.visitCheck){
           if(userData.getUser()){
             usv.visit.userId = userData.getUser()._id;
@@ -62,7 +60,7 @@
       }
       function activate(){
         userData.setUser();
-        userStoreVisited(storeData.getStore());
+        userStoreVisited();
       }
 
     }
