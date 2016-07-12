@@ -34,14 +34,15 @@
 				<input ng-model="rcl.user.password" type="password" name="password" md-minlength="6" placeholder="Password (required)" required="true"/>
 				<div ng-messages="registerForm.password.$error">
 					<div ng-message="required">This is required.</div>
-					<div ng-message="md-minlength">The name has to be more than ch 6aracters long.</div>
+					<div ng-message="md-minlength">The password has to be more than 6 characters long.</div>
 				</div>
 			</md-input-container>
       <md-input-container class="md-block">
 				<label>Password</label>
-				<input ng-model="rcl.user.password_confirm" type="password" name="password_confrim" same-as="rcl.user.password" md-minlength="6" placeholder="Password (required)" required="true"/>
+				<input ng-model="rcl.user.password_confirm" type="password" name="password_confirm" same-as="rcl.user.password" md-minlength="6" placeholder="Password (required)" required="true"/>
         <p ng-show="registerForm.password_confirm.$dirty &amp;&amp; registerForm.password_confirm.$invalid" class="help-block">please match the passwords</p>
-        <div ng-messages="registerForm.confirm_password.$error">
+        <div ng-messages="registerForm.password_confirm.$dirty &amp;&amp; registerForm.password_confirm.$invalid">
+				
 					<div ng-message="required">This is required.</div>
 					<div ng-message="md-minlength">The name has to be more than ch 6aracters long.</div>
 				</div>

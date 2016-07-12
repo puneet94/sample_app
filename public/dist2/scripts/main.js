@@ -4,7 +4,7 @@ angular.module('myApp',
   ).config(['$routeProvider','$mdThemingProvider',
   function($routeProvider,$mdThemingProvider) {
       $mdThemingProvider.theme('default')
-    .primaryPalette('blue-grey')
+    .primaryPalette('deep-orange')
     .accentPalette('light-blue')
      .warnPalette('blue');
      //.backgroundPalette('blue-grey');
@@ -974,7 +974,9 @@ angular.module('authModApp')
 				require: 'ngModel',
 				restrict: 'EA',
 				link: function postLink(scope, element, attrs,ngModelCtrl) {
-					console.log(scope.$eval(attrs.sameAs));
+          console.log(attrs);
+          console.log(attrs.sameAs);
+					//console.log(scope.$eval(attrs.sameAs));
 					function validateEqual(value){
 						var valid = (value === scope.$eval(attrs.sameAs));
 						ngModelCtrl.$setValidity('equal',valid);

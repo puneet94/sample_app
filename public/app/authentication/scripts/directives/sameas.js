@@ -14,7 +14,9 @@
 				require: 'ngModel',
 				restrict: 'EA',
 				link: function postLink(scope, element, attrs,ngModelCtrl) {
-					console.log(scope.$eval(attrs.sameAs));
+          console.log(attrs);
+          console.log(attrs.sameAs);
+					//console.log(scope.$eval(attrs.sameAs));
 					function validateEqual(value){
 						var valid = (value === scope.$eval(attrs.sameAs));
 						ngModelCtrl.$setValidity('equal',valid);
