@@ -2,12 +2,12 @@
 	'use strict';
 
 angular.module('app.home')
-	.controller('SearchBoxController',["$scope","citiesService","searchService","changeBrowserURL","arrayUniqueCopy","arrayObjectMapper","userLocationService",SearchBoxController]);
+	.controller('SearchBoxController',["$scope","$routeParams","citiesService","searchService","changeBrowserURL","userLocationService",SearchBoxController]);
 
 
-function SearchBoxController($scope,citiesService,searchService,changeBrowserURL,arrayUniqueCopy,arrayObjectMapper,userLocationService){
+function SearchBoxController($scope,$routeParams,citiesService,searchService,changeBrowserURL,userLocationService){
 		var hm= this;
-		hm.selectedItem = 'hyderabad';
+		hm.selectedItem = $routeParams.location||'hyderabad';
 		activate();
 
 		hm.userSearches = [];

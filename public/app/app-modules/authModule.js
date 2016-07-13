@@ -31,12 +31,12 @@ angular
         controller: 'LoginController',
         controllerAs: 'login'
       });
-      $authProvider.loginUrl = "https://localhost:3000/authenticate/login";
-      $authProvider.signupUrl = "https://localhost:3000/authenticate/signup";
+      $authProvider.loginUrl = "http://localhost:3000/authenticate/login";
+      $authProvider.signupUrl = "http://localhost:3000/authenticate/signup";
 
       $authProvider.facebook({
         clientId: '1068203956594250',
-        url:'https://localhost:3000/authenticate/auth/facebook'
+        url:'http://localhost:3000/authenticate/auth/facebook'
       });
       //$httpProvider.interceptors.push('authInterceptor');
   }

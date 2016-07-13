@@ -55,12 +55,12 @@ angular
         controller: 'LoginController',
         controllerAs: 'login'
       });
-      $authProvider.loginUrl = "https://localhost:3000/authenticate/login";
-      $authProvider.signupUrl = "https://localhost:3000/authenticate/signup";
+      $authProvider.loginUrl = "http://localhost:3000/authenticate/login";
+      $authProvider.signupUrl = "http://localhost:3000/authenticate/signup";
 
       $authProvider.facebook({
         clientId: '1068203956594250',
-        url:'https://localhost:3000/authenticate/auth/facebook'
+        url:'http://localhost:3000/authenticate/auth/facebook'
       });
       //$httpProvider.interceptors.push('authInterceptor');
   }
@@ -450,6 +450,7 @@ function loadingDirective() {
   }
 })(window.angular);
 
+
 (function(angular){
 	'use strict';
 
@@ -674,12 +675,12 @@ function loadingDirective() {
 	'use strict';
 
 angular.module('app.home')
-	.controller('SearchBoxController',["$scope","citiesService","searchService","changeBrowserURL","arrayUniqueCopy","arrayObjectMapper","userLocationService",SearchBoxController]);
+	.controller('SearchBoxController',["$scope","$routeParams","citiesService","searchService","changeBrowserURL","userLocationService",SearchBoxController]);
 
 
-function SearchBoxController($scope,citiesService,searchService,changeBrowserURL,arrayUniqueCopy,arrayObjectMapper,userLocationService){
+function SearchBoxController($scope,$routeParams,citiesService,searchService,changeBrowserURL,userLocationService){
 		var hm= this;
-		hm.selectedItem = 'hyderabad';
+		hm.selectedItem = $routeParams.location||'hyderabad';
 		activate();
 
 		hm.userSearches = [];
@@ -786,41 +787,6 @@ function SearchBoxController($scope,citiesService,searchService,changeBrowserURL
    * Review module of the application.
    */
   angular.module('app.review',[]);
-})(window.angular);
-
-
-
-/**
- * @ngdoc directive
- * @name authModApp.directive:sameAs
- * @description
- * # sameAs
- */
- (function(angular){
- 'use strict';
-	angular.module('authModApp')
-		.directive('sameAs', function () {
-			return {
-				require: 'ngModel',
-				restrict: 'EA',
-				link: function postLink(scope, element, attrs,ngModelCtrl) {
-          console.log(attrs);
-          console.log(attrs.sameAs);
-					//console.log(scope.$eval(attrs.sameAs));
-					function validateEqual(value){
-						var valid = (value === scope.$eval(attrs.sameAs));
-						ngModelCtrl.$setValidity('equal',valid);
-						return valid ? value : undefined;
-					}
-					ngModelCtrl.$parsers.push(validateEqual);
-					ngModelCtrl.$formatters.push(validateEqual);
-					scope.$watch(attrs.sameAs,function(){
-						ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
-					});
-				}
-			};
-		});
-
 })(window.angular);
 
 
@@ -1012,6 +978,41 @@ angular.module('authModApp')
 //     }
 //   }
 
+
+
+/**
+ * @ngdoc directive
+ * @name authModApp.directive:sameAs
+ * @description
+ * # sameAs
+ */
+ (function(angular){
+ 'use strict';
+	angular.module('authModApp')
+		.directive('sameAs', function () {
+			return {
+				require: 'ngModel',
+				restrict: 'EA',
+				link: function postLink(scope, element, attrs,ngModelCtrl) {
+          console.log(attrs);
+          console.log(attrs.sameAs);
+					//console.log(scope.$eval(attrs.sameAs));
+					function validateEqual(value){
+						var valid = (value === scope.$eval(attrs.sameAs));
+						ngModelCtrl.$setValidity('equal',valid);
+						return valid ? value : undefined;
+					}
+					ngModelCtrl.$parsers.push(validateEqual);
+					ngModelCtrl.$formatters.push(validateEqual);
+					scope.$watch(attrs.sameAs,function(){
+						ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
+					});
+				}
+			};
+		});
+
+})(window.angular);
+
 (function(angular){
 'use strict';
 
@@ -1080,7 +1081,6 @@ angular.module('authModApp')
     return obj1;
   }
 })(window.angular);
-
 
 (function(angular){
   'use strict';
