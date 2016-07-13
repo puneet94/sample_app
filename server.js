@@ -53,6 +53,7 @@ if (app.get('env') === 'production') {
     protocol == 'https' ? next() : res.redirect('https://' + req.hostname + req.url);
   });
 }
+
 //Middleware from custom methods
 
 app.use('/store',storeRouter);

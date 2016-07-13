@@ -14,9 +14,10 @@ function SearchBoxController($scope,citiesService,searchService,changeBrowserURL
 		hm.selectedItemChange = selectedItemChange;
 		hm.userSearchItemChange = userSearchItemChange;
 		hm.locationSearch = locationSearch;
+		hm.loading = false;
 		hm.selectedItemChange(hm.selectedItem);
 		function userSearchItemChange(item){
-
+			hm.loading = true;
 			var changeEntity = item.userSearchString.split("#&#")[1];
 			var entityName = item.userSearchString.split("#&#")[0];
 			var location = item.userSearchString.split("#&#")[2];
@@ -49,6 +50,8 @@ function SearchBoxController($scope,citiesService,searchService,changeBrowserURL
 				hm.url = "/product/productsCollectionSubCategory/";
 
 			}
+			hm.loading = false;
+
 			changeBrowserURL.changeBrowserURLMethod(hm.url+entityName+"/"+location+"/"+hm.slug);
 
 
@@ -87,7 +90,7 @@ function SearchBoxController($scope,citiesService,searchService,changeBrowserURL
 
 	    	citiesService.getCities()
 				.then(function(obj){
-					
+
 					hm.cities = obj.data;
 
 				},function(obj){

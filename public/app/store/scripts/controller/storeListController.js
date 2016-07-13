@@ -23,6 +23,7 @@
         changeBrowserURL.changeBrowserURLMethod(url);
       }
       function getStoresCollection(){
+        slc.loading = true;
         slc.pageNo = slc.pageNo + 1;
         var location = $routeParams.location;
         var url ='';
@@ -54,9 +55,9 @@
           else{
 
             if(slc.paramData&&slc.pageNo==1){
-              
+
               //alert("hit");
-              
+
               slc.storesList = [];
             }
             for (var j = response.data.docs.length - 1; j >= 0; j--) {
@@ -64,7 +65,7 @@
             }
 
           }
-
+          slc.loading = false;
         },function(response){
           console.log(response);
         });

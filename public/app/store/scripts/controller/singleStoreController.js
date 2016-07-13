@@ -7,15 +7,16 @@ angular.module('app.store')
     var ssc = this;
     ssc.storeData = {};
     ssc.flowToId = flowToId;
+    ssc.loading = true;
     ssc.authCheck = $auth.isAuthenticated();
     getSingleStore.getStore($routeParams.storeId)
     .then(function(res){
-      
-      
+
+
       storeData.setStore(res.data);
         ssc.storeData = res.data;
+        ssc.loading = false;
 
-        
       });
       if($location.search().flowto!==undefined){
         var flowId = $location.search().flowto;

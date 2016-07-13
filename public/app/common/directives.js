@@ -2,7 +2,8 @@
   angular.module('app.common')
   .directive('toggleElement',["$window","$location", toggleElement])
   .directive('scrollDown', ["$window","$location", scrollDown])
-  .directive('toggleMobile',["$window","$location", toggleMobile]);
+  .directive('toggleMobile',["$window","$location", toggleMobile])
+  .directive('loadingDirective',[loadingDirective]);
   function toggleElement($window,$location) {
     return {
       restrict: 'A',
@@ -72,12 +73,12 @@ function toggleMobile($window,$location) {
   return {
     restrict: 'A',
     link: function(scope, element, attrs) {
-      
+
       $(element).on('click',function(){
         windowWidth = window.innerWidth ? window.innerWidth : $(window).width();
 
           if (windowWidth <= 961 ) {
-            
+
             $(attrs.toggleMobile).slideToggle();
             scope.$apply();
 
@@ -95,5 +96,22 @@ function toggleMobile($window,$location) {
   };
 }
 
-
+function loadingDirective() {
+      return {
+        restrict: 'E',
+        replace:true,
+        scope:{
+          loading:"=loading"
+        },
+        template: '<div class="ajaxLoadingSpinnerDiv"><div class="ajaxLoadingSpinner"></div></div>',
+        link: function (scope, element, attr) {
+              scope.$watch('loading', function (val) {
+                  if (val)
+                      $(element).show();
+                  else
+                      $(element).hide();
+              });
+        }
+      };
+  }
 })(window.angular);

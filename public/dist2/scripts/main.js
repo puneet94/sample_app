@@ -55,13 +55,12 @@ angular
         controller: 'LoginController',
         controllerAs: 'login'
       });
-      $authProvider.loginUrl = "http://localhost:3000/authenticate/login";
-      $authProvider.signupUrl = "http://localhost:3000/authenticate/signup";
+      $authProvider.loginUrl = "https://localhost:3000/authenticate/login";
+      $authProvider.signupUrl = "https://localhost:3000/authenticate/signup";
 
       $authProvider.facebook({
         clientId: '1068203956594250',
-        url:'http://localhost:3000/authenticate/auth/facebook',
-        redirectUri: 'http://localhost:3000/'
+        url:'https://localhost:3000/authenticate/auth/facebook'
       });
       //$httpProvider.interceptors.push('authInterceptor');
   }
@@ -337,7 +336,8 @@ angular.module('app.common')
   angular.module('app.common')
   .directive('toggleElement',["$window","$location", toggleElement])
   .directive('scrollDown', ["$window","$location", scrollDown])
-  .directive('toggleMobile',["$window","$location", toggleMobile]);
+  .directive('toggleMobile',["$window","$location", toggleMobile])
+  .directive('loadingDirective',[loadingDirective]);
   function toggleElement($window,$location) {
     return {
       restrict: 'A',
@@ -407,12 +407,12 @@ function toggleMobile($window,$location) {
   return {
     restrict: 'A',
     link: function(scope, element, attrs) {
-      
+
       $(element).on('click',function(){
         windowWidth = window.innerWidth ? window.innerWidth : $(window).width();
 
           if (windowWidth <= 961 ) {
-            
+
             $(attrs.toggleMobile).slideToggle();
             scope.$apply();
 
@@ -430,9 +430,25 @@ function toggleMobile($window,$location) {
   };
 }
 
-
+function loadingDirective() {
+      return {
+        restrict: 'E',
+        replace:true,
+        scope:{
+          loading:"=loading"
+        },
+        template: '<div class="ajaxLoadingSpinnerDiv"><div class="ajaxLoadingSpinner"></div></div>',
+        link: function (scope, element, attr) {
+              scope.$watch('loading', function (val) {
+                  if (val)
+                      $(element).show();
+                  else
+                      $(element).hide();
+              });
+        }
+      };
+  }
 })(window.angular);
-
 
 (function(angular){
 	'use strict';
@@ -670,9 +686,10 @@ function SearchBoxController($scope,citiesService,searchService,changeBrowserURL
 		hm.selectedItemChange = selectedItemChange;
 		hm.userSearchItemChange = userSearchItemChange;
 		hm.locationSearch = locationSearch;
+		hm.loading = false;
 		hm.selectedItemChange(hm.selectedItem);
 		function userSearchItemChange(item){
-
+			hm.loading = true;
 			var changeEntity = item.userSearchString.split("#&#")[1];
 			var entityName = item.userSearchString.split("#&#")[0];
 			var location = item.userSearchString.split("#&#")[2];
@@ -705,6 +722,8 @@ function SearchBoxController($scope,citiesService,searchService,changeBrowserURL
 				hm.url = "/product/productsCollectionSubCategory/";
 
 			}
+			hm.loading = false;
+
 			changeBrowserURL.changeBrowserURLMethod(hm.url+entityName+"/"+location+"/"+hm.slug);
 
 
@@ -743,7 +762,7 @@ function SearchBoxController($scope,citiesService,searchService,changeBrowserURL
 
 	    	citiesService.getCities()
 				.then(function(obj){
-					
+
 					hm.cities = obj.data;
 
 				},function(obj){
@@ -767,6 +786,41 @@ function SearchBoxController($scope,citiesService,searchService,changeBrowserURL
    * Review module of the application.
    */
   angular.module('app.review',[]);
+})(window.angular);
+
+
+
+/**
+ * @ngdoc directive
+ * @name authModApp.directive:sameAs
+ * @description
+ * # sameAs
+ */
+ (function(angular){
+ 'use strict';
+	angular.module('authModApp')
+		.directive('sameAs', function () {
+			return {
+				require: 'ngModel',
+				restrict: 'EA',
+				link: function postLink(scope, element, attrs,ngModelCtrl) {
+          console.log(attrs);
+          console.log(attrs.sameAs);
+					//console.log(scope.$eval(attrs.sameAs));
+					function validateEqual(value){
+						var valid = (value === scope.$eval(attrs.sameAs));
+						ngModelCtrl.$setValidity('equal',valid);
+						return valid ? value : undefined;
+					}
+					ngModelCtrl.$parsers.push(validateEqual);
+					ngModelCtrl.$formatters.push(validateEqual);
+					scope.$watch(attrs.sameAs,function(){
+						ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
+					});
+				}
+			};
+		});
+
 })(window.angular);
 
 
@@ -958,41 +1012,6 @@ angular.module('authModApp')
 //     }
 //   }
 
-
-
-/**
- * @ngdoc directive
- * @name authModApp.directive:sameAs
- * @description
- * # sameAs
- */
- (function(angular){
- 'use strict';
-	angular.module('authModApp')
-		.directive('sameAs', function () {
-			return {
-				require: 'ngModel',
-				restrict: 'EA',
-				link: function postLink(scope, element, attrs,ngModelCtrl) {
-          console.log(attrs);
-          console.log(attrs.sameAs);
-					//console.log(scope.$eval(attrs.sameAs));
-					function validateEqual(value){
-						var valid = (value === scope.$eval(attrs.sameAs));
-						ngModelCtrl.$setValidity('equal',valid);
-						return valid ? value : undefined;
-					}
-					ngModelCtrl.$parsers.push(validateEqual);
-					ngModelCtrl.$formatters.push(validateEqual);
-					scope.$watch(attrs.sameAs,function(){
-						ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
-					});
-				}
-			};
-		});
-
-})(window.angular);
-
 (function(angular){
 'use strict';
 
@@ -1061,6 +1080,7 @@ angular.module('authModApp')
     return obj1;
   }
 })(window.angular);
+
 
 (function(angular){
   'use strict';
@@ -1168,15 +1188,16 @@ angular.module('app.store')
     var ssc = this;
     ssc.storeData = {};
     ssc.flowToId = flowToId;
+    ssc.loading = true;
     ssc.authCheck = $auth.isAuthenticated();
     getSingleStore.getStore($routeParams.storeId)
     .then(function(res){
-      
-      
+
+
       storeData.setStore(res.data);
         ssc.storeData = res.data;
+        ssc.loading = false;
 
-        
       });
       if($location.search().flowto!==undefined){
         var flowId = $location.search().flowto;
@@ -1261,6 +1282,7 @@ angular.module('app.store')
         changeBrowserURL.changeBrowserURLMethod(url);
       }
       function getStoresCollection(){
+        slc.loading = true;
         slc.pageNo = slc.pageNo + 1;
         var location = $routeParams.location;
         var url ='';
@@ -1292,9 +1314,9 @@ angular.module('app.store')
           else{
 
             if(slc.paramData&&slc.pageNo==1){
-              
+
               //alert("hit");
-              
+
               slc.storesList = [];
             }
             for (var j = response.data.docs.length - 1; j >= 0; j--) {
@@ -1302,7 +1324,7 @@ angular.module('app.store')
             }
 
           }
-
+          slc.loading = false;
         },function(response){
           console.log(response);
         });
