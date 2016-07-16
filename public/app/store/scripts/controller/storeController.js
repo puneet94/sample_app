@@ -22,7 +22,6 @@
     $http.post(baseUrlService.baseUrl+"store/store", data, config)
       .then(
         function(response){
-        
         },
         function(response){
           console.log(response);

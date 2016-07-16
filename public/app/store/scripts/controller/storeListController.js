@@ -12,6 +12,7 @@
       slc.storesList = [];
       slc.getSingleStore = getSingleStore;
       slc.getStoresCollection = getStoresCollection;
+      slc.storesSearchHeader = $routeParams.slug;
       activate();
       $scope.$on('parent', function (event, data) {
         slc.pageNo = 0;

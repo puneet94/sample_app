@@ -7,7 +7,7 @@ angular.module('app.home')
 
 function SearchBoxController($scope,$routeParams,citiesService,searchService,changeBrowserURL,userLocationService){
 		var hm= this;
-		hm.selectedItem = $routeParams.location||'hyderabad';
+		hm.selectedItem = $routeParams.location||$routeParams.myslug.split("-")[2]||'hyderabad';
 
 		activate();
 

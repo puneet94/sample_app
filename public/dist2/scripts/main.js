@@ -680,7 +680,7 @@ angular.module('app.home')
 
 function SearchBoxController($scope,$routeParams,citiesService,searchService,changeBrowserURL,userLocationService){
 		var hm= this;
-		hm.selectedItem = $routeParams.location||'hyderabad';
+		hm.selectedItem = $routeParams.location||$routeParams.myslug.split("-")[2]||'hyderabad';
 
 		activate();
 
@@ -1225,10 +1225,42 @@ angular.module('app.store')
 (function(angular){
   angular.module('app.store')
 
-    .controller('StoreCategoryCollectionController',["$location",StoreCategoryCollectionController]);
+    .controller('StoreCategoryCollectionController',["$scope","$routeParams","getCityLocalitiesService","getCityCategoriesService",StoreCategoryCollectionController]);
 
-    function StoreCategoryCollectionController($location){
-      console.log($location.absUrl());
+    function StoreCategoryCollectionController($scope,$routeParams,getCityLocalitiesService,getCityCategoriesService){
+      var slcc = this;
+      slcc.areaModel = {};
+      slcc.launchFilterEvent = launchFilterEvent;
+      slcc.areaRadioClicked = areaRadioClicked;
+      slcc.majorFilter = {};
+      slcc.clearAreaFilters = clearAreaFilters;
+      function areaRadioClicked(){
+        slcc.majorFilter.area=slcc.areaModel.area;
+        launchFilterEvent(slcc.majorFilter);
+      }
+      function clearAreaFilters(){
+        delete slcc.majorFilter.area;
+        slcc.areaModel = {};
+        launchFilterEvent(slcc.majorFilter);
+      }
+      
+      var location = $routeParams.location;
+      getCityLocalitiesService.getCityLocalities(location)
+        .then(function(res){
+          slcc.areas = res.data;
+        },function(res){
+
+        });
+        getCityCategoriesService.getCityCategories(location)
+          .then(function(res){
+            slcc.categories = res.data;
+
+          },function(res){
+            console.log(res);
+          });
+      function launchFilterEvent(obj){
+          $scope.$broadcast('parent', obj);
+      }
     }
 
 })(window.angular);
@@ -1257,7 +1289,6 @@ angular.module('app.store')
     $http.post(baseUrlService.baseUrl+"store/store", data, config)
       .then(
         function(response){
-        
         },
         function(response){
           console.log(response);
@@ -1281,6 +1312,7 @@ angular.module('app.store')
       slc.storesList = [];
       slc.getSingleStore = getSingleStore;
       slc.getStoresCollection = getStoresCollection;
+      slc.storesSearchHeader = $routeParams.slug;
       activate();
       $scope.$on('parent', function (event, data) {
         slc.pageNo = 0;

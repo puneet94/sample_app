@@ -6,7 +6,32 @@
 <main class="fixedHeaderMain">
 <div layout="row" layout-wrap>
 
-		<div flex="20" hide-sm hide-xs>[flex=20]</div>
+		<div flex="20" hide-sm hide-xs>
+			<div class="locationFilters" flex="20" hide-sm hide-xs flex-sm="100" flex-xs="100" >
+				<h3 hide-sm hide-xs>Filters</h3>
+				<div class="" layout-sm="row" layout-xs="row" flex="grow" layout-wrap >
+					<div class="">
+
+
+							<h5>Area</h5>
+							<md-radio-group ng-model="sccc.areaModel['area']" ng-change="sccc.areaRadioClicked()">
+								<md-radio-button ng-repeat="area in sccc.areas" value="{{area}}" >
+									<span>
+										{{area}}
+									</span>
+								</md-radio-button>
+						</md-radio-group>
+							<button type="button" name="button" ng-disabled="!sccc.areaModel['area']" ng-click="sccc.clearAreaFilters()">Clear</button>
+					</div>
+
+
+				</div>
+
+
+			</div>
+
+
+		</div>
 		<div flex="60" flex-sm="100" flex-xs="100">
 			<div ng-include="'app/store/storesList.html'"></div>
 
