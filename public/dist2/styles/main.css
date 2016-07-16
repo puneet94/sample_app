@@ -1,5 +1,6 @@
 .ajaxLoadingSpinnerDiv {
   position: fixed;
+  z-index: 999;
   top: 0;
   bottom: 0;
   right: 0;
@@ -114,6 +115,16 @@
 .storeAddressPartial {
   background-color: white;
   padding: 5px; }
+
+.storeCardImage {
+  background-size: cover;
+  height: 100px; }
+
+.storeCardFooter {
+  font-size: 12px;
+  font-weight: 800; }
+  .storeCardFooter span {
+    margin: 2px; }
 
 .storeNameHeading {
   text-transform: capitalize;

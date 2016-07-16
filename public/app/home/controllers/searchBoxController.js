@@ -8,19 +8,21 @@ angular.module('app.home')
 function SearchBoxController($scope,$routeParams,citiesService,searchService,changeBrowserURL,userLocationService){
 		var hm= this;
 		hm.selectedItem = $routeParams.location||'hyderabad';
+
 		activate();
 
 		hm.userSearches = [];
 		hm.selectedItemChange = selectedItemChange;
 		hm.userSearchItemChange = userSearchItemChange;
 		hm.locationSearch = locationSearch;
-		hm.loading = false;
+
 		hm.selectedItemChange(hm.selectedItem);
 		function userSearchItemChange(item){
-			hm.loading = true;
+
+
 			var changeEntity = item.userSearchString.split("#&#")[1];
 			var entityName = item.userSearchString.split("#&#")[0];
-			var location = item.userSearchString.split("#&#")[2];
+			var location = hm.selectedItem;
 			hm.slug = entityName + "-"+changeEntity.split("-")[0]+"s-in-" + location;
 			if(changeEntity == "store"){
 
@@ -50,7 +52,11 @@ function SearchBoxController($scope,$routeParams,citiesService,searchService,cha
 				hm.url = "/product/productsCollectionSubCategory/";
 
 			}
-			hm.loading = false;
+			else{
+
+				locationSearchUrl();
+			}
+
 
 			changeBrowserURL.changeBrowserURLMethod(hm.url+entityName+"/"+location+"/"+hm.slug);
 
@@ -62,15 +68,15 @@ function SearchBoxController($scope,$routeParams,citiesService,searchService,cha
 
 		}
 		function selectedItemChange(item){
+			hm.loading = true;
 			userLocationService.setUserLocation(item);
-
-
 			searchService.getSearches(item).then(function(resource){
-				hm.userSearches = [];
+				var allStoresItem = {"userSearchString":"#&#All stores in #&#"+hm.selectedItem};
+				hm.userSearches = [allStoresItem];
 				for (var i = resource.data.length - 1; i >= 0; i--) {
 					hm.userSearches.push(resource.data[i]);
 				}
-
+				hm.loading = false;
 			},function(data){
 				console.log(data);
 			});
@@ -78,12 +84,16 @@ function SearchBoxController($scope,$routeParams,citiesService,searchService,cha
 		function locationSearch(){
 			if(hm.cities.indexOf(hm.selectedItem)!=-1){
 				if(!hm.userSearchText||hm.userSearchText.length===0){
-					hm.url = "/store/storesCollection/location";
-					var location = hm.selectedItem;
-					hm.slug = "stores-in-" + location;
-					changeBrowserURL.changeBrowserURLMethod(hm.url+"/"+location+"/"+hm.slug);
+					locationSearchUrl();
 				}
 			}
+		}
+		function locationSearchUrl(){
+			hm.url = "/store/storesCollection/location";
+			var myLocation = hm.selectedItem;
+			hm.slug = "stores-in-" + myLocation;
+			changeBrowserURL.changeBrowserURLMethod(hm.url+"/"+myLocation+"/"+hm.slug);
+
 		}
 
 	    function activate() {

@@ -38,13 +38,19 @@
         else{
            url = 'store/storesCollection/stores'+'/'+location+'/'+slc.pageNo;
         }
+        /*
+          * This will work with mongoose-paginate only because the existencce of the button
+            in html is dependant on the total documents retrieved
+          * I check the total documents available to the length of array displayed.. if they both are equal
+            then the button is hidden
 
+        */
         getStoreCollectionService.getStoreCollection(url,slc.paramData)
         //httpService.getService(url)
         .then(function(response){
-
+          slc.totalStores = response.data.total;
+          console.log(response);
           if(slc.storesList.length===0){
-
             var tempStoreList = [];
             for (var i = response.data.docs.length - 1; i >= 0; i--) {
               tempStoreList.push(response.data.docs[i]);
@@ -55,9 +61,6 @@
           else{
 
             if(slc.paramData&&slc.pageNo==1){
-
-              //alert("hit");
-
               slc.storesList = [];
             }
             for (var j = response.data.docs.length - 1; j >= 0; j--) {
