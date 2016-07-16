@@ -680,10 +680,16 @@ angular.module('app.home')
 
 function SearchBoxController($scope,$routeParams,citiesService,searchService,changeBrowserURL,userLocationService){
 		var hm= this;
-		hm.selectedItem = $routeParams.location||$routeParams.myslug.split("-")[2]||'hyderabad';
-
+		if($routeParams.location){
+				hm.selectedItem = $routeParams.location;
+		}
+		else if($routeParams.myslug){
+			hm.selectedItem = $routeParams.myslug.split("-")[2];
+		}
+		else{
+			hm.selectedItem = 'hyderabad';
+		}
 		activate();
-
 		hm.userSearches = [];
 		hm.selectedItemChange = selectedItemChange;
 		hm.userSearchItemChange = userSearchItemChange;
