@@ -40,9 +40,69 @@
     -webkit-transform: rotate(359deg);
     transform: rotate(359deg); } }
 
+.search-banner {
+  width: 100%;
+  height: 85vh;
+  position: relative;
+  background-image: url("https://www.ultimatedesignertoolkit.com/wp-content/uploads/2015/11/Background_5.jpg");
+  background-position: 0 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding-bottom: 50px; }
+
+.dark-mask-absolute {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(233, 30, 99, 0.35); }
+
+.content-header {
+  position: relative;
+  color: white; }
+
+.search-box-container {
+  margin: auto 10%;
+  font-family: 'Raleway', sans-serif !important; }
+
+.chipElement {
+  background: #e0e0e0;
+  color: #424242;
+  cursor: default;
+  border-radius: 16px;
+  font-weight: 900;
+  height: 32px;
+  line-height: 32px;
+  margin: 8px 8px 0 0;
+  padding: 0 12px;
+  box-sizing: border-box;
+  max-width: 100%;
+  position: relative; }
+
+@media (max-width: 959px) and (min-width: 600px) {
+  .search-banner {
+    height: 75vh; }
+  .searchBoxLayout {
+    height: 120px; }
+  .search-box-container {
+    margin: auto 10%;
+    font-family: 'Raleway', sans-serif !important; }
+    .search-box-container > div:first-child {
+      height: 250px; } }
+
 @media (max-width: 599px) {
-  body {
-    height: auto; }
+  .search-box-container {
+    margin: auto 10%;
+    font-family: 'Raleway', sans-serif !important; } }
+
+@media (max-width: 959px) and (min-width: 600px) {
+  .homePageDiv > main {
+    height: 100vh; }
+  .homePageDiv .searchBoxLayout {
+    height: 300px; } }
+
+@media (max-width: 599px) {
   .fixedTopHeader {
     position: fixed;
     z-index: 1000; }
@@ -67,6 +127,21 @@
   .homePageDiv .search-banner {
     height: 100vh;
     padding: 0; } }
+
+.searchBoxStores .searchBoxLayout {
+  height: 80px;
+  padding: 20px;
+  background-color: rosybrown; }
+
+@media (max-width: 959px) and (min-width: 600px) {
+  .searchBoxStores .searchBoxLayout {
+    padding: 0;
+    height: 100%; } }
+
+@media (max-width: 599px) {
+  .searchBoxStores .searchBoxLayout {
+    padding: 0;
+    height: 100%; } }
 
 .userRatingSection {
   width: 175px; }
@@ -128,9 +203,10 @@
 
 .storeNameHeading {
   text-transform: capitalize;
-  font-weight: bold;
-  color: gray;
-  cursor: pointer; }
+  font-weight: 700;
+  color: #ff4263;
+  cursor: pointer;
+  font-size: 18px; }
   .storeNameHeading span {
     color: red;
     font-size: 12px;
@@ -201,3 +277,5 @@
 
 /***** CSS Magic to Highlight Stars on Hover **** */
 /* hover previous stars in list */
+
+

@@ -4,7 +4,7 @@ angular.module('myApp',
   ).config(['$routeProvider','$mdThemingProvider',
   function($routeProvider,$mdThemingProvider) {
       $mdThemingProvider.theme('default')
-    .primaryPalette('deep-orange')
+    .primaryPalette('pink')
     .accentPalette('light-blue')
      .warnPalette('blue');
      //.backgroundPalette('blue-grey');
@@ -452,6 +452,21 @@ function loadingDirective() {
 
 
 (function(angular){
+
+  'use strict';
+
+  /**
+   * @ngdoc overview
+   * @name app.review
+   * @description
+   * # app.review
+   *
+   * Review module of the application.
+   */
+  angular.module('app.review',[]);
+})(window.angular);
+
+(function(angular){
 	'use strict';
 
 	angular.module('app.home')
@@ -788,21 +803,6 @@ function SearchBoxController($scope,$routeParams,citiesService,searchService,cha
 	    }
 
 }
-})(window.angular);
-
-(function(angular){
-
-  'use strict';
-
-  /**
-   * @ngdoc overview
-   * @name app.review
-   * @description
-   * # app.review
-   *
-   * Review module of the application.
-   */
-  angular.module('app.review',[]);
 })(window.angular);
 
 
