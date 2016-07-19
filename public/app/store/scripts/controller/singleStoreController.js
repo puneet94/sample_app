@@ -9,6 +9,11 @@ angular.module('app.store')
     ssc.flowToId = flowToId;
     ssc.loading = true;
     ssc.authCheck = $auth.isAuthenticated();
+    ssc.getAddressString = getAddressString;
+
+    function getAddressString(){
+      return Object.keys(ssc.storeData.address).map(function(key){return ssc.storeData.address[key]}).join(' ');
+    }
     getSingleStore.getStore($routeParams.storeId)
     .then(function(res){
 

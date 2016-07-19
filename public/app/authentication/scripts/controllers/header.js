@@ -1,7 +1,7 @@
 
 // 'use strict';
 //
-// /**
+// /*
 //  * @ngdoc function
 //  * @name authModApp.controller:HeaderCtrl
 //  * @description

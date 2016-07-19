@@ -1,6 +1,6 @@
 angular.module('myApp',
   ['ngRoute','ngCookies','ngMessages','satellizer',
-  'authModApp','app.common','app.home','app.store','ngMaterial','app.review']
+    'authModApp','app.common','app.home','app.store','ngMaterial','app.review']
   ).config(['$routeProvider','$mdThemingProvider',
   function($routeProvider,$mdThemingProvider) {
       $mdThemingProvider.theme('default')
@@ -452,21 +452,6 @@ function loadingDirective() {
 
 
 (function(angular){
-
-  'use strict';
-
-  /**
-   * @ngdoc overview
-   * @name app.review
-   * @description
-   * # app.review
-   *
-   * Review module of the application.
-   */
-  angular.module('app.review',[]);
-})(window.angular);
-
-(function(angular){
 	'use strict';
 
 	angular.module('app.home')
@@ -805,10 +790,25 @@ function SearchBoxController($scope,$routeParams,citiesService,searchService,cha
 }
 })(window.angular);
 
+(function(angular){
+
+  'use strict';
+
+  /**
+   * @ngdoc overview
+   * @name app.review
+   * @description
+   * # app.review
+   *
+   * Review module of the application.
+   */
+  angular.module('app.review',[]);
+})(window.angular);
+
 
 // 'use strict';
 //
-// /**
+// /*
 //  * @ngdoc function
 //  * @name authModApp.controller:HeaderCtrl
 //  * @description
@@ -1206,6 +1206,11 @@ angular.module('app.store')
     ssc.flowToId = flowToId;
     ssc.loading = true;
     ssc.authCheck = $auth.isAuthenticated();
+    ssc.getAddressString = getAddressString;
+
+    function getAddressString(){
+      return Object.keys(ssc.storeData.address).map(function(key){return ssc.storeData.address[key]}).join(' ');
+    }
     getSingleStore.getStore($routeParams.storeId)
     .then(function(res){
 
