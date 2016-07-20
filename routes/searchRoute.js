@@ -14,7 +14,7 @@ searchRouter.route('/searches/:location_name')
 		var city = req.params.location_name.toLowerCase();
 		UserSearch.find({ 'location':city  },function(err,searches){
 			if(err){
-				console.log("--------------------");
+				console.log("--------");
 				console.log(err);
 				res.send(err);
 			}

@@ -40,6 +40,32 @@
     -webkit-transform: rotate(359deg);
     transform: rotate(359deg); } }
 
+.userRatingSection {
+  width: 175px; }
+  .userRatingSection .rating {
+    border: none; }
+    .userRatingSection .rating input {
+      display: none; }
+    .userRatingSection .rating label:before {
+      margin: 5px;
+      font-size: 1.25em;
+      font-family: FontAwesome;
+      display: inline-block;
+      content: "\f005"; }
+    .userRatingSection .rating label {
+      color: rgba(0, 0, 0, 0.5);
+      float: right; }
+    .userRatingSection .rating input:checked ~ label {
+      color: #FFD700; }
+    .userRatingSection .rating:not(:checked) > label:hover {
+      color: #FFD700; }
+      .userRatingSection .rating:not(:checked) > label:hover ~ label {
+        color: #FFD700; }
+    .userRatingSection .rating > input:checked + label:hover, .userRatingSection .rating > input:checked ~ label:hover {
+      color: #FFED85; }
+    .userRatingSection .rating > label:hover ~ input:checked ~ label, .userRatingSection .rating > input:checked ~ label:hover ~ label {
+      color: #FFED85; }
+
 .search-banner {
   width: 100%;
   height: 85vh;
@@ -97,8 +123,6 @@
     font-family: 'Raleway', sans-serif !important; } }
 
 @media (max-width: 959px) and (min-width: 600px) {
-  .homePageDiv > main {
-    height: 100vh; }
   .homePageDiv .searchBoxLayout {
     height: 300px; } }
 
@@ -115,8 +139,6 @@
     padding: 10px; }
   .fixedHeaderMain {
     margin-top: 65px; }
-  .homePageDiv > main {
-    height: 100vh; }
   .homePageDiv .searchBoxLayout {
     height: 300px; }
   .homePageDiv .fixedTopHeader {
@@ -142,32 +164,6 @@
   .searchBoxStores .searchBoxLayout {
     padding: 0;
     height: 100%; } }
-
-.userRatingSection {
-  width: 175px; }
-  .userRatingSection .rating {
-    border: none; }
-    .userRatingSection .rating input {
-      display: none; }
-    .userRatingSection .rating label:before {
-      margin: 5px;
-      font-size: 1.25em;
-      font-family: FontAwesome;
-      display: inline-block;
-      content: "\f005"; }
-    .userRatingSection .rating label {
-      color: rgba(0, 0, 0, 0.5);
-      float: right; }
-    .userRatingSection .rating input:checked ~ label {
-      color: #FFD700; }
-    .userRatingSection .rating:not(:checked) > label:hover {
-      color: #FFD700; }
-      .userRatingSection .rating:not(:checked) > label:hover ~ label {
-        color: #FFD700; }
-    .userRatingSection .rating > input:checked + label:hover, .userRatingSection .rating > input:checked ~ label:hover {
-      color: #FFED85; }
-    .userRatingSection .rating > label:hover ~ input:checked ~ label, .userRatingSection .rating > input:checked ~ label:hover ~ label {
-      color: #FFED85; }
 
 .storeBannerImage {
   width: 100%;
