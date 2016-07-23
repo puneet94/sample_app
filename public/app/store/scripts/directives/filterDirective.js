@@ -52,11 +52,8 @@
     return {
       restrict: 'A',
       link: function(scope, element, attrs) {
-        //console.log(element);
         $(element).on('click',function(){
-
           $(this).siblings('.filterDirectiveRadioGroup').find('.filterRadioButton').removeClass(attrs['removeClass']);
-          console.log("ohh");
         });
 
       }

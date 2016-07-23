@@ -466,21 +466,6 @@ function loadingDirective() {
 
 
 (function(angular){
-
-  'use strict';
-
-  /**
-   * @ngdoc overview
-   * @name app.review
-   * @description
-   * # app.review
-   *
-   * Review module of the application.
-   */
-  angular.module('app.review',[]);
-})(window.angular);
-
-(function(angular){
 	'use strict';
 
 	angular.module('app.home')
@@ -818,6 +803,21 @@ function SearchBoxController($scope,$routeParams,cityStorage,citiesService,searc
 	    }
 
 }
+})(window.angular);
+
+(function(angular){
+
+  'use strict';
+
+  /**
+   * @ngdoc overview
+   * @name app.review
+   * @description
+   * # app.review
+   *
+   * Review module of the application.
+   */
+  angular.module('app.review',[]);
 })(window.angular);
 
 
@@ -1193,6 +1193,25 @@ angular.module('app.review')
 
 (function(angular){
   'use strict';
+  angular.module('app.review')
+      .service('reviewService',['$http','$routeParams','baseUrlService',ReviewService]);
+      function ReviewService($http,$routeParams,baseUrlService){
+        var rs  = this;
+        rs.submitStoreReview = submitStoreReview;
+        rs.getStoreReviews = getStoreReviews;
+        function submitStoreReview(review){
+          return $http.post(baseUrlService.baseUrl+'review/reviews/store/'+review.storeId,review);
+        }
+        function getStoreReviews(){
+          var storeId = $routeParams.storeId;
+          return $http.get(baseUrlService.baseUrl+'review/reviews/store/'+storeId);
+        }
+
+      }
+})(window.angular);
+
+(function(angular){
+  'use strict';
 angular.module('app.store')
 
   .controller('SingleStoreController',["$scope","$auth",'$location','$anchorScroll',"$routeParams","anchorSmoothScroll","storeData","getSingleStore",SingleStoreController]);
@@ -1522,25 +1541,6 @@ angular.module('app.store')
 })(window.angular);
 
 (function(angular){
-  'use strict';
-  angular.module('app.review')
-      .service('reviewService',['$http','$routeParams','baseUrlService',ReviewService]);
-      function ReviewService($http,$routeParams,baseUrlService){
-        var rs  = this;
-        rs.submitStoreReview = submitStoreReview;
-        rs.getStoreReviews = getStoreReviews;
-        function submitStoreReview(review){
-          return $http.post(baseUrlService.baseUrl+'review/reviews/store/'+review.storeId,review);
-        }
-        function getStoreReviews(){
-          var storeId = $routeParams.storeId;
-          return $http.get(baseUrlService.baseUrl+'review/reviews/store/'+storeId);
-        }
-
-      }
-})(window.angular);
-
-(function(angular){
   angular.module('app.store')
   .directive('filterDirective',["$window","$location", filterDirective])
   .directive('addClass',["$window","$location", addClassDirective])
@@ -1594,11 +1594,8 @@ angular.module('app.store')
     return {
       restrict: 'A',
       link: function(scope, element, attrs) {
-        //console.log(element);
         $(element).on('click',function(){
-
           $(this).siblings('.filterDirectiveRadioGroup').find('.filterRadioButton').removeClass(attrs['removeClass']);
-          console.log("ohh");
         });
 
       }

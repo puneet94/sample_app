@@ -165,13 +165,30 @@
     .userRatingSection .rating > label:hover ~ input:checked ~ label, .userRatingSection .rating > input:checked ~ label:hover ~ label {
       color: #FFED85; }
 
-.filterDirectiveTemplate .filterDirectiveRadioGroup .filterRadioButton {
-  font-size: 12px; }
-  .filterDirectiveTemplate .filterDirectiveRadioGroup .filterRadioButton ._md-container {
-    display: none; }
-
-.filterDirectiveTemplate .filterDirectiveRadioGroup .highlightClass {
-  color: red; }
+.filterDirectiveTemplate {
+  margin-top: 10px; }
+  .filterDirectiveTemplate .filterNameHeading {
+    background-color: #e91e63;
+    padding: 10px;
+    border-radius: 5%;
+    color: white; }
+    .filterDirectiveTemplate .filterNameHeading h5 {
+      margin: 0; }
+  .filterDirectiveTemplate .filterDirectiveRadioGroup {
+    height: 150px;
+    overflow-y: auto;
+    background-color: #eee; }
+    .filterDirectiveTemplate .filterDirectiveRadioGroup .filterRadioButton {
+      font-size: 14px;
+      margin: 8px;
+      font-weight: 700;
+      text-transform: capitalize; }
+      .filterDirectiveTemplate .filterDirectiveRadioGroup .filterRadioButton ._md-label {
+        margin-left: 5px; }
+      .filterDirectiveTemplate .filterDirectiveRadioGroup .filterRadioButton ._md-container {
+        display: none; }
+    .filterDirectiveTemplate .filterDirectiveRadioGroup .highlightClass {
+      color: red; }
 
 .storeBannerImage {
   width: 100%;
