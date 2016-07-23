@@ -13,9 +13,7 @@
 			<div class="locationFilters" flex="20" hide-sm hide-xs flex-sm="100" flex-xs="100" >
 				<h3 hide-sm hide-xs>Filters</h3>
 				<div class="" layout-sm="row" layout-xs="row" flex="grow" layout-wrap >
-					<div class="">
-
-
+					<!--<div class="">
 							<h5>Area</h5>
 							<md-radio-group ng-model="sccc.areaModel['area']" ng-change="sccc.areaRadioClicked()">
 								<md-radio-button ng-repeat="area in sccc.areas" value="{{area}}" >
@@ -25,8 +23,14 @@
 								</md-radio-button>
 						</md-radio-group>
 							<button type="button" name="button" ng-disabled="!sccc.areaModel['area']" ng-click="sccc.clearAreaFilters()">Clear</button>
-					</div>
-
+					</div>-->
+					<filter-directive
+						filter-name="Area"
+						radio-model="sccc.areaModel"
+						radio-change="sccc.areaRadioClicked()"
+						radio-repeat="sccc.areas"
+						clear-click="sccc.clearAreaFilters()">
+					</filter-directive>
 
 				</div>
 

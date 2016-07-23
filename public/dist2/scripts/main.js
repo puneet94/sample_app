@@ -361,11 +361,9 @@ angular.module('app.common')
         var path = $location.path();
 
         $(element[0]).on('click',function(){
-
           if(path.indexOf('/home')==-1){
               $(attrs.toggleElement).slideToggle();
           }
-
         });
 
 
@@ -466,6 +464,21 @@ function loadingDirective() {
   }
 })(window.angular);
 
+
+(function(angular){
+
+  'use strict';
+
+  /**
+   * @ngdoc overview
+   * @name app.review
+   * @description
+   * # app.review
+   *
+   * Review module of the application.
+   */
+  angular.module('app.review',[]);
+})(window.angular);
 
 (function(angular){
 	'use strict';
@@ -805,21 +818,6 @@ function SearchBoxController($scope,$routeParams,cityStorage,citiesService,searc
 	    }
 
 }
-})(window.angular);
-
-(function(angular){
-
-  'use strict';
-
-  /**
-   * @ngdoc overview
-   * @name app.review
-   * @description
-   * # app.review
-   *
-   * Review module of the application.
-   */
-  angular.module('app.review',[]);
 })(window.angular);
 
 
@@ -1195,25 +1193,6 @@ angular.module('app.review')
 
 (function(angular){
   'use strict';
-  angular.module('app.review')
-      .service('reviewService',['$http','$routeParams','baseUrlService',ReviewService]);
-      function ReviewService($http,$routeParams,baseUrlService){
-        var rs  = this;
-        rs.submitStoreReview = submitStoreReview;
-        rs.getStoreReviews = getStoreReviews;
-        function submitStoreReview(review){
-          return $http.post(baseUrlService.baseUrl+'review/reviews/store/'+review.storeId,review);
-        }
-        function getStoreReviews(){
-          var storeId = $routeParams.storeId;
-          return $http.get(baseUrlService.baseUrl+'review/reviews/store/'+storeId);
-        }
-
-      }
-})(window.angular);
-
-(function(angular){
-  'use strict';
 angular.module('app.store')
 
   .controller('SingleStoreController',["$scope","$auth",'$location','$anchorScroll',"$routeParams","anchorSmoothScroll","storeData","getSingleStore",SingleStoreController]);
@@ -1263,6 +1242,7 @@ angular.module('app.store')
       slcc.majorFilter = {};
       slcc.clearAreaFilters = clearAreaFilters;
       function areaRadioClicked(){
+        
         slcc.majorFilter.area=slcc.areaModel.area;
         launchFilterEvent(slcc.majorFilter);
       }
@@ -1271,7 +1251,7 @@ angular.module('app.store')
         slcc.areaModel = {};
         launchFilterEvent(slcc.majorFilter);
       }
-      
+
       var location = $routeParams.location;
       getCityLocalitiesService.getCityLocalities(location)
         .then(function(res){
@@ -1538,6 +1518,93 @@ angular.module('app.store')
       }
 
     }
+
+})(window.angular);
+
+(function(angular){
+  'use strict';
+  angular.module('app.review')
+      .service('reviewService',['$http','$routeParams','baseUrlService',ReviewService]);
+      function ReviewService($http,$routeParams,baseUrlService){
+        var rs  = this;
+        rs.submitStoreReview = submitStoreReview;
+        rs.getStoreReviews = getStoreReviews;
+        function submitStoreReview(review){
+          return $http.post(baseUrlService.baseUrl+'review/reviews/store/'+review.storeId,review);
+        }
+        function getStoreReviews(){
+          var storeId = $routeParams.storeId;
+          return $http.get(baseUrlService.baseUrl+'review/reviews/store/'+storeId);
+        }
+
+      }
+})(window.angular);
+
+(function(angular){
+  angular.module('app.store')
+  .directive('filterDirective',["$window","$location", filterDirective])
+  .directive('addClass',["$window","$location", addClassDirective])
+  .directive('removeClass',["$window","$location", removeClassDirective])
+  .directive('siblingRemoveClass',["$window","$location", siblingRemoveClassDirective]);
+  function filterDirective($window,$location) {
+    return {
+      restrict: 'E',
+      templateUrl:'app/store/views/filterDirectiveTemplate.html',
+      scope:{
+        filterName:"@filterName",
+        radioModel:"=radioModel",
+        radioChange:"&radioChange",
+        radioRepeat:"=radioRepeat",
+        clearClick:"&clearClick"
+      },
+      link: function(scope, element, attrs) {
+      }
+    };
+  }
+  function addClassDirective($window,$location) {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attrs) {
+
+
+        $(element).on('click',function(){
+          //$(element).removeClass('highlightClass');
+          $(this).addClass(attrs['addClass']);
+
+        });
+
+      }
+    };
+  }
+  function siblingRemoveClassDirective($window,$location) {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attrs) {
+        console.log(attrs);
+
+        $(element).on('click',function(){
+          $(this).siblings().removeClass(attrs['siblingRemoveClass']);
+        });
+
+      }
+    };
+  }
+
+  function removeClassDirective($window,$location) {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attrs) {
+        //console.log(element);
+        $(element).on('click',function(){
+
+          $(this).siblings('.filterDirectiveRadioGroup').find('.filterRadioButton').removeClass(attrs['removeClass']);
+          console.log("ohh");
+        });
+
+      }
+    };
+  }
+
 
 })(window.angular);
 

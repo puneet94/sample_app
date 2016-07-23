@@ -13,7 +13,7 @@
 		<div class="locationFilters" flex="20" hide-sm hide-xs flex-sm="100" flex-xs="100" >
 			<h3 hide-sm hide-xs>Filters</h3>
 			<div class="" layout-sm="row" layout-xs="row" flex="grow" layout-wrap >
-				<div class="">
+				<!--<div class="">
 						<h5>Area</h5>
 						<md-radio-group ng-model="slcc.areaModel['area']" ng-change="slcc.areaRadioClicked()">
 			        <md-radio-button ng-repeat="area in slcc.areas" value="{{area}}" >
@@ -25,8 +25,6 @@
 			      <button type="button" name="button" ng-disabled="!slcc.areaModel['area']" ng-click="slcc.clearAreaFilters()">Clear</button>
 				</div>
 				<div class="">
-
-
 					<h5>Category</h5>
 					<md-radio-group ng-model="slcc.categoryModel['category']" ng-change="slcc.categoryRadioClicked()">
 		        <md-radio-button ng-repeat="category in slcc.categories" value="{{category}}" >
@@ -36,8 +34,21 @@
 		        </md-radio-button>
 		    	</md-radio-group>
 		      <button type="button" name="button" ng-disabled="!slcc.categoryModel['category']" ng-click="slcc.clearCategoryFilters()">Clear</button>
-				</div>
-
+				</div>-->
+				<filter-directive
+					filter-name="Area"
+					radio-model="slcc.areaModel"
+					radio-change="slcc.areaRadioClicked()"
+					radio-repeat="slcc.areas"
+					clear-click="slcc.clearAreaFilters()">
+				</filter-directive>
+				<filter-directive
+					filter-name="Category"
+					radio-model="slcc.categoryModel"
+					radio-change="slcc.categoryRadioClicked()"
+					radio-repeat="slcc.categories"
+					clear-click="slcc.clearCategoryFilters()">
+				</filter-directive>
 			</div>
 
 

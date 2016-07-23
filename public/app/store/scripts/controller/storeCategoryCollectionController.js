@@ -11,6 +11,7 @@
       slcc.majorFilter = {};
       slcc.clearAreaFilters = clearAreaFilters;
       function areaRadioClicked(){
+        
         slcc.majorFilter.area=slcc.areaModel.area;
         launchFilterEvent(slcc.majorFilter);
       }
@@ -19,7 +20,7 @@
         slcc.areaModel = {};
         launchFilterEvent(slcc.majorFilter);
       }
-      
+
       var location = $routeParams.location;
       getCityLocalitiesService.getCityLocalities(location)
         .then(function(res){

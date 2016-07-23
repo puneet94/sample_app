@@ -11,11 +11,9 @@
         var path = $location.path();
 
         $(element[0]).on('click',function(){
-
           if(path.indexOf('/home')==-1){
               $(attrs.toggleElement).slideToggle();
           }
-
         });
 
 
