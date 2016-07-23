@@ -136,8 +136,8 @@ var ProductSchema = new Schema({
 });
 ProductSchema.plugin(relationship, { relationshipPathName:'store' });
 
-
-StoreSchema.plugin(URLSlugs('name address.area address.city address.state address.country', {field: 'myslug'}));
+//.replace(/[^a-z0-9]/gi,'')
+StoreSchema.plugin(URLSlugs("name address.area address.city address.state address.country", {field: 'myslug'}));
 StoreSchema.plugin(mongoosePaginate);
 ProductSchema.plugin(mongoosePaginate);
 

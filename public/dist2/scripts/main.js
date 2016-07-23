@@ -178,7 +178,8 @@ angular.module('app.common')
 	.service('anchorSmoothScroll',[AnchorSmoothScroll])
 	.service('baseUrlService',[AjaxURL])
 	.service('getCityLocalitiesService',["$http","baseUrlService",GetCityLocalitiesService])
-	.service('getCityCategoriesService',["$http","baseUrlService",GetCityCategoriesService]);
+	.service('getCityCategoriesService',["$http","baseUrlService",GetCityCategoriesService])
+	.factory('cityStorage',["$window",cityStorage]);
 	function CitiesService($http,baseUrlService){
    		this.getCities = function() {
    			var gc = this;
@@ -236,17 +237,32 @@ angular.module('app.common')
 		};
 	}
 	function UserLocationService(){
-		var userLocation = "";
-		this.setUserLocation = setUserLocation;
-		this.getUserLocation = getUserLocation;
 
-		function setUserLocation(userLocation2){
-			userLocation = userLocation2;
-		}
-		function getUserLocation(){
-			return userLocation;
-		}
 	}
+	function cityStorage($window) {
+		var storage = $window.localStorage;
+
+		var obj1 =  {
+			setCity: function (city) {
+				console.log("called me yo");
+				console.log(city);
+				if(city){
+					storage.setItem('city',JSON.stringify(city));
+				}
+			},
+			getCity: function(){
+				return JSON.parse(storage.getItem('city'));
+			},
+			isCityExists: function(){
+				if(obj1.getCity()){
+					return true;
+				}
+				return false;
+			}
+		};
+		return obj1;
+	}
+
 	function AjaxURL(){
 		this.baseUrl = "http://localhost:3000/";
 
@@ -480,7 +496,7 @@ function loadingDirective() {
 						//console.log(response);
 	          // $window.localStorage.currentUser = JSON.stringify(response.data.user);
 	          // $rootScope.currentUser = JSON.parse($window.localStorage.currentUser);
-						//console.log('********logoin*******');
+						//console.log('****logoin*******');
 			    	//console.log($auth.getPayload());
 	        });
 	    	}
@@ -675,16 +691,16 @@ function loadingDirective() {
 	'use strict';
 
 angular.module('app.home')
-	.controller('SearchBoxController',["$scope","$routeParams","citiesService","searchService","changeBrowserURL","userLocationService",SearchBoxController]);
+	.controller('SearchBoxController',["$scope","$routeParams","cityStorage","citiesService","searchService","changeBrowserURL","userLocationService",SearchBoxController]);
 
 
-function SearchBoxController($scope,$routeParams,citiesService,searchService,changeBrowserURL,userLocationService){
+function SearchBoxController($scope,$routeParams,cityStorage,citiesService,searchService,changeBrowserURL,userLocationService){
 		var hm= this;
 		if($routeParams.location){
 				hm.selectedItem = $routeParams.location;
 		}
-		else if($routeParams.myslug){
-			hm.selectedItem = $routeParams.myslug.split("-")[2];
+		else if(cityStorage.isCityExists()){
+			hm.selectedItem = cityStorage.getCity();
 		}
 		else{
 			hm.selectedItem = 'hyderabad';
@@ -748,7 +764,8 @@ function SearchBoxController($scope,$routeParams,citiesService,searchService,cha
 		}
 		function selectedItemChange(item){
 			hm.loading = true;
-			userLocationService.setUserLocation(item);
+			//userLocationService.setUserLocation(item);
+			cityStorage.setCity(item);
 			searchService.getSearches(item).then(function(resource){
 				var allStoresItem = {"userSearchString":"#&#All stores in #&#"+hm.selectedItem};
 				hm.userSearches = [allStoresItem];
@@ -1209,7 +1226,7 @@ angular.module('app.store')
     ssc.getAddressString = getAddressString;
 
     function getAddressString(){
-      return Object.keys(ssc.storeData.address).map(function(key){return ssc.storeData.address[key]}).join(' ');
+      return Object.keys(ssc.storeData.address).map(function(key){return ssc.storeData.address[key];}).join(' ');
     }
     getSingleStore.getStore($routeParams.storeId)
     .then(function(res){

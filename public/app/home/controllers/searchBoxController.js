@@ -2,16 +2,16 @@
 	'use strict';
 
 angular.module('app.home')
-	.controller('SearchBoxController',["$scope","$routeParams","citiesService","searchService","changeBrowserURL","userLocationService",SearchBoxController]);
+	.controller('SearchBoxController',["$scope","$routeParams","cityStorage","citiesService","searchService","changeBrowserURL","userLocationService",SearchBoxController]);
 
 
-function SearchBoxController($scope,$routeParams,citiesService,searchService,changeBrowserURL,userLocationService){
+function SearchBoxController($scope,$routeParams,cityStorage,citiesService,searchService,changeBrowserURL,userLocationService){
 		var hm= this;
 		if($routeParams.location){
 				hm.selectedItem = $routeParams.location;
 		}
-		else if($routeParams.myslug){
-			hm.selectedItem = $routeParams.myslug.split("-")[2];
+		else if(cityStorage.isCityExists()){
+			hm.selectedItem = cityStorage.getCity();
 		}
 		else{
 			hm.selectedItem = 'hyderabad';
@@ -75,7 +75,8 @@ function SearchBoxController($scope,$routeParams,citiesService,searchService,cha
 		}
 		function selectedItemChange(item){
 			hm.loading = true;
-			userLocationService.setUserLocation(item);
+			//userLocationService.setUserLocation(item);
+			cityStorage.setCity(item);
 			searchService.getSearches(item).then(function(resource){
 				var allStoresItem = {"userSearchString":"#&#All stores in #&#"+hm.selectedItem};
 				hm.userSearches = [allStoresItem];

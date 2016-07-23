@@ -12,7 +12,7 @@ angular.module('app.store')
     ssc.getAddressString = getAddressString;
 
     function getAddressString(){
-      return Object.keys(ssc.storeData.address).map(function(key){return ssc.storeData.address[key]}).join(' ');
+      return Object.keys(ssc.storeData.address).map(function(key){return ssc.storeData.address[key];}).join(' ');
     }
     getSingleStore.getStore($routeParams.storeId)
     .then(function(res){

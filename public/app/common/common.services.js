@@ -13,7 +13,8 @@ angular.module('app.common')
 	.service('anchorSmoothScroll',[AnchorSmoothScroll])
 	.service('baseUrlService',[AjaxURL])
 	.service('getCityLocalitiesService',["$http","baseUrlService",GetCityLocalitiesService])
-	.service('getCityCategoriesService',["$http","baseUrlService",GetCityCategoriesService]);
+	.service('getCityCategoriesService',["$http","baseUrlService",GetCityCategoriesService])
+	.factory('cityStorage',["$window",cityStorage]);
 	function CitiesService($http,baseUrlService){
    		this.getCities = function() {
    			var gc = this;
@@ -71,17 +72,32 @@ angular.module('app.common')
 		};
 	}
 	function UserLocationService(){
-		var userLocation = "";
-		this.setUserLocation = setUserLocation;
-		this.getUserLocation = getUserLocation;
 
-		function setUserLocation(userLocation2){
-			userLocation = userLocation2;
-		}
-		function getUserLocation(){
-			return userLocation;
-		}
 	}
+	function cityStorage($window) {
+		var storage = $window.localStorage;
+
+		var obj1 =  {
+			setCity: function (city) {
+				console.log("called me yo");
+				console.log(city);
+				if(city){
+					storage.setItem('city',JSON.stringify(city));
+				}
+			},
+			getCity: function(){
+				return JSON.parse(storage.getItem('city'));
+			},
+			isCityExists: function(){
+				if(obj1.getCity()){
+					return true;
+				}
+				return false;
+			}
+		};
+		return obj1;
+	}
+
 	function AjaxURL(){
 		this.baseUrl = "http://localhost:3000/";
 
