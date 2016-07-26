@@ -31,14 +31,13 @@
 			<md-card-footer>
 				<div class="storeCardFooter" layout="row" layout-align="space-between start">
 					<div layout="row">
-						<span> {{store.upvotes.length}} Upvotes</span>
 						<span> {{store.visits.length}} Visits</span>
 
 					</div>
-					<div layout="row">
+					<div layout="row" style="cursor:pointer;">
 						<!--Add flow to query parameter-->
-						<span>{{store.reviews.length}} Reviews </span>
-						<span> {{store.products.length}} Products</span>
+						<span ng-click="slc.getSingleStore(store,'flowReviews')">{{store.reviews.length}} Reviews </span>
+						<span ng-click="slc.getSingleStore(store,'flowProducts')"> {{store.products.length}} Products</span>
 					</div>
 				</div>
 

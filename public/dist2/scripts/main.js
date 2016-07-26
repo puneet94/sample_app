@@ -131,11 +131,11 @@ angular.module('app.store',[]).config(['$routeProvider',
         controller: 'StoreController',
         controllerAs: 'sm'
       }).when('/store/storesCollection/storeName/:storeName/:location/:slug?', {
-        templateUrl: 'app/store/storesNameCollection.html',
+        templateUrl: 'app/store/views/storesNameCollection.html',
         controller: 'StoreNameCollectionController',
         controllerAs: 'sncc'
       }).when('/store/storesCollection/category/:category/:location/:slug?', {
-        templateUrl: 'app/store/storesCategoryCollection.html',
+        templateUrl: 'app/store/views/storesCategoryCollection.html',
         controller: 'StoreCategoryCollectionController',
         controllerAs: 'sccc'
       }).when('/store/storesCollection/location/:location/:slug?', {
@@ -143,7 +143,7 @@ angular.module('app.store',[]).config(['$routeProvider',
         controller: 'StoreLocationCollectionController',
         controllerAs: 'slcc'
       }).when('/store/singleStore/:storeId/:myslug?', {
-        templateUrl: 'app/store/singleStore.html',
+        templateUrl: 'app/store/views/singleStore.html',
         controller: 'SingleStoreController',
         controllerAs: 'ssc'
       });
@@ -212,7 +212,10 @@ angular.module('app.common')
 	}
 
 	function ChangeBrowserURL($location){
-		this.changeBrowserURLMethod = function(path){
+		this.changeBrowserURLMethod = function(path,paramValue){
+			if(paramValue){
+					$location.path(path).search({param: paramValue});
+			}
 			$location.path(path);
 		};
 	}
@@ -1214,36 +1217,28 @@ angular.module('app.review')
   'use strict';
 angular.module('app.store')
 
-  .controller('SingleStoreController',["$scope","$auth",'$location','$anchorScroll',"$routeParams","anchorSmoothScroll","storeData","getSingleStore",SingleStoreController]);
-  function SingleStoreController($scope,$auth,$location,$anchorScroll,$routeParams,anchorSmoothScroll,storeData,getSingleStore){
+  .controller('SingleStoreController',["$scope","$auth",'$location','scrollToIdService',"$routeParams","anchorSmoothScroll","storeData","getSingleStore",SingleStoreController]);
+  function SingleStoreController($scope,$auth,$location,scrollToIdService,$routeParams,anchorSmoothScroll,storeData,getSingleStore){
     var ssc = this;
     ssc.storeData = {};
-    ssc.flowToId = flowToId;
     ssc.loading = true;
     ssc.authCheck = $auth.isAuthenticated();
     ssc.getAddressString = getAddressString;
+
 
     function getAddressString(){
       return Object.keys(ssc.storeData.address).map(function(key){return ssc.storeData.address[key];}).join(' ');
     }
     getSingleStore.getStore($routeParams.storeId)
     .then(function(res){
-
-
       storeData.setStore(res.data);
         ssc.storeData = res.data;
         ssc.loading = false;
-
+        if($location.search().param){
+            scrollToIdService.scrollToId($location.search().param);
+        }
       });
-      if($location.search().flowto!==undefined){
-        var flowId = $location.search().flowto;
-        flowToId(flowId);
-      }
-      function flowToId(flowId){
-        $location.hash(flowId);
-        anchorSmoothScroll.scrollTo(flowId);
-        //$anchorScroll();
-      }
+
     }
 
 })(window.angular);
@@ -1346,8 +1341,12 @@ angular.module('app.store')
         slc.paramData = data;
         slc.getStoresCollection();
       });
-      function getSingleStore(store){
+      function getSingleStore(store,scrollId){
         var url = "store/singleStore/"+store._id+"/"+store.myslug;
+        if(scrollId){
+          //url = url + "?scrollId="+scrollId;
+          changeBrowserURL.changeBrowserURLMethod(url,scrollId);
+        }
         changeBrowserURL.changeBrowserURLMethod(url);
       }
       function getStoresCollection(){
@@ -1371,10 +1370,8 @@ angular.module('app.store')
             in html is dependant on the total documents retrieved
           * I check the total documents available to the length of array displayed.. if they both are equal
             then the button is hidden
-
         */
         getStoreCollectionService.getStoreCollection(url,slc.paramData)
-        //httpService.getService(url)
         .then(function(response){
           slc.totalStores = response.data.total;
           console.log(response);
@@ -1569,7 +1566,7 @@ angular.module('app.store')
 
         $(element).on('click',function(){
           //$(element).removeClass('highlightClass');
-          $(this).addClass(attrs['addClass']);
+          $(this).addClass(attrs.addClass);
 
         });
 
@@ -1580,10 +1577,8 @@ angular.module('app.store')
     return {
       restrict: 'A',
       link: function(scope, element, attrs) {
-        console.log(attrs);
-
         $(element).on('click',function(){
-          $(this).siblings().removeClass(attrs['siblingRemoveClass']);
+          $(this).siblings().removeClass(attrs.siblingRemoveClass);
         });
 
       }
@@ -1595,9 +1590,27 @@ angular.module('app.store')
       restrict: 'A',
       link: function(scope, element, attrs) {
         $(element).on('click',function(){
-          $(this).siblings('.filterDirectiveRadioGroup').find('.filterRadioButton').removeClass(attrs['removeClass']);
+          $(this).siblings('.filterDirectiveRadioGroup').find('.filterRadioButton').removeClass(attrs.removeClass);
         });
 
+      }
+    };
+  }
+
+
+})(window.angular);
+
+(function(angular){
+  angular.module('app.store')
+  .directive('scrollToId',['scrollToIdService',scrollToIdDirective]);
+
+  function scrollToIdDirective(scrollToIdService) {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attrs) {
+        $(element).on('click',function(){
+          scrollToIdService.scrollToId(attrs.scrollToId);
+        });
       }
     };
   }
@@ -1643,6 +1656,36 @@ function GetSingleStoreWithId($http,storeData,baseUrlService){
   function getStore(id){
     return $http.get(baseUrlService.baseUrl+"store/singleStore/"+id);
     
+  }
+}
+})(window.angular);
+
+
+
+
+(function(angular){
+  'use strict';
+/*
+  *Service for getting a single store with its id
+*/
+angular.module('app.store')
+  .service('scrollToIdService',[ScrollToIdService]);
+
+/*
+  * This servic has a function names getStore which takes id as parameter and returns a promise
+*/
+function ScrollToIdService(){
+  this.scrollToId = scrollToId;
+
+  function scrollToId(blockId){
+    var container = $('body');
+    console.log('Inside the service of scroll');
+
+    var scrollTo = $('#'+blockId);
+    console.log(scrollTo);
+    container.animate({
+        scrollTop: scrollTo.offset().top //- container.offset().top + container.scrollTop()
+    });
   }
 }
 })(window.angular);

@@ -27,7 +27,7 @@
 
         $(element).on('click',function(){
           //$(element).removeClass('highlightClass');
-          $(this).addClass(attrs['addClass']);
+          $(this).addClass(attrs.addClass);
 
         });
 
@@ -38,10 +38,8 @@
     return {
       restrict: 'A',
       link: function(scope, element, attrs) {
-        console.log(attrs);
-
         $(element).on('click',function(){
-          $(this).siblings().removeClass(attrs['siblingRemoveClass']);
+          $(this).siblings().removeClass(attrs.siblingRemoveClass);
         });
 
       }
@@ -53,7 +51,7 @@
       restrict: 'A',
       link: function(scope, element, attrs) {
         $(element).on('click',function(){
-          $(this).siblings('.filterDirectiveRadioGroup').find('.filterRadioButton').removeClass(attrs['removeClass']);
+          $(this).siblings('.filterDirectiveRadioGroup').find('.filterRadioButton').removeClass(attrs.removeClass);
         });
 
       }

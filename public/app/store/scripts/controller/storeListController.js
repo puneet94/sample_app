@@ -19,8 +19,12 @@
         slc.paramData = data;
         slc.getStoresCollection();
       });
-      function getSingleStore(store){
+      function getSingleStore(store,scrollId){
         var url = "store/singleStore/"+store._id+"/"+store.myslug;
+        if(scrollId){
+          //url = url + "?scrollId="+scrollId;
+          changeBrowserURL.changeBrowserURLMethod(url,scrollId);
+        }
         changeBrowserURL.changeBrowserURLMethod(url);
       }
       function getStoresCollection(){
@@ -44,10 +48,8 @@
             in html is dependant on the total documents retrieved
           * I check the total documents available to the length of array displayed.. if they both are equal
             then the button is hidden
-
         */
         getStoreCollectionService.getStoreCollection(url,slc.paramData)
-        //httpService.getService(url)
         .then(function(response){
           slc.totalStores = response.data.total;
           console.log(response);

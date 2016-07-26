@@ -6,11 +6,11 @@ angular.module('app.store',[]).config(['$routeProvider',
         controller: 'StoreController',
         controllerAs: 'sm'
       }).when('/store/storesCollection/storeName/:storeName/:location/:slug?', {
-        templateUrl: 'app/store/storesNameCollection.html',
+        templateUrl: 'app/store/views/storesNameCollection.html',
         controller: 'StoreNameCollectionController',
         controllerAs: 'sncc'
       }).when('/store/storesCollection/category/:category/:location/:slug?', {
-        templateUrl: 'app/store/storesCategoryCollection.html',
+        templateUrl: 'app/store/views/storesCategoryCollection.html',
         controller: 'StoreCategoryCollectionController',
         controllerAs: 'sccc'
       }).when('/store/storesCollection/location/:location/:slug?', {
@@ -18,7 +18,7 @@ angular.module('app.store',[]).config(['$routeProvider',
         controller: 'StoreLocationCollectionController',
         controllerAs: 'slcc'
       }).when('/store/singleStore/:storeId/:myslug?', {
-        templateUrl: 'app/store/singleStore.html',
+        templateUrl: 'app/store/views/singleStore.html',
         controller: 'SingleStoreController',
         controllerAs: 'ssc'
       });

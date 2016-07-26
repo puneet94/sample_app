@@ -47,7 +47,10 @@ angular.module('app.common')
 	}
 
 	function ChangeBrowserURL($location){
-		this.changeBrowserURLMethod = function(path){
+		this.changeBrowserURLMethod = function(path,paramValue){
+			if(paramValue){
+					$location.path(path).search({param: paramValue});
+			}
 			$location.path(path);
 		};
 	}

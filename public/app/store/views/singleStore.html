@@ -20,11 +20,11 @@
       <div class="storePageStatsNav" layout="row" layout-xs="column">
 
         <md-divider></md-divider>
-        <div class="statsContent" ng-click="ssc.flowToId('flowProducts')">
+        <div class="statsContent" scroll-to-id="flowProducts">
             <h4 class="statsContentText"><span><i class="fa fa-suitcase" aria-hidden="true"></i></span>Products-({{ssc.storeData.products.length}})</h4>
         </div>
         <md-divider></md-divider>
-        <div class="statsContent" ng-click="ssc.flowToId('flowReviews')">
+        <div class="statsContent" scroll-to-id="flowReviews">
             <h4 class="statsContentText"><span><i class="fa fa-pencil-square" aria-hidden="true"></i></span>Reviews-({{ssc.storeData.reviews.length}})</h4>
         </div>
 
@@ -39,11 +39,15 @@
       <div  id="flowAddress" class="" ng-include="'app/store/views/storeAddressDetails.html'">
 
       </div>
-      <div   class="" ng-include="'app/reviews/views/storeReviewList.html'">
+
+      <div id="flowReviews"  class="" ng-include="'app/reviews/views/storeReviewList.html'">
 
       </div>
       <div class="" ng-include="'app/reviews/views/storeReviewSubmit.html'" ng-if="ssc.authCheck">
 
+      </div>
+      <div class="" id="flowProducts">
+        <h1>Products</h1>
       </div>
     </div>
 
