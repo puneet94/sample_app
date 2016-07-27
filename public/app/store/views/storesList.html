@@ -11,14 +11,24 @@
 					<span class="md-headline">
 						<span ng-click="slc.getSingleStore(store)" class="storeNameHeading">{{store.name}}<span>Visit Store</span></span>
 					</span>
-					<span class="md-subhead">
-						<span>{{store.address.locality}}</span>
-						<span>{{store.address.area}}</span>
-						<span>{{store.address.city}}</span>
-						<span>{{store.address.state}}</span>
-					</span>
-
+					<div class="storeAddressDetails">
+						<div>
+							<span>{{::store.address.locality}}</span>
+							<span>{{::store.address.area}}</span>	
+							<span>{{::store.address.city}}</span>
+							<span>{{::store.address.state}}</span>	
+						</div>
+						<div>
+							
+						</div>
+						
+					</div>
+					
+					<div class="storeListCategories">
+    					Categories: {{::store.category.join(",")}}
+					</div>
 				</md-card-title-text>
+				
 				<md-card-title-media>
 					<div ng-click="slc.getSingleStore(store)" class="md-media-md card-media">
 						<div class="storeCardImage" style="background-image:url('{{store.bannerImageMin }}');background-size:cover;">
@@ -27,7 +37,9 @@
 
 					</div>
 				</md-card-title-media>
+
 			</md-card-title>
+			<md-divider></md-divider>
 			<md-card-footer>
 				<div class="storeCardFooter" layout="row" layout-align="space-between start">
 					<div layout="row">

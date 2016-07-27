@@ -4,7 +4,7 @@ angular.module('myApp',
   ).config(['$routeProvider','$mdThemingProvider',
   function($routeProvider,$mdThemingProvider) {
       $mdThemingProvider.theme('default')
-    .primaryPalette('pink')
+    .primaryPalette('red')
     .accentPalette('light-blue')
      .warnPalette('blue');
      //.backgroundPalette('blue-grey');
@@ -175,7 +175,6 @@ angular.module('app.common')
 	.service('arrayObjectMapper',[ArrayObjectMapper])
 	.service('arrayUniqueCopy',[ArrayUniqueCopy])
 	.service('userLocationService',[UserLocationService])
-	.service('anchorSmoothScroll',[AnchorSmoothScroll])
 	.service('baseUrlService',[AjaxURL])
 	.service('getCityLocalitiesService',["$http","baseUrlService",GetCityLocalitiesService])
 	.service('getCityCategoriesService',["$http","baseUrlService",GetCityCategoriesService])
@@ -282,59 +281,7 @@ angular.module('app.common')
 		this.getCategoriesWithLocation = this.baseUrl + "categories/location";
 
 	}
-	function AnchorSmoothScroll(){
-
-    this.scrollTo = function(eID) {
-
-        // This scrolling function
-        // is from http://www.itnewb.com/tutorial/Creating-the-Smooth-Scroll-Effect-with-JavaScript
-
-        var startY = currentYPosition();
-        var stopY = elmYPosition(eID);
-        var distance = stopY > startY ? stopY - startY : startY - stopY;
-        if (distance < 100) {
-            scrollTo(0, stopY); return;
-        }
-        var speed = Math.round(distance / 100);
-        if (speed >= 20) speed = 20;
-        var step = Math.round(distance / 25);
-        var leapY = stopY > startY ? startY + step : startY - step;
-        var timer = 0;
-        if (stopY > startY) {
-            for ( var i=startY; i<stopY; i+=step ) {
-                setTimeout("window.scrollTo(0, "+leapY+")", timer * speed);
-                leapY += step; if (leapY > stopY) leapY = stopY; timer++;
-            } return;
-        }
-        for ( var i=startY; i>stopY; i-=step ) {
-            setTimeout("window.scrollTo(0, "+leapY+")", timer * speed);
-            leapY -= step; if (leapY < stopY) leapY = stopY; timer++;
-        }
-
-        function currentYPosition() {
-            // Firefox, Chrome, Opera, Safari
-            if (self.pageYOffset) return self.pageYOffset;
-            // Internet Explorer 6 - standards mode
-            if (document.documentElement && document.documentElement.scrollTop)
-                return document.documentElement.scrollTop;
-            // Internet Explorer 6, 7 and 8
-            if (document.body.scrollTop) return document.body.scrollTop;
-            return 0;
-        }
-
-        function elmYPosition(eID) {
-            var elm = document.getElementById(eID);
-            var y = elm.offsetTop;
-            var node = elm;
-            while (node.offsetParent && node.offsetParent != document.body) {
-                node = node.offsetParent;
-                y += node.offsetTop;
-            } return y;
-        }
-
-    };
-
-	}
+	
 	function GetCityLocalitiesService($http,baseUrlService){
 		this.getCityLocalities = getCityLocalities;
 		function getCityLocalities(city){
@@ -1217,14 +1164,13 @@ angular.module('app.review')
   'use strict';
 angular.module('app.store')
 
-  .controller('SingleStoreController',["$scope","$auth",'$location','scrollToIdService',"$routeParams","anchorSmoothScroll","storeData","getSingleStore",SingleStoreController]);
-  function SingleStoreController($scope,$auth,$location,scrollToIdService,$routeParams,anchorSmoothScroll,storeData,getSingleStore){
+  .controller('SingleStoreController',["$scope","$auth",'$location','scrollToIdService',"$routeParams","storeData","getSingleStore",SingleStoreController]);
+  function SingleStoreController($scope,$auth,$location,scrollToIdService,$routeParams,storeData,getSingleStore){
     var ssc = this;
     ssc.storeData = {};
     ssc.loading = true;
     ssc.authCheck = $auth.isAuthenticated();
     ssc.getAddressString = getAddressString;
-
 
     function getAddressString(){
       return Object.keys(ssc.storeData.address).map(function(key){return ssc.storeData.address[key];}).join(' ');

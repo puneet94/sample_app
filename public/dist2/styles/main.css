@@ -1,3 +1,5 @@
+
+
 .ajaxLoadingSpinnerDiv {
   position: fixed;
   z-index: 999;
@@ -168,16 +170,17 @@
 .filterDirectiveTemplate {
   margin-top: 10px; }
   .filterDirectiveTemplate .filterNameHeading {
-    background-color: #e91e63;
+    background-color: red;
     padding: 10px;
     border-radius: 5%;
     color: white; }
     .filterDirectiveTemplate .filterNameHeading h5 {
       margin: 0; }
   .filterDirectiveTemplate .filterDirectiveRadioGroup {
-    height: 150px;
+    height: 160px;
+    padding: 10px;
     overflow-y: auto;
-    background-color: #eee; }
+    background-color: white; }
     .filterDirectiveTemplate .filterDirectiveRadioGroup .filterRadioButton {
       font-size: 14px;
       margin: 8px;
@@ -212,9 +215,23 @@
   background-color: white;
   padding: 5px; }
 
+.storeListCategories {
+  padding-top: 20px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: capitalize; }
+
 .storeCardImage {
   background-size: cover;
   height: 100px; }
+
+.storeAddressDetails {
+  font-size: 12px;
+  font-weight: 600;
+  color: black;
+  text-transform: capitalize;
+  padding-top: 10px;
+  padding-bottom: 10px; }
 
 .storeCardFooter {
   font-size: 12px;
@@ -226,8 +243,7 @@
   text-transform: capitalize;
   font-weight: 700;
   color: #ff4263;
-  cursor: pointer;
-  font-size: 18px; }
+  cursor: pointer; }
   .storeNameHeading span {
     color: red;
     font-size: 12px;
