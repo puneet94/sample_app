@@ -1,6 +1,6 @@
 
 <div ng-controller="StoreListController as slc">
-	<h3>{{slc.storesSearchHeader}}</h3>
+	<h3 class="capitalise-text">{{slc.storesSearchHeader}}</h3>
 	<loading-directive loading="slc.loading"></loading-directive>
 	<h1 ng-if="slc.storesList.length==0">No stores available</h1>
 	<div ng-repeat="store in slc.storesList track by store._id">
@@ -14,21 +14,21 @@
 					<div class="storeAddressDetails">
 						<div>
 							<span>{{::store.address.locality}}</span>
-							<span>{{::store.address.area}}</span>	
+							<span>{{::store.address.area}}</span>
 							<span>{{::store.address.city}}</span>
-							<span>{{::store.address.state}}</span>	
+							<span>{{::store.address.state}}</span>
 						</div>
 						<div>
-							
+
 						</div>
-						
+
 					</div>
-					
+
 					<div class="storeListCategories">
     					Categories: {{::store.category.join(",")}}
 					</div>
 				</md-card-title-text>
-				
+
 				<md-card-title-media>
 					<div ng-click="slc.getSingleStore(store)" class="md-media-md card-media">
 						<div class="storeCardImage" style="background-image:url('{{store.bannerImageMin }}');background-size:cover;">

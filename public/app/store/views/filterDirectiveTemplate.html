@@ -3,7 +3,7 @@
         <h5>{{filterName}}</h5>
     </div>
 
-    <div class="filterDirectiveRadioGroup">
+    <div class="filterDirectiveRadioGroup" md-whiteframe="3">
       <md-radio-group ng-model="radioModel[filterName.toLowerCase()]" ng-change="radioChange()">
         <md-radio-button ng-repeat="item in radioRepeat" value="{{item}}" class="filterRadioButton" add-class="highlightClass" sibling-remove-class="highlightClass">
           <span class="filterDirectiveRadioText hello" >

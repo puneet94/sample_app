@@ -67,11 +67,8 @@ visitRouter.route('/visits/store/')
 .post(commons.ensureAuthenticated,function(req,res){
   var visit = new Visit();
   var recData = req.body;
-
   visit.user=recData.userId;
   visit.store = mongoose.Types.ObjectId(recData.storeId);
-
-
   visit.save(function(err){
     if(err){
       if(err.code == 11000){
@@ -82,8 +79,6 @@ visitRouter.route('/visits/store/')
         return res.send(err);
       }
     }
-
-
     res.json({message:"Visit created"});
   });
 });
@@ -101,7 +96,6 @@ visitRouter.route('/visits/user/')
 						res.send(err);
 					}
 					else{
-
 						res.json(result);
 					}
 				});

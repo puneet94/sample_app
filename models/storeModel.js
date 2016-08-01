@@ -146,6 +146,7 @@ exports.Product = mongoose.model("Product", ProductSchema);
 exports.User = User;
 exports.Review = Review;
 exports.Visit = Visit;
+exports.Upvote = mongoose.model('Upvote',UpvoteSchema);
 
 
 /*

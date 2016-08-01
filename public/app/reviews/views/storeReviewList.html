@@ -8,12 +8,10 @@
           </div>
           <div class="userStats">
             <ul>
-              <li class="userName"><a href="#">{{ review.user.displayName }}</a></li>
-              <li class="userLocation">Hyderabad, Telangana</li>
-              <li class="userFollowers">25 followers</li>
-              <li>
-
-                650 reviews
+              <li class="userName"><a href="#">{{ ::review.user.displayName }}</a></li>
+              <li class="userLocation">{{ ::review.user.city }}</li>
+              <li class="userFollowers">{{ ::review.user.followers.length||0 }} Followers</li>
+              <li class="userReviews">{{ ::review.user.reviews.length }} Reviews
               </li>
             </ul>
           </div>
@@ -26,10 +24,21 @@
           </span>
         </div>
         <div class="reviewContent">
-          {{ review.description }}
+          {{::review.description }}
         </div>
         <div class="contentRatingSection">
-          <div class="reviewStats"><span>25 Upvotes</span></div>
+          <div class="reviewStats"><span>{{ ::review.upvotes.length ||0 }} Upvotes</span></div>
+        </div>
+
+        <div class="userReviewUpvoteSection" ng-if="srl.authCheck">
+          <like-directive 
+            up-fn="srl.submitUserReviewUpvote(review)" 
+            down-fn="srl.deleteUserReviewUpvote(review)" 
+            upv-chk="srl.userReviewUpvoted(review)">    
+          </like-directive>
+  
+          
+          
         </div>
       </div>
 

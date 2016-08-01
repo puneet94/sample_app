@@ -3,7 +3,9 @@
   .directive('toggleElement',["$window","$location", toggleElement])
   .directive('scrollDown', ["$window","$location", scrollDown])
   .directive('toggleMobile',["$window","$location", toggleMobile])
-  .directive('loadingDirective',[loadingDirective]);
+  .directive('loadingDirective',[loadingDirective])
+  .directive('metaTags',[metaTagsDirective])
+  .directive('likeDirective',[likeDirective]);
   function toggleElement($window,$location) {
     return {
       restrict: 'A',
@@ -112,4 +114,28 @@ function loadingDirective() {
         }
       };
   }
+
+  function metaTagsDirective(){
+    return {
+      restrict: 'A',
+      link: function(scope, element, attr){
+        var keywords = $('meta[name=Keywords]').attr('content');
+        var description = $('meta[name=Description]').attr('content');
+        console.log();
+        //$('meta[name=keywords]').attr('content', 'some random keywords');
+      }
+    };
+  }
+  function likeDirective(){
+    return {
+      restrict: 'E',
+      scope: {
+        upFn:'&upFn',
+        downFn:'&downFn',
+        upvChk:'&upvChk'
+      },
+      templateUrl: 'app/reviews/views/likeReview.html'
+    };
+  }
+
 })(window.angular);

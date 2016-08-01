@@ -2,12 +2,21 @@
   'use strict';
 angular.module('app.review')
 
-  .controller('StoreReviewListController',["$scope","$routeParams",'reviewService',StoreReviewListController]);
-  function StoreReviewListController($scope,$routeParams,reviewService){
+  .controller('StoreReviewListController',["$scope","$auth","$routeParams",'$route','reviewService','userData',StoreReviewListController]);
+  function StoreReviewListController($scope,$auth,$routeParams,$route,reviewService,userData){
     var slc = this;
     slc.activate = activate;
     slc.getStoreReviews = getStoreReviews;
     slc.getRating = getRating;
+    slc.userReviewUpvoted = userReviewUpvoted;
+    slc.authCheck = $auth.isAuthenticated();
+    slc.submitUserReviewUpvote = submitUserReviewUpvote;
+    slc.deleteUserReviewUpvote = deleteUserReviewUpvote;
+    
+    if(slc.authCheck){
+      slc.userUpvotes  = userData.getUser().upvotes;
+    }
+    slc.submitUserReviewUpvote = submitUserReviewUpvote;
     slc.activate();
     function activate(){
       slc.getStoreReviews();
@@ -32,6 +41,39 @@ angular.module('app.review')
       return x;
     }
 
+    function userReviewUpvoted(locReview){
+      console.log(locReview.upvotes);
+      var upArr = locReview.upvotes;
+      for(var i=0;i<upArr.length;i++){
+        if(slc.userUpvotes.indexOf(upArr[i])!=-1){
+          console.log("bang");
+          slc.currentUpvoteId = upArr[i];
+          console.log(upArr[i]); 
+          return true;
+        }
+      }
+      
+      console.log("no bang");
+      //return false;
+    }
+
+    function submitUserReviewUpvote(review){
+      reviewService.submitUserReviewUpvote({"reviewId":review._id,"storeId":$routeParams.storeId,"userId":userData.getUser()._id})
+      .then(function(res){
+        console.log("from user review submit");
+        console.log(res);
+        $route.reload();
+        
+      });
+    }
+    function deleteUserReviewUpvote(review){
+      reviewService.deleteUserReviewUpvote({"reviewId":review._id,"storeId":$routeParams.storeId,"userId":userData.getUser()._id})
+      .then(function(res){
+        console.log(res);
+        $route.reload();
+      });
+
+    }
 
   }
 })(window.angular);

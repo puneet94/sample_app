@@ -1,8 +1,6 @@
 (function(angular){
   'use strict';
-/*
-  *Service for getting a single store with its id
-*/
+
 angular.module('app.store')
   .service('getStoreCollectionService',["$http","storeData","baseUrlService",GetStoreCollectionService]);
 

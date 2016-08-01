@@ -1,12 +1,12 @@
 <loading-directive loading="ssc.loading"></loading-directive>
-<header layout="row"  >
+<header layout="row" meta-tags data-keywords="" data-description="" >
       <div ng-include="'app/home/pageHeader.html'" flex></div>
 </header>
 <div ng-include="'app/home/searchBox.html'"></div>
 <main flex class="fixedHeaderMain">
   <div class="" layout="row" layout-xs="column" layout-sm="column">
     <div class="storeLeftPane" flex-sm="100" flex-xs="100" flex="70" >
-      <h1>{{ssc.storeData.name}} </h1>
+      <h1 class="capitalise-text">{{ssc.storeData.name}} </h1>
       <div class="storeBannerImage" style='background-image:url("{{ssc.storeData.bannerImage}}")'>
 
       </div>

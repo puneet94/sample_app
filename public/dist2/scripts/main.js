@@ -4,9 +4,9 @@ angular.module('myApp',
   ).config(['$routeProvider','$mdThemingProvider',
   function($routeProvider,$mdThemingProvider) {
       $mdThemingProvider.theme('default')
-    .primaryPalette('red')
-    .accentPalette('light-blue')
-     .warnPalette('blue');
+    .primaryPalette('amber')
+    .accentPalette('grey')
+     .warnPalette('orange');
      //.backgroundPalette('blue-grey');
       $routeProvider.
       otherwise({
@@ -303,7 +303,9 @@ angular.module('app.common')
   .directive('toggleElement',["$window","$location", toggleElement])
   .directive('scrollDown', ["$window","$location", scrollDown])
   .directive('toggleMobile',["$window","$location", toggleMobile])
-  .directive('loadingDirective',[loadingDirective]);
+  .directive('loadingDirective',[loadingDirective])
+  .directive('metaTags',[metaTagsDirective])
+  .directive('likeDirective',[likeDirective]);
   function toggleElement($window,$location) {
     return {
       restrict: 'A',
@@ -412,6 +414,30 @@ function loadingDirective() {
         }
       };
   }
+
+  function metaTagsDirective(){
+    return {
+      restrict: 'A',
+      link: function(scope, element, attr){
+        var keywords = $('meta[name=Keywords]').attr('content');
+        var description = $('meta[name=Description]').attr('content');
+        console.log();
+        //$('meta[name=keywords]').attr('content', 'some random keywords');
+      }
+    };
+  }
+  function likeDirective(){
+    return {
+      restrict: 'E',
+      scope: {
+        upFn:'&upFn',
+        downFn:'&downFn',
+        upvChk:'&upvChk'
+      },
+      templateUrl: 'app/reviews/views/likeReview.html'
+    };
+  }
+
 })(window.angular);
 
 
@@ -439,18 +465,11 @@ function loadingDirective() {
 						userData.setUser();
 						alert('login with facebook successfull');
 						$route.reload();
-
-						//$window.location.reload();
-						//console.log(response);
-	          // $window.localStorage.currentUser = JSON.stringify(response.data.user);
-	          // $rootScope.currentUser = JSON.parse($window.localStorage.currentUser);
-						//console.log('****logoin*******');
-			    	//console.log($auth.getPayload());
 	        });
 	    	}
 	    	function authLogout(){
 					$auth.logout();
-	        userData.removeUser();
+	        		userData.removeUser();
 					toHomePage();
 	    	}
 	}
@@ -1107,12 +1126,21 @@ angular.module('authModApp')
   'use strict';
 angular.module('app.review')
 
-  .controller('StoreReviewListController',["$scope","$routeParams",'reviewService',StoreReviewListController]);
-  function StoreReviewListController($scope,$routeParams,reviewService){
+  .controller('StoreReviewListController',["$scope","$auth","$routeParams",'$route','reviewService','userData',StoreReviewListController]);
+  function StoreReviewListController($scope,$auth,$routeParams,$route,reviewService,userData){
     var slc = this;
     slc.activate = activate;
     slc.getStoreReviews = getStoreReviews;
     slc.getRating = getRating;
+    slc.userReviewUpvoted = userReviewUpvoted;
+    slc.authCheck = $auth.isAuthenticated();
+    slc.submitUserReviewUpvote = submitUserReviewUpvote;
+    slc.deleteUserReviewUpvote = deleteUserReviewUpvote;
+    
+    if(slc.authCheck){
+      slc.userUpvotes  = userData.getUser().upvotes;
+    }
+    slc.submitUserReviewUpvote = submitUserReviewUpvote;
     slc.activate();
     function activate(){
       slc.getStoreReviews();
@@ -1137,6 +1165,39 @@ angular.module('app.review')
       return x;
     }
 
+    function userReviewUpvoted(locReview){
+      console.log(locReview.upvotes);
+      var upArr = locReview.upvotes;
+      for(var i=0;i<upArr.length;i++){
+        if(slc.userUpvotes.indexOf(upArr[i])!=-1){
+          console.log("bang");
+          slc.currentUpvoteId = upArr[i];
+          console.log(upArr[i]); 
+          return true;
+        }
+      }
+      
+      console.log("no bang");
+      //return false;
+    }
+
+    function submitUserReviewUpvote(review){
+      reviewService.submitUserReviewUpvote({"reviewId":review._id,"storeId":$routeParams.storeId,"userId":userData.getUser()._id})
+      .then(function(res){
+        console.log("from user review submit");
+        console.log(res);
+        $route.reload();
+        
+      });
+    }
+    function deleteUserReviewUpvote(review){
+      reviewService.deleteUserReviewUpvote({"reviewId":review._id,"storeId":$routeParams.storeId,"userId":userData.getUser()._id})
+      .then(function(res){
+        console.log(res);
+        $route.reload();
+      });
+
+    }
 
   }
 })(window.angular);
@@ -1149,6 +1210,8 @@ angular.module('app.review')
         var rs  = this;
         rs.submitStoreReview = submitStoreReview;
         rs.getStoreReviews = getStoreReviews;
+        rs.submitUserReviewUpvote = submitUserReviewUpvote;
+        rs.deleteUserReviewUpvote  = deleteUserReviewUpvote;
         function submitStoreReview(review){
           return $http.post(baseUrlService.baseUrl+'review/reviews/store/'+review.storeId,review);
         }
@@ -1157,7 +1220,97 @@ angular.module('app.review')
           return $http.get(baseUrlService.baseUrl+'review/reviews/store/'+storeId);
         }
 
+        function submitUserReviewUpvote(obj){
+          console.log(obj);
+          return $http.post(baseUrlService.baseUrl+'upvote/upvotes/review/',obj);
+        }
+        function deleteUserReviewUpvote(obj){
+          
+          return $http.delete(baseUrlService.baseUrl+'upvote/upvotes/review/',{"params":obj});
+        }
+
       }
+})(window.angular);
+
+(function(angular){
+  angular.module('app.store')
+  .directive('filterDirective',["$window","$location", filterDirective])
+  .directive('addClass',["$window","$location", addClassDirective])
+  .directive('removeClass',["$window","$location", removeClassDirective])
+  .directive('siblingRemoveClass',["$window","$location", siblingRemoveClassDirective]);
+  function filterDirective($window,$location) {
+    return {
+      restrict: 'E',
+      templateUrl:'app/store/views/filterDirectiveTemplate.html',
+      scope:{
+        filterName:"@filterName",
+        radioModel:"=radioModel",
+        radioChange:"&radioChange",
+        radioRepeat:"=radioRepeat",
+        clearClick:"&clearClick"
+      },
+      link: function(scope, element, attrs) {
+      }
+    };
+  }
+  function addClassDirective($window,$location) {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attrs) {
+
+
+        $(element).on('click',function(){
+          //$(element).removeClass('highlightClass');
+          $(this).addClass(attrs.addClass);
+
+        });
+
+      }
+    };
+  }
+  function siblingRemoveClassDirective($window,$location) {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attrs) {
+        $(element).on('click',function(){
+          $(this).siblings().removeClass(attrs.siblingRemoveClass);
+        });
+
+      }
+    };
+  }
+
+  function removeClassDirective($window,$location) {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attrs) {
+        $(element).on('click',function(){
+          $(this).siblings('.filterDirectiveRadioGroup').find('.filterRadioButton').removeClass(attrs.removeClass);
+        });
+
+      }
+    };
+  }
+
+
+})(window.angular);
+
+(function(angular){
+  angular.module('app.store')
+  .directive('scrollToId',['scrollToIdService',scrollToIdDirective]);
+
+  function scrollToIdDirective(scrollToIdService) {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attrs) {
+        $(element).on('click',function(){
+          scrollToIdService.scrollToId(attrs.scrollToId);
+        });
+      }
+    };
+  }
+
+
 })(window.angular);
 
 (function(angular){
@@ -1484,91 +1637,8 @@ angular.module('app.store')
 })(window.angular);
 
 (function(angular){
-  angular.module('app.store')
-  .directive('filterDirective',["$window","$location", filterDirective])
-  .directive('addClass',["$window","$location", addClassDirective])
-  .directive('removeClass',["$window","$location", removeClassDirective])
-  .directive('siblingRemoveClass',["$window","$location", siblingRemoveClassDirective]);
-  function filterDirective($window,$location) {
-    return {
-      restrict: 'E',
-      templateUrl:'app/store/views/filterDirectiveTemplate.html',
-      scope:{
-        filterName:"@filterName",
-        radioModel:"=radioModel",
-        radioChange:"&radioChange",
-        radioRepeat:"=radioRepeat",
-        clearClick:"&clearClick"
-      },
-      link: function(scope, element, attrs) {
-      }
-    };
-  }
-  function addClassDirective($window,$location) {
-    return {
-      restrict: 'A',
-      link: function(scope, element, attrs) {
-
-
-        $(element).on('click',function(){
-          //$(element).removeClass('highlightClass');
-          $(this).addClass(attrs.addClass);
-
-        });
-
-      }
-    };
-  }
-  function siblingRemoveClassDirective($window,$location) {
-    return {
-      restrict: 'A',
-      link: function(scope, element, attrs) {
-        $(element).on('click',function(){
-          $(this).siblings().removeClass(attrs.siblingRemoveClass);
-        });
-
-      }
-    };
-  }
-
-  function removeClassDirective($window,$location) {
-    return {
-      restrict: 'A',
-      link: function(scope, element, attrs) {
-        $(element).on('click',function(){
-          $(this).siblings('.filterDirectiveRadioGroup').find('.filterRadioButton').removeClass(attrs.removeClass);
-        });
-
-      }
-    };
-  }
-
-
-})(window.angular);
-
-(function(angular){
-  angular.module('app.store')
-  .directive('scrollToId',['scrollToIdService',scrollToIdDirective]);
-
-  function scrollToIdDirective(scrollToIdService) {
-    return {
-      restrict: 'A',
-      link: function(scope, element, attrs) {
-        $(element).on('click',function(){
-          scrollToIdService.scrollToId(attrs.scrollToId);
-        });
-      }
-    };
-  }
-
-
-})(window.angular);
-
-(function(angular){
   'use strict';
-/*
-  *Service for getting a single store with its id
-*/
+
 angular.module('app.store')
   .service('getStoreCollectionService',["$http","storeData","baseUrlService",GetStoreCollectionService]);
 

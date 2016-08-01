@@ -1,6 +1,13 @@
 var UserSearch = require('..//models/user_search');
 var moment = require('moment');
+var mongoose = require('mongoose');
 var jwt = require('jwt-simple');
+var models = require('..//models/storeModel');
+var Review = models.Review;
+var User = models.User;
+var Store = models.Store;
+var Upvote = models.Upvote;
+var Product = models.Product;
 var cob = {};
 cob.saveSearchList = function(query,kind,location,req,res){
 	var userSearch = new UserSearch();
@@ -32,5 +39,36 @@ cob.ensureAuthenticated = function ensureAuthenticated(req, res, next) {
   }
   req.user = payload.sub;
   next();
+}
+
+cob.validateId = function validateId(id,entityType){
+  /*var singleEntity = "";
+  console.log(entityType);
+  console.log(id);
+  if(entityType.toLowerCase()=="store"){
+    singleEntity = Store;
+    console.log(entityType);
+  }
+  else if(entityType.toLowerCase()=="product"){
+    singleEntity = Product;
+    console.log(entityType);
+  }
+  else if(entityType.toLowerCase()=="review"){
+    singleEntity = Review;
+    console.log(entityType);
+  }
+  else if(entityType.toLowerCase()=="user"){
+    singleEntity = User;
+    console.log(entityType);
+  }
+  else if(entityType.toLowerCase()=="upvote"){
+    singleEntity = Upvote;
+    console.log(entityType);
+  } */
+  console.log("over here");
+  console.log(entityType);
+  return entityType.findById(mongoose.Types.ObjectId(id)).exec();
+  
+  
 }
 module.exports = cob;
