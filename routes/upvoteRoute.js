@@ -98,7 +98,7 @@ upvoteRouter.route('/upvotes/review')
 		commons.validateId(upvote.user,User).then(function(doc){
 			commons.validateId(upvote.store,Store).then(function(doc){
 
-				upvote.save(function(err){
+				upvote.save(function(err,upvote){
 			    	if(err){
 			      		if(err.code == 11000){
 			        		return res.json({success:false,'message':'Review already exists'});
@@ -111,7 +111,7 @@ upvoteRouter.route('/upvotes/review')
 			    	}
 				    console.log("savved the upvote");
 
-				    res.json({message:"Upvote created"});
+				    res.json({"message":"Upvote created","id":upvote._id});
 		  		});
 			})
 		})
@@ -131,7 +131,7 @@ upvoteRouter.route('/upvotes/review')
 					}
 					else{
 						upvote.remove(function (err) {
-        			res.send('removed this');
+        			res.json({"message":"Upvote delted","id":upvote._id});
     				});
 					}
 				});

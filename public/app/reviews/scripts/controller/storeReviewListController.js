@@ -62,7 +62,9 @@ angular.module('app.review')
       .then(function(res){
         console.log("from user review submit");
         console.log(res);
-        $route.reload();
+        review.upvotes.push(res.data.id);
+        slc.userUpvotes.push(res.data.id);
+        //$route.reload();
         
       });
     }
@@ -70,7 +72,9 @@ angular.module('app.review')
       reviewService.deleteUserReviewUpvote({"reviewId":review._id,"storeId":$routeParams.storeId,"userId":userData.getUser()._id})
       .then(function(res){
         console.log(res);
-        $route.reload();
+        review.upvotes.splice(review.upvotes.indexOf(res.data.id), 1);
+        slc.userUpvotes.splice(review.upvotes.indexOf(res.data.id), 1);
+        
       });
 
     }
