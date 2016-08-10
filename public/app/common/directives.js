@@ -117,10 +117,12 @@ function loadingDirective() {
   }
   function smallLoadingDirective() {
       return {
+        restrict: 'EA',
         replace:true,
         scope:{
           smallLoading:"=smallLoading"
         },
+        template: '<span style="position:relative"><div class="spinner"></div></span>',
         link: function (scope, element, attr) {
 
               scope.$watch('smallLoading', function (val) {
