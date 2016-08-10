@@ -305,7 +305,8 @@ angular.module('app.common')
   .directive('toggleMobile',["$window","$location", toggleMobile])
   .directive('loadingDirective',[loadingDirective])
   .directive('metaTags',[metaTagsDirective])
-  .directive('likeDirective',[likeDirective]);
+  .directive('likeDirective',[likeDirective])
+  .directive('smallLoadingDirective',[smallLoadingDirective]);
   function toggleElement($window,$location) {
     return {
       restrict: 'A',
@@ -414,6 +415,25 @@ function loadingDirective() {
         }
       };
   }
+  function smallLoadingDirective() {
+      return {
+        restrict: 'EA',
+        replace:true,
+        scope:{
+          smallLoading:"=smallLoading"
+        },
+        template: '<span style="position:relative"><div class="spinner"></div></span>',
+        link: function (scope, element, attr) {
+
+              scope.$watch('smallLoading', function (val) {
+                  if (val)
+                      $(element).show();
+                  else
+                      $(element).hide();
+              });
+        }
+      };
+  }
 
   function metaTagsDirective(){
     return {
@@ -432,7 +452,8 @@ function loadingDirective() {
       scope: {
         upFn:'&upFn',
         downFn:'&downFn',
-        upvChk:'&upvChk'
+        upvChk:'&upvChk',
+        smallLoading:'=smallLoading'
       },
       templateUrl: 'app/reviews/views/likeReview.html'
     };
@@ -1130,6 +1151,7 @@ angular.module('app.review')
   function StoreReviewListController($scope,$auth,$routeParams,$route,reviewService,userData){
     var slc = this;
     slc.activate = activate;
+    slc.smallLoadingModel = {};
     slc.getStoreReviews = getStoreReviews;
     slc.getRating = getRating;
     slc.userReviewUpvoted = userReviewUpvoted;
@@ -1148,7 +1170,7 @@ angular.module('app.review')
     function getStoreReviews(){
       reviewService.getStoreReviews().then(function(res){
         slc.reviewList = res.data;
-        console.log("**************from store list**********");
+        console.log("*********from store list**********");
         console.log(slc.reviewList);
       },function(res){
 
@@ -1182,23 +1204,27 @@ angular.module('app.review')
     }
 
     function submitUserReviewUpvote(review){
+      slc.smallLoadingModel[review._id] = true;
+      console.log(slc.smallLoadingModel);
       reviewService.submitUserReviewUpvote({"reviewId":review._id,"storeId":$routeParams.storeId,"userId":userData.getUser()._id})
       .then(function(res){
         console.log("from user review submit");
         console.log(res);
         review.upvotes.push(res.data.id);
         slc.userUpvotes.push(res.data.id);
-        //$route.reload();
+        slc.smallLoadingModel[review._id] = false;
+        
         
       });
     }
     function deleteUserReviewUpvote(review){
+      slc.smallLoadingModel[review._id] = true;
       reviewService.deleteUserReviewUpvote({"reviewId":review._id,"storeId":$routeParams.storeId,"userId":userData.getUser()._id})
       .then(function(res){
         console.log(res);
         review.upvotes.splice(review.upvotes.indexOf(res.data.id), 1);
-        slc.userUpvotes.splice(review.upvotes.indexOf(res.data.id), 1);
         
+        slc.smallLoadingModel[review._id] = false;
       });
 
     }

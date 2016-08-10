@@ -5,7 +5,8 @@
   .directive('toggleMobile',["$window","$location", toggleMobile])
   .directive('loadingDirective',[loadingDirective])
   .directive('metaTags',[metaTagsDirective])
-  .directive('likeDirective',[likeDirective]);
+  .directive('likeDirective',[likeDirective])
+  .directive('smallLoadingDirective',[smallLoadingDirective]);
   function toggleElement($window,$location) {
     return {
       restrict: 'A',
@@ -114,6 +115,23 @@ function loadingDirective() {
         }
       };
   }
+  function smallLoadingDirective() {
+      return {
+        replace:true,
+        scope:{
+          smallLoading:"=smallLoading"
+        },
+        link: function (scope, element, attr) {
+
+              scope.$watch('smallLoading', function (val) {
+                  if (val)
+                      $(element).show();
+                  else
+                      $(element).hide();
+              });
+        }
+      };
+  }
 
   function metaTagsDirective(){
     return {
@@ -132,7 +150,8 @@ function loadingDirective() {
       scope: {
         upFn:'&upFn',
         downFn:'&downFn',
-        upvChk:'&upvChk'
+        upvChk:'&upvChk',
+        smallLoading:'=smallLoading'
       },
       templateUrl: 'app/reviews/views/likeReview.html'
     };
