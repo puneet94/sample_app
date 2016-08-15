@@ -14,9 +14,6 @@ reviewRouter.use(function(req,res,next){
 	next();
 });
 
-
-
-
 reviewRouter.route('/reviews')
 	.get(function(req,res){
 		Review.find(function(err,reviews){
@@ -28,7 +25,26 @@ reviewRouter.route('/reviews')
 			//res.render("stores",{"stores":stores});
 		})
 	});
-
+reviewRouter.route('/ratings/store/:storeId')
+.get(function(req,res){
+	Review.find({'store':req.params.storeId})
+				.select('rating -_id')
+				.exec(function(err, result) {
+						if(err){
+						res.send(err);
+					}
+					else{
+						var avg = 0;
+						for (var i = 0; i < result.length; i++) {
+							avg = avg + parseInt(result[i].rating);
+						}
+						if(result.length==0){
+							res.json(0);
+						}
+						res.json(avg/result.length);
+					}
+				});
+});
 reviewRouter.route('/reviews/store/:storeId')
 .get(function(req,res){
 	Review.find({'store':req.params.storeId})

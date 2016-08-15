@@ -11,10 +11,14 @@ angular.module('app.store')
 */
 function GetSingleStoreWithId($http,storeData,baseUrlService){
   this.getStore = getStore;
-
+  this.getStoreRating = getStoreRating;
   function getStore(id){
     return $http.get(baseUrlService.baseUrl+"store/singleStore/"+id);
     
   }
+  function getStoreRating(id){
+  	return $http.get(baseUrlService.baseUrl+"review/ratings/store/"+id);
+  }
+
 }
 })(window.angular);

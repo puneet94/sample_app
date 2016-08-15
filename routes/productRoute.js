@@ -13,9 +13,6 @@ productRouter.use(function(req,res,next){
 	next();
 });
 
-
-
-
 productRouter.route('/products')
 	.get(function(req,res){
 		Product.find(function(err,products){

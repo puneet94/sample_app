@@ -1,15 +1,14 @@
 <div class="storeAddressPartial" >
-  <h1>Address</h1>
+  <h1 class="addressHeadingText">Address</h1>
 
 
   <div class="addressContentSection" layout="column" layout-gt-md="row">
-    <div class="addressContentText">
-      <div class="" ng-repeat="(key, value) in ssc.storeData.address" ng-if="key!='_id'">
-        <span>{{key}}</span>-<span>{{value}}</span>
+    <div class="addressContentText" >
+        <span>{{::ssc.storeData.address.locality}}</span>
+        <span>{{::ssc.storeData.address.area}}</span>
 
       </div>
-
-    </div>
+    
     <div class="addressContentMap">
       <div class="">
         <map style="" scrollwheel="false" center="ssc.getAddressString()">

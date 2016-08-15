@@ -42,33 +42,27 @@ cob.ensureAuthenticated = function ensureAuthenticated(req, res, next) {
 }
 
 cob.validateId = function validateId(id,entityType){
-  /*var singleEntity = "";
-  console.log(entityType);
-  console.log(id);
-  if(entityType.toLowerCase()=="store"){
-    singleEntity = Store;
-    console.log(entityType);
-  }
-  else if(entityType.toLowerCase()=="product"){
-    singleEntity = Product;
-    console.log(entityType);
-  }
-  else if(entityType.toLowerCase()=="review"){
-    singleEntity = Review;
-    console.log(entityType);
-  }
-  else if(entityType.toLowerCase()=="user"){
-    singleEntity = User;
-    console.log(entityType);
-  }
-  else if(entityType.toLowerCase()=="upvote"){
-    singleEntity = Upvote;
-    console.log(entityType);
-  } */
+  
   console.log("over here");
   console.log(entityType);
   return entityType.findById(mongoose.Types.ObjectId(id)).exec();
   
   
+}
+cob.storeRatingAvg = function(req,res){
+  Review.find({'store':req.params.storeId})
+        .select('rating -_id')
+        .exec(function(err, result) {
+            if(err){
+            res.send(err);
+          }
+          else{
+            var avg = 0;
+            for (var i = 0; i < result.length; i++) {
+              avg = avg + parseInt(result[i].rating);
+            }
+            res.json(avg/result.length);
+          }
+        });
 }
 module.exports = cob;

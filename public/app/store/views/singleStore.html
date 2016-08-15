@@ -6,8 +6,27 @@
 <main flex class="fixedHeaderMain">
   <div class="" layout="row" layout-xs="column" layout-sm="column">
     <div class="storeLeftPane" flex-sm="100" flex-xs="100" flex="70" >
-      <h1 class="capitalise-text">{{ssc.storeData.name}} </h1>
-      <div class="storeBannerImage" style='background-image:url("{{ssc.storeData.bannerImage}}")'>
+      <div class="storeImageContent">
+        
+        <div class="storeBannerImage" style='background-image:url("{{ssc.storeData.bannerImage}}")'>  
+        
+      </div>
+
+      <div class="storeHeadingRating" layout="row" layout-align="space-between">
+        <div>
+          <h1 class="singleStoreHeading">{{ssc.storeData.name}} </h1>
+        </div>  
+        <div>
+          <h3>
+           <span><i class="fa fa-pencil-square" aria-hidden="true"></i></span> 
+           <span>{{::ssc.storeData.storeRatingAvg}}/5</span>
+          </h3>
+        </div>
+      </div>
+      
+      <div class="addressContentText" >
+        <span>{{::ssc.storeData.address.locality}}</span>
+        <span>{{::ssc.storeData.address.area}}</span>
 
       </div>
       <div class="userInteractionNav" layout="row" ng-if="ssc.authCheck">
@@ -17,6 +36,8 @@
           </div>
         </div>
       </div>
+      </div>
+      
       <div class="storePageStatsNav" layout="row" layout-xs="column">
 
         <md-divider></md-divider>
@@ -25,7 +46,7 @@
         </div>
         <md-divider></md-divider>
         <div class="statsContent" scroll-to-id="flowReviews">
-            <h4 class="statsContentText"><span><i class="fa fa-pencil-square" aria-hidden="true"></i></span>Reviews-({{ssc.storeData.reviews.length}})</h4>
+            <h4 class="statsContentText"><span><i class="fa fa-comments" aria-hidden="true"></i></span>Reviews-({{ssc.storeData.reviews.length}})</h4>
         </div>
 
         <md-divider></md-divider>
@@ -36,9 +57,7 @@
         <md-divider></md-divider>
 
       </div>
-      <div  id="flowAddress" class="" ng-include="'app/store/views/storeAddressDetails.html'">
-
-      </div>
+      
 
       <div id="flowReviews"  class="" ng-include="'app/reviews/views/storeReviewList.html'">
 

@@ -47,7 +47,6 @@ function scrollDown($window,$location) {
         $(window).on("scroll", function() {
           windowWidth = window.innerWidth ? window.innerWidth : $(window).width();
           if(path.indexOf('/home')==-1 && ($(window).scrollTop()>170)){
-          //  console.log($(document).scrollTop());
             if (windowWidth <= 601 && path.indexOf('/home')==-1 && ($(window).scrollTop()>170)) {
               var st = $(this).scrollTop();
               if (st > lastScrollTop) {

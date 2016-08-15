@@ -347,7 +347,6 @@ function scrollDown($window,$location) {
         $(window).on("scroll", function() {
           windowWidth = window.innerWidth ? window.innerWidth : $(window).width();
           if(path.indexOf('/home')==-1 && ($(window).scrollTop()>170)){
-          //  console.log($(document).scrollTop());
             if (windowWidth <= 601 && path.indexOf('/home')==-1 && ($(window).scrollTop()>170)) {
               var st = $(this).scrollTop();
               if (st > lastScrollTop) {
@@ -1277,6 +1276,7 @@ angular.module('app.store')
     function getAddressString(){
       return Object.keys(ssc.storeData.address).map(function(key){return ssc.storeData.address[key];}).join(' ');
     }
+
     getSingleStore.getStore($routeParams.storeId)
     .then(function(res){
       storeData.setStore(res.data);
@@ -1286,6 +1286,10 @@ angular.module('app.store')
             scrollToIdService.scrollToId($location.search().param);
         }
       });
+    getSingleStore.getStoreRating($routeParams.storeId)
+    .then(function(res){
+      ssc.storeData.storeRatingAvg = res.data;
+    });
 
     }
 
@@ -1698,11 +1702,15 @@ angular.module('app.store')
 */
 function GetSingleStoreWithId($http,storeData,baseUrlService){
   this.getStore = getStore;
-
+  this.getStoreRating = getStoreRating;
   function getStore(id){
     return $http.get(baseUrlService.baseUrl+"store/singleStore/"+id);
     
   }
+  function getStoreRating(id){
+  	return $http.get(baseUrlService.baseUrl+"review/ratings/store/"+id);
+  }
+
 }
 })(window.angular);
 

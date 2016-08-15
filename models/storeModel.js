@@ -47,7 +47,22 @@ var ReviewSchema = new Schema({
     upvotes:[{ type:Schema.ObjectId, ref:"Upvote" }],
     rating:{type:String,default:'0'}
 },{ collection : 'reviews' });
-
+/*ReviewSchema.post('save', function(doc) {
+	console.log("**************************-");
+  console.log(doc.store);
+  Store.aggregate([{$match: {id: doc.store}}, {$project: {lengthA: {$size: '$reviews'}}}]);
+  Store.findById(doc.store)
+				.select('reviews -_id')
+				.exec(function(err, result) {
+						if(err){
+						res.send(err);
+					}
+					else{
+						
+						//res.json(avg/result.length);
+					}
+				});
+});*/
 ReviewSchema.plugin(relationship, { relationshipPathName:'user' });
 ReviewSchema.plugin(relationship, { relationshipPathName:'store' });
 ReviewSchema.plugin(relationship, { relationshipPathName:'product' });
@@ -117,11 +132,23 @@ var StoreSchema = new Schema({
 	products:[{ type:Schema.ObjectId, ref:"Product" }],
 	upvotes:[{ type:Schema.ObjectId, ref:"Upvote" }],
 	bannerImage:{type:String,default:'https://upload.wikimedia.org/wikipedia/commons/3/3a/SM_Department_Store_Cubao.jpg'},
-  storeImages:[String],
-	visits:[{ type:Schema.ObjectId, ref:"Visit" }]
+  	storeImages:[String],
+	visits:[{ type:Schema.ObjectId, ref:"Visit" }],
+	visitsCount: Number,
+	productsCount:Number,
+	reviewsCount:Number
+
 },{ collection : 'stores' });
 
-
+StoreSchema.post('init', function () {
+	console.log("yyoyoyoyoyoyoyoyoyoyoyo");
+  this.reviewsCount = this.reviews.length;
+  this.productsCount = this.products.length;
+  this.visitsCount = this.visits.length;
+  console.log(this.reviews.length);
+  console.log(this.reviewsCount);
+  //next();
+});
 var ProductSchema = new Schema({
 	name:String,
 	description:String,
@@ -132,7 +159,19 @@ var ProductSchema = new Schema({
 	reviews:[{ type:Schema.ObjectId, ref:"Review" }],
 	upvotes:[{ type:Schema.ObjectId, ref:"Upvote" }],
 	images:[String],
+	visitsCount: Number,
+	reviewsCount:Number,
+	upvotesCount:Number,
 	store: { type:Schema.ObjectId, ref:"Store", childPath:"products" }
+});
+ProductSchema.post('init', function () {
+	console.log("");
+  this.reviewsCount = this.reviews.length;
+  this.upvotesCount = this.upvotes.length;
+  this.visitsCount = this.visits.length;
+  console.log(this.reviews.length);
+  console.log(this.reviewsCount);
+  //next();
 });
 ProductSchema.plugin(relationship, { relationshipPathName:'store' });
 

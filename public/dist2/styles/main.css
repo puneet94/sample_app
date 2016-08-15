@@ -1,5 +1,20 @@
-.capitalise-text {
-  text-transform: capitalize; }
+.capital-heading-text {
+  text-transform: capitalize;
+  font-size: 24px;
+  font-weight: 600;
+  color: #795548; }
+
+.capital-sub-heading-text {
+  text-transform: capitalize;
+  font-size: 16px;
+  font-weight: 600;
+  color: #795548; }
+
+.capital-normal-text {
+  text-transform: capitalize;
+  font-size: 14px;
+  font-weight: 400;
+  color: #795548; }
 
 
 @charset "UTF-8";
@@ -204,10 +219,28 @@
     .userRatingSection .rating > label:hover ~ input:checked ~ label, .userRatingSection .rating > input:checked ~ label:hover ~ label {
       color: #FFED85; }
 
+.capital-heading-text {
+  text-transform: capitalize;
+  font-size: 24px;
+  font-weight: 600;
+  color: #795548; }
+
+.capital-sub-heading-text {
+  text-transform: capitalize;
+  font-size: 16px;
+  font-weight: 600;
+  color: #795548; }
+
+.capital-normal-text {
+  text-transform: capitalize;
+  font-size: 14px;
+  font-weight: 400;
+  color: #795548; }
+
 .filterDirectiveTemplate {
   margin-top: 10px; }
   .filterDirectiveTemplate .filterNameHeading {
-    background-color: red;
+    background-color: #795548;
     padding: 10px;
     border-radius: 5%;
     color: white; }
@@ -230,6 +263,27 @@
     .filterDirectiveTemplate .filterDirectiveRadioGroup .highlightClass {
       color: red; }
 
+.capital-heading-text, .reviewHeadingText, .addressHeadingText, .singleStoreHeading {
+  text-transform: capitalize;
+  font-size: 24px;
+  font-weight: 600;
+  color: #795548; }
+
+.capital-sub-heading-text {
+  text-transform: capitalize;
+  font-size: 16px;
+  font-weight: 600;
+  color: #795548; }
+
+.capital-normal-text, .addressContentText {
+  text-transform: capitalize;
+  font-size: 14px;
+  font-weight: 400;
+  color: #795548; }
+
+.storeImageContent {
+  background-color: white; }
+
 .storeBannerImage {
   width: 100%;
   background-size: cover;
@@ -251,6 +305,24 @@
 .storeAddressPartial {
   background-color: white;
   padding: 5px; }
+
+.capital-heading-text, .storeListHeading {
+  text-transform: capitalize;
+  font-size: 24px;
+  font-weight: 600;
+  color: #795548; }
+
+.capital-sub-heading-text {
+  text-transform: capitalize;
+  font-size: 16px;
+  font-weight: 600;
+  color: #795548; }
+
+.capital-normal-text {
+  text-transform: capitalize;
+  font-size: 14px;
+  font-weight: 400;
+  color: #795548; }
 
 .storeListCategories {
   padding-top: 20px;
@@ -279,7 +351,8 @@
 .storeNameHeading {
   text-transform: capitalize;
   font-weight: 700;
-  color: #ff4263;
+  color: #795548;
+  font-size: 18px;
   cursor: pointer; }
   .storeNameHeading span {
     color: red;

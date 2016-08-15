@@ -13,6 +13,7 @@ angular.module('app.store')
     function getAddressString(){
       return Object.keys(ssc.storeData.address).map(function(key){return ssc.storeData.address[key];}).join(' ');
     }
+
     getSingleStore.getStore($routeParams.storeId)
     .then(function(res){
       storeData.setStore(res.data);
@@ -22,6 +23,10 @@ angular.module('app.store')
             scrollToIdService.scrollToId($location.search().param);
         }
       });
+    getSingleStore.getStoreRating($routeParams.storeId)
+    .then(function(res){
+      ssc.storeData.storeRatingAvg = res.data;
+    });
 
     }
 

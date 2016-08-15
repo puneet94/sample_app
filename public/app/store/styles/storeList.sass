@@ -1,5 +1,7 @@
+@import ../../app-modules/styles/main.sass
 
-  
+.storeListHeading
+  @extend .capital-heading-text
 .storeListCategories
   padding-top: 20px
   font-size: 14px
@@ -23,7 +25,8 @@
 .storeNameHeading
   text-transform: capitalize
   font-weight: 700
-  color: rgb(255,66,99)
+  color: $primary-color
+  font-size: $heading-size
   cursor: pointer
   span
     color: red
