@@ -1,6 +1,6 @@
 angular.module('myApp',
   ['ngRoute','ngCookies','ngMessages','satellizer',
-    'authModApp','app.common','app.home','app.store','ngMaterial','app.review']
+    'authModApp','app.common','app.home','app.store','ngMaterial','app.review','app.product']
   ).config(['$routeProvider','$mdThemingProvider',
   function($routeProvider,$mdThemingProvider) {
       $mdThemingProvider.theme('default')
@@ -107,6 +107,28 @@ angular.module('app.common',[]);
 //https://www.google.co.in/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=passport%20js%20angularjs
 
 //http://speakingaword.blogspot.in/2013/08/authentication-in-angularjs-nodejs-and.html
+
+angular.module('app.product',[]).config(['$routeProvider',
+  function($routeProvider) {
+    $routeProvider.
+      when('/product/productsCollection/productName/:productName/:location/:slug?', {
+        templateUrl: 'app/product/views/productsNameCollection.html',
+        controller: 'ProductNameCollectionController',
+        controllerAs: 'pncc'
+      }).when('/product/productsCollection/category/:category/:location/:slug?', {
+        templateUrl: 'app/product/views/productsCategoryCollection.html',
+        controller: 'ProductCategoryCollectionController',
+        controllerAs: 'pccc'
+      }).when('/product/productsCollection/subCategory/:subCategory/:location/:slug?', {
+        templateUrl: 'app/product/views/productsSubCategoryCollection.html',
+        controller: 'ProductSubCategoryCollectionController',
+        controllerAs: 'pscc'
+      }).when('/product/singleProduct/:productId/:myslug?', {
+        templateUrl: 'app/product/views/singleProduct.html',
+        controller: 'SingleProductController',
+        controllerAs: 'spc'
+      });
+  }]);
 
 (function(angular){
 
@@ -246,8 +268,8 @@ angular.module('app.common')
 
 		var obj1 =  {
 			setCity: function (city) {
-				console.log("called me yo");
-				console.log(city);
+				
+				
 				if(city){
 					storage.setItem('city',JSON.stringify(city));
 				}
@@ -298,6 +320,7 @@ angular.module('app.common')
 	}
 })(window.angular);
 
+/*common directives like scroll..*/
 (function(angular){
   angular.module('app.common')
   .directive('toggleElement',["$window","$location", toggleElement])
@@ -1102,6 +1125,80 @@ angular.module('authModApp')
   }
 })(window.angular);
 
+
+(function(angular){
+  'use strict';
+angular.module('app.product')
+
+  .controller('ProductListController',["$scope","$auth",'$location','scrollToIdService',"$routeParams",ProductListController]);
+  function ProductListController($scope,$auth,$location,scrollToIdService,$routeParams){
+    
+
+  }
+
+})(window.angular);
+
+
+
+(function(angular){
+  'use strict';
+angular.module('app.product')
+
+  .controller('SingleProductController',["$scope","$auth",'$location','scrollToIdService',"$routeParams",SingleProductController]);
+  function SingleProductController($scope,$auth,$location,scrollToIdService,$routeParams){
+    
+
+  }
+
+})(window.angular);
+
+(function(angular){
+  'use strict';
+angular.module('app.product')
+  .controller('StoreProductListController',["$scope","$auth",'$location','scrollToIdService',"$routeParams","getProductsService",StoreProductListController]);
+  function StoreProductListController($scope,$auth,$location,scrollToIdService,$routeParams,getProductsService){
+    var splc = this;
+    splc.storeProductsList = [];
+    splc.pageNo = 0;
+    splc.getSingleProduct = getSingleProduct;
+    activate();
+
+    function getSingleProduct(){
+      //Implement click for single product
+    }
+    function activate(){
+    	getProductsService.getStoreProductsList($routeParams.storeId).then(function(response){
+        console.log("***hit products*****");
+        console.log(response);
+        splc.storeProductsList = response.data.docs;
+      });
+    }
+
+  }
+
+})(window.angular);
+
+(function(angular){
+  'use strict';
+
+angular.module('app.product')
+  .service('getProductsService',["$http","storeData","baseUrlService",GetProductsService]);
+
+/*
+  * This servic has a function to get collection of stores`
+*/
+function GetProductsService($http,storeData,baseUrlService){
+  this.getStoreProductsList = getStoreProductsList;
+
+  function getStoreProductsList(storeId){
+  	var pageNo = 1;
+  	return $http.get(baseUrlService.baseUrl+'product/products/store/'+storeId+"/"+pageNo);
+    //return $http.get(baseUrlService.baseUrl+url,{params:paramData});
+
+  }
+}
+})(window.angular);
+
 (function(angular){
   'use strict';
   angular.module('app.review')
@@ -1169,8 +1266,7 @@ angular.module('app.review')
     function getStoreReviews(){
       reviewService.getStoreReviews().then(function(res){
         slc.reviewList = res.data;
-        console.log("*********from store list**********");
-        console.log(slc.reviewList);
+        
       },function(res){
 
       });
@@ -1187,28 +1283,28 @@ angular.module('app.review')
     }
 
     function userReviewUpvoted(locReview){
-      console.log(locReview.upvotes);
+      
       var upArr = locReview.upvotes;
       for(var i=0;i<upArr.length;i++){
         if(slc.userUpvotes.indexOf(upArr[i])!=-1){
-          console.log("bang");
+          
           slc.currentUpvoteId = upArr[i];
-          console.log(upArr[i]); 
+          
           return true;
         }
       }
       
-      console.log("no bang");
+      
       //return false;
     }
 
     function submitUserReviewUpvote(review){
       slc.smallLoadingModel[review._id] = true;
-      console.log(slc.smallLoadingModel);
+      
       reviewService.submitUserReviewUpvote({"reviewId":review._id,"storeId":$routeParams.storeId,"userId":userData.getUser()._id})
       .then(function(res){
-        console.log("from user review submit");
-        console.log(res);
+        
+        
         review.upvotes.push(res.data.id);
         slc.userUpvotes.push(res.data.id);
         slc.smallLoadingModel[review._id] = false;
@@ -1220,7 +1316,7 @@ angular.module('app.review')
       slc.smallLoadingModel[review._id] = true;
       reviewService.deleteUserReviewUpvote({"reviewId":review._id,"storeId":$routeParams.storeId,"userId":userData.getUser()._id})
       .then(function(res){
-        console.log(res);
+        
         review.upvotes.splice(review.upvotes.indexOf(res.data.id), 1);
         
         slc.smallLoadingModel[review._id] = false;

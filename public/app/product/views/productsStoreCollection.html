@@ -1,0 +1,14 @@
+<div class="" ng-controller="StoreProductListController as splc" style="background-color:white;width:100%;">
+  <ul >
+    <li ng-repeat=" product in splc.storeProductsList track by product._id">
+      <img ng-src="{{::product.imagesMin[0]}}">
+      <ul>
+
+      	<li>Name: {{::product.name}}</li>
+      	<li>Category: {{::product.category}}</li>
+      	<li>SubCategory: {{::product.subCategory}}</li>
+      	<li>Price: {{::product.price.value}} {{::product.price.currency}}</li>
+      </ul>
+    </li>
+  </ul>
+</div>

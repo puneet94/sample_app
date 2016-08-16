@@ -142,11 +142,19 @@ var StoreSchema = new Schema({
 
 StoreSchema.post('init', function () {
 	console.log("yyoyoyoyoyoyoyoyoyoyoyo");
-  this.reviewsCount = this.reviews.length;
-  this.productsCount = this.products.length;
-  this.visitsCount = this.visits.length;
-  console.log(this.reviews.length);
-  console.log(this.reviewsCount);
+	console.log(this);
+	try{
+		this.reviewsCount = this.reviews.length || 0;
+  this.productsCount = this.products.length || 0;
+  this.visitsCount = this.visits.length || 0;		
+	}
+	catch(err){
+		this.reviewsCount =  0;
+  this.productsCount =  0;
+  this.visitsCount = 0;
+	}
+  
+  
   //next();
 });
 var ProductSchema = new Schema({
@@ -166,11 +174,18 @@ var ProductSchema = new Schema({
 });
 ProductSchema.post('init', function () {
 	console.log("");
-  this.reviewsCount = this.reviews.length;
-  this.upvotesCount = this.upvotes.length;
-  this.visitsCount = this.visits.length;
-  console.log(this.reviews.length);
-  console.log(this.reviewsCount);
+	try{
+this.reviewsCount = this.reviews.length || 0;
+  this.upvotesCount = this.upvotes.length || 0;
+  this.visitsCount = this.visits.length || 0;
+	}
+	catch(err){
+		this.reviewsCount =  0;
+  this.upvotesCount =  0;
+  this.visitsCount = 0;
+	}
+  
+  
   //next();
 });
 ProductSchema.plugin(relationship, { relationshipPathName:'store' });

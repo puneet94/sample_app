@@ -25,8 +25,7 @@ angular.module('app.review')
     function getStoreReviews(){
       reviewService.getStoreReviews().then(function(res){
         slc.reviewList = res.data;
-        console.log("*********from store list**********");
-        console.log(slc.reviewList);
+        
       },function(res){
 
       });
@@ -43,28 +42,28 @@ angular.module('app.review')
     }
 
     function userReviewUpvoted(locReview){
-      console.log(locReview.upvotes);
+      
       var upArr = locReview.upvotes;
       for(var i=0;i<upArr.length;i++){
         if(slc.userUpvotes.indexOf(upArr[i])!=-1){
-          console.log("bang");
+          
           slc.currentUpvoteId = upArr[i];
-          console.log(upArr[i]); 
+          
           return true;
         }
       }
       
-      console.log("no bang");
+      
       //return false;
     }
 
     function submitUserReviewUpvote(review){
       slc.smallLoadingModel[review._id] = true;
-      console.log(slc.smallLoadingModel);
+      
       reviewService.submitUserReviewUpvote({"reviewId":review._id,"storeId":$routeParams.storeId,"userId":userData.getUser()._id})
       .then(function(res){
-        console.log("from user review submit");
-        console.log(res);
+        
+        
         review.upvotes.push(res.data.id);
         slc.userUpvotes.push(res.data.id);
         slc.smallLoadingModel[review._id] = false;
@@ -76,7 +75,7 @@ angular.module('app.review')
       slc.smallLoadingModel[review._id] = true;
       reviewService.deleteUserReviewUpvote({"reviewId":review._id,"storeId":$routeParams.storeId,"userId":userData.getUser()._id})
       .then(function(res){
-        console.log(res);
+        
         review.upvotes.splice(review.upvotes.indexOf(res.data.id), 1);
         
         slc.smallLoadingModel[review._id] = false;

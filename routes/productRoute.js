@@ -24,7 +24,7 @@ productRouter.route('/products')
 			//res.render("stores",{"stores":stores});
 		})
 	})
-productRouter.route('/products/:storeId/:pageNo')
+productRouter.route('/products/store/:storeId/:pageNo')
 	.post(function(req,res){
 		var product = new Product();
 		var recData = req.body;

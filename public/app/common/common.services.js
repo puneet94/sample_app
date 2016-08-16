@@ -81,8 +81,8 @@ angular.module('app.common')
 
 		var obj1 =  {
 			setCity: function (city) {
-				console.log("called me yo");
-				console.log(city);
+				
+				
 				if(city){
 					storage.setItem('city',JSON.stringify(city));
 				}
