@@ -6,15 +6,20 @@
 <main flex class="fixedHeaderMain">
   <div class="" layout="row" layout-xs="column" layout-sm="column">
     <div class="storeLeftPane" flex-sm="100" flex-xs="100" flex="70" >
-      <div class="storeImageContent">
+      <div class="storeImageContent" md-whiteframe="3">
 
         <div class="storeBannerImage" style='background-image:url("{{ssc.storeData.bannerImage}}")'>
 
       </div>
 
       <div class="storeHeadingRating" layout="row" layout-align="space-between">
-        <div>
+        <div layout="row">
           <h1 class="singleStoreHeading">{{ssc.storeData.name}} </h1>
+          <div class="addressContentText" >
+        <span>{{::ssc.storeData.address.locality}}</span>
+        <span>{{::ssc.storeData.address.area}}</span>
+
+      </div>
         </div>
         <div>
           <h3>
@@ -24,11 +29,7 @@
         </div>
       </div>
 
-      <div class="addressContentText" >
-        <span>{{::ssc.storeData.address.locality}}</span>
-        <span>{{::ssc.storeData.address.area}}</span>
-
-      </div>
+      
       <div class="userInteractionNav" layout="row" ng-if="ssc.authCheck">
         <div class="" ng-controller="UserStoreVisitController as usv">
           <div class="userStoreVisitCheck">
@@ -41,16 +42,16 @@
       <div class="storePageStatsNav" layout="row" layout-xs="column">
 
         <md-divider></md-divider>
-        <div class="statsContent" scroll-to-id="flowProducts">
+        <div class="statsContent" scroll-to-id="flowProducts" md-whiteframe="3">
             <h4 class="statsContentText"><span><i class="fa fa-suitcase" aria-hidden="true"></i></span>Products-({{ssc.storeData.products.length}})</h4>
         </div>
         <md-divider></md-divider>
-        <div class="statsContent" scroll-to-id="flowReviews">
+        <div class="statsContent" scroll-to-id="flowReviews" md-whiteframe="3">
             <h4 class="statsContentText"><span><i class="fa fa-comments" aria-hidden="true"></i></span>Reviews-({{ssc.storeData.reviews.length}})</h4>
         </div>
 
         <md-divider></md-divider>
-        <div class="statsContent">
+        <div class="statsContent" md-whiteframe="3">
             <h4 class="statsContentText"><span><i class="fa fa-motorcycle" aria-hidden="true"></i></span>Visits-({{ssc.storeData.visits.length}})</h4>
         </div>
 

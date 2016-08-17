@@ -1,7 +1,7 @@
 <div  ng-controller="StoreReviewListController as srl" class="reviewListSection">
   <h1 class="reviewHeadingText" >Reviews</h1>
-  <div layout="row" layout-sm="column" layout-xs="column" class="singleReview" ng-repeat-start="review in srl.reviewList track by review._id">
-      <div flex="30" flex-xs="100" flex-sm="100" class="userSection">
+  <div layout="row" layout-sm="column" layout-xs="column" md-whiteframe="3" class="singleReview" ng-repeat-start="review in srl.reviewList track by review._id">
+      <div flex="25" flex-xs="100" flex-sm="100" class="userSection">
         <div layout="row" class="userProfile">
           <div class="userImgSection">
             <div class="userImg" style='background-image:url("{{review.user.picture}}")'></div>
@@ -27,7 +27,7 @@
           {{::review.description }}
         </div>
         <div class="contentRatingSection">
-          <div class="reviewStats"><span>{{ ::review.upvotes.length ||0 }} Upvotes</span></div>
+          <div class="reviewStats"><span>{{ ::review.upvotes.length ||0 }} <i class="fa fa-heart-o" aria-hidden="true"></i></span></div>
         </div>
 
         <div class="userReviewUpvoteSection" ng-if="srl.authCheck">
@@ -44,7 +44,7 @@
       </div>
 
   </div>
-  <md-divider ng-repeat-end=""></md-divider>
+  <div ng-repeat-end=""></div>
 
 
 </div>

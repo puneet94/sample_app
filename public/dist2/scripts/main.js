@@ -320,7 +320,7 @@ angular.module('app.common')
 	}
 })(window.angular);
 
-/*common directives like scroll..*/
+/*common directives like scrol..*/
 (function(angular){
   angular.module('app.common')
   .directive('toggleElement',["$window","$location", toggleElement])

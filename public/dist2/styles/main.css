@@ -193,6 +193,12 @@
     padding: 0;
     height: 100%; } }
 
+.reviewSubmitForm {
+  background-color: white;
+  padding: 25px; }
+  .reviewSubmitForm .reviewSubmitFormContent {
+    background-color: white; }
+
 .userRatingSection {
   width: 175px; }
   .userRatingSection .rating {
@@ -238,7 +244,8 @@
   color: #795548; }
 
 .filterDirectiveTemplate {
-  margin-top: 10px; }
+  margin-top: 10px;
+  width: 90%; }
   .filterDirectiveTemplate .filterNameHeading {
     background-color: #795548;
     padding: 10px;
@@ -282,12 +289,18 @@
   color: #795548; }
 
 .storeImageContent {
-  background-color: white; }
+  background-color: white;
+  margin-top: 35px;
+  padding: 10px; }
 
 .storeBannerImage {
   width: 100%;
   background-size: cover;
   height: 300px; }
+
+.addressContentText {
+  margin-top: 25px;
+  margin-left: 15px; }
 
 .storePageStatsNav {
   background-color: white;
@@ -366,10 +379,13 @@
   background-size: cover; }
 
 .reviewListSection {
-  background-color: white;
   padding: 5px; }
   .reviewListSection .singleReview {
-    padding: 5px; }
+    padding: 10px;
+    background-color: white;
+    margin: 10px 0px; }
+    .reviewListSection .singleReview .reviewContent {
+      margin: 10px 0; }
   .reviewListSection .userSection {
     font-size: 12px; }
   .reviewListSection .userImg {
