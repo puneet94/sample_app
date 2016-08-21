@@ -55,12 +55,12 @@ angular
         controller: 'LoginController',
         controllerAs: 'login'
       });
-      $authProvider.loginUrl = "https://shoppinss.herokuapp.com/authenticate/login";
-      $authProvider.signupUrl = "https://shoppinss.herokuapp.com/authenticate/signup";
+      $authProvider.loginUrl = "http://localhost:3000/authenticate/login";
+      $authProvider.signupUrl = "http://localhost:3000/authenticate/signup";
 
       $authProvider.facebook({
         clientId: '1068203956594250',
-        url:'https://shoppinss.herokuapp.com/authenticate/auth/facebook'
+        url:'http://localhost:3000/authenticate/auth/facebook'
       });
       //$httpProvider.interceptors.push('authInterceptor');
   }
@@ -288,7 +288,7 @@ angular.module('app.common')
 	}
 
 	function AjaxURL(){
-		this.baseUrl = "https://shoppinss.herokuapp.com/";
+		this.baseUrl = "http://localhost:3000/";
 
 		this.getStoresWithCatgeoryLocation = this.baseUrl + "store/storesCollection/category/";//:category/:location?";
 		this.getStoresWithNameLocation = this.baseUrl + "store/storesCollection/storeName/";
@@ -320,7 +320,7 @@ angular.module('app.common')
 	}
 })(window.angular);
 
-/*common directives like scroll..*/
+/*common directives like scroll.*/
 (function(angular){
   angular.module('app.common')
   .directive('toggleElement',["$window","$location", toggleElement])

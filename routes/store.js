@@ -221,5 +221,22 @@ storeRouter.route('/singleStore/:store_id/:slug?')
 			}
 		})
 	})
-
+storeRouter.route('/storesCollection/suggestions')
+	.get(function(req,res){
+		var queryObj = {};
+		var sortEntity = ''
+		console.log(req.query);
+		queryObj['address.city'] = req.query.location.toLowerCase() || 'hyderabad';
+		sortEntity = req.query.criteria.toLowerCase()+'Count' || 'reviews';
+		console.log(queryObj);
+		console.log(sortEntity+"********************************************");
+		Store.find(queryObj, null, {sort: '-'+sortEntity}, function (err, store) {
+            if (err) {
+                console.log(err);
+                
+            }
+            res.json(store);
+        });
+		
+	});
 module.exports = storeRouter;
