@@ -1,14 +1,27 @@
-<div class="" ng-controller="StoreProductListController as splc" style="background-color:white;width:100%;">
-  <ul >
-    <li ng-repeat=" product in splc.storeProductsList track by product._id">
-      <img ng-src="{{::product.imagesMin[0]}}">
-      <ul>
-
-      	<li>Name: {{::product.name}}</li>
-      	<li>Category: {{::product.category}}</li>
-      	<li>SubCategory: {{::product.subCategory}}</li>
-      	<li>Price: {{::product.price.value}} {{::product.price.currency}}</li>
-      </ul>
-    </li>
-  </ul>
+<div  ng-controller="StoreProductListController as splc" style="width:100%;">
+  <div class="productContainer" layout="row" layout-wrap layout-align="space-around start">
+    <div class="singleProductContainer" md-whiteframe="3" flex="30"  flex-xs="100" ng-repeat="product in splc.storeProductsList track by product._id">
+      <img class="singleProductImage" ng-src="{{::product.images[0]}}">
+      <div class="productDetailsContainer">
+        <div layout="row" layout-align="space-between end">
+          <div class="productName"> {{::product.name}}</div>
+          <div class="productPrice"> {{::product.price.value}} {{::product.price.currency}}</div>
+        </div>
+        
+        <div >
+          <span class="productCategory">{{::product.category}}</span>
+          <span class="productSubCatgeory">({{::product.subCategory}})
+          </span>
+        </div>
+        <div class="productStatsContainer" >
+          <span> {{::product.reviewsCount}}<span><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span> </span>
+          <span > {{::product.upvotesCount}}<span><i class="fa fa-hand-paper-o" aria-hidden="true"></i></span></span>
+          <span > {{::product.visitsCount}}<span><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
 </div>
+
