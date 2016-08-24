@@ -9,10 +9,16 @@ angular.module('app.product')
 */
 function GetProductsService($http,storeData,baseUrlService){
   this.getStoreProductsList = getStoreProductsList;
+  this.getSingleProduct = getSingleProduct;
 
   function getStoreProductsList(storeId){
   	var pageNo = 1;
   	return $http.get(baseUrlService.baseUrl+'product/products/store/'+storeId+"/"+pageNo);
+    //return $http.get(baseUrlService.baseUrl+url,{params:paramData});
+
+  }
+  function getSingleProduct(productId){
+  	return $http.get(baseUrlService.baseUrl+'product/products/singleProduct/'+productId);
     //return $http.get(baseUrlService.baseUrl+url,{params:paramData});
 
   }

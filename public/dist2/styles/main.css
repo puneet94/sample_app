@@ -16,7 +16,6 @@
   font-weight: 400;
   color: #795548; }
 
-
 @charset "UTF-8";
 .likeDirectiveContainer {
   font-weight: 800;
@@ -93,6 +92,7 @@
   to {
     -webkit-transform: rotate(359deg);
     transform: rotate(359deg); } }
+
 
 .search-banner {
   width: 100%;
@@ -193,6 +193,24 @@
     padding: 0;
     height: 100%; } }
 
+.capital-heading-text {
+  text-transform: capitalize;
+  font-size: 24px;
+  font-weight: 600;
+  color: #795548; }
+
+.capital-sub-heading-text {
+  text-transform: capitalize;
+  font-size: 16px;
+  font-weight: 600;
+  color: #795548; }
+
+.capital-normal-text {
+  text-transform: capitalize;
+  font-size: 14px;
+  font-weight: 400;
+  color: #795548; }
+
 .productContainer {
   padding: 10px; }
   .productContainer .singleProductContainer {
@@ -222,6 +240,44 @@
         font-size: 14px;
         font-weight: 600;
         margin: 3px 0; }
+        .productContainer .singleProductContainer .productDetailsContainer .productStatsContainer .viewProductLink {
+          cursor: pointer;
+          text-decoration: underline;
+          font-size: 12px;
+          color: #795548;
+          font-weight: 500; }
+
+.reviewSubmitForm {
+  background-color: white;
+  padding: 25px; }
+  .reviewSubmitForm .reviewSubmitFormContent {
+    background-color: white; }
+
+.userRatingSection {
+  width: 175px; }
+  .userRatingSection .rating {
+    border: none; }
+    .userRatingSection .rating input {
+      display: none; }
+    .userRatingSection .rating label:before {
+      margin: 5px;
+      font-size: 1.25em;
+      font-family: FontAwesome;
+      display: inline-block;
+      content: "\f005"; }
+    .userRatingSection .rating label {
+      color: rgba(0, 0, 0, 0.5);
+      float: right; }
+    .userRatingSection .rating input:checked ~ label {
+      color: #FFD700; }
+    .userRatingSection .rating:not(:checked) > label:hover {
+      color: #FFD700; }
+      .userRatingSection .rating:not(:checked) > label:hover ~ label {
+        color: #FFD700; }
+    .userRatingSection .rating > input:checked + label:hover, .userRatingSection .rating > input:checked ~ label:hover {
+      color: #FFED85; }
+    .userRatingSection .rating > label:hover ~ input:checked ~ label, .userRatingSection .rating > input:checked ~ label:hover ~ label {
+      color: #FFED85; }
 
 .capital-heading-text {
   text-transform: capitalize;
@@ -440,35 +496,3 @@
 /* hover previous stars in list */
 
 
-
-.reviewSubmitForm {
-  background-color: white;
-  padding: 25px; }
-  .reviewSubmitForm .reviewSubmitFormContent {
-    background-color: white; }
-
-.userRatingSection {
-  width: 175px; }
-  .userRatingSection .rating {
-    border: none; }
-    .userRatingSection .rating input {
-      display: none; }
-    .userRatingSection .rating label:before {
-      margin: 5px;
-      font-size: 1.25em;
-      font-family: FontAwesome;
-      display: inline-block;
-      content: "\f005"; }
-    .userRatingSection .rating label {
-      color: rgba(0, 0, 0, 0.5);
-      float: right; }
-    .userRatingSection .rating input:checked ~ label {
-      color: #FFD700; }
-    .userRatingSection .rating:not(:checked) > label:hover {
-      color: #FFD700; }
-      .userRatingSection .rating:not(:checked) > label:hover ~ label {
-        color: #FFD700; }
-    .userRatingSection .rating > input:checked + label:hover, .userRatingSection .rating > input:checked ~ label:hover {
-      color: #FFED85; }
-    .userRatingSection .rating > label:hover ~ input:checked ~ label, .userRatingSection .rating > input:checked ~ label:hover ~ label {
-      color: #FFED85; }

@@ -32,10 +32,24 @@ visitRouter.route('/visits/:visitId')
 });
 visitRouter.route('/visited')
 .get(function(req,res){
-	console.log("here is the visit");
-  var storeId = req.query.storeId;
+	var entityId;
+	var entity = '';
+	var queryObj = {};
 	var userId = req.query.userId;
-	Visit.find({'store':storeId,'user':userId})
+	queryObj.user = userId
+	if(req.query.storeId){
+		entityId = req.query.storeId;
+		queryObj.store = entityId
+	}
+	else if(req.query.productId){
+		entityId = req.query.productId;
+		
+		queryObj.product = entityId;
+	}
+  
+	
+	//Visit.find({'store':entityId,'user':userId})
+	Visit.find(queryObj)
 				.exec(function(err, result) {
 						if(err){
 							console.log(err);
@@ -101,5 +115,41 @@ visitRouter.route('/visits/user/')
 				});
 })
 
+visitRouter.route('/visits/product/')
+.get(function(req,res){
+  var productId = req.body.productId;
+	Visit.find({'product':productId})
+				.populate({
+					path: 'user',
+					model: 'User'
+				})
+				.exec(function(err, result) {
+						if(err){
+						res.send(err);
+					}
+					else{
+
+						res.json(result);
+					}
+				});
+})
+.post(commons.ensureAuthenticated,function(req,res){
+  var visit = new Visit();
+  var recData = req.body;
+  visit.user=recData.userId;
+  visit.product = mongoose.Types.ObjectId(recData.productId);
+  visit.save(function(err){
+    if(err){
+      if(err.code == 11000){
+        return res.json({success:false,'message':'Visit already exists'});
+      }
+      else{
+        console.log(err);
+        return res.send(err);
+      }
+    }
+    res.json({message:"Visit created"});
+  });
+});
 
 module.exports = visitRouter;

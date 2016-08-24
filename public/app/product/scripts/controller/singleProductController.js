@@ -2,10 +2,22 @@
   'use strict';
 angular.module('app.product')
 
-  .controller('SingleProductController',["$scope","$auth",'$location','scrollToIdService',"$routeParams",SingleProductController]);
-  function SingleProductController($scope,$auth,$location,scrollToIdService,$routeParams){
+  .controller('SingleProductController',["$scope","$auth",'getProductsService','$location','scrollToIdService',"$routeParams",SingleProductController]);
+  function SingleProductController($scope,$auth,getProductsService,$location,scrollToIdService,$routeParams){
+    
+    var spc = this;
+    activate();
     
 
+
+
+    function activate(){
+    	getProductsService.getSingleProduct($routeParams.productId).then(function(res){
+    		
+    		spc.singleProduct = res.data;	
+    	});
+		
+    }
   }
 
 })(window.angular);

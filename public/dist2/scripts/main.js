@@ -320,7 +320,7 @@ angular.module('app.common')
 	}
 })(window.angular);
 
-/*common directives like scroll.*/
+/*common directives like scroll..*/
 (function(angular){
   angular.module('app.common')
   .directive('toggleElement',["$window","$location", toggleElement])
@@ -1144,10 +1144,22 @@ angular.module('app.product')
   'use strict';
 angular.module('app.product')
 
-  .controller('SingleProductController',["$scope","$auth",'$location','scrollToIdService',"$routeParams",SingleProductController]);
-  function SingleProductController($scope,$auth,$location,scrollToIdService,$routeParams){
+  .controller('SingleProductController',["$scope","$auth",'getProductsService','$location','scrollToIdService',"$routeParams",SingleProductController]);
+  function SingleProductController($scope,$auth,getProductsService,$location,scrollToIdService,$routeParams){
+    
+    var spc = this;
+    activate();
     
 
+
+
+    function activate(){
+    	getProductsService.getSingleProduct($routeParams.productId).then(function(res){
+    		
+    		spc.singleProduct = res.data;	
+    	});
+		
+    }
   }
 
 })(window.angular);
@@ -1155,21 +1167,21 @@ angular.module('app.product')
 (function(angular){
   'use strict';
 angular.module('app.product')
-  .controller('StoreProductListController',["$scope","$auth",'$location','scrollToIdService',"$routeParams","getProductsService",StoreProductListController]);
-  function StoreProductListController($scope,$auth,$location,scrollToIdService,$routeParams,getProductsService){
+  .controller('StoreProductListController',["$scope","$auth",'$location','scrollToIdService',"$routeParams","getProductsService","changeBrowserURL",StoreProductListController]);
+  function StoreProductListController($scope,$auth,$location,scrollToIdService,$routeParams,getProductsService,changeBrowserURL){
     var splc = this;
     splc.storeProductsList = [];
     splc.pageNo = 0;
     splc.getSingleProduct = getSingleProduct;
     activate();
 
-    function getSingleProduct(){
-      //Implement click for single product
+    function getSingleProduct(productId){
+      var url = "/product/singleProduct/"+productId;
+      changeBrowserURL.changeBrowserURLMethod(url);
     }
     function activate(){
     	getProductsService.getStoreProductsList($routeParams.storeId).then(function(response){
-        console.log("***hit products*****");
-        console.log(response);
+        
         splc.storeProductsList = response.data.docs;
       });
     }
@@ -1189,10 +1201,16 @@ angular.module('app.product')
 */
 function GetProductsService($http,storeData,baseUrlService){
   this.getStoreProductsList = getStoreProductsList;
+  this.getSingleProduct = getSingleProduct;
 
   function getStoreProductsList(storeId){
   	var pageNo = 1;
   	return $http.get(baseUrlService.baseUrl+'product/products/store/'+storeId+"/"+pageNo);
+    //return $http.get(baseUrlService.baseUrl+url,{params:paramData});
+
+  }
+  function getSingleProduct(productId){
+  	return $http.get(baseUrlService.baseUrl+'product/products/singleProduct/'+productId);
     //return $http.get(baseUrlService.baseUrl+url,{params:paramData});
 
   }
@@ -1337,6 +1355,7 @@ angular.module('app.review')
         rs.getStoreReviews = getStoreReviews;
         rs.submitUserReviewUpvote = submitUserReviewUpvote;
         rs.deleteUserReviewUpvote  = deleteUserReviewUpvote;
+        rs.getProductReviews = getProductReviews;
         function submitStoreReview(review){
           return $http.post(baseUrlService.baseUrl+'review/reviews/store/'+review.storeId,review);
         }
@@ -1352,6 +1371,10 @@ angular.module('app.review')
         function deleteUserReviewUpvote(obj){
           
           return $http.delete(baseUrlService.baseUrl+'upvote/upvotes/review/',{"params":obj});
+        }
+        function getProductReviews(){
+          var productId = $routeParams.productId;
+          return $http.get(baseUrlService.baseUrl+'review/reviews/product/'+productId);
         }
 
       }

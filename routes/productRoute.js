@@ -88,11 +88,20 @@ productRouter.route('/products/category/:storeId/:category/:pageNo')
 				res.send(err);
 			}
 			else{
-				console.log(result);
 				res.json(result);
 			}
 		});
 	})
-
+productRouter.route('/products/singleProduct/:productId')
+	.get(function(req,res){
+		Product.findById(req.params.productId,function(err,product){
+			if(err){
+				res.send(err);
+			}
+			else{
+				res.json(product);
+			}
+		})
+	});
 
 module.exports = productRouter;

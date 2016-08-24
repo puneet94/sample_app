@@ -103,5 +103,50 @@ reviewRouter.route('/reviews/store/:storeId')
   });
 })
 
+reviewRouter.route('reviews/product/:productId')
+	.get(function(req,res){
+		Review.find({'product':req.params.productId})
+				.populate({
+					path: 'user',
+					model: 'User'
+				})
+				.exec(function(err, result) {
+						if(err){
+						res.send(err);
+					}
+					else{
+
+						res.json(result);
+					}
+				});
+	})
+	.post(commons.ensureAuthenticated,function(req,res){
+  var review = new Review();
+  var recData = req.body;
+
+  review.description=recData.description;
+  review.user=recData.userId;
+  review.product = mongoose.Types.ObjectId(req.params.productId);
+	review.rating = recData.rating;
+
+
+
+  review.save(function(err){
+    if(err){
+      if(err.code == 11000){
+        return res.json({success:false,'message':'Review already exists'});
+      }
+      else{
+        console.log(err);
+        return res.send(err);
+
+      }
+    }
+
+
+    res.json({message:"Review created"});
+  });
+})
+
 
 module.exports = reviewRouter;
