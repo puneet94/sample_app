@@ -15,11 +15,13 @@ var VisitSchema = new Schema({
     date  : { type : Date, default: Date.now},
     time : { type : Date, default: Date.now },
     store : { type:Schema.ObjectId, ref:"Store",childPath:"visits" },
-    user : { type:Schema.ObjectId, ref:"User",childPath:"visits" }
+    user : { type:Schema.ObjectId, ref:"User",childPath:"visits" },
+    product:{type:Schema.ObjectId, ref:"Product",childPath:"visits"}
 },{ collection : 'visits' });
 //VisitSchema.index({store: 1, user: 1}, { unique: true });
 VisitSchema.plugin(relationship, { relationshipPathName:'user' });
 VisitSchema.plugin(relationship, { relationshipPathName:'store' });
+VisitSchema.plugin(relationship, { relationshipPathName:'product' });
 
 
 var UpvoteSchema = new Schema({
@@ -141,8 +143,6 @@ var StoreSchema = new Schema({
 },{ collection : 'stores' });
 
 StoreSchema.post('init', function () {
-	console.log("yyoyoyoyoyoyoyoyoyoyoyo");
-	console.log(this);
 	try{
 		this.reviewsCount = this.reviews.length || 0;
   this.productsCount = this.products.length || 0;
@@ -166,6 +166,7 @@ var ProductSchema = new Schema({
 	sizesAvailable:String,
 	reviews:[{ type:Schema.ObjectId, ref:"Review" }],
 	upvotes:[{ type:Schema.ObjectId, ref:"Upvote" }],
+	visits:[{ type:Schema.ObjectId, ref:"Visit" }],
 	images:[String],
 	visitsCount: Number,
 	reviewsCount:Number,

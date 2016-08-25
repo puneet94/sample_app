@@ -1,1 +1,11 @@
 {{spc.singleProduct}}
+
+
+<div class="userInteractionNav" layout="row" ng-if="spc.authCheck">
+        <div class="" ng-controller="UserStoreVisitController as usv">
+          <div class="userProductVisitCheck">
+            <input type="checkbox" name="userVisit"  ng-change="usv.toggleVisitCheck()" ng-model="usv.visitCheck" >Purchased
+          </div>
+        </div>
+      </div>
+      </div>

@@ -62,8 +62,6 @@ angular.module('app.review')
       
       reviewService.submitUserReviewUpvote({"reviewId":review._id,"storeId":$routeParams.storeId,"userId":userData.getUser()._id})
       .then(function(res){
-        
-        
         review.upvotes.push(res.data.id);
         slc.userUpvotes.push(res.data.id);
         slc.smallLoadingModel[review._id] = false;
@@ -75,9 +73,7 @@ angular.module('app.review')
       slc.smallLoadingModel[review._id] = true;
       reviewService.deleteUserReviewUpvote({"reviewId":review._id,"storeId":$routeParams.storeId,"userId":userData.getUser()._id})
       .then(function(res){
-        
         review.upvotes.splice(review.upvotes.indexOf(res.data.id), 1);
-        
         slc.smallLoadingModel[review._id] = false;
       });
 

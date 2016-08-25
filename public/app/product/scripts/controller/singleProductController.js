@@ -6,6 +6,7 @@ angular.module('app.product')
   function SingleProductController($scope,$auth,getProductsService,$location,scrollToIdService,$routeParams){
     
     var spc = this;
+    spc.authCheck = $auth.isAuthenticated();
     activate();
     
 

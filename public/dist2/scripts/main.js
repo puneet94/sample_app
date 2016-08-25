@@ -320,7 +320,7 @@ angular.module('app.common')
 	}
 })(window.angular);
 
-/*common directives like scroll..*/
+/*common directives like scroll...*/
 (function(angular){
   angular.module('app.common')
   .directive('toggleElement',["$window","$location", toggleElement])
@@ -1148,6 +1148,7 @@ angular.module('app.product')
   function SingleProductController($scope,$auth,getProductsService,$location,scrollToIdService,$routeParams){
     
     var spc = this;
+    spc.authCheck = $auth.isAuthenticated();
     activate();
     
 
@@ -1321,8 +1322,6 @@ angular.module('app.review')
       
       reviewService.submitUserReviewUpvote({"reviewId":review._id,"storeId":$routeParams.storeId,"userId":userData.getUser()._id})
       .then(function(res){
-        
-        
         review.upvotes.push(res.data.id);
         slc.userUpvotes.push(res.data.id);
         slc.smallLoadingModel[review._id] = false;
@@ -1334,9 +1333,7 @@ angular.module('app.review')
       slc.smallLoadingModel[review._id] = true;
       reviewService.deleteUserReviewUpvote({"reviewId":review._id,"storeId":$routeParams.storeId,"userId":userData.getUser()._id})
       .then(function(res){
-        
         review.upvotes.splice(review.upvotes.indexOf(res.data.id), 1);
-        
         slc.smallLoadingModel[review._id] = false;
       });
 
@@ -1642,26 +1639,40 @@ angular.module('app.store')
 (function(angular){
   angular.module('app.store')
 
-    .controller('UserStoreVisitController',["$scope","$window","$auth","$routeParams","userData","storeData","userVisitService",UserStoreVisitController]);
+    .controller('UserStoreVisitController',["$scope","$auth","$routeParams","userData","userVisitService",UserStoreVisitController]);
 
-    function UserStoreVisitController($scope,$window,$auth,$routeParams,userData,storeData,userVisitService){
+    function UserStoreVisitController($scope,$auth,$routeParams,userData,userVisitService){
       var usv = this;
       usv.visit = {};
       usv.visitCheck = false;
-      console.log('checking store data inside controller');
-      console.log(userData.getUser());
-      usv.toggleVisitCheck = toggleVisitCheck;
-      usv.visit.storeId = $routeParams.storeId;
-      usv.userStoreVisited = userStoreVisited;
+      usv.getVisitParamObj = {};
+      
+      usv.getVisitParamObj.userId = userData.getUser()._id;
+      
       activate();
+
+      usv.toggleVisitCheck = toggleVisitCheck;
+      usv.userStoreVisited = userStoreVisited;
+      if($routeParams.storeId){
+        usv.visit.storeId = $routeParams.storeId;
+        usv.getVisitParamObj.storeId = $routeParams.storeId;
+        
+      }
+      else if($routeParams.productId){
+        usv.visit.productId = $routeParams.productId;
+        usv.getVisitParamObj.productId = $routeParams.productId;
+      }
+
+      
+      
 
       function userStoreVisited(){
         //userData.setUser();
-        userVisitService.getVisit({"storeId":$routeParams.storeId,"userId":userData.getUser()._id})
+        userVisitService.getVisit(usv.getVisitParamObj)
           .then(function(res){
             if(res.data.length){
                 usv.visitCheck = true;
-                usv.userStoreVisitId  = res.data[0]._id;
+                usv.userVisitId  = res.data[0]._id;
             }
 
           });
@@ -1676,6 +1687,8 @@ angular.module('app.store')
           else{
             usv.visit.userId = $auth.getPayload().sub;
           }
+          console.log('************************************');
+          console.log(usv.visit);
           userVisitService.submitVisit(usv.visit)
             .then(function(res){
                     console.log(res);
@@ -1686,8 +1699,7 @@ angular.module('app.store')
                   });
         }
         else {
-          console.log('inside delte visit');
-          userVisitService.deleteVisit(usv.userStoreVisitId)
+          userVisitService.deleteVisit(usv.userVisitId)
             .then(function(res){
               console.log(res);
               userData.setUser();

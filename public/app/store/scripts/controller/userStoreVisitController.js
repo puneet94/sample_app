@@ -1,26 +1,40 @@
 (function(angular){
   angular.module('app.store')
 
-    .controller('UserStoreVisitController',["$scope","$window","$auth","$routeParams","userData","storeData","userVisitService",UserStoreVisitController]);
+    .controller('UserStoreVisitController',["$scope","$auth","$routeParams","userData","userVisitService",UserStoreVisitController]);
 
-    function UserStoreVisitController($scope,$window,$auth,$routeParams,userData,storeData,userVisitService){
+    function UserStoreVisitController($scope,$auth,$routeParams,userData,userVisitService){
       var usv = this;
       usv.visit = {};
       usv.visitCheck = false;
-      console.log('checking store data inside controller');
-      console.log(userData.getUser());
-      usv.toggleVisitCheck = toggleVisitCheck;
-      usv.visit.storeId = $routeParams.storeId;
-      usv.userStoreVisited = userStoreVisited;
+      usv.getVisitParamObj = {};
+      
+      usv.getVisitParamObj.userId = userData.getUser()._id;
+      
       activate();
+
+      usv.toggleVisitCheck = toggleVisitCheck;
+      usv.userStoreVisited = userStoreVisited;
+      if($routeParams.storeId){
+        usv.visit.storeId = $routeParams.storeId;
+        usv.getVisitParamObj.storeId = $routeParams.storeId;
+        
+      }
+      else if($routeParams.productId){
+        usv.visit.productId = $routeParams.productId;
+        usv.getVisitParamObj.productId = $routeParams.productId;
+      }
+
+      
+      
 
       function userStoreVisited(){
         //userData.setUser();
-        userVisitService.getVisit({"storeId":$routeParams.storeId,"userId":userData.getUser()._id})
+        userVisitService.getVisit(usv.getVisitParamObj)
           .then(function(res){
             if(res.data.length){
                 usv.visitCheck = true;
-                usv.userStoreVisitId  = res.data[0]._id;
+                usv.userVisitId  = res.data[0]._id;
             }
 
           });
@@ -35,6 +49,8 @@
           else{
             usv.visit.userId = $auth.getPayload().sub;
           }
+          console.log('************************************');
+          console.log(usv.visit);
           userVisitService.submitVisit(usv.visit)
             .then(function(res){
                     console.log(res);
@@ -45,8 +61,7 @@
                   });
         }
         else {
-          console.log('inside delte visit');
-          userVisitService.deleteVisit(usv.userStoreVisitId)
+          userVisitService.deleteVisit(usv.userVisitId)
             .then(function(res){
               console.log(res);
               userData.setUser();

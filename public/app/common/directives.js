@@ -1,4 +1,4 @@
-/*common directives like scroll..*/
+/*common directives like scroll...*/
 (function(angular){
   angular.module('app.common')
   .directive('toggleElement',["$window","$location", toggleElement])

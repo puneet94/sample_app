@@ -62,8 +62,15 @@ visitRouter.route('/visited')
 })
 visitRouter.route('/visits/store/')
 .get(function(req,res){
-  var storeId = req.body.storeId;
-	Visit.find({'store':storeId})
+  
+  var queryObj = {};
+  if(req.body.storeId){
+  	queryObj.store = req.body.storeId;
+  }
+  else if(req.body.productId){
+  	queryObj.product = req.body.productId;	
+  }
+	Visit.find(queryObj)
 				.populate({
 					path: 'user',
 					model: 'User'
@@ -82,7 +89,16 @@ visitRouter.route('/visits/store/')
   var visit = new Visit();
   var recData = req.body;
   visit.user=recData.userId;
-  visit.store = mongoose.Types.ObjectId(recData.storeId);
+  if(recData.storeId){
+  	visit['store'] = mongoose.Types.ObjectId(recData.storeId);
+  }
+  else if(recData.productId){
+  	console.log("ëntering the else");
+  	visit['product'] = mongoose.Types.ObjectId(recData.productId);
+  }
+  console.log('*************');
+  console.log(recData.productId);
+  console.log(visit);
   visit.save(function(err){
     if(err){
       if(err.code == 11000){
