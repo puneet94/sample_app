@@ -159,6 +159,7 @@ StoreSchema.post('init', function () {
 });
 var ProductSchema = new Schema({
 	name:String,
+	address:Address,
 	description:String,
 	category:String,
 	subCategory:String,
@@ -173,6 +174,15 @@ var ProductSchema = new Schema({
 	upvotesCount:Number,
 	store: { type:Schema.ObjectId, ref:"Store", childPath:"products" }
 });
+var autoPopulateStore = function(next) {
+  this.populate('store');
+  //this.cityName = this.store.address.city;
+  next();
+};
+
+ProductSchema.
+  pre('findOne', autoPopulateStore).
+  pre('find', autoPopulateStore);
 ProductSchema.post('init', function () {
 	console.log("");
 	try{

@@ -4,7 +4,7 @@ angular.module('app.store',[]).config(['$routeProvider',
       when('/store', {
         templateUrl: 'app/store/storePost.html',
         controller: 'StoreController',
-        controllerAs: 'sm'
+        controllerAs: 'sm'  
       }).when('/store/storesCollection/storeName/:storeName/:location/:slug?', {
         templateUrl: 'app/store/views/storesNameCollection.html',
         controller: 'StoreNameCollectionController',

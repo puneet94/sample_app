@@ -111,25 +111,34 @@ angular.module('app.common',[]);
 angular.module('app.product',[]).config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
-      when('/product/productsCollection/productName/:productName/:location/:slug?', {
+    //http://localhost:3000/#/productsCollection/tab2/chennai/tab2-products-in-chennai
+      when('/productsCollectionName/:productName/:location/:slug?', {
         templateUrl: 'app/product/views/productsNameCollection.html',
         controller: 'ProductNameCollectionController',
         controllerAs: 'pncc'
-      }).when('/product/productsCollection/category/:category/:location/:slug?', {
+      }).when('/productsCollectionCategory/:category/:location/:slug?', {
         templateUrl: 'app/product/views/productsCategoryCollection.html',
         controller: 'ProductCategoryCollectionController',
         controllerAs: 'pccc'
-      }).when('/product/productsCollection/subCategory/:subCategory/:location/:slug?', {
+      }).when('/productsCollectionSubCategory/:subCategory/:location/:slug?', {
         templateUrl: 'app/product/views/productsSubCategoryCollection.html',
         controller: 'ProductSubCategoryCollectionController',
         controllerAs: 'pscc'
-      }).when('/product/singleProduct/:productId/:myslug?', {
+      }).when('/product/singleProduct/:productId/:slug?', {
         templateUrl: 'app/product/views/singleProduct.html',
         controller: 'SingleProductController',
         controllerAs: 'spc'
+      }).when('/productsCollectionLocation/:location/:slug?', {
+        templateUrl: 'app/product/views/productsLocationCollection.html',
+        controller: 'ProductsLocationController',
+        controllerAs: 'plc'
       });
   }]);
 
+//productsCollection/";
+//productsCollectionCategory/";
+//productsCollectionSubCategory/";
+//product/singleProductName/necklace12/hyderabad/necklace12-products-in-hyderabad
 (function(angular){
 
   'use strict';
@@ -151,7 +160,7 @@ angular.module('app.store',[]).config(['$routeProvider',
       when('/store', {
         templateUrl: 'app/store/storePost.html',
         controller: 'StoreController',
-        controllerAs: 'sm'
+        controllerAs: 'sm'  
       }).when('/store/storesCollection/storeName/:storeName/:location/:slug?', {
         templateUrl: 'app/store/views/storesNameCollection.html',
         controller: 'StoreNameCollectionController',
@@ -200,6 +209,9 @@ angular.module('app.common')
 	.service('baseUrlService',[AjaxURL])
 	.service('getCityLocalitiesService',["$http","baseUrlService",GetCityLocalitiesService])
 	.service('getCityCategoriesService',["$http","baseUrlService",GetCityCategoriesService])
+	.service('getCityProductLocalitiesService',["$http","baseUrlService",GetCityProductLocalitiesService])
+	.service('getCityProductCategoriesService',["$http","baseUrlService",GetCityProductCategoriesService])
+	.service('getCityProductSubCategoriesService',["$http","baseUrlService",GetCityProductSubCategoriesService])
 	.factory('cityStorage',["$window",cityStorage]);
 	function CitiesService($http,baseUrlService){
    		this.getCities = function() {
@@ -315,6 +327,28 @@ angular.module('app.common')
 
 		function getCityCategories(city){
 				return $http.get(baseUrlService.baseUrl+"store/categories/"+city);
+		}
+
+	}
+	function GetCityProductLocalitiesService($http,baseUrlService){
+		this.getCityLocalities = getCityLocalities;
+		function getCityLocalities(city){
+			return $http.get(baseUrlService.baseUrl+"product/localities/"+city);
+		}
+	}
+	function GetCityProductCategoriesService($http,baseUrlService){
+		this.getCityCategories = getCityCategories;
+
+		function getCityCategories(city){
+				return $http.get(baseUrlService.baseUrl+"product/categories/"+city);
+		}
+
+	}
+	function GetCityProductSubCategoriesService($http,baseUrlService){
+		this.getCitySubCategories = getCitySubCategories;
+
+		function getCitySubCategories(city){
+				return $http.get(baseUrlService.baseUrl+"product/subCategories/"+city);
 		}
 
 	}
@@ -483,339 +517,6 @@ function loadingDirective() {
 
 })(window.angular);
 
-
-(function(angular){
-	'use strict';
-
-	angular.module('app.home')
-		.controller("AuthController",["$scope","changeBrowserURL","$auth","$window","$route","userData",AuthController]);
-	function AuthController($scope,changeBrowserURL,$auth,$window,$route,userData){
-			var phc = this;
-			phc.toHomePage = toHomePage;
-			phc.authenticate = authenticate;
-			phc.authLogout = authLogout;
-			phc.loginPage = loginPage;
-			phc.isAuth = $auth.isAuthenticated();
-
-			function toHomePage(){
-				changeBrowserURL.changeBrowserURLMethod('/');
-			}
-			function loginPage(){
-				changeBrowserURL.changeBrowserURLMethod('/login');
-			}
-			function authenticate(provider) {
-		    	$auth.authenticate(provider).then(function(response) {
-						userData.setUser();
-						alert('login with facebook successfull');
-						$route.reload();
-	        });
-	    	}
-	    	function authLogout(){
-					$auth.logout();
-	        		userData.removeUser();
-					toHomePage();
-	    	}
-	}
-
-
-})(window.angular);
-
-(function(angular){
-	'use strict';
-
-	angular.module('app.home')
-	.controller('HeaderController',["$scope","userData","changeBrowserURL","$auth","$mdDialog", "$mdMedia","$timeout", "$mdSidenav", "$log",HeaderController]);
-
-	function HeaderController($scope,userData,changeBrowserURL,$auth,$mdDialog, $mdMedia,$timeout, $mdSidenav, $log){
-			var phc = this;
-			phc.toHomePage = toHomePage;
-			phc.authenticate = authenticate;
-			phc.authLogout = authLogout;
-			phc.showAdvanced = showAdvanced;
-			phc.customFullscreen = undefined;
-			phc.isAuth = $auth.isAuthenticated();
-			phc.isOpenLeft = function(){
-	      return $mdSidenav('left').isOpen();
-	    };
-	   phc.toggleLeft = buildToggler('left');
-
-	  function buildToggler(navID) {
-	      return function() {
-	        // Component lookup should always be available since we are not using `ng-if`
-	        $mdSidenav(navID)
-	          .toggle()
-	          .then(function () {
-	            $log.debug("toggle " + navID + " is done");
-	          });
-	      };
-	    }
-			function toHomePage(){
-				changeBrowserURL.changeBrowserURLMethod('/');
-			}
-			function authenticate(provider) {
-		    	$auth.authenticate(provider);
-		    	toHomePage();
-	    	}
-	    	function authLogout(){
-	    		$auth.logout();toHomePage();
-	    	}
-	    	function showAdvanced(ev) {
-			    var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
-			    $mdDialog.show({
-			      controller: 'ModalFormLoginController',
-			      templateUrl: 'app/home/views/modalFormLogin.html',
-			      parent: angular.element(document.body),
-			      targetEvent: ev,
-			      clickOutsideToClose:true,
-			      fullscreen: phc.customFullscreen
-			    })
-			    .then(function(answer) {
-			      $scope.status = 'You said the information was "' + answer + '".';
-			    }, function() {
-			      $scope.status = 'You cancelled the dialog.';
-			    });
-			    $scope.$watch(function() {
-
-	      			return $mdMedia('md') || $mdMedia('xl');
-	    		}, function(wantsFullScreen) {
-		      		phc.customFullscreen = (wantsFullScreen === true);
-
-	    		});
-
-	  		}
-	}
-
-})(window.angular);
-
-(function(angular){
-	'use strict';
-
-	angular.module('app.home')
-	.controller('HomeController',["$scope","citiesService","searchService","changeBrowserURL",homeController])
-
-	.controller('CategoryListController',["$scope","$http","getCategoryService","arrayUniqueCopy","arrayObjectMapper","userLocationService","changeBrowserURL","baseUrlService",CategoryListController]);
-
-
-	function CategoryListController($scope,$http,getCategoryService,arrayUniqueCopy,arrayObjectMapper,userLocationService,changeBrowserURL,baseUrlService){
-		var clc = this;
-		clc.cateList = [];
-		clc.categLoadMore = false;
-		clc.pageNo = 0; //for fetching categories
-		clc.getCategories = getCategories;
-		clc.categoryLinkClicked = categoryLinkClicked;
-		activate();
-
-		function activate(){
-			clc.getCategories();
-		}
-		function categoryLinkClicked(category){
-			var location = userLocationService.getUserLocation();
-			var slug = category + "-stores-in-" + location;
-			var url = "/store/storesCollection/category/"+category+"/"+location+"/"+slug;
-			changeBrowserURL.changeBrowserURLMethod(url);
-
-
-		}
-		function getCategories(){
-			//getCategoryService.getCategoryList
-
-			clc.pageNo = clc.pageNo + 1;
-			var url = baseUrlService.baseUrl+"store/categories/"+""+clc.pageNo;
-			$http.get(url)
-				.then(
-					function(response){
-						angular.forEach(response.data.docs, function(item){
-							clc.cateList = arrayUniqueCopy.getUniqueCopyFunction(item.category,clc.cateList);
-						});
-
-
-					},
-					function(response){
-
-					}
-				);
-
-		}
-
-	}
-	function homeController($scope,citiesService,searchService,changeBrowserURL){
-		/*var hm= this;
-		activate();
-		console.log("home controller");
-		hm.searchTextChange = searchTextChange;
-		hm.selectedItemChange = selectedItemChange;
-		hm.userSearchItemChange = userSearchItemChange;
-
-		function userSearchItemChange(item){
-			var url = item.userSearchString.split("#&#")[1]+"/"+item.userSearchString.split("#&#")[0]+"/"+item.userSearchString.split("#&#")[2];
-			changeBrowserURL.changeBrowserURLMethod(url);
-		}
-		function searchTextChange(searchText){
-			console.log(searchText);
-		}
-		function selectedItemChange(item){
-			console.log(item);
-			searchService.getSearches(item.location).then(function(resource){
-				console.log(resource);
-				hm.userSearches = resource.data;
-			},function(data){
-				console.log(data);
-			});
-		}
-
-
-	    function activate() {
-	    	citiesService.getCities()
-				.then(function(obj){
-					console.log(obj);
-					hm.cities =  obj.data;
-					console.log("then");
-					console.log(hm.cities);
-				},function(obj){
-					console.log(obj);
-					hm.cities =  obj;
-				});
-
-	    }*/
-	}
-})(window.angular);
-/*git clone https://github.com/mrvautin/adminMongo.git && cd adminMongo*/
-
-(function(angular){
-	'use strict';
-
-	angular.module('app.home')
-	.controller('HomeLeftController',["$timeout", "$mdSidenav", "$log",LeftCtrl]);
-	function LeftCtrl($timeout, $mdSidenav, $log){
-		this.close = function () {
-			// Component lookup should always be available since we are not using `ng-if`
-			$mdSidenav('left').close()
-			.then(function () {
-				$log.debug("close RIGHT is done");
-			});
-		};
-	}
-})(window.angular);
-
-(function(angular){
-	'use strict';
-
-angular.module('app.home')
-	.controller('SearchBoxController',["$scope","$routeParams","cityStorage","citiesService","searchService","changeBrowserURL","userLocationService",SearchBoxController]);
-
-
-function SearchBoxController($scope,$routeParams,cityStorage,citiesService,searchService,changeBrowserURL,userLocationService){
-		var hm= this;
-		if($routeParams.location){
-				hm.selectedItem = $routeParams.location;
-		}
-		else if(cityStorage.isCityExists()){
-			hm.selectedItem = cityStorage.getCity();
-		}
-		else{
-			hm.selectedItem = 'hyderabad';
-		}
-		activate();
-		hm.userSearches = [];
-		hm.selectedItemChange = selectedItemChange;
-		hm.userSearchItemChange = userSearchItemChange;
-		hm.locationSearch = locationSearch;
-
-		hm.selectedItemChange(hm.selectedItem);
-		function userSearchItemChange(item){
-
-
-			var changeEntity = item.userSearchString.split("#&#")[1];
-			var entityName = item.userSearchString.split("#&#")[0];
-			var location = hm.selectedItem;
-			hm.slug = entityName + "-"+changeEntity.split("-")[0]+"s-in-" + location;
-			if(changeEntity == "store"){
-
-				hm.url = "/store/storesCollection/storeName/";
-
-
-			}
-			else if(changeEntity == "store-category"){
-
-				hm.url = "/store/storesCollection/category/";
-
-
-			}
-			else if(changeEntity == "product"){
-
-				hm.url = "/product/singleProductName/";
-
-			}
-			else if(changeEntity == "product-category"){
-
-				hm.url = "/product/productsCollectionCategory/";
-
-
-			}
-			else if(changeEntity == "product-subcategory"){
-
-				hm.url = "/product/productsCollectionSubCategory/";
-
-			}
-			else{
-
-				locationSearchUrl();
-			}
-
-
-			changeBrowserURL.changeBrowserURLMethod(hm.url+entityName+"/"+location+"/"+hm.slug);
-
-
-
-		}
-		//md-search-text-change="sbc.searchTextChange(sbc.searchText)"
-		function searchTextChange(searchText){
-
-		}
-		function selectedItemChange(item){
-			hm.loading = true;
-			//userLocationService.setUserLocation(item);
-			cityStorage.setCity(item);
-			searchService.getSearches(item).then(function(resource){
-				var allStoresItem = {"userSearchString":"#&#All stores in #&#"+hm.selectedItem};
-				hm.userSearches = [allStoresItem];
-				for (var i = resource.data.length - 1; i >= 0; i--) {
-					hm.userSearches.push(resource.data[i]);
-				}
-				hm.loading = false;
-			},function(data){
-				console.log(data);
-			});
-		}
-		function locationSearch(){
-			if(hm.cities.indexOf(hm.selectedItem)!=-1){
-				if(!hm.userSearchText||hm.userSearchText.length===0){
-					locationSearchUrl();
-				}
-			}
-		}
-		function locationSearchUrl(){
-			hm.url = "/store/storesCollection/location";
-			var myLocation = hm.selectedItem;
-			hm.slug = "stores-in-" + myLocation;
-			changeBrowserURL.changeBrowserURLMethod(hm.url+"/"+myLocation+"/"+hm.slug);
-
-		}
-
-	    function activate() {
-
-	    	citiesService.getCities()
-				.then(function(obj){
-
-					hm.cities = obj.data;
-
-				},function(obj){
-					hm.cities =  obj;
-				});
-	    }
-
-}
-})(window.angular);
 
 (function(angular){
 
@@ -1125,20 +826,525 @@ angular.module('authModApp')
   }
 })(window.angular);
 
+(function(angular){
+	'use strict';
+
+	angular.module('app.home')
+		.controller("AuthController",["$scope","changeBrowserURL","$auth","$window","$route","userData",AuthController]);
+	function AuthController($scope,changeBrowserURL,$auth,$window,$route,userData){
+			var phc = this;
+			phc.toHomePage = toHomePage;
+			phc.authenticate = authenticate;
+			phc.authLogout = authLogout;
+			phc.loginPage = loginPage;
+			phc.isAuth = $auth.isAuthenticated();
+
+			function toHomePage(){
+				changeBrowserURL.changeBrowserURLMethod('/');
+			}
+			function loginPage(){
+				changeBrowserURL.changeBrowserURLMethod('/login');
+			}
+			function authenticate(provider) {
+		    	$auth.authenticate(provider).then(function(response) {
+						userData.setUser();
+						alert('login with facebook successfull');
+						$route.reload();
+	        });
+	    	}
+	    	function authLogout(){
+					$auth.logout();
+	        		userData.removeUser();
+					toHomePage();
+	    	}
+	}
+
+
+})(window.angular);
+
+(function(angular){
+	'use strict';
+
+	angular.module('app.home')
+	.controller('HeaderController',["$scope","userData","changeBrowserURL","$auth","$mdDialog", "$mdMedia","$timeout", "$mdSidenav", "$log",HeaderController]);
+
+	function HeaderController($scope,userData,changeBrowserURL,$auth,$mdDialog, $mdMedia,$timeout, $mdSidenav, $log){
+			var phc = this;
+			phc.toHomePage = toHomePage;
+			phc.authenticate = authenticate;
+			phc.authLogout = authLogout;
+			phc.showAdvanced = showAdvanced;
+			phc.customFullscreen = undefined;
+			phc.isAuth = $auth.isAuthenticated();
+			phc.isOpenLeft = function(){
+	      return $mdSidenav('left').isOpen();
+	    };
+	   phc.toggleLeft = buildToggler('left');
+
+	  function buildToggler(navID) {
+	      return function() {
+	        // Component lookup should always be available since we are not using `ng-if`
+	        $mdSidenav(navID)
+	          .toggle()
+	          .then(function () {
+	            $log.debug("toggle " + navID + " is done");
+	          });
+	      };
+	    }
+			function toHomePage(){
+				changeBrowserURL.changeBrowserURLMethod('/');
+			}
+			function authenticate(provider) {
+		    	$auth.authenticate(provider);
+		    	toHomePage();
+	    	}
+	    	function authLogout(){
+	    		$auth.logout();toHomePage();
+	    	}
+	    	function showAdvanced(ev) {
+			    var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+			    $mdDialog.show({
+			      controller: 'ModalFormLoginController',
+			      templateUrl: 'app/home/views/modalFormLogin.html',
+			      parent: angular.element(document.body),
+			      targetEvent: ev,
+			      clickOutsideToClose:true,
+			      fullscreen: phc.customFullscreen
+			    })
+			    .then(function(answer) {
+			      $scope.status = 'You said the information was "' + answer + '".';
+			    }, function() {
+			      $scope.status = 'You cancelled the dialog.';
+			    });
+			    $scope.$watch(function() {
+
+	      			return $mdMedia('md') || $mdMedia('xl');
+	    		}, function(wantsFullScreen) {
+		      		phc.customFullscreen = (wantsFullScreen === true);
+
+	    		});
+
+	  		}
+	}
+
+})(window.angular);
+
+(function(angular){
+	'use strict';
+
+	angular.module('app.home')
+	.controller('HomeController',["$scope","citiesService","searchService","changeBrowserURL",homeController])
+
+	.controller('CategoryListController',["$scope","$http","getCategoryService","arrayUniqueCopy","arrayObjectMapper","userLocationService","changeBrowserURL","baseUrlService",CategoryListController]);
+
+
+	function CategoryListController($scope,$http,getCategoryService,arrayUniqueCopy,arrayObjectMapper,userLocationService,changeBrowserURL,baseUrlService){
+		var clc = this;
+		clc.cateList = [];
+		clc.categLoadMore = false;
+		clc.pageNo = 0; //for fetching categories
+		clc.getCategories = getCategories;
+		clc.categoryLinkClicked = categoryLinkClicked;
+		activate();
+
+		function activate(){
+			clc.getCategories();
+		}
+		function categoryLinkClicked(category){
+			var location = userLocationService.getUserLocation();
+			var slug = category + "-stores-in-" + location;
+			var url = "/store/storesCollection/category/"+category+"/"+location+"/"+slug;
+			changeBrowserURL.changeBrowserURLMethod(url);
+
+
+		}
+		function getCategories(){
+			//getCategoryService.getCategoryList
+
+			clc.pageNo = clc.pageNo + 1;
+			var url = baseUrlService.baseUrl+"store/categories/"+""+clc.pageNo;
+			$http.get(url)
+				.then(
+					function(response){
+						angular.forEach(response.data.docs, function(item){
+							clc.cateList = arrayUniqueCopy.getUniqueCopyFunction(item.category,clc.cateList);
+						});
+
+
+					},
+					function(response){
+
+					}
+				);
+
+		}
+
+	}
+	function homeController($scope,citiesService,searchService,changeBrowserURL){
+		/*var hm= this;
+		activate();
+		console.log("home controller");
+		hm.searchTextChange = searchTextChange;
+		hm.selectedItemChange = selectedItemChange;
+		hm.userSearchItemChange = userSearchItemChange;
+
+		function userSearchItemChange(item){
+			var url = item.userSearchString.split("#&#")[1]+"/"+item.userSearchString.split("#&#")[0]+"/"+item.userSearchString.split("#&#")[2];
+			changeBrowserURL.changeBrowserURLMethod(url);
+		}
+		function searchTextChange(searchText){
+			console.log(searchText);
+		}
+		function selectedItemChange(item){
+			console.log(item);
+			searchService.getSearches(item.location).then(function(resource){
+				console.log(resource);
+				hm.userSearches = resource.data;
+			},function(data){
+				console.log(data);
+			});
+		}
+
+
+	    function activate() {
+	    	citiesService.getCities()
+				.then(function(obj){
+					console.log(obj);
+					hm.cities =  obj.data;
+					console.log("then");
+					console.log(hm.cities);
+				},function(obj){
+					console.log(obj);
+					hm.cities =  obj;
+				});
+
+	    }*/
+	}
+})(window.angular);
+/*git clone https://github.com/mrvautin/adminMongo.git && cd adminMongo*/
+
+(function(angular){
+	'use strict';
+
+	angular.module('app.home')
+	.controller('HomeLeftController',["$timeout", "$mdSidenav", "$log",LeftCtrl]);
+	function LeftCtrl($timeout, $mdSidenav, $log){
+		this.close = function () {
+			// Component lookup should always be available since we are not using `ng-if`
+			$mdSidenav('left').close()
+			.then(function () {
+				$log.debug("close RIGHT is done");
+			});
+		};
+	}
+})(window.angular);
+
+(function(angular){
+	'use strict';
+
+angular.module('app.home')
+	.controller('SearchBoxController',["$scope","$routeParams","cityStorage","citiesService","searchService","changeBrowserURL","userLocationService",SearchBoxController]);
+
+
+function SearchBoxController($scope,$routeParams,cityStorage,citiesService,searchService,changeBrowserURL,userLocationService){
+		var hm= this;
+		if($routeParams.location){
+				hm.selectedItem = $routeParams.location;
+		}
+		else if(cityStorage.isCityExists()){
+			hm.selectedItem = cityStorage.getCity();
+		}
+		else{
+			hm.selectedItem = 'hyderabad';
+		}
+		activate();
+		hm.userSearches = [];
+		hm.selectedItemChange = selectedItemChange;
+		hm.userSearchItemChange = userSearchItemChange;
+		hm.locationSearch = locationSearch;
+
+		hm.selectedItemChange(hm.selectedItem);
+		function userSearchItemChange(item){
+
+
+			var changeEntity = item.userSearchString.split("#&#")[1];
+			var entityName = item.userSearchString.split("#&#")[0];
+			var location = hm.selectedItem;
+			hm.slug = entityName + "-"+changeEntity.split("-")[0]+"s-in-" + location;
+			console.log(changeEntity);
+			if(changeEntity == "store"){
+
+				hm.url = "/store/storesCollection/storeName/";
+
+
+			}
+			else if(changeEntity == "store-category"){
+
+				hm.url = "/store/storesCollection/category/";
+
+
+			}
+			else if(changeEntity == "product"){
+						  
+				hm.url = "/productsCollectionName/";
+
+			}
+			else if(changeEntity == "product-category"){
+
+				hm.url = "/productsCollectionCategory/";
+
+
+			}
+			else if(changeEntity == "product-subcategory"){
+
+				hm.url = "/productsCollectionSubCategory/";
+
+			}
+			else if(changeEntity.trim() == "All products in"){
+				
+				locationProductsSearchUrl();
+
+			}
+			else{
+
+				locationStoresSearchUrl();
+			}
+
+
+			changeBrowserURL.changeBrowserURLMethod(hm.url+entityName+"/"+location+"/"+hm.slug);
+			console.log(hm.url+entityName+"/"+location+"/"+hm.slug);
+
+
+		}
+		//md-search-text-change="sbc.searchTextChange(sbc.searchText)"
+		function searchTextChange(searchText){
+
+		}
+		function selectedItemChange(item){
+			hm.loading = true;
+			//userLocationService.setUserLocation(item);
+			cityStorage.setCity(item);
+			searchService.getSearches(item).then(function(resource){
+				var allStoresItem = {"userSearchString":"#&#All stores in #&#"+hm.selectedItem};
+				var allProductsItem = {"userSearchString":"#&#All products in #&#"+hm.selectedItem};
+				hm.userSearches = [allStoresItem,allProductsItem];
+				for (var i = resource.data.length - 1; i >= 0; i--) {
+					hm.userSearches.push(resource.data[i]);
+				}
+				hm.loading = false;
+			},function(data){
+				console.log(data);
+			});
+		}
+		function locationSearch(){
+			if(hm.cities.indexOf(hm.selectedItem)!=-1){
+				if(!hm.userSearchText||hm.userSearchText.length===0){
+					locationStoresSearchUrl();
+				}
+			}
+		}
+		function locationStoresSearchUrl(){
+			hm.url = "/store/storesCollection/location";
+			var myLocation = hm.selectedItem;
+			hm.slug = "stores-in-" + myLocation;
+			changeBrowserURL.changeBrowserURLMethod(hm.url+"/"+myLocation+"/"+hm.slug);
+
+		}
+		function locationProductsSearchUrl(){
+			
+			hm.url = "/productsCollectionLocation";
+			var myLocation = hm.selectedItem;
+			hm.slug = "products-in-" + myLocation;
+			
+			changeBrowserURL.changeBrowserURLMethod(hm.url+"/"+myLocation+"/"+hm.slug);
+
+
+		}
+
+	    function activate() {
+
+	    	citiesService.getCities()
+				.then(function(obj){
+
+					hm.cities = obj.data;
+
+				},function(obj){
+					hm.cities =  obj;
+				});
+	    }
+
+}
+})(window.angular);
+
+(function(angular){
+  angular.module('app.product')
+
+    .controller('ProductCategoryCollectionController',[productCategoryCollectionController]);
+    function productCategoryCollectionController(){
+    	
+    }
+})(window.angular);
 
 (function(angular){
   'use strict';
 angular.module('app.product')
+  .controller('ProductListController',["$scope","$auth",'$location',"$routeParams","changeBrowserURL","baseUrlService","getProductCollectionService",ProductListController]);
+  function ProductListController($scope,$auth,$location,$routeParams,changeBrowserURL,baseUrlService,getProductCollectionService){
+  	 var plc = this;
+      plc.pageNo = 0;
+      plc.productsList = [];
+      console.log($routeParams);
+      plc.getSingleProduct = getSingleProduct;
+      plc.getProductsCollection = getProductsCollection;
+      plc.productsSearchHeader = $routeParams.slug;
+      activate();
+      $scope.$on('parent', function (event, data) {
+        plc.pageNo = 0;
+        plc.paramData = data;
+        plc.getProductsCollection();
+      });
+      function getSingleProduct(product,scrollId){
+        var url = "product/singleProduct/"+product._id;//+"/"+product.myslug;
+        if(scrollId){
+          changeBrowserURL.changeBrowserURLMethod(url,scrollId);
+        }
+        changeBrowserURL.changeBrowserURLMethod(url);
+      }
+      function getProductsCollection(){
+        plc.loading = true;
+        plc.pageNo = plc.pageNo + 1;
+        var location = $routeParams.location;
+        var url ='';
+        if($location.absUrl().indexOf("/productsCollectionCategory/")!=-1){
+          var category = $routeParams.category;           
+           url = 'product/products/category/'+category+'/'+location+'/'+plc.pageNo;
+        }
+        else if($location.absUrl().indexOf("/productsCollectionSubCategory/")!=-1){
+          var productSubCategory = $routeParams.subCategory;
+           url = 'product/products/subCategory/'+productSubCategory+'/'+location+'/'+plc.pageNo;
+        }
+        else if($location.absUrl().indexOf("/productsCollectionName/")!=-1){
+          var productName = $routeParams.productName;
+           url = 'product/products/name/'+productName+'/'+location+'/'+plc.pageNo;
+        }
+        else if($location.absUrl().indexOf("/productsCollectionLocation/")!=-1){
+          
+           url = 'product/products/location'+'/'+location+'/'+plc.pageNo;
+        }
+        /*
+          * This will work with mongoose-paginate only because the existencce of the button
+            in html is dependant on the total documents retrieved
+          * I check the total documents available to the length of array displayed.. if they both are equal
+            then the button is hidden
+        */
+        getProductCollectionService.getProductCollection(url,plc.paramData)
+        .then(function(response){
+          plc.totalProducts = response.data.total;
+          console.log(response);
+          if(plc.productsList.length===0){
+            var tempProductList = [];
+            for (var i = response.data.docs.length - 1; i >= 0; i--) {
+              tempProductList.push(response.data.docs[i]);
 
-  .controller('ProductListController',["$scope","$auth",'$location','scrollToIdService',"$routeParams",ProductListController]);
-  function ProductListController($scope,$auth,$location,scrollToIdService,$routeParams){
+            }
+            plc.productsList = tempProductList;
+          }
+          else{
+
+            if(plc.paramData&&plc.pageNo==1){
+              plc.productsList = [];
+            }
+            for (var j = response.data.docs.length - 1; j >= 0; j--) {
+              plc.productsList.push(response.data.docs[j]);
+            }
+
+          }
+          plc.loading = false;
+        },function(response){
+          console.log(response);
+        });
+      }
+      function activate(){
+        plc.getProductsCollection();
+      }
+
+    }						
     
 
-  }
+  
 
 })(window.angular);
 
+(function(angular){
+  angular.module('app.product')
 
+    .controller('ProductNameCollectionController',[productNameCollectionController]);
+    function productNameCollectionController(){
+    	
+    }
+})(window.angular);
+
+(function(angular){
+  angular.module('app.product')
+    .controller('ProductsLocationController',["$scope","$routeParams","getCityProductLocalitiesService","getCityProductCategoriesService","getCityProductSubCategoriesService",ProductsLocationController]);
+
+  function ProductsLocationController($scope,$routeParams,getCityProductLocalitiesService,getCityProductCategoriesService,getCityProductSubCategoriesService){
+    var plc = this;
+    plc.areaModel = {};
+    plc.categoryModel = {};
+    plc.launchFilterEvent = launchFilterEvent;
+    plc.areaRadioClicked = areaRadioClicked;
+    plc.categoryRadioClicked = categoryRadioClicked;
+    plc.majorFilter = {};
+    plc.clearAreaFilters = clearAreaFilters;
+    plc.clearCategoryFilters = clearCategoryFilters;
+    function areaRadioClicked(){
+      plc.majorFilter.area=plc.areaModel.area;
+      launchFilterEvent(plc.majorFilter);
+    }
+    function clearAreaFilters(){
+      delete plc.majorFilter.area;
+      plc.areaModel = {};
+      launchFilterEvent(plc.majorFilter);
+    }
+    function categoryRadioClicked(){
+      plc.majorFilter.category=plc.categoryModel.category;
+      launchFilterEvent(plc.majorFilter);
+    }
+    function clearCategoryFilters(){
+      delete plc.majorFilter.category;
+      plc.categoryModel = {};
+      launchFilterEvent(plc.majorFilter);
+    }
+    var location = $routeParams.location;
+    getCityProductLocalitiesService.getCityLocalities(location)
+      .then(function(res){
+        plc.areas = res.data;
+      },function(res){
+        
+      });
+      getCityProductCategoriesService.getCityCategories(location)
+        .then(function(res){
+          plc.categories = res.data;
+          
+        },function(res){
+          console.log(res);
+        });
+    function launchFilterEvent(obj){
+        $scope.$broadcast('parent', obj);
+    }
+
+  }
+})(window.angular);
+
+(function(angular){
+  angular.module('app.product')
+
+    .controller('ProductSubCategoryCollectionController',[productSubCategoryCollectionController]);
+    function productSubCategoryCollectionController(){
+    	
+    }
+})(window.angular);
 
 (function(angular){
   'use strict';
@@ -1189,6 +1395,25 @@ angular.module('app.product')
 
   }
 
+})(window.angular);
+
+(function(angular){
+  'use strict';
+
+angular.module('app.product')
+  .service('getProductCollectionService',["$http","baseUrlService",GetProductCollectionService]);
+
+/*
+  * This servic has a function to get collection of products`
+*/
+function GetProductCollectionService($http,baseUrlService){
+  this.getProductCollection = getProductCollection;
+
+  function getProductCollection(url,paramData){
+    return $http.get(baseUrlService.baseUrl+url,{params:paramData});
+
+  }
+}
 })(window.angular);
 
 (function(angular){
@@ -1493,10 +1718,10 @@ angular.module('app.store')
 
   angular.module('app.store')
 
-    .controller('StoreListController',["$scope","httpService","$routeParams","changeBrowserURL","$location","baseUrlService","getStoreCollectionService",StoreListController]);
+    .controller('StoreListController',["$scope","$routeParams","changeBrowserURL","$location","baseUrlService","getStoreCollectionService",StoreListController]);
 
 
-    function StoreListController($scope,httpService,$routeParams,changeBrowserURL,$location,baseUrlService,getStoreCollectionService){
+    function StoreListController($scope,$routeParams,changeBrowserURL,$location,baseUrlService,getStoreCollectionService){
       var slc = this;
       slc.pageNo = 0;
       slc.storesList = [];
@@ -1632,7 +1857,7 @@ angular.module('app.store')
 
     .controller('StoreNameCollectionController',[storeNameCollectionController]);
     function storeNameCollectionController(){
-
+    	
     }
 })(window.angular);
 

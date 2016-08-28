@@ -13,6 +13,9 @@ angular.module('app.common')
 	.service('baseUrlService',[AjaxURL])
 	.service('getCityLocalitiesService',["$http","baseUrlService",GetCityLocalitiesService])
 	.service('getCityCategoriesService',["$http","baseUrlService",GetCityCategoriesService])
+	.service('getCityProductLocalitiesService',["$http","baseUrlService",GetCityProductLocalitiesService])
+	.service('getCityProductCategoriesService',["$http","baseUrlService",GetCityProductCategoriesService])
+	.service('getCityProductSubCategoriesService',["$http","baseUrlService",GetCityProductSubCategoriesService])
 	.factory('cityStorage',["$window",cityStorage]);
 	function CitiesService($http,baseUrlService){
    		this.getCities = function() {
@@ -128,6 +131,28 @@ angular.module('app.common')
 
 		function getCityCategories(city){
 				return $http.get(baseUrlService.baseUrl+"store/categories/"+city);
+		}
+
+	}
+	function GetCityProductLocalitiesService($http,baseUrlService){
+		this.getCityLocalities = getCityLocalities;
+		function getCityLocalities(city){
+			return $http.get(baseUrlService.baseUrl+"product/localities/"+city);
+		}
+	}
+	function GetCityProductCategoriesService($http,baseUrlService){
+		this.getCityCategories = getCityCategories;
+
+		function getCityCategories(city){
+				return $http.get(baseUrlService.baseUrl+"product/categories/"+city);
+		}
+
+	}
+	function GetCityProductSubCategoriesService($http,baseUrlService){
+		this.getCitySubCategories = getCitySubCategories;
+
+		function getCitySubCategories(city){
+				return $http.get(baseUrlService.baseUrl+"product/subCategories/"+city);
 		}
 
 	}

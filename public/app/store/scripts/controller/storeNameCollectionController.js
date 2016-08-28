@@ -3,6 +3,6 @@
 
     .controller('StoreNameCollectionController',[storeNameCollectionController]);
     function storeNameCollectionController(){
-
+    	
     }
 })(window.angular);

@@ -80,9 +80,12 @@ productRouter.route('/products/store/:storeId/:pageNo')
 			}
 		});
 	})
-productRouter.route('/products/category/:storeId/:category/:pageNo')
+productRouter.route('/products/category/:category/:location/:pageNo')
 	.get(function(req,res){
-		Product.paginate({'store':req.params.storeId,'category':req.params.category},
+		var queryObject = {};
+		queryObject['address.city']=req.params.location;
+		queryObject['category'] = req.params.category;
+		Product.paginate(queryObject,
 			{page: req.params.pageNo, limit: 10 }, function(err, result) {
 		    if(err){
 				res.send(err);
@@ -92,6 +95,38 @@ productRouter.route('/products/category/:storeId/:category/:pageNo')
 			}
 		});
 	})
+productRouter.route('/products/subCategory/:subCategory/:location/:pageNo')
+	.get(function(req,res){
+		var queryObject = {};
+		queryObject['address.city']=req.params.location;
+		queryObject['subCategory'] = req.params.subCategory;
+		Product.paginate(queryObject,
+			{page: req.params.pageNo, limit: 10 }, function(err, result) {
+		    if(err){
+				res.send(err);
+			}
+			else{
+				res.json(result);
+			}
+		});
+	})
+
+productRouter.route('/products/name/:name/:location/:pageNo')
+	.get(function(req,res){
+		var queryObject = {};
+		queryObject['address.city']=req.params.location;
+		queryObject['name'] = req.params.name;
+		Product.paginate(queryObject,
+			{page: req.params.pageNo, limit: 10 }, function(err, result) {
+		    if(err){
+				res.send(err);
+			}
+			else{
+				res.json(result);
+			}
+		});
+	})
+
 productRouter.route('/products/singleProduct/:productId')
 	.get(function(req,res){
 		Product.findById(req.params.productId,function(err,product){
@@ -104,4 +139,81 @@ productRouter.route('/products/singleProduct/:productId')
 		})
 	});
 
+productRouter.route('/products/location/:location/:pageNo')
+	.get(function(req,res){
+		var queryObject = {};
+		queryObject['address.city']=req.params.location;
+		Product.paginate(queryObject,
+			{page: req.params.pageNo, limit: 10 }, function(err, result) {
+		    if(err){
+				res.send(err);
+			}
+			else{
+				res.json(result);
+			}
+		});
+		
+	})
+
+productRouter.route('/localities/:city')
+	.get(function(req,res){
+		var query = Product.find({'address.city':req.params.city}).select({ "address.area": 1, "_id": 0});
+    query.exec(function (err, someValue) {
+        if (err) {
+						return next(err);
+				}
+				else{
+					var areaArray = [];
+					for (var i = 0; i < someValue.length; i++) {
+						console.log(someValue[i].address.area);
+						if(areaArray.indexOf(someValue[i].address.area)==-1){
+							areaArray.push(someValue[i].address.area);
+						}
+					}
+						res.json(areaArray);
+				}
+
+    });
+	});
+	productRouter.route('/categories/:city')
+		.get(function(req,res){
+			var query = Product.find({'address.city':req.params.city}).select({ "category": 1, "_id": 0});
+	    query.exec(function (err, someValue) {
+	        if (err) {
+							return next(err);
+					}
+					else{
+						console.log('yoyoyoyooy');
+						console.log(someValue);
+						var categoryArray = [];
+						for (var i = 0; i < someValue.length; i++) {
+							categoryArray.push(someValue[i].category);
+						}
+							res.json(categoryArray);
+					}
+
+	    });
+		});
+	productRouter.route('/subCategories/:city')
+		.get(function(req,res){
+			var query = Product.find({'address.city':req.params.city}).select({ "subCategory": 1, "_id": 0});
+	    query.exec(function (err, someValue) {
+	        if (err) {
+							return next(err);
+					}
+					else{
+						var categoryArray = [];
+						for (var i = 0; i < someValue.length; i++) {
+							for(var j = 0;j<someValue[i].category.length;j++){
+								if(categoryArray.indexOf(someValue[i].category[j])==-1){
+									categoryArray.push(someValue[i].category[j]);
+								}
+							}
+
+						}
+							res.json(categoryArray);
+					}
+
+	    });
+		});
 module.exports = productRouter;

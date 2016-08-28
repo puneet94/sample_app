@@ -30,6 +30,7 @@ function SearchBoxController($scope,$routeParams,cityStorage,citiesService,searc
 			var entityName = item.userSearchString.split("#&#")[0];
 			var location = hm.selectedItem;
 			hm.slug = entityName + "-"+changeEntity.split("-")[0]+"s-in-" + location;
+			console.log(changeEntity);
 			if(changeEntity == "store"){
 
 				hm.url = "/store/storesCollection/storeName/";
@@ -43,29 +44,34 @@ function SearchBoxController($scope,$routeParams,cityStorage,citiesService,searc
 
 			}
 			else if(changeEntity == "product"){
-
-				hm.url = "/product/singleProductName/";
+						  
+				hm.url = "/productsCollectionName/";
 
 			}
 			else if(changeEntity == "product-category"){
 
-				hm.url = "/product/productsCollectionCategory/";
+				hm.url = "/productsCollectionCategory/";
 
 
 			}
 			else if(changeEntity == "product-subcategory"){
 
-				hm.url = "/product/productsCollectionSubCategory/";
+				hm.url = "/productsCollectionSubCategory/";
+
+			}
+			else if(changeEntity.trim() == "All products in"){
+				
+				locationProductsSearchUrl();
 
 			}
 			else{
 
-				locationSearchUrl();
+				locationStoresSearchUrl();
 			}
 
 
 			changeBrowserURL.changeBrowserURLMethod(hm.url+entityName+"/"+location+"/"+hm.slug);
-
+			console.log(hm.url+entityName+"/"+location+"/"+hm.slug);
 
 
 		}
@@ -79,7 +85,8 @@ function SearchBoxController($scope,$routeParams,cityStorage,citiesService,searc
 			cityStorage.setCity(item);
 			searchService.getSearches(item).then(function(resource){
 				var allStoresItem = {"userSearchString":"#&#All stores in #&#"+hm.selectedItem};
-				hm.userSearches = [allStoresItem];
+				var allProductsItem = {"userSearchString":"#&#All products in #&#"+hm.selectedItem};
+				hm.userSearches = [allStoresItem,allProductsItem];
 				for (var i = resource.data.length - 1; i >= 0; i--) {
 					hm.userSearches.push(resource.data[i]);
 				}
@@ -91,15 +98,25 @@ function SearchBoxController($scope,$routeParams,cityStorage,citiesService,searc
 		function locationSearch(){
 			if(hm.cities.indexOf(hm.selectedItem)!=-1){
 				if(!hm.userSearchText||hm.userSearchText.length===0){
-					locationSearchUrl();
+					locationStoresSearchUrl();
 				}
 			}
 		}
-		function locationSearchUrl(){
+		function locationStoresSearchUrl(){
 			hm.url = "/store/storesCollection/location";
 			var myLocation = hm.selectedItem;
 			hm.slug = "stores-in-" + myLocation;
 			changeBrowserURL.changeBrowserURLMethod(hm.url+"/"+myLocation+"/"+hm.slug);
+
+		}
+		function locationProductsSearchUrl(){
+			
+			hm.url = "/productsCollectionLocation";
+			var myLocation = hm.selectedItem;
+			hm.slug = "products-in-" + myLocation;
+			
+			changeBrowserURL.changeBrowserURLMethod(hm.url+"/"+myLocation+"/"+hm.slug);
+
 
 		}
 
