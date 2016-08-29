@@ -1,6 +1,6 @@
-<div ng-controller="StoreReviewListController as srl" class="reviewListSection">
+<div ng-controller="ProductReviewListController as prl" class="reviewListSection">
   <h1 class="reviewHeadingText" >Reviews</h1>
-  <div layout="row" layout-sm="column" layout-xs="column" md-whiteframe="3" class="singleReview" ng-repeat-start="review in srl.reviewList track by review._id">
+  <div layout="row" layout-sm="column" layout-xs="column" md-whiteframe="3" class="singleReview" ng-repeat-start="review in prl.reviewList track by review._id">
       <div flex="25" flex-xs="100" flex-sm="100" class="userSection">
         <div layout="row" class="userProfile">
           <div class="userImgSection">
@@ -19,7 +19,7 @@
       </div>
       <div flex="70" flex-xs="100" flex-sm="100" class="contentSection">
         <div class="ratingSection">
-          <span ng-repeat="i in srl.getRating(review)">
+          <span ng-repeat="i in prl.getRating(review)">
             <i aria-hidden="true" class="fa fa-star"></i>
           </span>
         </div>
@@ -30,16 +30,16 @@
           <div class="reviewStats"><span>{{ ::review.upvotes.length ||0 }} <i class="fa fa-heart-o" aria-hidden="true"></i></span></div>
         </div>
 
-        <div class="userReviewUpvoteSection" ng-if="srl.authCheck">
-          <like-directive 
-            up-fn="srl.submitUserReviewUpvote(review)" 
-            down-fn="srl.deleteUserReviewUpvote(review)" 
-            upv-chk="srl.userReviewUpvoted(review)"
-            small-loading="srl.smallLoadingModel[review._id]">    
+        <div class="userReviewUpvoteSection" ng-if="prl.authCheck">
+          <like-directive
+            up-fn="prl.submitUserReviewUpvote(review)"
+            down-fn="prl.deleteUserReviewUpvote(review)"
+            upv-chk="prl.userReviewUpvoted(review)"
+            small-loading="prl.smallLoadingModel[review._id]">
           </like-directive>
-  
-          
-          
+
+
+
         </div>
       </div>
 

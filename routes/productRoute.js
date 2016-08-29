@@ -183,11 +183,15 @@ productRouter.route('/localities/:city')
 							return next(err);
 					}
 					else{
-						console.log('yoyoyoyooy');
+						
 						console.log(someValue);
 						var categoryArray = [];
 						for (var i = 0; i < someValue.length; i++) {
-							categoryArray.push(someValue[i].category);
+							var singleCategory = someValue[i].category;
+							if(categoryArray.indexOf(singleCategory)==-1){
+								categoryArray.push(singleCategory);	
+							}
+							
 						}
 							res.json(categoryArray);
 					}
@@ -204,13 +208,13 @@ productRouter.route('/localities/:city')
 					else{
 						var categoryArray = [];
 						for (var i = 0; i < someValue.length; i++) {
-							for(var j = 0;j<someValue[i].category.length;j++){
-								if(categoryArray.indexOf(someValue[i].category[j])==-1){
-									categoryArray.push(someValue[i].category[j]);
-								}
+							var singleCategory = someValue[i].category;
+							if(categoryArray.indexOf(singleCategory)==-1){
+								categoryArray.push(singleCategory);	
 							}
-
+							
 						}
+						
 							res.json(categoryArray);
 					}
 

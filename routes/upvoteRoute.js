@@ -3,6 +3,7 @@ var models = require('..//models/storeModel');
 var Review = models.Review;
 var User = models.User;
 var Store = models.Store;
+var Product = models.Product;
 var Upvote = models.Upvote;
 var mongoose = require('mongoose');
 var upvoteRouter = express.Router();
@@ -91,12 +92,20 @@ upvoteRouter.route('/upvotes/review')
   var upvote = new Upvote();
   var recData = req.body;
 	upvote.user=recData.userId;
- 	upvote.store = recData.storeId;
+	if(recData.storeId){
+		upvote.entityId = recData.storeId;	
+		var entity = Store;
+	}
+	else if(recData.productId){
+		upvote.prentityId = recData.productId;
+		var entity = Product
+	}
+ 	
 	upvote.review = recData.reviewId;
 	
 	commons.validateId(upvote.review,Review).then(function(doc){
 		commons.validateId(upvote.user,User).then(function(doc){
-			commons.validateId(upvote.store,Store).then(function(doc){
+			commons.validateId(upvote.entityId,entity).then(function(doc){
 
 				upvote.save(function(err,upvote){
 			    	if(err){
@@ -123,7 +132,13 @@ upvoteRouter.route('/upvotes/review')
 .delete(commons.ensureAuthenticated,function(req,res){
 	var params  = req.query;
 	console.log(params);
-	var queryObj = {"store":params.storeId,"review":params.reviewId,"user":params.userId};
+	var queryObj = {"review":params.reviewId,"user":params.userId};
+	if(params.storeId){
+		queryObj.store=params.storeId;
+	}
+	else if(params.productId){
+		queryObj.product=params.productId;
+	}
 	Upvote.findOne(queryObj)
 				.exec(function(err, upvote) {
 						if(err){

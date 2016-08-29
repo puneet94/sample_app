@@ -6,7 +6,13 @@
         var rsv  = this;
         rsv.review = {};
         rsv.user = {};
-        rsv.review.storeId = $routeParams.storeId;
+        if($routeParams.storeId){
+          rsv.review.storeId = $routeParams.storeId;  
+        }
+        else if($routeParams.productId){
+          rsv.review.productId = $routeParams.productId;  
+        }
+        
         rsv.ratingClick = ratingClick;
 
         if(userData.getUser()){
@@ -26,13 +32,25 @@
           rsv.review.rating = rating;
         }
         function submitReview(){
+          if($routeParams.storeId){
           reviewService.submitStoreReview(rsv.review)
             .then(function(res){
               userData.setUser();
               $route.reload();
             },function(res){
 
+            }); 
+        }
+        else if($routeParams.productId){
+          reviewService.submitProductReview(rsv.review)
+            .then(function(res){
+              userData.setUser();
+              $route.reload();
+            },function(res){
+
             });
+        }
+          
         }
 
       }

@@ -103,7 +103,7 @@ reviewRouter.route('/reviews/store/:storeId')
   });
 })
 
-reviewRouter.route('reviews/product/:productId')
+reviewRouter.route('/reviews/product/:productId')
 	.get(function(req,res){
 		Review.find({'product':req.params.productId})
 				.populate({
@@ -121,6 +121,7 @@ reviewRouter.route('reviews/product/:productId')
 				});
 	})
 	.post(commons.ensureAuthenticated,function(req,res){
+		console.log("yoyoyoyoyoyoyoyoyojjgjhjfg");
   var review = new Review();
   var recData = req.body;
 
@@ -137,6 +138,7 @@ reviewRouter.route('reviews/product/:productId')
         return res.json({success:false,'message':'Review already exists'});
       }
       else{
+      	console.log("gerereerere");
         console.log(err);
         return res.send(err);
 

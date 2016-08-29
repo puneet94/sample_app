@@ -1,4 +1,70 @@
-{{spc.singleProduct}}
+<loading-directive loading="spc.loading"></loading-directive>
+<header layout="row" meta-tags data-keywords="" data-description="" >
+      <div ng-include="'app/home/pageHeader.html'" flex></div>
+</header>
+<div ng-include="'app/home/searchBox.html'"></div>
+<main flex class="fixedHeaderMain">
+  <div class="" layout="row" layout-xs="column" layout-sm="column">
+    <div class="storeLeftPane" flex-sm="100" flex-xs="100" flex="70" >
+
+<div >
+  <div class="productPageContainer">
+    <div class="singleProductContainer">
+      <div class="productTopContainer">
+        <div layout="row" layout-xs="column" layout-sm="column" class="productDetailsContainer">
+          <div  flex-xs="100" flex-sm="100" flex="60" class="productImageContainer">
+            <img ng-src="{{::spc.product.images[0]}}" class="productImage"/>
+          </div>
+          <div  flex-xs="100" flex-sm="100" flex="40" class="productBriefContainer">
+            <div class="productName">
+              <span>{{::spc.product.name}}</span>
+            </div>
+            <div class="productPrice"><span>{{::spc.product.price.value}}-{{::spc.product.price.currency}}</span></div>
+            <div class="productCategory"><span>{{::spc.product.category}}</span></div>
+            <div class="productSubCategory"><span>{{::spc.product.subCategory}} </span></div>
+          </div>
+        </div>
+      </div>
+      <div class="productMiddleContainer">
+        <div class="productReviewsBrief">
+          <div layout="row" layout-align="space-between center" layout-xs="column" layout-sm="row" layout-align-sm="start start" class="productReviewsBriefIcons">
+            <div flex="grow" md-whiteframe="3" class="productReviewsIconContainer iconContainer">
+              <div class="reviewsIcon iconClass"><span><i aria-hidden="true" class="fa fa-pencil-square"></i></span></div>
+              <div class="productReview"><span>Write a Review</span></div>
+            </div>
+            <div flex="grow" md-whiteframe="3" class="productRatingIconContainer iconContainer">
+              <div class="ratingIcon iconClass"><span><i aria-hidden="true" class="fa fa-sort-numeric-asc"></i></span></div>
+              <div class="productRating"><span>{{::spc.product.rating||0}}</span></div>
+            </div>
+            <div flex="grow" md-whiteframe="3" class="productReviewsCountIconContainer iconContainer">
+              <div class="reviewsCountIcon iconClass"><span><i aria-hidden="true" class="fa fa-comments"></i></span></div>
+              <div class="productReviewCount"><span>{{::spc.product.reviewsCount}} Reviews</span></div>
+            </div>
+            <div flex="grow" md-whiteframe="3" class="productVisitsContainer iconContainer">
+              <div class="visitsIcon iconClass"><span><i aria-hidden="true" class="fa fa-cart-arrow-down"></i></span></div>
+              <div class="productVisit"><span>{{::spc.product.visitsCount}} Purchases</span></div>
+            </div>
+            <div flex="grow" md-whiteframe="3" class="productUpvotesContainer iconContainer">
+              <div class="upvotesIcon iconClass"><span><i aria-hidden="true" class="fa fa-thumbs-up"></i></span></div>
+              <div class="productUpvote"><span>{{::spc.product.upvotesCount}} Upvotes</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="productReviewsContainer">
+          <div id="flowReviews"  class="" ng-include="'app/reviews/views/productReviewList.html'">
+
+      </div>
+      
+        </div>
+        <div class="productReviewSubmitContainer">
+          <div class="" ng-include="'app/reviews/views/storeReviewSubmit.html'" ng-if="spc.authCheck">
+
+      </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 <div class="userInteractionNav" layout="row" ng-if="spc.authCheck">
@@ -9,3 +75,5 @@
         </div>
       </div>
       </div>
+      </div>
+      </main>

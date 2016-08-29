@@ -15,7 +15,7 @@ angular.module('app.product')
     function activate(){
     	getProductsService.getSingleProduct($routeParams.productId).then(function(res){
     		
-    		spc.singleProduct = res.data;	
+    		spc.product = res.data;	
     	});
 		
     }
