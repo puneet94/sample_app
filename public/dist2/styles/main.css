@@ -384,18 +384,28 @@
   margin-top: 25px;
   margin-left: 15px; }
 
-.storePageStatsNav {
-  background-color: white;
-  margin: 5px 0; }
-  .storePageStatsNav .statsContent {
-    padding: 10px;
-    cursor: pointer; }
-    .storePageStatsNav .statsContent .statsContentText {
-      margin: 2px 0; }
-      .storePageStatsNav .statsContent .statsContentText span {
-        margin: 5px; }
-  .storePageStatsNav md-divider {
-    border-right-width: 3px; }
+.storeReviewsBrief {
+  width: 100%; }
+  .storeReviewsBrief .storeReviewsBriefIcons .iconContainer {
+    text-align: center;
+    margin: 5px;
+    padding: 15px;
+    width: 100%;
+    background-color: white; }
+    .storeReviewsBrief .storeReviewsBriefIcons .iconContainer .iconClass {
+      font-size: 32px;
+      text-align: center; }
+
+.storePageStatsNav .statsContent {
+  padding: 10px;
+  cursor: pointer; }
+  .storePageStatsNav .statsContent .statsContentText {
+    margin: 2px 0; }
+    .storePageStatsNav .statsContent .statsContentText span {
+      margin: 5px; }
+
+.storePageStatsNav md-divider {
+  border-right-width: 3px; }
 
 .storeAddressPartial {
   background-color: white;

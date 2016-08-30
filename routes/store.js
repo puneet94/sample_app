@@ -239,4 +239,20 @@ storeRouter.route('/storesCollection/suggestions')
         });
 		
 	});
+storeRouter.route('/storesCollection')
+	.get(function(req,res){
+		var queryObj = {};
+		console.log(req.query);
+		queryObj['address.city'] = req.query.location.toLowerCase() || 'hyderabad';
+		
+		Store.find(queryObj,  function (err, store) {
+            if (err) {
+                console.log(err);
+                
+            }
+            res.json(store);
+        });
+		
+	});
+
 module.exports = storeRouter;

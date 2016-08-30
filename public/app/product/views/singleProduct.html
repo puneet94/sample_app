@@ -16,12 +16,21 @@
             <img ng-src="{{::spc.product.images[0]}}" class="productImage"/>
           </div>
           <div  flex-xs="100" flex-sm="100" flex="40" class="productBriefContainer">
+          <div layout="row"  layout-align="space-between center">
             <div class="productName">
               <span>{{::spc.product.name}}</span>
             </div>
-            <div class="productPrice"><span>{{::spc.product.price.value}}-{{::spc.product.price.currency}}</span></div>
+            <div class="productPrice"><span>{{::spc.product.price.value}}-{{::spc.product.price.currency}}</span></div></div>
             <div class="productCategory"><span>{{::spc.product.category}}</span></div>
             <div class="productSubCategory"><span>{{::spc.product.subCategory}} </span></div>
+            
+<div class="userInteractionNav" layout="row" ng-if="spc.authCheck">
+        <div class="" ng-controller="UserStoreVisitController as usv">
+          <div class="userProductVisitCheck">
+            <input type="checkbox" name="userVisit"  ng-change="usv.toggleVisitCheck()" ng-model="usv.visitCheck" >Purchased
+          </div>
+        </div>
+      </div>
           </div>
         </div>
       </div>
@@ -67,13 +76,6 @@
 </div>
 
 
-<div class="userInteractionNav" layout="row" ng-if="spc.authCheck">
-        <div class="" ng-controller="UserStoreVisitController as usv">
-          <div class="userProductVisitCheck">
-            <input type="checkbox" name="userVisit"  ng-change="usv.toggleVisitCheck()" ng-model="usv.visitCheck" >Purchased
-          </div>
-        </div>
-      </div>
       </div>
       </div>
       </main>
