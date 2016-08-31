@@ -4,6 +4,7 @@
      <div flex="25"  flex-sm="100" flex-xs="100" >
         <md-autocomplete
            md-search-text="sbc.searchText"
+           md-no-cache = "true"
            md-items="item in sbc.cities|filter:sbc.searchText"
            md-selected-item="sbc.selectedItem"
            md-selected-item-change="sbc.selectedItemChange(item)"
@@ -22,6 +23,7 @@
 
         <md-autocomplete
            ng-disabled="!sbc.searchText"
+           md-no-cache = "true"
            md-selected-item="sbc.userSearchSelectedItem"
            md-search-text="sbc.userSearchText"
            md-selected-item-change="sbc.userSearchItemChange(item)"
