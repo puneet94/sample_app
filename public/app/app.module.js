@@ -1,6 +1,6 @@
 angular.module('myApp',
   ['ngRoute','ngCookies','ngMessages','satellizer',
-    'authModApp','app.common','app.home','app.store','ngMaterial','app.review','app.product']
+    'authModApp','app.common','app.home','app.store','ngMaterial','app.review','app.product','app.user']
   ).config(['$routeProvider','$mdThemingProvider',
   function($routeProvider,$mdThemingProvider) {
       $mdThemingProvider.theme('default')

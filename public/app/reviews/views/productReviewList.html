@@ -8,7 +8,7 @@
           </div>
           <div class="userStats">
             <ul>
-              <li class="userName"><a href="#">{{ ::review.user.displayName }}</a></li>
+              <li class="userName"><span  ng-click="prl.getUserPage(review.user._id)">{{ ::review.user.displayName }}</span></li>
               <li class="userLocation">{{ ::review.user.city }}</li>
               <li class="userFollowers">{{ ::review.user.followers.length||0 }} Followers</li>
               <li class="userReviews">{{ ::review.user.reviews.length }} Reviews

@@ -2,8 +2,8 @@
   'use strict';
 angular.module('app.review')
 
-  .controller('ProductReviewListController',["$scope","$auth","$routeParams",'$route','reviewService','userData',ProductReviewListController]);
-  function ProductReviewListController($scope,$auth,$routeParams,$route,reviewService,userData){
+  .controller('ProductReviewListController',["$scope","$auth","$routeParams",'$route','changeBrowserURL','reviewService','userData',ProductReviewListController]);
+  function ProductReviewListController($scope,$auth,$routeParams,$route,changeBrowserURL,reviewService,userData){
     var plc = this;
     plc.activate = activate;
     plc.smallLoadingModel = {};
@@ -13,6 +13,7 @@ angular.module('app.review')
     plc.authCheck = $auth.isAuthenticated();
     plc.submitUserReviewUpvote = submitUserReviewUpvote;
     plc.deleteUserReviewUpvote = deleteUserReviewUpvote;
+    plc.getUserPage = getUserPage;
 
     if(plc.authCheck){
       plc.userUpvotes  = userData.getUser().upvotes;
@@ -21,6 +22,10 @@ angular.module('app.review')
     plc.activate();
     function activate(){
       plc.getProductReviews();
+    }
+    function getUserPage(userId){
+      var url = "/user/"+userId;
+      changeBrowserURL.changeBrowserURLMethod(url);
     }
     function getProductReviews(){
       reviewService.getProductReviews().then(function(res){

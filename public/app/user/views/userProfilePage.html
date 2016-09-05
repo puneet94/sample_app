@@ -1,0 +1,13 @@
+{{upc.userData}}
+
+<div class="userFollowSection" ng-if="upc.authCheck">
+          <like-directive
+            up-fn="upc.submitUserFollow(upc.userData._id)"
+            down-fn="upc.deleteUserFollow(upc.userData._id)"
+            upv-chk="upc.userFollowed(upc.userData._id)"
+            small-loading="upc.smallLoadingModel[upc.userData._id]">
+          </like-directive>
+
+
+
+        </div>

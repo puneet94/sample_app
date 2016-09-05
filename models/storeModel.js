@@ -79,10 +79,27 @@ var UserSchema = new Schema({
 	"displayName": String,
 	reviews:[{ type:Schema.ObjectId, ref:"Review" }],
 	visits:[{ type:Schema.ObjectId, ref:"Visit" }],
-	upvotes:[{ type:Schema.ObjectId, ref:"Upvote" }]
+	upvotes:[{ type:Schema.ObjectId, ref:"Upvote" }],
+	followers:[{ type:Schema.ObjectId, ref:"User" }],
+	following:[{ type:Schema.ObjectId, ref:"User" }],
+	followersCount:Number,
+followingCount:Number,
+reviewsCount :Number,
+visitsCount :Number, 
+upvotesCount :Number
 
 },{ collection : 'users' });
+/*Nuber of Followers a single user has*/
+var FollowersSchema = new Schema({
+	user:{ type:Schema.ObjectId, ref:"User" },
+	
+});
 
+/*The number of users a person follows*/
+var FollowingSchema = new Schema({
+	user:{ type:Schema.ObjectId, ref:"User" },
+	
+});
 UserSchema.methods.toJSON = function(){
 	var user = this.toObject();
 	delete user.password;
@@ -107,6 +124,27 @@ UserSchema.pre('save',function(next){
 		user.password = hash;
 		next();
 	});
+});
+UserSchema.post('init', function () {
+	
+	try{
+		
+		this.followersCount = this.followers.length || 0;
+  		this.followingCount = this.following.length || 0;
+		this.reviewsCount = this.reviews.length || 0;
+		this.visitsCount = this.visits.length || 0;
+		this.upvotesCount = this.upvotes.length || 0;
+	}
+	catch(err){
+		this.followersCount = 0;
+  		this.followingCount = 0;
+		this.reviewsCount =  0;
+  		this.upvotesCount =  0;
+  		this.visitsCount = 0;
+	}
+  
+  
+  //next();
 });
 
 
@@ -184,7 +222,7 @@ ProductSchema.
   pre('findOne', autoPopulateStore).
   pre('find', autoPopulateStore);
 ProductSchema.post('init', function () {
-	console.log("");
+	
 	try{
 this.reviewsCount = this.reviews.length || 0;
   this.upvotesCount = this.upvotes.length || 0;
@@ -199,7 +237,11 @@ this.reviewsCount = this.reviews.length || 0;
   
   //next();
 });
+
+
 ProductSchema.plugin(relationship, { relationshipPathName:'store' });
+
+
 
 //.replace(/[^a-z0-9]/gi,'')
 StoreSchema.plugin(URLSlugs("name address.area address.city address.state address.country", {field: 'myslug'}));

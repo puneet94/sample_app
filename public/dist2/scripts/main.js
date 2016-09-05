@@ -1,6 +1,6 @@
 angular.module('myApp',
   ['ngRoute','ngCookies','ngMessages','satellizer',
-    'authModApp','app.common','app.home','app.store','ngMaterial','app.review','app.product']
+    'authModApp','app.common','app.home','app.store','ngMaterial','app.review','app.product','app.user']
   ).config(['$routeProvider','$mdThemingProvider',
   function($routeProvider,$mdThemingProvider) {
       $mdThemingProvider.theme('default')
@@ -177,6 +177,16 @@ angular.module('app.store',[]).config(['$routeProvider',
         templateUrl: 'app/store/views/singleStore.html',
         controller: 'SingleStoreController',
         controllerAs: 'ssc'
+      });
+  }]);
+
+angular.module('app.user',[]).config(['$routeProvider',
+  function($routeProvider) {
+    $routeProvider.
+      when('/user/:userId', {
+        templateUrl: 'app/user/views/userProfilePage.html',
+        controller: 'UserPageController',
+        controllerAs: 'upc'
       });
   }]);
 
@@ -1447,8 +1457,8 @@ function GetProductsService($http,storeData,baseUrlService){
   'use strict';
 angular.module('app.review')
 
-  .controller('ProductReviewListController',["$scope","$auth","$routeParams",'$route','reviewService','userData',ProductReviewListController]);
-  function ProductReviewListController($scope,$auth,$routeParams,$route,reviewService,userData){
+  .controller('ProductReviewListController',["$scope","$auth","$routeParams",'$route','changeBrowserURL','reviewService','userData',ProductReviewListController]);
+  function ProductReviewListController($scope,$auth,$routeParams,$route,changeBrowserURL,reviewService,userData){
     var plc = this;
     plc.activate = activate;
     plc.smallLoadingModel = {};
@@ -1458,6 +1468,7 @@ angular.module('app.review')
     plc.authCheck = $auth.isAuthenticated();
     plc.submitUserReviewUpvote = submitUserReviewUpvote;
     plc.deleteUserReviewUpvote = deleteUserReviewUpvote;
+    plc.getUserPage = getUserPage;
 
     if(plc.authCheck){
       plc.userUpvotes  = userData.getUser().upvotes;
@@ -1466,6 +1477,10 @@ angular.module('app.review')
     plc.activate();
     function activate(){
       plc.getProductReviews();
+    }
+    function getUserPage(userId){
+      var url = "/user/"+userId;
+      changeBrowserURL.changeBrowserURLMethod(url);
     }
     function getProductReviews(){
       reviewService.getProductReviews().then(function(res){
@@ -2269,5 +2284,104 @@ function UserVisitService($http,baseUrlService){
   function deleteVisit(visitId){
     return $http.delete(baseUrlService.baseUrl+"visit/visits/"+visitId);
   }
+}
+})(window.angular);
+
+(function(angular){
+  'use strict';
+angular.module('app.user')
+
+  .controller('UserPageController',["$scope","$auth",'$location','$routeParams',"userData","userService",UserPageController]);
+  function UserPageController($scope,$auth,$location,$routeParams,userData,userService){
+    var upc = this;
+    activate();
+    upc.userData = {};
+    upc.loading = true;
+    upc.authCheck = $auth.isAuthenticated();
+    upc.submitUserFollow = submitUserFollow;
+    upc.deleteUserFollow = deleteUserFollow;
+    upc.userFollowed = userFollowed;
+
+    function submitUserFollow(userId){
+      userService.submitUserFollow(userData.getUser()._id,userId).then(function(res){
+        console.log(res);
+      },function(res){
+        console.log(res);
+      });  
+    }
+
+    function deleteUserFollow(userId){
+      userService.deleteUserFollow(userData.getUser()._id,userId).then(function(res){
+        console.log(res);
+      },function(res){
+        console.log(res);
+      });  
+    }
+
+    function userFollowed(userId){
+
+       userService.checkUserFollow(userData.getUser()._id,userId).then(function(res){
+        
+         console.log(res);
+       },function(res){
+         console.log(res);
+       });
+
+      return false;  
+    }
+    function activate(){
+      userService.getSingleUser($routeParams.userId)
+    .then(function(res){
+        upc.userData = res.data;
+        upc.loading = false;
+        console.log(upc.userData);
+      });  
+    }
+    
+    
+    }
+
+})(window.angular);
+
+(function(angular){
+  'use strict';
+/*
+  *Service for getting a single store with its id
+*/
+angular.module('app.user')
+  .service('userService',["$http","baseUrlService",UserService]);
+
+/*
+  * This servic has a function names getStore which takes id as parameter and returns a promise
+*/
+function UserService($http,baseUrlService){
+  this.getSingleUser = getSingleUser;
+  this.getStoreRating = getStoreRating;
+  this.submitUserFollow = submitUserFollow;
+  this.deleteUserFollow = deleteUserFollow;
+  this.checkUserFollow = checkUserFollow;
+  function getSingleUser(id){
+    return $http.get(baseUrlService.baseUrl+"user/singleUser/"+id);
+    
+  }
+  function getStoreRating(id){
+  	return $http.get(baseUrlService.baseUrl+"review/ratings/store/"+id);
+  }
+
+  function submitUserFollow(userId,followedId){
+    console.log("submit follow");
+    return $http.post(baseUrlService.baseUrl+"user/submitFollow/"+userId+'/'+followedId);
+  }
+  function deleteUserFollow(userId,followedId){
+    console.log("delete follow");
+    return $http.post(baseUrlService.baseUrl+"user/deleteFollow/"+userId+'/'+followedId);
+  }
+  function checkUserFollow(userId,followedId){
+    console.log("check follow");
+    return $http.get(baseUrlService.baseUrl+"user/checkFollow/"+userId+'/'+followedId);
+  }
+
+  
+
 }
 })(window.angular);
