@@ -2,6 +2,8 @@ var express = require('express');
 var models = require('..//models/storeModel');
 var Store = models.Store;
 var User = models.User;
+var Review = models.Review;
+
 var UserSearch = require('..//models/user_search');
 var userRouter = express.Router();
 var commons = require('./commonRouteFunctions');
@@ -20,12 +22,62 @@ userRouter.route('/singleUser/:user_id')
 			else{
 				user.reviews = null;
 				user.upvotes = null;
-				user.followers = null;
-				user.following = null;
+				
 				res.json(user);
 			}
 		})
-	})
+	});
+userRouter.route('/userReviews/:user_id')
+	.get(function(req,res){
+		var populateQuery = [{path:'store', select:'name'}, {path:'product', select:'name'}];
+		Review.find({ user: req.params.user_id })
+		 
+		.populate(populateQuery) 
+.exec(function (err, reviews) {
+  if (err) {
+  	return handleError(err)
+  }
+  else{
+  	return res.json(reviews);
+  }
+  
+})
+	});
+
+
+	userRouter.route('/userFollowing/:user_id')
+	.get(function(req,res){
+		
+		User.findOne({ _id: req.params.user_id })
+		.select('_id following')
+.populate('following', 'displayName picture') 
+.exec(function (err, followers) {
+  if (err) {
+  	return handleError(err)
+  }
+  else{
+  	return res.json(followers);
+  }
+  
+})
+	});
+userRouter.route('/userFollowers/:user_id')
+	.get(function(req,res){
+		
+		User.findOne({ _id: req.params.user_id })
+		.select('_id followers')
+.populate('followers', 'displayName picture') 
+.exec(function (err, followers) {
+  if (err) {
+  	return handleError(err)
+  }
+  else{
+  	return res.json(followers);
+  }
+  
+})
+	});
+
 userRouter.route('/submitFollow/:user_id/:followedUser_id')
 	.post(commons.ensureAuthenticated,function(req,res){
 		var user_id = req.params.user_id;
@@ -110,7 +162,7 @@ userRouter.route('/checkFollow/:user_id/:followedUser_id')
 module.exports = userRouter;
 
 
-/*
+/****
 added
 User.findById(req.params.user_id,function(err,user){
 			if(err){

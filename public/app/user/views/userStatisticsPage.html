@@ -1,16 +1,18 @@
 <div ng-controller="UserStatisticsController as usc" layout="column" ng-cloak="">
   <md-content class="md-padding">
-    <md-tabs md-selected="selectedIndex" md-border-bottom="" md-autoselect="">
-      <md-tab  label="Reviews">
+    <md-tabs md-selected="selectedIndex" md-border-bottom="" md-autoselect="" md-dynamic-height="">
+      
+      <md-tab  label="Followers">
         <div class="demo-tab" style="padding: 25px; text-align: center;">
-          Reviews
+          Followers
           <br>
 
         </div>
       </md-tab>
-      <md-tab  label="Followers">
-        <div class="demo-tab" style="padding: 25px; text-align: center;">
-          Followers
+      <md-tab  label="Reviews">
+        <div  >
+                <div ng-include="'app/reviews/views/userReviewList.html'" flex></div>
+
           <br>
 
         </div>

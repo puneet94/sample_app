@@ -121,7 +121,7 @@ reviewRouter.route('/reviews/product/:productId')
 				});
 	})
 	.post(commons.ensureAuthenticated,function(req,res){
-		console.log("yoyoyoyoyoyoyoyoyojjgjhjfg");
+		
   var review = new Review();
   var recData = req.body;
 

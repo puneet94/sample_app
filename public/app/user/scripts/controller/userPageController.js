@@ -6,7 +6,7 @@ angular.module('app.user')
   function UserPageController($scope,$auth,$location,$routeParams,userData,userService){
     var upc = this;
     activate();
-    upc.userData = {};
+    upc.currentUserData = {};
     upc.loading = true;
     upc.authCheck = $auth.isAuthenticated();
     upc.submitUserFollow = submitUserFollow;
@@ -15,7 +15,7 @@ angular.module('app.user')
 
     function submitUserFollow(userId){
       userService.submitUserFollow(userData.getUser()._id,userId).then(function(res){
-        console.log(res);
+        userData.setUser();
       },function(res){
         console.log(res);
       });  
@@ -23,29 +23,29 @@ angular.module('app.user')
 
     function deleteUserFollow(userId){
       userService.deleteUserFollow(userData.getUser()._id,userId).then(function(res){
-        console.log(res);
+        var index = userData.getUser().following.indexOf(userId);
+        userData.setUser();
+
       },function(res){
         console.log(res);
       });  
     }
 
     function userFollowed(userId){
+      console.log(upc.currentUserData);
+      if(userData.getUser().following.indexOf(userId)!=-1){
 
-       userService.checkUserFollow(userData.getUser()._id,userId).then(function(res){
-        
-         console.log(res);
-       },function(res){
-         console.log(res);
-       });
-
+        return true;
+      }
       return false;  
     }
     function activate(){
+      upc.loading = true;
       userService.getSingleUser($routeParams.userId)
     .then(function(res){
-        upc.userData = res.data;
+        upc.currentUserData = res.data;
         upc.loading = false;
-        console.log(upc.userData);
+        console.log(upc.currentUserData);
       });  
     }
     

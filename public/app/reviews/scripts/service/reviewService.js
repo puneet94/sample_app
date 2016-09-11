@@ -10,6 +10,7 @@
         rs.deleteUserReviewUpvote  = deleteUserReviewUpvote;
         rs.getProductReviews = getProductReviews;
         rs.submitProductReview = submitProductReview;
+        rs.getUserReviews = getUserReviews;
         function submitStoreReview(review){
           return $http.post(baseUrlService.baseUrl+'review/reviews/store/'+review.storeId,review);
         }
@@ -32,6 +33,11 @@
         function deleteUserReviewUpvote(obj){
           
           return $http.delete(baseUrlService.baseUrl+'upvote/upvotes/review/',{"params":obj});
+        }
+
+        function getUserReviews(){
+          var userId = $routeParams.userId;
+         return $http.get(baseUrlService.baseUrl+'user/userReviews/'+userId); 
         }
         
 

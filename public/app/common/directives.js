@@ -7,6 +7,7 @@
   .directive('loadingDirective',[loadingDirective])
   .directive('metaTags',[metaTagsDirective])
   .directive('likeDirective',[likeDirective])
+  .directive('followDirective',[followDirective])
   .directive('smallLoadingDirective',[smallLoadingDirective]);
   function toggleElement($window,$location) {
     return {
@@ -156,6 +157,18 @@ function loadingDirective() {
         smallLoading:'=smallLoading'
       },
       templateUrl: 'app/reviews/views/likeReview.html'
+    };
+  }
+  function followDirective(){
+    return {
+      restrict: 'E',
+      scope: {
+        upFn:'&upFn',
+        downFn:'&downFn',
+        upvChk:'&upvChk',
+        smallLoading:'=smallLoading'
+      },
+      templateUrl: 'app/user/views/userFollow.html'
     };
   }
 

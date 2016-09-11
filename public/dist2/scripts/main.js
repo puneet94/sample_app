@@ -373,6 +373,7 @@ angular.module('app.common')
   .directive('loadingDirective',[loadingDirective])
   .directive('metaTags',[metaTagsDirective])
   .directive('likeDirective',[likeDirective])
+  .directive('followDirective',[followDirective])
   .directive('smallLoadingDirective',[smallLoadingDirective]);
   function toggleElement($window,$location) {
     return {
@@ -522,6 +523,18 @@ function loadingDirective() {
         smallLoading:'=smallLoading'
       },
       templateUrl: 'app/reviews/views/likeReview.html'
+    };
+  }
+  function followDirective(){
+    return {
+      restrict: 'E',
+      scope: {
+        upFn:'&upFn',
+        downFn:'&downFn',
+        upvChk:'&upvChk',
+        smallLoading:'=smallLoading'
+      },
+      templateUrl: 'app/user/views/userFollow.html'
     };
   }
 
@@ -778,9 +791,9 @@ angular.module('authModApp')
  * Factory in the authModApp.
  */
 angular.module('authModApp')
-  .factory('userData',['$window','$route','$auth','$http',"baseUrlService",userData]);
+  .factory('userData',['$window','$route','$auth','$http',"baseUrlService","changeBrowserURL",userData]);
 
-  function userData($window,$route,$auth,$http,baseUrlService) {
+  function userData($window,$route,$auth,$http,baseUrlService,changeBrowserURL) {
     var storage = $window.localStorage;
     var cachedUser={};
     var obj1 =  {
@@ -830,6 +843,10 @@ angular.module('authModApp')
           return true;
         }
         return false;
+      },
+      getUserPage: function(userId){
+        var url = "/user/"+userId;
+        changeBrowserURL.changeBrowserURLMethod(url);
       }
     };
     return obj1;
@@ -1468,7 +1485,7 @@ angular.module('app.review')
     plc.authCheck = $auth.isAuthenticated();
     plc.submitUserReviewUpvote = submitUserReviewUpvote;
     plc.deleteUserReviewUpvote = deleteUserReviewUpvote;
-    plc.getUserPage = getUserPage;
+    plc.getUserPage = userData.getUserPage;
 
     if(plc.authCheck){
       plc.userUpvotes  = userData.getUser().upvotes;
@@ -1523,7 +1540,7 @@ angular.module('app.review')
       reviewService.submitUserReviewUpvote({"reviewId":review._id,"productId":$routeParams.productId,"userId":userData.getUser()._id})
       .then(function(res){
         review.upvotes.push(res.data.id);
-        plc.userUpvotes.push(res.data.id);
+        plc.userUpvotes.push(res.data.id);userData.setUser();
         plc.smallLoadingModel[review._id] = false;
 
 
@@ -1533,7 +1550,7 @@ angular.module('app.review')
       plc.smallLoadingModel[review._id] = true;
       reviewService.deleteUserReviewUpvote({"reviewId":review._id,"productId":$routeParams.productId,"userId":userData.getUser()._id})
       .then(function(res){
-        review.upvotes.splice(review.upvotes.indexOf(res.data.id), 1);
+        review.upvotes.splice(review.upvotes.indexOf(res.data.id), 1);userData.setUser();
         plc.smallLoadingModel[review._id] = false;
       });
 
@@ -1615,6 +1632,7 @@ angular.module('app.review')
     slc.authCheck = $auth.isAuthenticated();
     slc.submitUserReviewUpvote = submitUserReviewUpvote;
     slc.deleteUserReviewUpvote = deleteUserReviewUpvote;
+    slc.getUserPage = userData.getUserPage;
     
     if(slc.authCheck){
       slc.userUpvotes  = userData.getUser().upvotes;
@@ -1665,7 +1683,7 @@ angular.module('app.review')
       reviewService.submitUserReviewUpvote({"reviewId":review._id,"storeId":$routeParams.storeId,"userId":userData.getUser()._id})
       .then(function(res){
         review.upvotes.push(res.data.id);
-        slc.userUpvotes.push(res.data.id);
+        slc.userUpvotes.push(res.data.id);userData.setUser();
         slc.smallLoadingModel[review._id] = false;
         
         
@@ -1675,8 +1693,97 @@ angular.module('app.review')
       slc.smallLoadingModel[review._id] = true;
       reviewService.deleteUserReviewUpvote({"reviewId":review._id,"storeId":$routeParams.storeId,"userId":userData.getUser()._id})
       .then(function(res){
-        review.upvotes.splice(review.upvotes.indexOf(res.data.id), 1);
+        review.upvotes.splice(review.upvotes.indexOf(res.data.id), 1);userData.setUser();
         slc.smallLoadingModel[review._id] = false;
+      });
+
+    }
+
+  }
+})(window.angular);
+
+(function(angular){
+  'use strict';
+angular.module('app.review')
+
+  .controller('UserReviewListController',["$scope","$auth","$routeParams",'$route','changeBrowserURL','reviewService','userData',UserReviewListController]);
+  function UserReviewListController($scope,$auth,$routeParams,$route,changeBrowserURL,reviewService,userData){
+    var url = this;
+    url.activate = activate;
+    url.smallLoadingModel = {};
+    url.getUserReviews = getUserReviews;
+    url.getRating = getRating;
+    url.userReviewUpvoted = userReviewUpvoted;
+    url.authCheck = $auth.isAuthenticated();
+    url.submitUserReviewUpvote = submitUserReviewUpvote;
+    url.deleteUserReviewUpvote = deleteUserReviewUpvote;
+    url.getUserPage = getUserPage;
+
+    if(url.authCheck){
+      url.userUpvotes  = userData.getUser().upvotes;
+    }
+    url.submitUserReviewUpvote = submitUserReviewUpvote;
+    url.activate();
+    function activate(){
+      url.getUserReviews();
+    }
+    function getUserPage(userId){
+      var url = "/user/"+userId;
+      changeBrowserURL.changeBrowserURLMethod(url);
+    }
+    function getUserReviews(){
+      reviewService.getUserReviews().then(function(res){
+        url.reviewList = res.data;
+
+      },function(res){
+
+      });
+    }
+    function getRating(review){
+
+      var rating2 = parseInt(review.rating);
+      var x = [];
+      for(var i=0;i<rating2;i++){
+        x.push(i);
+      }
+
+      return x;
+    }
+
+    function userReviewUpvoted(locReview){
+
+      var upArr = locReview.upvotes;
+      for(var i=0;i<upArr.length;i++){
+        if(url.userUpvotes.indexOf(upArr[i])!=-1){
+
+          url.currentUpvoteId = upArr[i];
+
+          return true;
+        }
+      }
+
+
+      //return false;
+    }
+
+    function submitUserReviewUpvote(review){
+      url.smallLoadingModel[review._id] = true;
+
+      reviewService.submitUserReviewUpvote({"reviewId":review._id,"userId":userData.getUser()._id})
+      .then(function(res){
+        review.upvotes.push(res.data.id);
+        url.userUpvotes.push(res.data.id);userData.setUser();
+        url.smallLoadingModel[review._id] = false;
+
+
+      });
+    }
+    function deleteUserReviewUpvote(review){
+      url.smallLoadingModel[review._id] = true;
+      reviewService.deleteUserReviewUpvote({"reviewId":review._id,"userId":userData.getUser()._id})
+      .then(function(res){
+        review.upvotes.splice(review.upvotes.indexOf(res.data.id), 1);userData.setUser();
+        url.smallLoadingModel[review._id] = false;
       });
 
     }
@@ -1696,6 +1803,7 @@ angular.module('app.review')
         rs.deleteUserReviewUpvote  = deleteUserReviewUpvote;
         rs.getProductReviews = getProductReviews;
         rs.submitProductReview = submitProductReview;
+        rs.getUserReviews = getUserReviews;
         function submitStoreReview(review){
           return $http.post(baseUrlService.baseUrl+'review/reviews/store/'+review.storeId,review);
         }
@@ -1718,6 +1826,11 @@ angular.module('app.review')
         function deleteUserReviewUpvote(obj){
           
           return $http.delete(baseUrlService.baseUrl+'upvote/upvotes/review/',{"params":obj});
+        }
+
+        function getUserReviews(){
+          var userId = $routeParams.userId;
+         return $http.get(baseUrlService.baseUrl+'user/userReviews/'+userId); 
         }
         
 
@@ -2295,7 +2408,7 @@ angular.module('app.user')
   function UserPageController($scope,$auth,$location,$routeParams,userData,userService){
     var upc = this;
     activate();
-    upc.userData = {};
+    upc.currentUserData = {};
     upc.loading = true;
     upc.authCheck = $auth.isAuthenticated();
     upc.submitUserFollow = submitUserFollow;
@@ -2304,7 +2417,7 @@ angular.module('app.user')
 
     function submitUserFollow(userId){
       userService.submitUserFollow(userData.getUser()._id,userId).then(function(res){
-        console.log(res);
+        userData.setUser();
       },function(res){
         console.log(res);
       });  
@@ -2312,33 +2425,50 @@ angular.module('app.user')
 
     function deleteUserFollow(userId){
       userService.deleteUserFollow(userData.getUser()._id,userId).then(function(res){
-        console.log(res);
+        var index = userData.getUser().following.indexOf(userId);
+        userData.setUser();
+
       },function(res){
         console.log(res);
       });  
     }
 
     function userFollowed(userId){
+      console.log(upc.currentUserData);
+      if(userData.getUser().following.indexOf(userId)!=-1){
 
-       userService.checkUserFollow(userData.getUser()._id,userId).then(function(res){
-        
-         console.log(res);
-       },function(res){
-         console.log(res);
-       });
-
+        return true;
+      }
       return false;  
     }
     function activate(){
+      upc.loading = true;
       userService.getSingleUser($routeParams.userId)
     .then(function(res){
-        upc.userData = res.data;
+        upc.currentUserData = res.data;
         upc.loading = false;
-        console.log(upc.userData);
+        console.log(upc.currentUserData);
       });  
     }
     
     
+    }
+
+})(window.angular);
+
+(function(angular){
+  'use strict';
+angular.module('app.user')
+
+  .controller('UserStatisticsController',["$scope","$auth",'$location','$routeParams',"userData","userService",UserStatisticsController]);
+  function UserStatisticsController($scope,$auth,$location,$routeParams,userData,userService){
+    var upc = this;
+    activate();
+    function activate(){
+      
+    }
+
+
     }
 
 })(window.angular);

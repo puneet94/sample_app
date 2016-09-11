@@ -13,7 +13,7 @@ angular.module('app.review')
     plc.authCheck = $auth.isAuthenticated();
     plc.submitUserReviewUpvote = submitUserReviewUpvote;
     plc.deleteUserReviewUpvote = deleteUserReviewUpvote;
-    plc.getUserPage = getUserPage;
+    plc.getUserPage = userData.getUserPage;
 
     if(plc.authCheck){
       plc.userUpvotes  = userData.getUser().upvotes;
@@ -68,7 +68,7 @@ angular.module('app.review')
       reviewService.submitUserReviewUpvote({"reviewId":review._id,"productId":$routeParams.productId,"userId":userData.getUser()._id})
       .then(function(res){
         review.upvotes.push(res.data.id);
-        plc.userUpvotes.push(res.data.id);
+        plc.userUpvotes.push(res.data.id);userData.setUser();
         plc.smallLoadingModel[review._id] = false;
 
 
@@ -78,7 +78,7 @@ angular.module('app.review')
       plc.smallLoadingModel[review._id] = true;
       reviewService.deleteUserReviewUpvote({"reviewId":review._id,"productId":$routeParams.productId,"userId":userData.getUser()._id})
       .then(function(res){
-        review.upvotes.splice(review.upvotes.indexOf(res.data.id), 1);
+        review.upvotes.splice(review.upvotes.indexOf(res.data.id), 1);userData.setUser();
         plc.smallLoadingModel[review._id] = false;
       });
 

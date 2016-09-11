@@ -1,13 +1,63 @@
-{{upc.userData}}
 
-<div class="userFollowSection" ng-if="upc.authCheck">
-          <like-directive
-            up-fn="upc.submitUserFollow(upc.userData._id)"
-            down-fn="upc.deleteUserFollow(upc.userData._id)"
-            upv-chk="upc.userFollowed(upc.userData._id)"
-            small-loading="upc.smallLoadingModel[upc.userData._id]">
-          </like-directive>
+<header layout="row"  >
+	<div ng-include="'app/home/pageHeader.html'" flex></div>
+</header>
+<div ng-include="'app/home/searchBox.html'"></div>
+
+<main class="fixedHeaderMain">
+
+
+
+<div class="userPageContainer">
+	<div class="userPageSections" layout="row" layout-xs="column" layout-sm="column">
+		<section class="leftTab" flex="20" flex-sm="100" flex-xs="100"></section>
+		<section class="middleTab" flex="60" flex-sm="100" flex-xs="100">
+			<article class="userProfileSection">
+				<section class="userProfileImageContainer">
+					<div class="userProfileImage">
+						<img ng-src={{upc.currentUserData.picture}}>	
+					</div>
+					<div class="userFollowSection" ng-if="upc.authCheck">
+          <follow-directive
+            up-fn="upc.submitUserFollow(upc.currentUserData._id)"
+            down-fn="upc.deleteUserFollow(upc.currentUserData._id)"
+            upv-chk="upc.userFollowed(upc.currentUserData._id)"
+            small-loading="upc.smallLoadingModel">
+          </follow-directive>
 
 
 
         </div>
+					
+
+				</section>
+				<section class="userInfoSection">
+					<article class="userInfoContainer">
+						<div class="userNameSection">
+							<span>{{upc.currentUserData.displayName}}</span>
+						</div>
+						<div class="userDescriptionContainer">
+							<div>
+								<span>{{upc.currentUserData.description}}</span>	
+							</div>
+							<div class="userSocialMedia">
+							<a target="_blank" ng-href={{"https://www.facebook.com/"+upc.currentUserData.facebook}}>Facebook</a>
+						</div>	
+						</div>
+						
+					</article>
+					<article class="userContent">
+						<div class="" ng-include="'app/user/views/userStatisticsPage.html'" >
+
+					</article>
+				</section>
+			</article>
+		</section>
+		<section class="rightTab" flex="20">
+			
+		</section>
+		
+	</div>
+</div>
+</main>
+</div>

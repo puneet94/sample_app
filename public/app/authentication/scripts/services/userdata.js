@@ -9,9 +9,9 @@
  * Factory in the authModApp.
  */
 angular.module('authModApp')
-  .factory('userData',['$window','$route','$auth','$http',"baseUrlService",userData]);
+  .factory('userData',['$window','$route','$auth','$http',"baseUrlService","changeBrowserURL",userData]);
 
-  function userData($window,$route,$auth,$http,baseUrlService) {
+  function userData($window,$route,$auth,$http,baseUrlService,changeBrowserURL) {
     var storage = $window.localStorage;
     var cachedUser={};
     var obj1 =  {
@@ -61,6 +61,10 @@ angular.module('authModApp')
           return true;
         }
         return false;
+      },
+      getUserPage: function(userId){
+        var url = "/user/"+userId;
+        changeBrowserURL.changeBrowserURLMethod(url);
       }
     };
     return obj1;

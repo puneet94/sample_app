@@ -26,7 +26,7 @@ upvoteRouter.route('/upvotes')
 				res.send(err);
 			}
 			res.json(upvotes);
-			//res.render("stores",{"stores":stores});
+			
 		})
 	})
 	.delete(commons.ensureAuthenticated,function(req,res){
@@ -91,18 +91,24 @@ upvoteRouter.route('/upvotes/review')
 .post(commons.ensureAuthenticated,function(req,res){
   var upvote = new Upvote();
   var recData = req.body;
+
 	upvote.user=recData.userId;
 	if(recData.storeId){
 		upvote.entityId = recData.storeId;	
 		var entity = Store;
 	}
 	else if(recData.productId){
-		upvote.prentityId = recData.productId;
-		var entity = Product
+		upvote.entityId = recData.productId;
+		var entity = Product;
+	}
+	else{
+		upvote.entityId = recData.userId;
+		var entity = User;
 	}
  	
 	upvote.review = recData.reviewId;
-	
+	console.log(upvote);
+	console.log("dingdingidng");
 	commons.validateId(upvote.review,Review).then(function(doc){
 		commons.validateId(upvote.user,User).then(function(doc){
 			commons.validateId(upvote.entityId,entity).then(function(doc){
@@ -118,7 +124,7 @@ upvoteRouter.route('/upvotes/review')
 
 			      		}
 			    	}
-				    console.log("savved the upvote");
+				    console.log(" upvote saved");
 
 				    res.json({"message":"Upvote created","id":upvote._id});
 		  		});
