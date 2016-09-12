@@ -45,9 +45,8 @@ userRouter.route('/userReviews/:user_id')
 	});
 
 
-	userRouter.route('/userFollowing/:user_id')
+userRouter.route('/userFollowing/:user_id')
 	.get(function(req,res){
-		
 		User.findOne({ _id: req.params.user_id })
 		.select('_id following')
 .populate('following', 'displayName picture') 
@@ -56,7 +55,7 @@ userRouter.route('/userReviews/:user_id')
   	return handleError(err)
   }
   else{
-  	return res.json(followers);
+  	return res.json(followers.following);
   }
   
 })
@@ -72,7 +71,7 @@ userRouter.route('/userFollowers/:user_id')
   	return handleError(err)
   }
   else{
-  	return res.json(followers);
+  	return res.json(followers.followers);
   }
   
 })

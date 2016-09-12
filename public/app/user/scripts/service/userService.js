@@ -15,6 +15,8 @@ function UserService($http,baseUrlService){
   this.submitUserFollow = submitUserFollow;
   this.deleteUserFollow = deleteUserFollow;
   this.checkUserFollow = checkUserFollow;
+  this.getUserFollowers = getUserFollowers;
+  this.getUserFollowing = getUserFollowing;
   function getSingleUser(id){
     return $http.get(baseUrlService.baseUrl+"user/singleUser/"+id);
     
@@ -34,6 +36,12 @@ function UserService($http,baseUrlService){
   function checkUserFollow(userId,followedId){
     console.log("check follow");
     return $http.get(baseUrlService.baseUrl+"user/checkFollow/"+userId+'/'+followedId);
+  }
+  function getUserFollowers(userId){
+    return $http.get(baseUrlService.baseUrl+"user/userFollowers/"+userId);
+  }
+  function getUserFollowing(userId){
+    return $http.get(baseUrlService.baseUrl+"user/userFollowing/"+userId);
   }
 
   

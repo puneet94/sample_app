@@ -1,0 +1,7 @@
+<div class="" ng-controller="UserFollowersController as ufc">
+  <div class="" ng-repeat = "follower in ufc.followersList">
+    <span ng-click=ufc.getUserPage(follower._id)>{{::follower.displayName}}</span>
+    <img ng-src="{{::follower.picture}}" alt="" />
+
+  </div>
+</div>

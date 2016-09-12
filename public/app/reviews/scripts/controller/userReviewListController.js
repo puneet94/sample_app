@@ -2,8 +2,8 @@
   'use strict';
 angular.module('app.review')
 
-  .controller('UserReviewListController',["$scope","$auth","$routeParams",'$route','changeBrowserURL','reviewService','userData',UserReviewListController]);
-  function UserReviewListController($scope,$auth,$routeParams,$route,changeBrowserURL,reviewService,userData){
+  .controller('UserReviewListController',["$scope","$auth",'reviewService','userData','getSingleStore','getProductsService',UserReviewListController]);
+  function UserReviewListController($scope,$auth,reviewService,userData,getSingleStore,getProductsService){
     var url = this;
     url.activate = activate;
     url.smallLoadingModel = {};
@@ -13,8 +13,9 @@ angular.module('app.review')
     url.authCheck = $auth.isAuthenticated();
     url.submitUserReviewUpvote = submitUserReviewUpvote;
     url.deleteUserReviewUpvote = deleteUserReviewUpvote;
-    url.getUserPage = getUserPage;
-
+    url.getUserPage = userData.getUserPage;
+    url.getSingleStorePage = getSingleStore.getSingleStorePage;
+    url.getSingleProductPage = getProductsService.getSingleProductPage;
     if(url.authCheck){
       url.userUpvotes  = userData.getUser().upvotes;
     }

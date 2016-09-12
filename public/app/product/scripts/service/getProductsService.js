@@ -2,15 +2,15 @@
   'use strict';
 
 angular.module('app.product')
-  .service('getProductsService',["$http","storeData","baseUrlService",GetProductsService]);
+  .service('getProductsService',["$http","storeData","baseUrlService",'changeBrowserURL',GetProductsService]);
 
 /*
   * This servic has a function to get collection of stores`
 */
-function GetProductsService($http,storeData,baseUrlService){
+function GetProductsService($http,storeData,baseUrlService,changeBrowserURL){
   this.getStoreProductsList = getStoreProductsList;
   this.getSingleProduct = getSingleProduct;
-
+this.getSingleProductPage = getSingleProductPage;
   function getStoreProductsList(storeId){
   	var pageNo = 1;
   	return $http.get(baseUrlService.baseUrl+'product/products/store/'+storeId+"/"+pageNo);
@@ -22,5 +22,13 @@ function GetProductsService($http,storeData,baseUrlService){
     //return $http.get(baseUrlService.baseUrl+url,{params:paramData});
 
   }
+  function getSingleProductPage(product,scrollId){
+        var url = "product/singleProduct/"+product._id+"/"+(product.myslug || ' ');
+        if(scrollId){
+          //url = url + "?scrollId="+scrollId;
+          changeBrowserURL.changeBrowserURLMethod(url,scrollId);
+        }
+        changeBrowserURL.changeBrowserURLMethod(url);
+      }
 }
 })(window.angular);

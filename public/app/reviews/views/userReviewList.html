@@ -5,10 +5,10 @@
       <div  class="userSection">
         <div layout="row" class="userProfile">
           <div ng-if="review.store.name">
-            <span>Store</span>-<span>{{::review.store.name}}</span>
+            <span >Store</span>-<span ng-click=url.getSingleStorePage(review.store)>{{::review.store.name}}</span>
           </div>
           <div ng-if="review.product.name">
-            <span>Product</span>-<span>{{::review.product.name}}</span>
+            <span>Product</span>-<span ng-click=url.getSingleProductPage(review.product)>{{::review.product.name}}</span>
           </div>
           
         </div>
