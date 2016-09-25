@@ -17,6 +17,83 @@
   color: #795548; }
 
 
+@charset "UTF-8";
+.likeDirectiveContainer {
+  font-weight: 800;
+  font-size: 12px;
+  cursor: pointer; }
+
+@keyframes spinner {
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg); } }
+
+@-webkit-keyframes spinner {
+  to {
+    -webkit-transform: rotate(360deg); } }
+
+.spinner {
+  min-width: 24px;
+  min-height: 24px; }
+  .spinner:before {
+    content: 'Loading…';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    margin-top: -10px;
+    margin-left: -10px; }
+  .spinner:not(:required):before {
+    content: '';
+    border-radius: 50%;
+    border-top: 2px solid #03ade0;
+    border-right: 2px solid transparent;
+    animation: spinner .6s linear infinite;
+    -webkit-animation: spinner .6s linear infinite; }
+
+.ajaxLoadingSpinnerDiv {
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5); }
+
+.ajaxLoadingSpinner {
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-bottom: 6px solid #fff;
+  border-left: 6px solid #fff;
+  border-right: 6px solid #c30;
+  border-top: 6px solid #c30;
+  border-radius: 100%;
+  height: 90px;
+  width: 90px;
+  -webkit-animation: spin .6s infinite linear;
+  animation: spin .6s infinite linear; }
+
+@keyframes "spin" {
+  from {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  to {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg); } }
+
+@-webkit-keyframes "spin" {
+  from {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  to {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg); } }
+
 .search-banner {
   width: 100%;
   height: 50vh;
@@ -115,83 +192,6 @@
   .searchBoxStores .searchBoxLayout {
     padding: 0;
     height: 100%; } }
-
-@charset "UTF-8";
-.likeDirectiveContainer {
-  font-weight: 800;
-  font-size: 12px;
-  cursor: pointer; }
-
-@keyframes spinner {
-  to {
-    -webkit-transform: rotate(360deg);
-            transform: rotate(360deg); } }
-
-@-webkit-keyframes spinner {
-  to {
-    -webkit-transform: rotate(360deg); } }
-
-.spinner {
-  min-width: 24px;
-  min-height: 24px; }
-  .spinner:before {
-    content: 'Loading…';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 16px;
-    height: 16px;
-    margin-top: -10px;
-    margin-left: -10px; }
-  .spinner:not(:required):before {
-    content: '';
-    border-radius: 50%;
-    border-top: 2px solid #03ade0;
-    border-right: 2px solid transparent;
-    animation: spinner .6s linear infinite;
-    -webkit-animation: spinner .6s linear infinite; }
-
-.ajaxLoadingSpinnerDiv {
-  position: fixed;
-  z-index: 999;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  background-color: rgba(0, 0, 0, 0.5); }
-
-.ajaxLoadingSpinner {
-  top: 0;
-  bottom: 0;
-  margin: auto;
-  position: absolute;
-  left: 0;
-  right: 0;
-  border-bottom: 6px solid #fff;
-  border-left: 6px solid #fff;
-  border-right: 6px solid #c30;
-  border-top: 6px solid #c30;
-  border-radius: 100%;
-  height: 90px;
-  width: 90px;
-  -webkit-animation: spin .6s infinite linear;
-  animation: spin .6s infinite linear; }
-
-@keyframes "spin" {
-  from {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg); }
-  to {
-    -webkit-transform: rotate(359deg);
-    transform: rotate(359deg); } }
-
-@-webkit-keyframes "spin" {
-  from {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg); }
-  to {
-    -webkit-transform: rotate(359deg);
-    transform: rotate(359deg); } }
 
 .productPageContainer .singleProductContainer .productTopContainer .productImageContainer {
   padding: 10px;
@@ -306,66 +306,6 @@
       color: #FFED85; }
     .userRatingSection .rating > label:hover ~ input:checked ~ label, .userRatingSection .rating > input:checked ~ label:hover ~ label {
       color: #FFED85; }
-
-.clearBoth {
-  clear: both; }
-
-.singleActivity {
-  margin-top: 10px; }
-  .singleActivity .activityContent {
-    background-color: white; }
-    .singleActivity .activityContent .activityContentText {
-      padding: 20px; }
-      .singleActivity .activityContent .activityContentText .activityReviewStoreImageContainer {
-        width: 100%;
-        height: 250px; }
-        .singleActivity .activityContent .activityContentText .activityReviewStoreImageContainer img {
-          height: 100%;
-          width: 100%; }
-      .singleActivity .activityContent .activityContentText .activityReviewProductImageContainer {
-        width: 100%;
-        height: 250px; }
-        .singleActivity .activityContent .activityContentText .activityReviewProductImageContainer img {
-          height: 100%;
-          width: 100%; }
-      .singleActivity .activityContent .activityContentText .activityReviewContentContainer {
-        padding: 10px; }
-        .singleActivity .activityContent .activityContentText .activityReviewContentContainer .activityReviewDescription {
-          margin-top: 10px; }
-  .singleActivity .activityHeading {
-    border: 1px solid rgba(0, 0, 0, 0.25);
-    border-bottom: none;
-    border-radius: 3px;
-    background-color: white;
-    padding: 15px; }
-    .singleActivity .activityHeading .creatorImageContainer {
-      float: left; }
-      .singleActivity .activityHeading .creatorImageContainer .creatorImage {
-        width: 32px;
-        height: 32px; }
-    .singleActivity .activityHeading .activityHeadingTextContainer {
-      margin-left: 10px; }
-      .singleActivity .activityHeading .activityHeadingTextContainer .activityHeadingText {
-        margin: 0;
-        margin-bottom: 5px; }
-        .singleActivity .activityHeading .activityHeadingTextContainer .activityHeadingText .activityHeadingTextInfo {
-          margin: 2px; }
-    .singleActivity .activityHeading .activityTime {
-      margin: 0; }
-  .singleActivity .activityFollowCreatorImageContainer {
-    float: left;
-    width: 25%;
-    height: 120px; }
-    .singleActivity .activityFollowCreatorImageContainer img {
-      width: 100%;
-      height: 100%; }
-  .singleActivity .activityFollowFollowedImageContainer {
-    float: left;
-    width: 25%;
-    height: 120px; }
-    .singleActivity .activityFollowFollowedImageContainer img {
-      width: 100%;
-      height: 100%; }
 
 .capital-heading-text {
   text-transform: capitalize;
@@ -594,3 +534,78 @@
 /* hover previous stars in list */
 
 
+
+.clearBoth {
+  clear: both; }
+
+.singleActivity {
+  margin-top: 10px; }
+  .singleActivity .activityContent {
+    background-color: white; }
+    .singleActivity .activityContent .activityContentText {
+      padding: 20px; }
+      .singleActivity .activityContent .activityContentText .activityReviewStoreImageContainer {
+        width: 100%;
+        height: 250px; }
+        .singleActivity .activityContent .activityContentText .activityReviewStoreImageContainer .reviewStoreImage {
+          height: 100%;
+          width: 100%; }
+          .singleActivity .activityContent .activityContentText .activityReviewStoreImageContainer .reviewStoreImage img {
+            height: 100%;
+            width: 100%; }
+      .singleActivity .activityContent .activityContentText .activityReviewProductImageContainer {
+        width: 100%;
+        height: 250px; }
+        .singleActivity .activityContent .activityContentText .activityReviewProductImageContainer .reviewProductImage {
+          height: 100%;
+          width: 100%; }
+          .singleActivity .activityContent .activityContentText .activityReviewProductImageContainer .reviewProductImage img {
+            height: 100%;
+            width: 100%; }
+      .singleActivity .activityContent .activityContentText .activityReviewContentContainer {
+        padding: 10px; }
+        .singleActivity .activityContent .activityContentText .activityReviewContentContainer .activityReviewDescription {
+          margin-top: 10px; }
+  .singleActivity .activityHeading {
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-bottom: none;
+    border-radius: 3px;
+    background-color: white;
+    padding: 15px; }
+    .singleActivity .activityHeading .creatorImageContainer {
+      float: left; }
+      .singleActivity .activityHeading .creatorImageContainer .creatorImage {
+        width: 32px;
+        height: 32px; }
+        .singleActivity .activityHeading .creatorImageContainer .creatorImage img {
+          height: 100%;
+          width: 100%; }
+    .singleActivity .activityHeading .activityHeadingTextContainer {
+      margin-left: 10px; }
+      .singleActivity .activityHeading .activityHeadingTextContainer .activityHeadingText {
+        margin: 0;
+        margin-bottom: 5px; }
+        .singleActivity .activityHeading .activityHeadingTextContainer .activityHeadingText .activityHeadingTextInfo {
+          margin: 2px; }
+    .singleActivity .activityHeading .activityTime {
+      margin: 0; }
+  .singleActivity .activityFollowCreatorImageContainer {
+    float: left;
+    width: 25%;
+    height: 120px; }
+    .singleActivity .activityFollowCreatorImageContainer .followCreatorImage {
+      width: 100%;
+      height: 100%; }
+      .singleActivity .activityFollowCreatorImageContainer .followCreatorImage img {
+        width: 100%;
+        height: 100%; }
+  .singleActivity .activityFollowFollowedImageContainer {
+    float: left;
+    width: 25%;
+    height: 120px; }
+    .singleActivity .activityFollowFollowedImageContainer .followFollowedImage {
+      width: 100%;
+      height: 100%; }
+      .singleActivity .activityFollowFollowedImageContainer .followFollowedImage img {
+        width: 100%;
+        height: 100%; }

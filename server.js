@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var mongoose = require('mongoose');
 
-
+var compression = require('compression')
 var qs = require('querystring');
 var moment = require('moment');
 var request = require('request');
@@ -38,17 +38,13 @@ var activityRouter = require('./routes/activityRoute');
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
+app.use(compression());
 app.set('port', process.env.PORT || 3000);
 app.set('views',__dirname+"/views");
 app.set('view engine',"jade");
 
 /*HTTPS for heroku
-if (app.get('env') === 'production') {
-  app.use(function(req, res, next) {
-    var protocol = req.get('x-forwarded-proto');
-    protocol == 'https' ? next() : res.redirect('https://' + req.hostname + req.url);
-  });
-}*/
+*/
 if (app.get('env') === 'production') {
   app.use(function(req, res, next) {
     var protocol = req.get('x-forwarded-proto');

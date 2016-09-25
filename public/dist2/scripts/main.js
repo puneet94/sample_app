@@ -1,5 +1,5 @@
 angular.module('myApp',
-  ['ngRoute','ngCookies','ngMessages','ngSanitize','satellizer',
+  ['ngRoute','ngCookies','ngMessages','ngSanitize','afkl.lazyImage','satellizer',
     'authModApp','app.common','app.home','app.store','ngMaterial','app.review','app.product','app.user']
   ).config(['$routeProvider','$mdThemingProvider',
   function($routeProvider,$mdThemingProvider) {

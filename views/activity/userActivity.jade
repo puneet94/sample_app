@@ -5,7 +5,7 @@ for i,index in activity
 				- var userLink = "#/user/"+i.review.user._id
 				div(class="creatorImageContainer")
 					a(ng-href='#{userLink}')
-						img(class="creatorImage" src='#{i.creator.picture}')
+						div(class="creatorImage" afkl-lazy-image='#{i.creator.picture}')
 				div(class="activityHeadingTextContainer")
 					h4(class="activityHeadingText")
 						span(class="activityHeadingTextInfo")
@@ -27,7 +27,7 @@ for i,index in activity
 				div(md-whiteframe="3" class="activityContentText")
 					div
 						div(class="activityReviewStoreImageContainer")
-							img(src="#{i.review.store.bannerImage}")
+							div(class="reviewStoreImage" afkl-lazy-image="#{i.review.store.bannerImage}")
 						div(class="activityReviewContentContainer")
 							div(class="activityReviewRating")
 								- var rating = parseInt(i.review.rating)
@@ -41,7 +41,7 @@ for i,index in activity
 				- var userLink = "#/user/"+i.review.user._id
 				div(class="creatorImageContainer")
 					a(ng-href='#{userLink}')
-						img(class="creatorImage" src='#{i.creator.picture}')
+						div(class="creatorImage" afkl-lazy-image='#{i.creator.picture}')
 				div(class="activityHeadingTextContainer")
 					h4(class="activityHeadingText")
 						span(class="activityHeadingTextInfo")
@@ -63,7 +63,7 @@ for i,index in activity
 				div(md-whiteframe="3" class="activityContentText")
 					div
 						div(class="activityReviewProductImageContainer")
-							img(src="#{i.review.product.images[0]}")
+							div(class="reviewProductImage" afkl-lazy-image="#{i.review.product.images[0]}")
 						div(class="activityReviewContentContainer")
 							div(class="activityReviewRating")
 								- var rating = parseInt(i.review.rating)
@@ -77,7 +77,7 @@ for i,index in activity
 				- var userLink = "#/user/"+i.creator._id
 				div(class="creatorImageContainer")
 					a(ng-href='#{userLink}')
-						img(class="creatorImage" src='#{i.creator.picture}')
+						div(class="creatorImage" afkl-lazy-image='#{i.creator.picture}')
 				div(class="activityHeadingTextContainer")
 					h4(class="activityHeadingText")
 						span(class="activityHeadingTextInfo")
@@ -98,8 +98,8 @@ for i,index in activity
 				div(md-whiteframe="3" class="activityContentText")
 					div
 						div(class="activityFollowCreatorImageContainer")
-							img(src="#{i.creator.picture}")
+							div(class="followCreatorImage" afkl-lazy-image="#{i.creator.picture}")
 						div(class="activityFollowFollowedImageContainer")
-							img(src="#{i.followed.picture}")
+							div(class="followFollowedImage" afkl-lazy-image="#{i.followed.picture}")
 						div(class="clearBoth")
 							
