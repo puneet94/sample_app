@@ -10,12 +10,12 @@
 
 <div class="userPageContainer">
 	<div class="userPageSections" layout="row" layout-xs="column" layout-sm="column">
-		
+
 		<section class="middleTab" flex="60" flex-sm="100" flex-xs="100">
 			<article class="userProfileSection">
 				<section class="userProfileImageContainer">
 					<div class="userProfileImage">
-						<img ng-src={{upc.currentUserData.picture}}>	
+						<img ng-src={{upc.currentUserData.picture}}>
 					</div>
 					<div class="userFollowSection" ng-if="upc.authCheck">
           <follow-directive
@@ -28,7 +28,7 @@
 
 
         </div>
-					
+
 
 				</section>
 				<section class="userInfoSection">
@@ -38,25 +38,28 @@
 						</div>
 						<div class="userDescriptionContainer">
 							<div>
-								<span>{{upc.currentUserData.description}}</span>	
+								<span>{{upc.currentUserData.description}}</span>
 							</div>
 							<div class="userSocialMedia">
 							<a target="_blank" ng-href={{"https://www.facebook.com/"+upc.currentUserData.facebook}}>Facebook</a>
-						</div>	
 						</div>
-						
+						</div>
+
 					</article>
 					<article class="userContent">
 						<div class="" ng-include="'app/user/views/userStatisticsPage.html'" >
 
 					</article>
+					<article class="">
+						
+					</article>
 				</section>
 			</article>
 		</section>
 		<section class="rightTab" flex="40">
-			
+
 		</section>
-		
+
 	</div>
 </div>
 </main>

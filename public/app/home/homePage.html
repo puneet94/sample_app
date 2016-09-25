@@ -19,16 +19,16 @@
               <div style="width:100%" ng-include="'app/home/searchBoxHome.html'"></div>
 
         </div>
-     </div><!--
-    <div layout="row" layout-wrap>
-     <div flex="20">
-       <div ng-include="'app/home/storeCategoryList.html'"></div>
      </div>
-     <div flex="60">
-       <div ng-include="'app/store/storesList.html'"></div>
+    <div layout="row" layout-xs="column" layout-sm="column" layout-wrap>
+     <div flex="20" flex-xs="100" flex-sm="100">
+       <!--<div ng-include="'app/home/storeCategoryList.html'"></div>-->
      </div>
-     <div flex="20">Most reviewed</div>
-     </div>   -->
+     <div flex="50" flex-xs="100" flex-sm="100">
+       <div class="" ng-include="'app/user/views/userActivity.html'" >
+     </div>
+     <div flex="20" flex-xs="100" flex-sm="100"><!--Most reviewed--></div>
+     </div>
 
   </main>
 </div>

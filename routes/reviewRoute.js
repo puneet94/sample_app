@@ -3,6 +3,7 @@ var models = require('..//models/storeModel');
 var Review = models.Review;
 var User = models.User;
 var Store = models.Store;
+var Activity = models.Activity;
 var mongoose = require('mongoose');
 var reviewRouter = express.Router();
 var commons = require('./commonRouteFunctions');
@@ -78,7 +79,7 @@ reviewRouter.route('/reviews/store/:storeId')
 .post(commons.ensureAuthenticated,function(req,res){
   var review = new Review();
   var recData = req.body;
-
+  
   review.description=recData.description;
   review.user=recData.userId;
   review.store = mongoose.Types.ObjectId(req.params.storeId);
@@ -86,7 +87,7 @@ reviewRouter.route('/reviews/store/:storeId')
 
 
 
-  review.save(function(err){
+  review.save(function(err,rev_saved){
     if(err){
       if(err.code == 11000){
         return res.json({success:false,'message':'Review already exists'});
@@ -97,8 +98,11 @@ reviewRouter.route('/reviews/store/:storeId')
 
       }
     }
-
-
+    var activity = {};
+    activity.creator = review.user; 
+	activity.review = rev_saved._id;
+	activity.statement = "reviewed store";
+	commons.enterActivity(activity);
     res.json({message:"Review created"});
   });
 })
@@ -132,7 +136,7 @@ reviewRouter.route('/reviews/product/:productId')
 
 
 
-  review.save(function(err){
+  review.save(function(err,rev_saved){
     if(err){
       if(err.code == 11000){
         return res.json({success:false,'message':'Review already exists'});
@@ -145,7 +149,11 @@ reviewRouter.route('/reviews/product/:productId')
       }
     }
 
-
+    var activity = {};
+    activity.creator = review.user; 
+	activity.review = rev_saved._id;
+	activity.statement = "reviewed product";
+	commons.enterActivity(activity);
     res.json({message:"Review created"});
   });
 })

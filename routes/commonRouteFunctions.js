@@ -8,6 +8,8 @@ var User = models.User;
 var Store = models.Store;
 var Upvote = models.Upvote;
 var Product = models.Product;
+
+var Activity = models.Activity;
 var cob = {};
 cob.saveSearchList = function(query,kind,location,req,res){
 	var userSearch = new UserSearch();
@@ -64,5 +66,34 @@ cob.storeRatingAvg = function(req,res){
             res.json(avg/result.length);
           }
         });
+}
+cob.enterActivity  = function(activ){
+  var activity = new Activity();
+  activity.creator = activ.creator;
+  activity.review = activ.review || null;
+  activity.followed =activ.followed || null; // on which he created
+  activity.statement = activ.statement;
+  User
+    .findOne({ _id: activity.creator })
+    .select('followers')
+    .exec(function (err, output) {
+      if (err) {
+        return handleError(err)
+      }
+      else{
+        
+        for (var i = 0; i < output.followers.length; i++) {
+          activity.activityFor = output.followers[i];
+          
+          activity.save(function(err){
+            if(err){
+              console.log(err);
+              return res.send(err);
+            }
+          });
+        }
+      }
+    })
+  
 }
 module.exports = cob;

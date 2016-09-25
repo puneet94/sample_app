@@ -90,9 +90,13 @@ userRouter.route('/submitFollow/:user_id/:followedUser_id')
 					else{
 						User.update({_id:fold_id},{$push:{'followers':user_id}},{upsert:true},function(err,data){
 						if(err){
-
 						}
 						else{
+							var activity = {};
+    						activity.creator = user_id; 
+							activity.followed = fold_id;
+							activity.statement = "followed";
+							commons.enterActivity(activity);
 							res.json('followers created');
 						}
 						})		

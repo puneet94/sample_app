@@ -11,6 +11,14 @@ mongoose.createConnection("mongodb://shop_dir:shop_dir@ds023912.mlab.com:23912/s
   }
 });
 
+var ActivitySchema = new Schema({
+	activityFor:{ type:Schema.ObjectId, ref:"User"},
+	creator: { type:Schema.ObjectId, ref:"User"}, //created by whom
+	review:{ type:Schema.ObjectId, ref:"Review" },
+	followed: { type:Schema.ObjectId, ref:"User"},
+	statement: String,
+    time : { type : Date, default: Date.now }
+});
 var VisitSchema = new Schema({
     date  : { type : Date, default: Date.now},
     time : { type : Date, default: Date.now },
@@ -49,6 +57,19 @@ var ReviewSchema = new Schema({
     upvotes:[{ type:Schema.ObjectId, ref:"Upvote" }],
     rating:{type:String,default:'0'}
 },{ collection : 'reviews' });
+ReviewSchema.post('init', function () {
+	try{
+		this.upvotesCount = this.upvotes.length || 0;
+  
+	}
+	catch(err){
+		this.upvotesCount =  0;
+  
+	}
+  
+  
+  //next();
+});
 /*ReviewSchema.post('save', function(doc) {
 	console.log("**************************-");
   console.log(doc.store);
@@ -83,10 +104,10 @@ var UserSchema = new Schema({
 	followers:[{ type:Schema.ObjectId, ref:"User" }],
 	following:[{ type:Schema.ObjectId, ref:"User" }],
 	followersCount:Number,
-followingCount:Number,
-reviewsCount :Number,
-visitsCount :Number, 
-upvotesCount :Number
+	followingCount:Number,
+	reviewsCount :Number,
+	visitsCount :Number, 
+	upvotesCount :Number
 
 },{ collection : 'users' });
 /*Nuber of Followers a single user has*/
@@ -253,6 +274,7 @@ exports.Product = mongoose.model("Product", ProductSchema);
 exports.User = User;
 exports.Review = Review;
 exports.Visit = Visit;
+exports.Activity = mongoose.model("Activity",ActivitySchema);
 exports.Upvote = mongoose.model('Upvote',UpvoteSchema);
 
 

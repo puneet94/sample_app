@@ -1,5 +1,5 @@
 angular.module('myApp',
-  ['ngRoute','ngCookies','ngMessages','satellizer',
+  ['ngRoute','ngCookies','ngMessages','ngSanitize','satellizer',
     'authModApp','app.common','app.home','app.store','ngMaterial','app.review','app.product','app.user']
   ).config(['$routeProvider','$mdThemingProvider',
   function($routeProvider,$mdThemingProvider) {
@@ -364,7 +364,7 @@ angular.module('app.common')
 	}
 })(window.angular);
 
-/*common directives like scroll..*/
+/*common directives like scroll.*/
 (function(angular){
   angular.module('app.common')
   .directive('toggleElement',["$window","$location", toggleElement])
@@ -374,7 +374,30 @@ angular.module('app.common')
   .directive('metaTags',[metaTagsDirective])
   .directive('likeDirective',[likeDirective])
   .directive('followDirective',[followDirective])
-  .directive('smallLoadingDirective',[smallLoadingDirective]);
+  .directive('smallLoadingDirective',[smallLoadingDirective])
+  .directive('bindHtmlCompile', ['$compile', function ($compile) {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attrs) {
+
+                scope.$watch(function () {
+                    return scope.$eval(attrs.bindHtmlCompile);
+                }, function (value) {
+                    // In case value is a TrustedValueHolderType, sometimes it
+                    // needs to be explicitly called into a string in order to
+                    // get the HTML string....
+                    element.html(value && value.toString());
+                    // If scope is provided use it, otherwise use parent scope
+                    var compileScope = scope;
+                    if (attrs.bindHtmlScope) {
+                        compileScope = scope.$eval(attrs.bindHtmlScope);
+                    }
+                    $compile(element.contents())(compileScope);
+                });
+            }
+        };
+    }]);
+  
   function toggleElement($window,$location) {
     return {
       restrict: 'A',
@@ -2422,6 +2445,37 @@ function UserVisitService($http,baseUrlService){
   'use strict';
 angular.module('app.user')
 
+  .controller('UserActivityListController',["$scope","$auth",'$http','$location','$routeParams',"userData","userService",UserActivityListController]);
+  function UserActivityListController($scope,$auth,$http,$location,$routeParams,userData,userService){
+    var ual = this;
+    activate();
+
+    ual.loading = true;
+    ual.authCheck = $auth.isAuthenticated();
+    ual.followersList = [];
+    ual.getUserPage = userData.getUserPage;
+
+    function activate(){
+      ual.loading = true;
+      $http.get('http://localhost:3000/activity/userActivity/'+$auth.getPayload().sub).then(function(result){
+        console.log(result.data);
+        
+        ual.activityData= result.data;
+        $scope.activityData = ual.activityData;
+        ual.loading = false;
+      });
+      
+    }
+
+
+    }
+
+})(window.angular);
+
+(function(angular){
+  'use strict';
+angular.module('app.user')
+
   .controller('UserFollowersController',["$scope","$auth",'$location','$routeParams',"userData","userService",UserFollowersController]);
   function UserFollowersController($scope,$auth,$location,$routeParams,userData,userService){
     var ufc = this;
@@ -2449,6 +2503,9 @@ angular.module('app.user')
 
 })(window.angular);
 
+/*
+  * Controller for the list of users which a single user follows
+*/
 (function(angular){
   'use strict';
 angular.module('app.user')

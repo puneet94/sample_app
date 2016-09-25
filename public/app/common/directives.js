@@ -1,4 +1,4 @@
-/*common directives like scroll..*/
+/*common directives like scroll.*/
 (function(angular){
   angular.module('app.common')
   .directive('toggleElement',["$window","$location", toggleElement])
@@ -8,7 +8,30 @@
   .directive('metaTags',[metaTagsDirective])
   .directive('likeDirective',[likeDirective])
   .directive('followDirective',[followDirective])
-  .directive('smallLoadingDirective',[smallLoadingDirective]);
+  .directive('smallLoadingDirective',[smallLoadingDirective])
+  .directive('bindHtmlCompile', ['$compile', function ($compile) {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attrs) {
+
+                scope.$watch(function () {
+                    return scope.$eval(attrs.bindHtmlCompile);
+                }, function (value) {
+                    // In case value is a TrustedValueHolderType, sometimes it
+                    // needs to be explicitly called into a string in order to
+                    // get the HTML string....
+                    element.html(value && value.toString());
+                    // If scope is provided use it, otherwise use parent scope
+                    var compileScope = scope;
+                    if (attrs.bindHtmlScope) {
+                        compileScope = scope.$eval(attrs.bindHtmlScope);
+                    }
+                    $compile(element.contents())(compileScope);
+                });
+            }
+        };
+    }]);
+  
   function toggleElement($window,$location) {
     return {
       restrict: 'A',

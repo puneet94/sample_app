@@ -32,6 +32,7 @@ var visitRouter = require('./routes/visitRoute');
 var adminRouter = require('./routes/adminRoute');
 var upvoteRouter = require('./routes/upvoteRoute');
 var userRouter = require('./routes/userRoute');
+var activityRouter = require('./routes/activityRoute');
 
 //Middleware from built-in methods
 app.use(bodyParser.urlencoded({extended:true}));
@@ -66,9 +67,10 @@ app.use('/visit',visitRouter);
 app.use('/admin',adminRouter);
 app.use('/upvote',upvoteRouter);
 app.use('/user',userRouter);
+app.use('/activity',activityRouter);
 app.use(express.static(__dirname + '/public'));
 /*app.get('/admin', function (req, res) {
-        res.send('admin'); // load the single view file (angular will handle the page changes on the front-end)
+        res.send('admin'); // loadingle vile (angular will handle the page changes on the front-end)
 });*/
 app.get('*', function (req, res) {
         res.sendFile(__dirname + '/public/index.html'); // load the single view file (angular will handle the page changes on the front-end)

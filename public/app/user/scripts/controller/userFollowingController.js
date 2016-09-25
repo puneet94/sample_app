@@ -1,3 +1,6 @@
+/*
+  * Controller for the list of users which a single user follows
+*/
 (function(angular){
   'use strict';
 angular.module('app.user')
