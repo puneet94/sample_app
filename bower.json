@@ -22,8 +22,8 @@
     "angular-aria": "1.5.3",
     "angular-messages": "1.5.3",
     "satellizer": "^0.14.1",
-    "angular-material": "master",
-    "angular-sanitize": "^1.5.8",
+    //"angular-material": "master",
+    "angular-sanitize": "1.5.3",
     "ng-directive-lazy-image": "afkl-lazy-image#^0.3.1"
   }
 }
