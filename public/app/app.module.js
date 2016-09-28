@@ -20,4 +20,4 @@ angular.module('myApp',
 //   $mdThemingProvider.theme('default')
 //     .primaryPalette('pink')
 //     .accentPalette('orange');
-// });//"angular-material": "master",
+// });//"angular-material": "master","ng-directive-lazy-image": "afkl-lazy-image#^0.3.1"
