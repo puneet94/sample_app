@@ -2,25 +2,20 @@
   'use strict';
 angular.module('app.user')
 
-  .controller('UserActivityListController',["$scope","$auth",'$http','$location','$routeParams',"userData","userService",UserActivityListController]);
-  function UserActivityListController($scope,$auth,$http,$location,$routeParams,userData,userService){
+  .controller('UserActivityListController',["$scope",'$http','$location','$routeParams',"activityService",UserActivityListController]);
+  function UserActivityListController($scope,$http,$location,$routeParams,activityService){
     var ual = this;
-    activate();
-
     ual.loading = true;
-    ual.authCheck = $auth.isAuthenticated();
-    ual.followersList = [];
-    ual.getUserPage = userData.getUserPage;
-
+    activate();
     function activate(){
+
       ual.loading = true;
-      $http.get('http://localhost:3000/activity/userActivity/'+$auth.getPayload().sub).then(function(result){
-        console.log(result.data);
-        
+        activityService.getSingleUserActivity($routeParams.userId).then(function(result){        
         ual.activityData= result.data;
-        $scope.activityData = ual.activityData;
         ual.loading = false;
-      });
+      });  
+      
+      
       
     }
 

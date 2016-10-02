@@ -54,6 +54,7 @@ angular.module('app.common')
 					$location.path(path).search({param: paramValue});
 			}
 			$location.path(path);
+			//$location.url($location.path());
 		};
 	}
 	function ArrayObjectMapper(){

@@ -12,10 +12,12 @@ mongoose.createConnection("mongodb://shop_dir:shop_dir@ds023912.mlab.com:23912/s
 });
 
 var ActivitySchema = new Schema({
-	activityFor:{ type:Schema.ObjectId, ref:"User"},
+	//activityFor:{ type:Schema.ObjectId, ref:"User"},
 	creator: { type:Schema.ObjectId, ref:"User"}, //created by whom
 	review:{ type:Schema.ObjectId, ref:"Review" },
 	followed: { type:Schema.ObjectId, ref:"User"},
+	store: { type:Schema.ObjectId, ref:"Store"},
+	product: { type:Schema.ObjectId, ref:"Product"},
 	statement: String,
     time : { type : Date, default: Date.now }
 });

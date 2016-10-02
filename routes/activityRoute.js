@@ -16,38 +16,74 @@ activityRouter.use(function(req,res,next){
 	console.log(req.method,req.url);
 	next();
 });
-
-activityRouter.route('/userActivity/:userId')
-	.get(function(req,res){
-		Activity
-			.find({'activityFor':req.params.userId})
-			.populate({path:'creator',model: 'User',select:'displayName picture'})
-			.populate({path: 'followed',model: 'User',select:'displayName picture'})
-			.populate({path: 'review',model: 'Review',populate: {path: 'store',select: 'name bannerImage',model: 'Store'}})
-			.populate({path: 'review',model: 'Review',populate: {path: 'product',select: 'name images',model: 'Product'}})
-			.populate({path: 'review',model: 'Review',populate: {path: 'user',select: 'displayName',model: 'User'}})
-			.exec(function(err,result){
-				if(err){
-					res.send(err);
-				}
-				else{
-					
-					app.render('activity/userActivity', { activity: result }, function(err, html){
-						
+function getActivity(res,usersList){
+	var queryObj = {};
+	if(usersList){
+		queryObj.creator= { $in: usersList};
+	}
+	Activity
+					.find(queryObj)
+					.populate({path:'creator',model: 'User',select:'displayName picture'})
+					.populate({path: 'followed',model: 'User',select:'displayName picture'})
+					.populate({path: 'store',select: 'name bannerImage',model: 'Store'})
+					.populate({path: 'product',select: 'name images',model: 'Product'})
+					.populate({path: 'review',model: 'Review',populate: {path: 'store',select: 'name bannerImage',model: 'Store'}})
+					.populate({path: 'review',model: 'Review',populate: {path: 'product',select: 'name images',model: 'Product'}})
+					.populate({path: 'review',model: 'Review',populate: {path: 'user',select: 'displayName',model: 'User'}})
+					.exec(function(err,activities){
 						if(err){
-							console.log(err);
+							res.send(err);
 						}
-						//res.json(result);
-  						res.send(html);
-  						
+						else{
+							
+							app.render('activity/userActivity', { activity: activities }, function(err, html){
+								
+								if(err){
+									console.log(err);
+								}
+								//res.json(result);
+		  						res.send(html);
+		  						
+							})
+						}
 					})
-				}
-			})
+}
+activityRouter.route('/userFollowingActivity/:userId')
+	.get(function(req,res){
+		var followingList = [];
+		User
+			.findById(req.params.userId)
+			.select('following')
+			.exec(function(err,result){
+				followingList  = result.following;
+				
+				getActivity(res,followingList);
+				
 		
+			});
+			
+			console.log(followingList);			
+	});
+activityRouter.route('/singleUserActivity/:userId')
+	.get(function(req,res){
+		var followingList = [];
+		User
+			.findById(req.params.userId)
+			.select('_id')
+			.exec(function(err,result){
+				followingList  = [req.params.userId];
+				
+				getActivity(res,followingList);
+				
 		
-		
+			});
+			
+			console.log(followingList);			
 	});
 
-
+activityRouter.route('/allActivity/')
+	.get(function(req,res){
+		getActivity(res);
+	});
 module.exports = activityRouter;
 

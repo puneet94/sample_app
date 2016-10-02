@@ -21,7 +21,7 @@ productRouter.route('/products')
 			}
 			console.log("hello");
 			res.json(products);
-			//res.render("stores",{"stores":stores});
+			
 		})
 	})
 productRouter.route('/products/store/:storeId/:pageNo')
@@ -91,6 +91,7 @@ productRouter.route('/products/category/:category/:location/:pageNo')
 				res.send(err);
 			}
 			else{
+				console.log("this is the thing");
 				res.json(result);
 			}
 		});
@@ -143,12 +144,21 @@ productRouter.route('/products/location/:location/:pageNo')
 	.get(function(req,res){
 		var queryObject = {};
 		queryObject['address.city']=req.params.location;
+		if(req.query.category){
+			console.log("yesyeyeye");
+			queryObject['category'] = req.query.category;
+		}
+		if(req.query.locality){
+			queryObject['address.locality'] = req.query.locality;
+		}
+		//queryObject['category'] = req.params.category;
 		Product.paginate(queryObject,
 			{page: req.params.pageNo, limit: 10 }, function(err, result) {
 		    if(err){
 				res.send(err);
 			}
 			else{
+				
 				res.json(result);
 			}
 		});

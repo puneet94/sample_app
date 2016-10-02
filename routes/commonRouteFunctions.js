@@ -71,6 +71,8 @@ cob.enterActivity  = function(activ){
   var activity = new Activity();
   activity.creator = activ.creator;
   activity.review = activ.review || null;
+  activity.store = activ.store || null;
+  activity.product = activ.product || null;
   activity.followed =activ.followed || null; // on which he created
   activity.statement = activ.statement;
   User
@@ -81,17 +83,12 @@ cob.enterActivity  = function(activ){
         return handleError(err)
       }
       else{
-        
-        for (var i = 0; i < output.followers.length; i++) {
-          activity.activityFor = output.followers[i];
-          
-          activity.save(function(err){
+        activity.save(function(err){
             if(err){
               console.log(err);
               return res.send(err);
             }
           });
-        }
       }
     })
   

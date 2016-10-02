@@ -88,16 +88,22 @@ visitRouter.route('/visits/store/')
 .post(commons.ensureAuthenticated,function(req,res){
   var visit = new Visit();
   var recData = req.body;
+  var activity = {};
+  activity.creator = recData.userId; 
+  var activityString  = "";
   visit.user=recData.userId;
   if(recData.storeId){
   	visit['store'] = mongoose.Types.ObjectId(recData.storeId);
+  	activityString = "visited store";
+  	activity.store = visit['store'];
   }
   else if(recData.productId){
   	console.log("ëntering the else");
   	visit['product'] = mongoose.Types.ObjectId(recData.productId);
+  	activityString = "purchased product";
+  	activity.product = visit['product'];
   }
-  console.log('*************');
-  console.log(recData.productId);
+  console.log('******product visiy*******');
   console.log(visit);
   visit.save(function(err){
     if(err){
@@ -109,7 +115,9 @@ visitRouter.route('/visits/store/')
         return res.send(err);
       }
     }
-    res.json({message:"Visit created"});
+    activity.statement = activityString;
+	commons.enterActivity(activity);
+    res.json({message:"Visit createdess"});
   });
 });
 

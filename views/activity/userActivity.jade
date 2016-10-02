@@ -7,7 +7,7 @@ for i,index in activity
 					a(ng-href='#{userLink}')
 						div(class="creatorImage" afkl-lazy-image='#{i.creator.picture}')
 				div(class="activityHeadingTextContainer")
-					h4(class="activityHeadingText")
+					h5(class="activityHeadingText")
 						span(class="activityHeadingTextInfo")
 							a(ng-href='#{userLink}').
 								#{i.creator.displayName}
@@ -43,7 +43,7 @@ for i,index in activity
 					a(ng-href='#{userLink}')
 						div(class="creatorImage" afkl-lazy-image='#{i.creator.picture}')
 				div(class="activityHeadingTextContainer")
-					h4(class="activityHeadingText")
+					h5(class="activityHeadingText")
 						span(class="activityHeadingTextInfo")
 							a(ng-href='#{userLink}').
 								#{i.creator.displayName}
@@ -79,14 +79,14 @@ for i,index in activity
 					a(ng-href='#{userLink}')
 						div(class="creatorImage" afkl-lazy-image='#{i.creator.picture}')
 				div(class="activityHeadingTextContainer")
-					h4(class="activityHeadingText")
+					h5(class="activityHeadingText")
 						span(class="activityHeadingTextInfo")
 							a(ng-href='#{userLink}').
 								#{i.creator.displayName}
 						span(class="activityHeadingTextInfo").
 							#{i.statement}
 						span(class="activityHeadingTextInfo")
-							- var followedLink = "#/store/singleStore/"+i.followed._id
+							- var followedLink = "#/user/"+i.followed._id
 							a(ng-href='#{followedLink}').
 								#{i.followed.displayName}
 				
@@ -103,3 +103,61 @@ for i,index in activity
 							div(class="followFollowedImage" afkl-lazy-image="#{i.followed.picture}")
 						div(class="clearBoth")
 							
+		else if i.statement == "visited store"
+			div(class="activityHeading")
+				- var userLink = "#/user/"+i.creator._id
+				div(class="creatorImageContainer")
+					a(ng-href='#{userLink}')
+						div(class="creatorImage" afkl-lazy-image='#{i.creator.picture}')
+				div(class="activityHeadingTextContainer")
+					h5(class="activityHeadingText")
+						span(class="activityHeadingTextInfo")
+							a(ng-href='#{userLink}').
+								#{i.creator.displayName}
+						span(class="activityHeadingTextInfo").
+							#{i.statement}
+						
+						span(class="activityHeadingTextInfo")
+							- var storeLink = "#/store/singleStore/"+i.store._id
+							a(ng-href='#{storeLink}').
+								#{i.store.name}
+				
+					h6(class="activityTime")
+						span.
+							#{i.time}
+				div(class="clearBoth")
+			div(class="activityContent")
+				div(md-whiteframe="3" class="activityContentText")
+					div
+						div(class="activityReviewStoreImageContainer")
+							div(class="reviewStoreImage" afkl-lazy-image="#{i.store.bannerImage}")
+
+		else if i.statement == "purchased product"
+			div(class="activityHeading")
+				- var userLink = "#/user/"+i.creator._id
+				div(class="creatorImageContainer")
+					a(ng-href='#{userLink}')
+						div(class="creatorImage" afkl-lazy-image='#{i.creator.picture}')
+				div(class="activityHeadingTextContainer")
+					h5(class="activityHeadingText")
+						span(class="activityHeadingTextInfo")
+							a(ng-href='#{userLink}').
+								#{i.creator.displayName}
+						span(class="activityHeadingTextInfo").
+							#{i.statement}
+						
+						span(class="activityHeadingTextInfo")
+							- var productLink = "#/product/singleProduct/"+i.product._id
+							a(ng-href='#{productLink}').
+								#{i.product.name}
+						
+					h6(class="activityTime")
+						span.
+							#{i.time}
+				div(class="clearBoth")
+			div(class="activityContent")
+				div(md-whiteframe="3" class="activityContentText")
+					div
+						div(class="activityReviewProductImageContainer")
+							div(class="reviewProductImage" afkl-lazy-image="#{i.product.images[0]}")
+						
