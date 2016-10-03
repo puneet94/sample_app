@@ -56,10 +56,7 @@ activityRouter.route('/userFollowingActivity/:userId')
 			.select('following')
 			.exec(function(err,result){
 				followingList  = result.following;
-				
 				getActivity(res,followingList);
-				
-		
 			});
 			
 			console.log(followingList);			
@@ -74,8 +71,6 @@ activityRouter.route('/singleUserActivity/:userId')
 				followingList  = [req.params.userId];
 				
 				getActivity(res,followingList);
-				
-		
 			});
 			
 			console.log(followingList);			

@@ -14,8 +14,8 @@
 		<section class="middleTab" flex="60" flex-sm="100" flex-xs="100">
 			<article class="userProfileSection">
 				<section class="userProfileImageContainer">
-					<div class="userProfileImage">
-						<img ng-src={{upc.currentUserData.picture}}>
+					<div class="userProfileImage" afkl-lazy-image={{upc.currentUserData.picture}}>
+						
 					</div>
 					<div class="userFollowSection" ng-if="upc.authCheck">
           <follow-directive

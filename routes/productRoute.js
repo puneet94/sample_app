@@ -45,8 +45,6 @@ productRouter.route('/products/store/:storeId/:pageNo')
 
 				}
 				else{
-
-					//res.send(stores);
 					city_name = store.address.city;
 				}
 		})

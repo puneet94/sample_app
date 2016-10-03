@@ -1,7 +1,8 @@
 <div class="" ng-controller="UserFollowingController as ufc">
   <div class="" ng-repeat = "following in ufc.followingList">
+  	<div class="userFollowingImage" afkl-lazy-image={{::following.picture}}>
+	</div>
     <span ng-click=ufc.getUserPage(following._id)>{{::following.displayName}}</span>
-    <img ng-src="{{::following.picture}}" alt="" />
 
   </div>
 </div>

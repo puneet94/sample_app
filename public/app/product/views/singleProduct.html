@@ -37,15 +37,15 @@
       <div class="productMiddleContainer">
         <div class="productReviewsBrief">
           <div layout="row" layout-align="space-between center" layout-xs="column" layout-sm="row" layout-align-sm="start start" class="productReviewsBriefIcons">
-            <div flex="grow" md-whiteframe="3" class="productReviewsIconContainer iconContainer">
+            <div scroll-to-id="flowReviewSubmit" flex="grow" md-whiteframe="3" class="productReviewsIconContainer iconContainer">
               <div class="reviewsIcon iconClass"><span><i aria-hidden="true" class="fa fa-pencil-square"></i></span></div>
-              <div class="productReview"><span>Write a Review</span></div>
+              <div class="productReview" ><span>Write a Review</span></div>
             </div>
             <div flex="grow" md-whiteframe="3" class="productRatingIconContainer iconContainer">
               <div class="ratingIcon iconClass"><span><i aria-hidden="true" class="fa fa-sort-numeric-asc"></i></span></div>
               <div class="productRating"><span>{{::spc.product.rating||0}}</span></div>
             </div>
-            <div flex="grow" md-whiteframe="3" class="productReviewsCountIconContainer iconContainer">
+            <div scroll-to-id="flowReviews" flex="grow" md-whiteframe="3" class="productReviewsCountIconContainer iconContainer">
               <div class="reviewsCountIcon iconClass"><span><i aria-hidden="true" class="fa fa-comments"></i></span></div>
               <div class="productReviewCount"><span>{{::spc.product.reviewsCount}} Reviews</span></div>
             </div>
@@ -66,7 +66,7 @@
       
         </div>
         <div class="productReviewSubmitContainer">
-          <div class="" ng-include="'app/reviews/views/storeReviewSubmit.html'" ng-if="spc.authCheck">
+          <div id="flowReviewSubmit" class="" ng-include="'app/reviews/views/storeReviewSubmit.html'" ng-if="spc.authCheck">
 
       </div>
         </div>
