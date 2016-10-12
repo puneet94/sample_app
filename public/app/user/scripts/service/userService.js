@@ -19,22 +19,22 @@ function UserService($http,baseUrlService){
   this.getUserFollowing = getUserFollowing;
   function getSingleUser(id){
     return $http.get(baseUrlService.baseUrl+"user/singleUser/"+id);
-    
+
   }
   function getStoreRating(id){
   	return $http.get(baseUrlService.baseUrl+"review/ratings/store/"+id);
   }
 
   function submitUserFollow(userId,followedId){
-    console.log("submit follow");
+
     return $http.post(baseUrlService.baseUrl+"user/submitFollow/"+userId+'/'+followedId);
   }
   function deleteUserFollow(userId,followedId){
-    console.log("delete follow");
+
     return $http.post(baseUrlService.baseUrl+"user/deleteFollow/"+userId+'/'+followedId);
   }
   function checkUserFollow(userId,followedId){
-    console.log("check follow");
+    
     return $http.get(baseUrlService.baseUrl+"user/checkFollow/"+userId+'/'+followedId);
   }
   function getUserFollowers(userId){
@@ -44,7 +44,7 @@ function UserService($http,baseUrlService){
     return $http.get(baseUrlService.baseUrl+"user/userFollowing/"+userId);
   }
 
-  
+
 
 }
 })(window.angular);

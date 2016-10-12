@@ -12,13 +12,17 @@ angular.module('app.user')
     upc.submitUserFollow = submitUserFollow;
     upc.deleteUserFollow = deleteUserFollow;
     upc.userFollowed = userFollowed;
+    upc.currentUser = currentUser;
 
+    function currentUser(){
+      return ($routeParams.userId == userData.getUser()._id);
+    }
     function submitUserFollow(userId){
       userService.submitUserFollow(userData.getUser()._id,userId).then(function(res){
         userData.setUser();
       },function(res){
-        console.log(res);
-      });  
+
+      });
     }
 
     function deleteUserFollow(userId){
@@ -27,17 +31,17 @@ angular.module('app.user')
         userData.setUser();
 
       },function(res){
-        console.log(res);
-      });  
+
+      });
     }
 
     function userFollowed(userId){
-      console.log(upc.currentUserData);
+
       if(userData.getUser().following.indexOf(userId)!=-1){
 
         return true;
       }
-      return false;  
+      return false;
     }
     function activate(){
       upc.loading = true;
@@ -45,11 +49,11 @@ angular.module('app.user')
     .then(function(res){
         upc.currentUserData = res.data;
         upc.loading = false;
-        console.log(upc.currentUserData);
-      });  
+        
+      });
     }
-    
-    
+
+
     }
 
 })(window.angular);

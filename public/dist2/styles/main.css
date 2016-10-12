@@ -622,19 +622,48 @@
         width: 100%;
         height: 100%; }
 
-.userImage, .userFollowingImage, .userFollowerImage, .userProfileImage {
-  width: 150px;
-  height: 150px;
+.userFollowingImage {
+  width: 180px;
+  height: 180px;
   border: 15px inset; }
+  .userFollowingImage img {
+    width: 100%;
+    height: 100%; }
 
-.userFollowingImage img {
-  width: 100%;
-  height: 100%; }
+.userProfileImage {
+  width: 180px;
+  height: 180px;
+  border: 15px inset;
+  position: relative;
+  -webkit-transition: all 1s ease;
+          transition: all 1s ease; }
+  .userProfileImage img {
+    width: 100%;
+    height: 100%; }
+  .userProfileImage .imageUpload {
+    visibility: hidden;
+    height: 0;
+      height-opacity: 0;
+      height-transition: all 1s ease; }
+    .userProfileImage .imageUpload .imageUploadClick {
+      background: none;
+      color: white;
+      font-size: 32px;
+      border: none; }
 
-.userFollowerImage img {
+.userProfileImage:hover .imageUpload {
   width: 100%;
-  height: 100%; }
-
-.userProfileImage img {
-  width: 100%;
-  height: 100%; }
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 1;
+  box-sizing: border-box;
+  text-align: center;
+  color: white;
+  padding: 12px;
+  font-size: 20px;
+  line-height: 180px;
+  visibility: visible;
+  height: 100%;
+    height-opacity: 1; }

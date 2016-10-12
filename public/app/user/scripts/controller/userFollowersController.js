@@ -14,12 +14,11 @@ angular.module('app.user')
 
     function activate(){
       ufc.loading = true;
-      console.log($routeParams);
+
       userService.getUserFollowers($routeParams.userId)
     .then(function(res){
         ufc.followersList = res.data;
-        console.log('*********************');
-        console.log(ufc.followersList);
+        
         ufc.loading = false;
       });
     }

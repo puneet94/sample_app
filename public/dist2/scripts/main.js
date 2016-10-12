@@ -1,5 +1,5 @@
 angular.module('myApp',
-  ['ngRoute','ngCookies','ngMessages','ngSanitize','afkl.lazyImage','satellizer',
+  ['ngRoute','ngCookies','ngMessages','ngSanitize','afkl.lazyImage','satellizer','ngFileUpload',
     'authModApp','app.common','app.home','app.store','ngMaterial','app.review','app.product','app.user']
   ).config(['$routeProvider','$mdThemingProvider',
   function($routeProvider,$mdThemingProvider) {
@@ -2512,12 +2512,11 @@ angular.module('app.user')
 
     function activate(){
       ufc.loading = true;
-      console.log($routeParams);
+
       userService.getUserFollowers($routeParams.userId)
     .then(function(res){
         ufc.followersList = res.data;
-        console.log('*********************');
-        console.log(ufc.followersList);
+        
         ufc.loading = false;
       });
     }
@@ -2571,13 +2570,17 @@ angular.module('app.user')
     upc.submitUserFollow = submitUserFollow;
     upc.deleteUserFollow = deleteUserFollow;
     upc.userFollowed = userFollowed;
+    upc.currentUser = currentUser;
 
+    function currentUser(){
+      return ($routeParams.userId == userData.getUser()._id);
+    }
     function submitUserFollow(userId){
       userService.submitUserFollow(userData.getUser()._id,userId).then(function(res){
         userData.setUser();
       },function(res){
-        console.log(res);
-      });  
+
+      });
     }
 
     function deleteUserFollow(userId){
@@ -2586,17 +2589,17 @@ angular.module('app.user')
         userData.setUser();
 
       },function(res){
-        console.log(res);
-      });  
+
+      });
     }
 
     function userFollowed(userId){
-      console.log(upc.currentUserData);
+
       if(userData.getUser().following.indexOf(userId)!=-1){
 
         return true;
       }
-      return false;  
+      return false;
     }
     function activate(){
       upc.loading = true;
@@ -2604,13 +2607,41 @@ angular.module('app.user')
     .then(function(res){
         upc.currentUserData = res.data;
         upc.loading = false;
-        console.log(upc.currentUserData);
-      });  
-    }
-    
-    
+        
+      });
     }
 
+
+    }
+
+})(window.angular);
+
+//inject angular file upload directives and services.
+(function(angular){
+  'use strict';
+angular.module('app.user')
+  .controller('UserProfileImageController', ['$scope', 'Upload', 'userData','$timeout',UserProfileImageController]);
+  function UserProfileImageController($scope, Upload,userData, $timeout) {
+      var upc = this;
+      upc.uploadFiles = function(file, errFiles) {
+          upc.f = file;
+          upc.errFile = errFiles && errFiles[0];
+          if (file) {
+              file.upload = Upload.upload({
+                  url: 'http://localhost:3000/user/upload/profileImage/'+userData.getUser()._id,
+                  data: {file: file}
+              });
+
+              file.upload.then(function (response) {
+                  
+                      file.result = response.data;
+                      console.log(response);
+                      userData.setUser();
+                  
+              });
+          }
+      };
+  }
 })(window.angular);
 
 (function(angular){
@@ -2682,22 +2713,22 @@ function UserService($http,baseUrlService){
   this.getUserFollowing = getUserFollowing;
   function getSingleUser(id){
     return $http.get(baseUrlService.baseUrl+"user/singleUser/"+id);
-    
+
   }
   function getStoreRating(id){
   	return $http.get(baseUrlService.baseUrl+"review/ratings/store/"+id);
   }
 
   function submitUserFollow(userId,followedId){
-    console.log("submit follow");
+
     return $http.post(baseUrlService.baseUrl+"user/submitFollow/"+userId+'/'+followedId);
   }
   function deleteUserFollow(userId,followedId){
-    console.log("delete follow");
+
     return $http.post(baseUrlService.baseUrl+"user/deleteFollow/"+userId+'/'+followedId);
   }
   function checkUserFollow(userId,followedId){
-    console.log("check follow");
+    
     return $http.get(baseUrlService.baseUrl+"user/checkFollow/"+userId+'/'+followedId);
   }
   function getUserFollowers(userId){
@@ -2707,7 +2738,7 @@ function UserService($http,baseUrlService){
     return $http.get(baseUrlService.baseUrl+"user/userFollowing/"+userId);
   }
 
-  
+
 
 }
 })(window.angular);

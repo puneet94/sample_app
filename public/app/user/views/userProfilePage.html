@@ -15,8 +15,14 @@
 			<article class="userProfileSection">
 				<section class="userProfileImageContainer">
 					<div class="userProfileImage" afkl-lazy-image={{upc.currentUserData.picture}}>
-						
+						<div class="imageUpload" ng-if="upc.authCheck">
+							<div class="" ng-if="upc.currentUser()">
+									<div ng-include="'app/user/views/userProfileImageUpload.html'" flex></div>
+							</div>
+						</div>
 					</div>
+					
+
 					<div class="userFollowSection" ng-if="upc.authCheck">
           <follow-directive
             up-fn="upc.submitUserFollow(upc.currentUserData._id)"
@@ -51,7 +57,7 @@
 
 					</article>
 					<article class="">
-						
+
 					</article>
 				</section>
 			</article>
