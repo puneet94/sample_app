@@ -2,8 +2,8 @@
   'use strict';
 angular.module('app.user')
 
-  .controller('UserPageController',["$scope","$auth",'$location','$routeParams',"userData","userService",UserPageController]);
-  function UserPageController($scope,$auth,$location,$routeParams,userData,userService){
+  .controller('UserPageController',["$scope","$auth",'$routeParams',"userData","userService",UserPageController]);
+  function UserPageController($scope,$auth,$routeParams,userData,userService){
     var upc = this;
     activate();
     upc.currentUserData = {};

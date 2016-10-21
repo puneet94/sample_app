@@ -30,7 +30,9 @@ userRouter.use(function(req,res,next){
 });
 userRouter.route('/singleUser/:user_id')
 	.get(function(req,res){
-		User.findById(req.params.user_id,function(err,user){
+		User.findById(req.params.user_id)
+		.populate([{path:'storeId', select:'name address.area address.locality'}])
+		.exec(function(err,user){
 			if(err){
 				res.send(err);
 			}

@@ -1,8 +1,30 @@
 
 <div ng-controller='AuthController as ahc'>
   <div ng-if="ahc.isAuth" >
-    <md-button class="md-raised" aria-label="Logout" ng-click="ahc.authLogout()">Logout
-    </md-button>
+    <div ng-controller="UserActionListController as ualc">
+      <md-menu>
+        <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="ualc.openMenu($mdOpenMenu, $event)">
+        </md-button>
+        <md-menu-content width="4">
+          <md-menu-item>
+            </md-button>
+          </md-menu-item>
+          <md-menu-item>
+            <md-button class="md-raised" aria-label="Logout" ng-click="ahc.authLogout()">
+              Logout
+            </md-button>
+          </md-menu-item>
+          <md-menu-divider></md-menu-divider>
+          <md-menu-item>
+            <md-button >
+              
+            </md-button>
+          </md-menu-item>
+        </md-menu-content>
+    </md-menu>  
+    </div>
+    
+    
   </div>
 
   <div ng-if="!ahc.isAuth"  layout-xs="column" layout-align-xs="space-between center">

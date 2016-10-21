@@ -2,10 +2,10 @@
 	'use strict';
 
 angular.module('app.home')
-	.controller('SearchBoxController',["$scope","$routeParams","cityStorage","citiesService","searchService","changeBrowserURL","userLocationService",SearchBoxController]);
+	.controller('SearchBoxController',["$scope","$http","$routeParams","cityStorage","citiesService","searchService","changeBrowserURL","userLocationService",SearchBoxController]);
 
 
-function SearchBoxController($scope,$routeParams,cityStorage,citiesService,searchService,changeBrowserURL,userLocationService){
+function SearchBoxController($scope,$http,$routeParams,cityStorage,citiesService,searchService,changeBrowserURL,userLocationService){
 		var hm= this;
 		if($routeParams.location){
 				hm.selectedItem = $routeParams.location;
@@ -21,6 +21,7 @@ function SearchBoxController($scope,$routeParams,cityStorage,citiesService,searc
 		hm.selectedItemChange = selectedItemChange;
 		hm.userSearchItemChange = userSearchItemChange;
 		hm.locationSearch = locationSearch;
+		hm.userSearchTextChange = userSearchTextChange;
 
 		hm.selectedItemChange(hm.selectedItem);
 		function userSearchItemChange(item){
@@ -76,14 +77,32 @@ function SearchBoxController($scope,$routeParams,cityStorage,citiesService,searc
 
 		}
 		//md-search-text-change="sbc.searchTextChange(sbc.searchText)"
-		function searchTextChange(searchText){
-
+		function userSearchTextChange(city,userSearchText){
+			console.log(userSearchText);
+			console.log(city);
+			if(userSearchText.length>=2){
+					.then(function(resource){
+						hm.loading = true;
+				console.log("the resource");
+				console.log(resource);
+				hm.userSearches = [];
+				var allStoresItem = {"userSearchString":"#&#All stores in #&#"+hm.selectedItem};
+				var allProductsItem = {"userSearchString":"#&#All products in #&#"+hm.selectedItem};
+				hm.userSearches = [allStoresItem,allProductsItem];
+				for (var i = resource.data.length - 1; i >= 0; i--) {
+					hm.userSearches.push(resource.data[i]);
+				}
+				hm.loading = false;
+					});
+			}
 		}
 		function selectedItemChange(item){
 			hm.loading = true;
 			//userLocationService.setUserLocation(item);
 			cityStorage.setCity(item);
 			searchService.getSearches(item).then(function(resource){
+				console.log("the resource");
+				console.log(resource);
 				var allStoresItem = {"userSearchString":"#&#All stores in #&#"+hm.selectedItem};
 				var allProductsItem = {"userSearchString":"#&#All products in #&#"+hm.selectedItem};
 				hm.userSearches = [allStoresItem,allProductsItem];

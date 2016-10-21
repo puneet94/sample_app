@@ -212,7 +212,8 @@ storeRouter.route('/categories/:pageNo')
 	})
 storeRouter.route('/singleStore/:store_id/:slug?')
 	.get(function(req,res){
-		Store.findById(req.params.store_id,function(err,store){
+		console.log(req.query);
+		Store.findById(req.params.store_id,req.query.select,function(err,store){
 			if(err){
 				res.send(err);
 			}

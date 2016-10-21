@@ -56,14 +56,19 @@ authenticateRouter.route('/login')
 
 authenticateRouter.route('/user/:userId')
 	.get(function(req,res){
+		User.findById(req.params.userId)
+		.populate([{path:'storeId', select:'name address.area address.locality'}])
+		.exec(function(err,user){
+			if(err || !user){
+				return res.status(401).send({ message: 'Invalid emails and/or password' });
+			}
+			else{
+				
 
-		User.findById(req.params.userId, function(err, user) {
-			console.log(err);
-	    if (!user) {
-	      return res.status(401).send({ message: 'Invalid emails and/or password' });
-	    }
-			res.send({ user:user.toJSON() });
-  	});
+				res.send({ user:user.toJSON() });
+			}
+		})
+		
 
 });
 

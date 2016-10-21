@@ -24,6 +24,7 @@
         <md-autocomplete
            ng-disabled="!sbc.searchText"
            md-no-cache = "true"
+           md-search-text-change="sbc.userSearchTextChange(sbc.searchText,sbc.userSearchText)"
            md-selected-item="sbc.userSearchSelectedItem"
            md-search-text="sbc.userSearchText"
            md-selected-item-change="sbc.userSearchItemChange(item)"

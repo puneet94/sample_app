@@ -33,6 +33,12 @@ angular.module('app.common')
       		gs.searchesData = $http.get(url);
 			return  gs.searchesData;
 		};
+		this.getAjaxSearches = function(city,userSearchText) {
+   			
+   			var url = baseUrlService.baseUrl+"search/searches/"+city+'/'+userSearchText;
+      		return $http.get(url);
+			
+		};
 	}
 	function HttpService($http){
 		this.getService = function(url){

@@ -109,7 +109,8 @@ var UserSchema = new Schema({
 	followingCount:Number,
 	reviewsCount :Number,
 	visitsCount :Number, 
-	upvotesCount :Number
+	upvotesCount :Number,
+	storeId:[{ type:Schema.ObjectId, ref:"Store" }],
 
 },{ collection : 'users' });
 /*Nuber of Followers a single user has*/
