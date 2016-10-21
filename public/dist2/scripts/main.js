@@ -55,12 +55,12 @@ angular
         controller: 'LoginController',
         controllerAs: 'login'
       });
-      $authProvider.loginUrl = "http://localhost:3000/authenticate/login";
-      $authProvider.signupUrl = "http://localhost:3000/authenticate/signup";
+      $authProvider.loginUrl = "https://shoppinss.herokuapp.com/authenticate/login";
+      $authProvider.signupUrl = "https://shoppinss.herokuapp.com/authenticate/signup";
 
       $authProvider.facebook({
         clientId: '1068203956594250',
-        url:'http://localhost:3000/authenticate/auth/facebook'
+        url:'https://shoppinss.herokuapp.com/authenticate/auth/facebook'
       });
       //$httpProvider.interceptors.push('authInterceptor');
   }
@@ -111,7 +111,7 @@ angular.module('app.common',[]);
 angular.module('app.product',[]).config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
-    //http://localhost:3000/#/productsCollection/tab2/chennai/tab2-products-in-chennai
+    //https://shoppinss.herokuapp.com/#/productsCollection/tab2/chennai/tab2-products-in-chennai
       when('/productsCollectionName/:productName/:location/:slug?', {
         templateUrl: 'app/product/views/productsNameCollection.html',
         controller: 'ProductNameCollectionController',
@@ -239,6 +239,12 @@ angular.module('app.common')
       		gs.searchesData = $http.get(url);
 			return  gs.searchesData;
 		};
+		this.getAjaxSearches = function(city,userSearchText) {
+   			
+   			var url = baseUrlService.baseUrl+"search/searches/"+city+'/'+userSearchText;
+      		return $http.get(url);
+			
+		};
 	}
 	function HttpService($http){
 		this.getService = function(url){
@@ -311,7 +317,7 @@ angular.module('app.common')
 	}
 
 	function AjaxURL(){
-		this.baseUrl = "http://localhost:3000/";
+		this.baseUrl = "https://shoppinss.herokuapp.com/";
 
 		this.getStoresWithCatgeoryLocation = this.baseUrl + "store/storesCollection/category/";//:category/:location?";
 		this.getStoresWithNameLocation = this.baseUrl + "store/storesCollection/storeName/";
@@ -1088,10 +1094,10 @@ angular.module('authModApp')
 	'use strict';
 
 angular.module('app.home')
-	.controller('SearchBoxController',["$scope","$routeParams","cityStorage","citiesService","searchService","changeBrowserURL","userLocationService",SearchBoxController]);
+	.controller('SearchBoxController',["$scope","$http","$routeParams","cityStorage","citiesService","searchService","changeBrowserURL","userLocationService",SearchBoxController]);
 
 
-function SearchBoxController($scope,$routeParams,cityStorage,citiesService,searchService,changeBrowserURL,userLocationService){
+function SearchBoxController($scope,$http,$routeParams,cityStorage,citiesService,searchService,changeBrowserURL,userLocationService){
 		var hm= this;
 		if($routeParams.location){
 				hm.selectedItem = $routeParams.location;
@@ -1107,6 +1113,7 @@ function SearchBoxController($scope,$routeParams,cityStorage,citiesService,searc
 		hm.selectedItemChange = selectedItemChange;
 		hm.userSearchItemChange = userSearchItemChange;
 		hm.locationSearch = locationSearch;
+		hm.userSearchTextChange = userSearchTextChange;
 
 		hm.selectedItemChange(hm.selectedItem);
 		function userSearchItemChange(item){
@@ -1162,14 +1169,33 @@ function SearchBoxController($scope,$routeParams,cityStorage,citiesService,searc
 
 		}
 		//md-search-text-change="sbc.searchTextChange(sbc.searchText)"
-		function searchTextChange(searchText){
-
+		function userSearchTextChange(city,userSearchText){
+			console.log(userSearchText);
+			console.log(city);
+			if(userSearchText.length>=2){
+				searchService.getAjaxSearches(city,userSearchText)
+					.then(function(resource){
+						hm.loading = true;
+				console.log("the resource");
+				console.log(resource);
+				hm.userSearches = [];
+				var allStoresItem = {"userSearchString":"#&#All stores in #&#"+hm.selectedItem};
+				var allProductsItem = {"userSearchString":"#&#All products in #&#"+hm.selectedItem};
+				hm.userSearches = [allStoresItem,allProductsItem];
+				for (var i = resource.data.length - 1; i >= 0; i--) {
+					hm.userSearches.push(resource.data[i]);
+				}
+				hm.loading = false;
+					});
+			}
 		}
 		function selectedItemChange(item){
 			hm.loading = true;
 			//userLocationService.setUserLocation(item);
 			cityStorage.setCity(item);
 			searchService.getSearches(item).then(function(resource){
+				console.log("the resource");
+				console.log(resource);
 				var allStoresItem = {"userSearchString":"#&#All stores in #&#"+hm.selectedItem};
 				var allProductsItem = {"userSearchString":"#&#All products in #&#"+hm.selectedItem};
 				hm.userSearches = [allStoresItem,allProductsItem];
@@ -1219,6 +1245,38 @@ function SearchBoxController($scope,$routeParams,cityStorage,citiesService,searc
 	    }
 
 }
+})(window.angular);
+
+//inject angular file upload directives and services.
+(function(angular){
+  'use strict';
+angular.module('app.user')
+  .controller('UserActionListController', ['$scope', 'userData',UserActionListController]);
+  function UserActionListController($scope, userData ) {
+  		var originatorEv;
+      var ualc = this;
+      ualc.getUserStores = getUserStores;
+      ualc.openMenu = openMenu;
+      ualc.getUserPage = getUserPage;
+      activate();
+      function getUserPage(){
+      	userData.getUserPage(userData.getUser()._id);
+      }
+      function openMenu($mdOpenMenu, ev) {
+	      originatorEv = ev;
+	      $mdOpenMenu(ev);
+		}
+      function getUserStores(){
+      	console.log("the user store list");
+        console.log(userData.getUser().storeId);
+      }
+
+
+      function activate(){
+        ualc.userProfilePic = userData.getUser().picture;
+      	getUserStores();
+      }
+  }
 })(window.angular);
 
 (function(angular){
@@ -2560,8 +2618,8 @@ angular.module('app.user')
   'use strict';
 angular.module('app.user')
 
-  .controller('UserPageController',["$scope","$auth",'$location','$routeParams',"userData","userService",UserPageController]);
-  function UserPageController($scope,$auth,$location,$routeParams,userData,userService){
+  .controller('UserPageController',["$scope","$auth",'$routeParams',"userData","userService",UserPageController]);
+  function UserPageController($scope,$auth,$routeParams,userData,userService){
     var upc = this;
     activate();
     upc.currentUserData = {};
@@ -2623,20 +2681,21 @@ angular.module('app.user')
   .controller('UserProfileImageController', ['$scope', 'Upload', 'userData','$timeout',UserProfileImageController]);
   function UserProfileImageController($scope, Upload,userData, $timeout) {
       var upc = this;
+
       upc.uploadFiles = function(file, errFiles) {
           upc.f = file;
           upc.errFile = errFiles && errFiles[0];
           if (file) {
               file.upload = Upload.upload({
-                  url: 'http://localhost:3000/user/upload/profileImage/'+userData.getUser()._id,
+                  url: 'https://shoppinss.herokuapp.com/user/upload/profileImage/'+userData.getUser()._id,
                   data: {file: file}
               });
 
               file.upload.then(function (response) {
                   
                       file.result = response.data;
-                      console.log(response);
                       userData.setUser();
+                      userData.getUser().picture = response.data;
                   
               });
           }

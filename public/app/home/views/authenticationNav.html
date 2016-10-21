@@ -4,9 +4,13 @@
     <div ng-controller="UserActionListController as ualc">
       <md-menu>
         <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="ualc.openMenu($mdOpenMenu, $event)">
+          <img style="width:60px;height:60px;" ng-src={{ualc.userProfilePic}}>
         </md-button>
         <md-menu-content width="4">
           <md-menu-item>
+            <md-button ng-click="ualc.getUserPage()">
+              
+              My profile
             </md-button>
           </md-menu-item>
           <md-menu-item>

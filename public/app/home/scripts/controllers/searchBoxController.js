@@ -81,6 +81,7 @@ function SearchBoxController($scope,$http,$routeParams,cityStorage,citiesService
 			console.log(userSearchText);
 			console.log(city);
 			if(userSearchText.length>=2){
+				searchService.getAjaxSearches(city,userSearchText)
 					.then(function(resource){
 						hm.loading = true;
 				console.log("the resource");
