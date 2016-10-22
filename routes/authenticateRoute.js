@@ -39,7 +39,9 @@ authenticateRouter.route('/auth/facebook')
 
 authenticateRouter.route('/login')
 	.post(function(req,res){
-		User.findOne({ email: req.body.email }, function(err, user) {
+		User.findOne({ email: req.body.email })
+		.populate([{path:'storeId', select:'name address.area address.locality'}])
+		.exec( function(err, user) {
 			console.log(err);
 	    if (!user) {
 	      return res.status(401).send({ message: 'Invalid emails and/or password' });
@@ -63,12 +65,12 @@ authenticateRouter.route('/user/:userId')
 				return res.status(401).send({ message: 'Invalid emails and/or password' });
 			}
 			else{
-				
+
 
 				res.send({ user:user.toJSON() });
 			}
 		})
-		
+
 
 });
 

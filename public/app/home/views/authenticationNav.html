@@ -2,15 +2,26 @@
 <div ng-controller='AuthController as ahc'>
   <div ng-if="ahc.isAuth" >
     <div ng-controller="UserActionListController as ualc">
-      <md-menu>
-        <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="ualc.openMenu($mdOpenMenu, $event)">
-          <img style="width:60px;height:60px;" ng-src={{ualc.userProfilePic}}>
-        </md-button>
-        <md-menu-content width="4">
+      <md-menu md-offset="-70 70">
+        <div aria-label="Open phone interactions menu" class="md-icon-button" ng-click="ualc.openMenu($mdOpenMenu, $event)">
+          <img class="userActionListImage" ng-src={{ualc.userProfilePic}}>
+        </div>
+        <md-menu-content width="2">
           <md-menu-item>
             <md-button ng-click="ualc.getUserPage()">
               
               My profile
+            </md-button>
+          </md-menu-item>
+          
+          <md-menu-item ng-repeat = "userStore in ualc.userStoresList">
+            <md-button aria-label="User store">
+              {{userStore.name}}-{{userStore.address.locality}}
+            </md-button>
+          </md-menu-item>
+          <md-menu-item>
+            <md-button class="md-raised" aria-label="Create new store" >
+              Create Store
             </md-button>
           </md-menu-item>
           <md-menu-item>
@@ -18,12 +29,7 @@
               Logout
             </md-button>
           </md-menu-item>
-          <md-menu-divider></md-menu-divider>
-          <md-menu-item>
-            <md-button >
-              
-            </md-button>
-          </md-menu-item>
+          
         </md-menu-content>
     </md-menu>  
     </div>

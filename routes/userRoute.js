@@ -30,8 +30,9 @@ userRouter.use(function(req,res,next){
 });
 userRouter.route('/singleUser/:user_id')
 	.get(function(req,res){
+    console.log(req.query.select);
 		User.findById(req.params.user_id)
-		.populate([{path:'storeId', select:'name address.area address.locality'}])
+		.populate([{path:'storeId', select:req.query.select}])
 		.exec(function(err,user){
 			if(err){
 				res.send(err);
@@ -220,7 +221,7 @@ userRouter.route('/checkFollow/:user_id/:followedUser_id')
 														console.log(err)
 													}
 													res.send(imgUrl);
-                        
+
                         });
               }
             });

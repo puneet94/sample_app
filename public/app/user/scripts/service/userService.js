@@ -17,6 +17,7 @@ function UserService($http,baseUrlService){
   this.checkUserFollow = checkUserFollow;
   this.getUserFollowers = getUserFollowers;
   this.getUserFollowing = getUserFollowing;
+  this.getUserStores = getUserStores;
   function getSingleUser(id){
     return $http.get(baseUrlService.baseUrl+"user/singleUser/"+id);
 
@@ -42,6 +43,9 @@ function UserService($http,baseUrlService){
   }
   function getUserFollowing(userId){
     return $http.get(baseUrlService.baseUrl+"user/userFollowing/"+userId);
+  }
+  function getUserStores(userId){
+    return $http.get(baseUrlService.baseUrl+"user/singleUser/"+userId,{params: { 'select': 'name address.area address.locality' }});
   }
 
 

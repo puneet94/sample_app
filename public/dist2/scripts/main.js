@@ -4,7 +4,7 @@ angular.module('myApp',
   ).config(['$routeProvider','$mdThemingProvider',
   function($routeProvider,$mdThemingProvider) {
       $mdThemingProvider.theme('default')
-    .primaryPalette('brown')
+    .primaryPalette('cyan')
     .accentPalette('yellow')
      .warnPalette('orange');
      //.backgroundPalette('blue-grey');
@@ -1251,11 +1251,10 @@ function SearchBoxController($scope,$http,$routeParams,cityStorage,citiesService
 (function(angular){
   'use strict';
 angular.module('app.user')
-  .controller('UserActionListController', ['$scope', 'userData',UserActionListController]);
-  function UserActionListController($scope, userData ) {
+  .controller('UserActionListController', ['$scope','userData','userService',UserActionListController]);
+  function UserActionListController($scope,userData ) {
   		var originatorEv;
       var ualc = this;
-      ualc.getUserStores = getUserStores;
       ualc.openMenu = openMenu;
       ualc.getUserPage = getUserPage;
       activate();
@@ -1266,15 +1265,13 @@ angular.module('app.user')
 	      originatorEv = ev;
 	      $mdOpenMenu(ev);
 		}
-      function getUserStores(){
-      	console.log("the user store list");
-        console.log(userData.getUser().storeId);
-      }
+      
 
 
       function activate(){
         ualc.userProfilePic = userData.getUser().picture;
-      	getUserStores();
+        ualc.userStoresList = userData.getUser().storeId;
+      	
       }
   }
 })(window.angular);
@@ -2498,8 +2495,8 @@ function UserVisitService($http,baseUrlService){
   'use strict';
 angular.module('app.user')
 
-  .controller('UserActivityListController',["$scope",'$http','$location','$routeParams',"activityService",UserActivityListController]);
-  function UserActivityListController($scope,$http,$location,$routeParams,activityService){
+  .controller('UserActivityListController',["$scope",'$routeParams',"activityService",UserActivityListController]);
+  function UserActivityListController($scope,$routeParams,activityService){
     var ual = this;
     ual.loading = true;
     activate();
@@ -2508,8 +2505,10 @@ angular.module('app.user')
       ual.loading = true;
         activityService.getSingleUserActivity($routeParams.userId).then(function(result){        
         ual.activityData= result.data;
+
         ual.loading = false;
       });  
+
       
       
       
@@ -2770,6 +2769,7 @@ function UserService($http,baseUrlService){
   this.checkUserFollow = checkUserFollow;
   this.getUserFollowers = getUserFollowers;
   this.getUserFollowing = getUserFollowing;
+  this.getUserStores = getUserStores;
   function getSingleUser(id){
     return $http.get(baseUrlService.baseUrl+"user/singleUser/"+id);
 
@@ -2795,6 +2795,9 @@ function UserService($http,baseUrlService){
   }
   function getUserFollowing(userId){
     return $http.get(baseUrlService.baseUrl+"user/userFollowing/"+userId);
+  }
+  function getUserStores(userId){
+    return $http.get(baseUrlService.baseUrl+"user/singleUser/"+userId,{params: { 'select': 'name address.area address.locality' }});
   }
 
 

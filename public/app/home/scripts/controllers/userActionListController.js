@@ -2,11 +2,10 @@
 (function(angular){
   'use strict';
 angular.module('app.user')
-  .controller('UserActionListController', ['$scope', 'userData',UserActionListController]);
-  function UserActionListController($scope, userData ) {
+  .controller('UserActionListController', ['$scope','userData','userService',UserActionListController]);
+  function UserActionListController($scope,userData ) {
   		var originatorEv;
       var ualc = this;
-      ualc.getUserStores = getUserStores;
       ualc.openMenu = openMenu;
       ualc.getUserPage = getUserPage;
       activate();
@@ -17,15 +16,13 @@ angular.module('app.user')
 	      originatorEv = ev;
 	      $mdOpenMenu(ev);
 		}
-      function getUserStores(){
-      	console.log("the user store list");
-        console.log(userData.getUser().storeId);
-      }
+      
 
 
       function activate(){
         ualc.userProfilePic = userData.getUser().picture;
-      	getUserStores();
+        ualc.userStoresList = userData.getUser().storeId;
+      	
       }
   }
 })(window.angular);
