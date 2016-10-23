@@ -30,6 +30,29 @@ visitRouter.route('/visits/:visitId')
 					}
 				});
 });
+visitRouter.route('/visits')
+.delete(commons.ensureAuthenticated,function(req,res){
+  	var queryObj = {};
+  	queryObj.userId = req.query.userId;
+  	if(queryObj.storeId){
+  		queryObj.storeId =req.query.storeId; 
+  	}
+  	else if(queryObj.storeId){
+  		queryObj.productId =req.query.productId; 
+  	}
+	Visit.findOne({'_id':visitId})
+				.exec(function(err, visit) {
+						if(err){
+						res.send(err);
+					}
+					else{
+						visit.remove(function (err) {
+        			res.send('removed viit');
+    				});
+					}
+				});
+});
+
 visitRouter.route('/visited')
 .get(function(req,res){
 	var entityId;

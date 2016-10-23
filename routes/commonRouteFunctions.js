@@ -8,9 +8,27 @@ var User = models.User;
 var Store = models.Store;
 var Upvote = models.Upvote;
 var Product = models.Product;
-
+var cloudinary = require('cloudinary').v2;
 var Activity = models.Activity;
 var cob = {};
+cob.cloudUpload = function(req, res, callback){
+      var imgArray = [];
+      var imgArrayMin = [];
+            var size = req.files.length;
+            var counter = 0;
+            for(i=0; i<size;i++){
+            cloudinary.uploader.upload(req.files[i].path, { eager: [
+              { width: 112, height: 112, crop: "pad" }
+             ]},function(req, res) {
+                imgArray.push(res.url);
+                imgArrayMin.push(res.eager[0].url)
+                counter = counter + 1;
+                if(counter == size){
+                callback(imgArray, imgArrayMin);
+              }
+            });
+            }
+ }
 cob.saveSearchList = function(query,kind,location,req,res){
 	var userSearch = new UserSearch();
 		var delimiter = "#&#";
@@ -69,7 +87,8 @@ cob.storeRatingAvg = function(req,res){
 }
 cob.enterActivity  = function(activ){
   var activity = new Activity();
-  activity.creator = activ.creator;
+  activity.creator = activ.creator||null;
+  activity.creatorStore = activ.creatorStore||null;
   activity.review = activ.review || null;
   activity.store = activ.store || null;
   activity.product = activ.product || null;

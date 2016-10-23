@@ -1,6 +1,3 @@
-/*
-  * Controller for the list of users which a single user follows
-*/
 (function(angular){
   'use strict';
 angular.module('app.user')
@@ -12,17 +9,42 @@ angular.module('app.user')
 
     ufc.loading = true;
     ufc.authCheck = $auth.isAuthenticated();
-    ufc.followingList = [];
+    ufc.followersList = [];
+    ufc.currentUserFollowed = currentUserFollowed;
+    ufc.submitUserFollow = submitUserFollow;
+    ufc.deleteUserFollow = deleteUserFollow;
     ufc.getUserPage = userData.getUserPage;
+
     function activate(){
       ufc.loading = true;
+
       userService.getUserFollowing($routeParams.userId)
     .then(function(res){
-        ufc.followingList = res.data;
+        ufc.followersList = res.data;
+        
         ufc.loading = false;
       });
     }
+    function submitUserFollow(followerId){
+      userService.submitUserFollow(userData.getUser()._id,followerId).then(function(response){
 
+        
+        userData.setUser();
+      });
+    }
+    function deleteUserFollow(followerId){
+      userService.deleteUserFollow(userData.getUser()._id,followerId).then(function(response){
+        
+        userData.setUser();
+      });
+    }
+    function currentUserFollowed(follower){
+
+      if(userData.getUser().following.indexOf(follower)==-1){
+        return false;
+      }
+      return true;
+    }
 
     }
 

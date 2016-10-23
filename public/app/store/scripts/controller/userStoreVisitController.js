@@ -16,28 +16,46 @@
       usv.toggleVisitCheck = toggleVisitCheck;
       usv.userStoreVisited = userStoreVisited;
       if($routeParams.storeId){
+        usv.entity = $routeParams.storeId;
         usv.visit.storeId = $routeParams.storeId;
         usv.getVisitParamObj.storeId = $routeParams.storeId;
         
       }
       else if($routeParams.productId){
+        usv.entity = $routeParams.productId;
         usv.visit.productId = $routeParams.productId;
         usv.getVisitParamObj.productId = $routeParams.productId;
       }
 
-      
-      
-
       function userStoreVisited(){
-        //userData.setUser();
-        userVisitService.getVisit(usv.getVisitParamObj)
-          .then(function(res){
-            if(res.data.length){
-                usv.visitCheck = true;
-                usv.userVisitId  = res.data[0]._id;
-            }
 
-          });
+        if(userData.getUser().visits.indexOf(usv.entity)==-1){
+          return false;
+        }
+        return true;
+        
+      }
+      function submitVisit(){
+        userVisitService.submitVisit(usv.visit)
+            .then(function(res){
+                    console.log(res);
+                    userData.setUser();
+                  },
+                  function(res){
+                    console.log(res);
+                  });
+      }
+      function deleteVisit(){
+        userVisitService.deleteVisit(usv.userVisitId)
+            .then(function(res){
+              console.log(res);
+              userData.setUser();
+              //$window.location.reload();
+            },
+              function(res)
+              {
+                console.log(res);
+              });
       }
       function toggleVisitCheck(){
 

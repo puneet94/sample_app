@@ -10,7 +10,10 @@ angular.module('app.user')
     ufc.loading = true;
     ufc.authCheck = $auth.isAuthenticated();
     ufc.followersList = [];
-        ufc.getUserPage = userData.getUserPage;
+    ufc.currentUserFollowed = currentUserFollowed;
+    ufc.submitUserFollow = submitUserFollow;
+    ufc.deleteUserFollow = deleteUserFollow;
+    ufc.getUserPage = userData.getUserPage;
 
     function activate(){
       ufc.loading = true;
@@ -22,7 +25,26 @@ angular.module('app.user')
         ufc.loading = false;
       });
     }
+    function submitUserFollow(followerId){
+      userService.submitUserFollow(userData.getUser()._id,followerId).then(function(response){
 
+        
+        userData.setUser();
+      });
+    }
+    function deleteUserFollow(followerId){
+      userService.deleteUserFollow(userData.getUser()._id,followerId).then(function(response){
+        
+        userData.setUser();
+      });
+    }
+    function currentUserFollowed(follower){
+
+      if(userData.getUser().following.indexOf(follower)==-1){
+        return false;
+      }
+      return true;
+    }
 
     }
 

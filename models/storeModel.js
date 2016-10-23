@@ -13,7 +13,9 @@ mongoose.createConnection("mongodb://shop_dir:shop_dir@ds023912.mlab.com:23912/s
 
 var ActivitySchema = new Schema({
 	//activityFor:{ type:Schema.ObjectId, ref:"User"},
-	creator: { type:Schema.ObjectId, ref:"User"}, //created by whom
+	creator: { type:Schema.ObjectId, ref:"User"}, //created by person
+	creatorStore:{ type:Schema.ObjectId, ref:"Store"}, //created by which store
+	offer:{ type:Schema.ObjectId, ref:"Offer" },
 	review:{ type:Schema.ObjectId, ref:"Review" },
 	followed: { type:Schema.ObjectId, ref:"User"},
 	store: { type:Schema.ObjectId, ref:"Store"},
@@ -48,7 +50,21 @@ UpvoteSchema.plugin(relationship, { relationshipPathName:'store' });
 UpvoteSchema.plugin(relationship, { relationshipPathName:'product' });
 UpvoteSchema.plugin(relationship, { relationshipPathName:'review' });
 
-
+var OfferSchema = new Schema({
+    headline  : String,
+    description  : String,
+    startDate  : { type : Date, default: Date.now},
+    endDate  : { type : Date, default: Date.now},
+    time : { type : Date, default: Date.now },
+    store : { type:Schema.ObjectId, ref:"Store",childPath:"offers"},
+    category:[String],
+    subCategory:[String],
+	bannerImage:{type:String},
+  	images:[String],
+  	imagesMin:[String]
+    
+},{ collection : 'offers' });
+OfferSchema.plugin(relationship, { relationshipPathName:'store' });
 var ReviewSchema = new Schema({
     description  : String,
     date  : { type : Date, default: Date.now},
@@ -59,6 +75,8 @@ var ReviewSchema = new Schema({
     upvotes:[{ type:Schema.ObjectId, ref:"Upvote" }],
     rating:{type:String,default:'0'}
 },{ collection : 'reviews' });
+
+
 ReviewSchema.post('init', function () {
 	try{
 		this.upvotesCount = this.upvotes.length || 0;
@@ -113,6 +131,15 @@ var UserSchema = new Schema({
 	storeId:[{ type:Schema.ObjectId, ref:"Store" }],
 
 },{ collection : 'users' });
+
+
+var FollowSchema = new Schema({
+	followerId : { type:Schema.ObjectId, ref:"User" },
+	storeId: { type:Schema.ObjectId, ref:"Store" },
+	productId: { type:Schema.ObjectId, ref:"Product" },
+	userId: { type:Schema.ObjectId, ref:"User" },
+	type: String
+})
 /*Nuber of Followers a single user has*/
 var FollowersSchema = new Schema({
 	user:{ type:Schema.ObjectId, ref:"User" },
@@ -190,11 +217,13 @@ var Price = new Schema({
 
 var StoreSchema = new Schema({
 	name:String,
+	admin:{ type:Schema.ObjectId, ref:"User" },
 	address:Address,
 	category:[String],
 	reviews:[{ type:Schema.ObjectId, ref:"Review" }],
 	products:[{ type:Schema.ObjectId, ref:"Product" }],
 	upvotes:[{ type:Schema.ObjectId, ref:"Upvote" }],
+	offers:[{ type:Schema.ObjectId, ref:"Offer" }],
 	bannerImage:{type:String,default:'https://upload.wikimedia.org/wikipedia/commons/3/3a/SM_Department_Store_Cubao.jpg'},
   	storeImages:[String],
 	visits:[{ type:Schema.ObjectId, ref:"Visit" }],

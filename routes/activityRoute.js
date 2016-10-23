@@ -50,6 +50,7 @@ function getActivity(res,usersList){
 }
 activityRouter.route('/userFollowingActivity/:userId')
 	.get(function(req,res){
+		
 		var followingList = [];
 		User
 			.findById(req.params.userId)

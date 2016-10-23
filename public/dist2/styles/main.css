@@ -1,3 +1,4 @@
+
 .capital-heading-text {
   text-transform: capitalize;
   font-size: 24px;
@@ -15,7 +16,6 @@
   font-size: 14px;
   font-weight: 400;
   color: #795548; }
-
 
 @charset "UTF-8";
 .likeDirectiveContainer {
@@ -205,38 +205,6 @@
     padding: 0;
     height: 100%; } }
 
-.reviewSubmitForm {
-  background-color: white;
-  padding: 25px; }
-  .reviewSubmitForm .reviewSubmitFormContent {
-    background-color: white; }
-
-.userRatingSection {
-  width: 175px; }
-  .userRatingSection .rating {
-    border: none; }
-    .userRatingSection .rating input {
-      display: none; }
-    .userRatingSection .rating label:before {
-      margin: 5px;
-      font-size: 1.25em;
-      font-family: FontAwesome;
-      display: inline-block;
-      content: "\f005"; }
-    .userRatingSection .rating label {
-      color: rgba(0, 0, 0, 0.5);
-      float: right; }
-    .userRatingSection .rating input:checked ~ label {
-      color: #FFD700; }
-    .userRatingSection .rating:not(:checked) > label:hover {
-      color: #FFD700; }
-      .userRatingSection .rating:not(:checked) > label:hover ~ label {
-        color: #FFD700; }
-    .userRatingSection .rating > input:checked + label:hover, .userRatingSection .rating > input:checked ~ label:hover {
-      color: #FFED85; }
-    .userRatingSection .rating > label:hover ~ input:checked ~ label, .userRatingSection .rating > input:checked ~ label:hover ~ label {
-      color: #FFED85; }
-
 .productPageContainer .singleProductContainer .productTopContainer .productImageContainer {
   padding: 10px;
   background-color: white;
@@ -323,6 +291,38 @@
           font-size: 12px;
           color: #795548;
           font-weight: 500; }
+
+.reviewSubmitForm {
+  background-color: white;
+  padding: 25px; }
+  .reviewSubmitForm .reviewSubmitFormContent {
+    background-color: white; }
+
+.userRatingSection {
+  width: 175px; }
+  .userRatingSection .rating {
+    border: none; }
+    .userRatingSection .rating input {
+      display: none; }
+    .userRatingSection .rating label:before {
+      margin: 5px;
+      font-size: 1.25em;
+      font-family: FontAwesome;
+      display: inline-block;
+      content: "\f005"; }
+    .userRatingSection .rating label {
+      color: rgba(0, 0, 0, 0.5);
+      float: right; }
+    .userRatingSection .rating input:checked ~ label {
+      color: #FFD700; }
+    .userRatingSection .rating:not(:checked) > label:hover {
+      color: #FFD700; }
+      .userRatingSection .rating:not(:checked) > label:hover ~ label {
+        color: #FFD700; }
+    .userRatingSection .rating > input:checked + label:hover, .userRatingSection .rating > input:checked ~ label:hover {
+      color: #FFED85; }
+    .userRatingSection .rating > label:hover ~ input:checked ~ label, .userRatingSection .rating > input:checked ~ label:hover ~ label {
+      color: #FFED85; }
 
 .capital-heading-text {
   text-transform: capitalize;
@@ -428,6 +428,18 @@
 
 .storePageStatsNav md-divider {
   border-right-width: 3px; }
+
+.chipType {
+  border: 1px solid #e7e7e7;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5%; }
+  .chipType:hover {
+    background-color: #eee; }
+  .chipType .chipText {
+    margin-left: 5px;
+    color: #7B8489;
+    font-size: 14px; }
 
 .storeAddressPartial {
   background-color: white;
@@ -631,6 +643,33 @@
       .singleActivity .activityFollowFollowedImageContainer .followFollowedImage img {
         width: 100%;
         height: 100%; }
+
+.followersList .followerContainer {
+  border: 1px solid #e9ebee;
+  margin-top: 3px; }
+  .followersList .followerContainer .followerImage {
+    height: 80px;
+    max-width: 80px; }
+    .followersList .followerContainer .followerImage img {
+      height: 100%;
+      width: 100%; }
+  .followersList .followerContainer .followerInfo {
+    padding: 5px; }
+    .followersList .followerContainer .followerInfo .followerName {
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 14px; }
+    .followersList .followerContainer .followerInfo .followerLength {
+      font-weight: 300;
+      font-size: 10px; }
+  .followersList .followerContainer .followUser .followUserButton {
+    border: none;
+    color: white;
+    padding: 5px;
+    border-radius: 5%;
+    background-color: teal;
+    font-size: 10px;
+    text-transform: capitalize; }
 
 .userFollowingImage {
   width: 180px;

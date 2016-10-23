@@ -67,7 +67,7 @@ userRouter.route('/userFollowing/:user_id')
 	.get(function(req,res){
 		User.findOne({ _id: req.params.user_id })
 		.select('_id following')
-.populate('following', 'displayName picture')
+.populate('following', 'displayName picture followers')
 .exec(function (err, followers) {
   if (err) {
   	return handleError(err)
@@ -83,7 +83,7 @@ userRouter.route('/userFollowers/:user_id')
 
 		User.findOne({ _id: req.params.user_id })
 		.select('_id followers')
-.populate('followers', 'displayName picture')
+.populate('followers', 'displayName picture followers')
 .exec(function (err, followers) {
   if (err) {
   	return handleError(err)
