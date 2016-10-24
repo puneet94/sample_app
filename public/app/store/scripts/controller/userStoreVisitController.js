@@ -8,14 +8,51 @@
       usv.visit = {};
       usv.visitCheck = false;
       usv.getVisitParamObj = {};
-      
+      usv.submitVisit = submitVisit;
+      usv.deleteVisit = deleteVisit;
       usv.getVisitParamObj.userId = userData.getUser()._id;
-      
+      usv.userStoreVisited = false;
+
       activate();
 
-      usv.toggleVisitCheck = toggleVisitCheck;
-      usv.userStoreVisited = userStoreVisited;
-      if($routeParams.storeId){
+      
+
+      function userStoreVisited(){
+        
+        
+      }
+      function submitVisit(){
+        userVisitService.submitVisit(usv.visit)
+            .then(function(res){
+                    userData.setUser();
+                    
+                    usv.userStoreVisited = true;
+                  },
+                  function(res){
+                    console.log(res);
+                  });
+      }
+      function deleteVisit(){
+        userVisitService.deleteVisit(usv.visit)
+            .then(function(res){
+              
+              userData.setUser();
+              usv.userStoreVisited = false;
+             
+            },
+              function(res)
+              {
+                console.log(res);
+              });
+      }
+      
+
+
+     
+      function activate(){
+       
+       usv.visit.userId = userData.getUser()._id;
+        if($routeParams.storeId){
         usv.entity = $routeParams.storeId;
         usv.visit.storeId = $routeParams.storeId;
         usv.getVisitParamObj.storeId = $routeParams.storeId;
@@ -26,74 +63,21 @@
         usv.visit.productId = $routeParams.productId;
         usv.getVisitParamObj.productId = $routeParams.productId;
       }
-
-      function userStoreVisited(){
-
-        if(userData.getUser().visits.indexOf(usv.entity)==-1){
-          return false;
-        }
-        return true;
-        
-      }
-      function submitVisit(){
-        userVisitService.submitVisit(usv.visit)
+        userVisitService.getVisit(usv.visit)
             .then(function(res){
-                    console.log(res);
-                    userData.setUser();
-                  },
-                  function(res){
-                    console.log(res);
-                  });
-      }
-      function deleteVisit(){
-        userVisitService.deleteVisit(usv.userVisitId)
-            .then(function(res){
+              
               console.log(res);
-              userData.setUser();
-              //$window.location.reload();
+              if(res.data[0]._id){
+              console.log("the checking for visit");  
+                usv.userStoreVisited = true;
+              }
+              
+             
             },
               function(res)
               {
                 console.log(res);
               });
-      }
-      function toggleVisitCheck(){
-
-
-      if(usv.visitCheck){
-          if(userData.getUser()){
-            usv.visit.userId = userData.getUser()._id;
-          }
-          else{
-            usv.visit.userId = $auth.getPayload().sub;
-          }
-          console.log('************************************');
-          console.log(usv.visit);
-          userVisitService.submitVisit(usv.visit)
-            .then(function(res){
-                    console.log(res);
-                    userData.setUser();
-                  },
-                  function(res){
-                    console.log(res);
-                  });
-        }
-        else {
-          userVisitService.deleteVisit(usv.userVisitId)
-            .then(function(res){
-              console.log(res);
-              userData.setUser();
-              //$window.location.reload();
-            },
-              function(res)
-              {
-                console.log(res);
-              });
-        }
-      }
-      function activate(){
-        userData.setUser();
-        userStoreVisited();
       }
 
     }

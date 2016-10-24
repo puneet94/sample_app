@@ -18,9 +18,7 @@ function storeData($window) {
 
     },
     getStore: function(){
-
       return JSON.parse(storage.getItem('store'));
-
     },
     removeStore: function(){
 

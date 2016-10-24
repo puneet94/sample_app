@@ -30,7 +30,7 @@ var VisitSchema = new Schema({
     user : { type:Schema.ObjectId, ref:"User",childPath:"visits" },
     product:{type:Schema.ObjectId, ref:"Product",childPath:"visits"}
 },{ collection : 'visits' });
-//VisitSchema.index({store: 1, user: 1}, { unique: true });
+
 VisitSchema.plugin(relationship, { relationshipPathName:'user' });
 VisitSchema.plugin(relationship, { relationshipPathName:'store' });
 VisitSchema.plugin(relationship, { relationshipPathName:'product' });

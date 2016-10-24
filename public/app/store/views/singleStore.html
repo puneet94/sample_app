@@ -33,13 +33,13 @@
       <div class="userInteractionNav" layout="row" ng-if="ssc.authCheck">
         <div class="" ng-controller="UserStoreVisitController as usv">
           <div class="userStoreVisitCheck">
-            <span class="chipType" ng-if="!usv.userStoreVisited()" ng-click="usv.submitVisit()">
+            <span class="chipType" ng-if="!usv.userStoreVisited" ng-click="usv.submitVisit()">
               <span>
                 <i aria-hidden="true" class="fa fa-bookmark-o"></i>
               </span>
               <span class="chipText">Visit</span>
             </span>
-            <span class="chipType" ng-if="usv.userStoreVisited()" ng-click="usv.deleteVisit()">
+            <span class="chipType" ng-if="usv.userStoreVisited" ng-click="usv.deleteVisit()">
               <span>
                 <i aria-hidden="true" class="fa fa-bookmark"></i>
               </span>
@@ -47,7 +47,7 @@
                 Visited
               </span>
             </span>
-            <input type="checkbox" name="userVisit"  ng-change="usv.toggleVisitCheck()" ng-model="usv.visitCheck" >Visited
+            
           </div>
         </div>
       </div>

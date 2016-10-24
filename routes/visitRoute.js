@@ -33,14 +33,14 @@ visitRouter.route('/visits/:visitId')
 visitRouter.route('/visits')
 .delete(commons.ensureAuthenticated,function(req,res){
   	var queryObj = {};
-  	queryObj.userId = req.query.userId;
-  	if(queryObj.storeId){
-  		queryObj.storeId =req.query.storeId; 
+  	queryObj.user = req.query.userId;
+  	if(req.query.storeId){
+  		queryObj.store =req.query.storeId; 
   	}
-  	else if(queryObj.storeId){
-  		queryObj.productId =req.query.productId; 
+  	else if(req.query.productId){
+  		queryObj.product =req.query.productId; 
   	}
-	Visit.findOne({'_id':visitId})
+	Visit.findOne(queryObj)
 				.exec(function(err, visit) {
 						if(err){
 						res.send(err);
@@ -70,8 +70,6 @@ visitRouter.route('/visited')
 		queryObj.product = entityId;
 	}
   
-	
-	//Visit.find({'store':entityId,'user':userId})
 	Visit.find(queryObj)
 				.exec(function(err, result) {
 						if(err){
@@ -115,19 +113,21 @@ visitRouter.route('/visits/store/')
   activity.creator = recData.userId; 
   var activityString  = "";
   visit.user=recData.userId;
+
   if(recData.storeId){
-  	visit['store'] = mongoose.Types.ObjectId(recData.storeId);
+  	console.log("if entred");
+  	visit.store = mongoose.Types.ObjectId(recData.storeId);
   	activityString = "visited store";
   	activity.store = visit['store'];
   }
+
   else if(recData.productId){
   	console.log("ëntering the else");
-  	visit['product'] = mongoose.Types.ObjectId(recData.productId);
+  	visit.product = mongoose.Types.ObjectId(recData.productId);
   	activityString = "purchased product";
   	activity.product = visit['product'];
   }
-  console.log('******product visiy*******');
-  console.log(visit);
+  
   visit.save(function(err){
     if(err){
       if(err.code == 11000){

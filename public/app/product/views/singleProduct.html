@@ -23,11 +23,27 @@
             <div class="productPrice"><span>{{::spc.product.price.value}}-{{::spc.product.price.currency}}</span></div></div>
             <div class="productCategory"><span>{{::spc.product.category}}</span></div>
             <div class="productSubCategory"><span>{{::spc.product.subCategory}} </span></div>
-            
+            <br>
 <div class="userInteractionNav" layout="row" ng-if="spc.authCheck">
+        
+
         <div class="" ng-controller="UserStoreVisitController as usv">
-          <div class="userProductVisitCheck">
-            <input type="checkbox" name="userVisit"  ng-change="usv.toggleVisitCheck()" ng-model="usv.visitCheck" >Purchased
+          <div class="userStoreVisitCheck">
+            <span class="chipType" ng-if="!usv.userStoreVisited" ng-click="usv.submitVisit()">
+              <span>
+                <i aria-hidden="true" class="fa fa-bookmark-o"></i>
+              </span>
+              <span class="chipText">Purchase</span>
+            </span>
+            <span class="chipType" ng-if="usv.userStoreVisited" ng-click="usv.deleteVisit()">
+              <span>
+                <i aria-hidden="true" class="fa fa-bookmark"></i>
+              </span>
+              <span class="chipText">
+                Purchased
+              </span>
+            </span>
+            
           </div>
         </div>
       </div>

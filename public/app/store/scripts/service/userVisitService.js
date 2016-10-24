@@ -21,8 +21,8 @@ function UserVisitService($http,baseUrlService){
   function submitVisit(visitData){
     return $http.post(baseUrlService.baseUrl+"visit/visits/store",visitData);
   }
-  function deleteVisit(visitId){
-    return $http.delete(baseUrlService.baseUrl+"visit/visits/"+visitId);
+  function deleteVisit(visitObj){
+    return $http.delete(baseUrlService.baseUrl+"visit/visits/",{"params":visitObj});
   }
 }
 })(window.angular);
