@@ -14,10 +14,7 @@ angular.module('app.user')
         ual.activityData= result.data;
 
         ual.loading = false;
-      });  
-
-      
-      
+      }); 
       
     }
 

@@ -1,3 +1,5 @@
+.formItem-help-text {
+  font-size: 12px; }
 
 .capital-heading-text {
   text-transform: capitalize;
@@ -16,6 +18,94 @@
   font-size: 14px;
   font-weight: 400;
   color: #795548; }
+
+
+.productPageContainer .singleProductContainer .productTopContainer .productImageContainer {
+  padding: 10px;
+  background-color: white;
+  margin: 10px; }
+  .productPageContainer .singleProductContainer .productTopContainer .productImageContainer .productImage {
+    width: 100%; }
+
+.productPageContainer .singleProductContainer .productTopContainer .productBriefContainer {
+  padding: 10px;
+  background-color: white;
+  margin: 10px; }
+  .productPageContainer .singleProductContainer .productTopContainer .productBriefContainer .productName {
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: capitalize; }
+  .productPageContainer .singleProductContainer .productTopContainer .productBriefContainer .productPrice {
+    font-size: 16px; }
+
+.productPageContainer .singleProductContainer .productMiddleContainer .productReviewsBrief .productReviewsBriefIcons .iconContainer {
+  text-align: center;
+  margin: 5px;
+  padding: 15px;
+  width: 100%;
+  cursor: pointer;
+  background-color: white;
+  -webkit-transition: all 1s;
+          transition: all 1s; }
+  .productPageContainer .singleProductContainer .productMiddleContainer .productReviewsBrief .productReviewsBriefIcons .iconContainer:hover {
+    color: red; }
+  .productPageContainer .singleProductContainer .productMiddleContainer .productReviewsBrief .productReviewsBriefIcons .iconContainer .iconClass {
+    font-size: 32px;
+    text-align: center; }
+
+.capital-heading-text {
+  text-transform: capitalize;
+  font-size: 24px;
+  font-weight: 600;
+  color: #795548; }
+
+.capital-sub-heading-text {
+  text-transform: capitalize;
+  font-size: 16px;
+  font-weight: 600;
+  color: #795548; }
+
+.capital-normal-text {
+  text-transform: capitalize;
+  font-size: 14px;
+  font-weight: 400;
+  color: #795548; }
+
+.productContainer {
+  padding: 10px; }
+  .productContainer .singleProductContainer {
+    background-color: white;
+    padding: 5px;
+    margin-bottom: 10px; }
+    .productContainer .singleProductContainer .singleProductImage {
+      width: 100%;
+      height: 150px;
+      padding-bottom: 2px;
+      border-bottom: 1px solid #333; }
+    .productContainer .singleProductContainer .productDetailsContainer {
+      padding: 5px;
+      text-transform: capitalize; }
+      .productContainer .singleProductContainer .productDetailsContainer .productName {
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: capitalize;
+        margin: 3px 0; }
+      .productContainer .singleProductContainer .productDetailsContainer .productCategory {
+        font-size: 12px; }
+      .productContainer .singleProductContainer .productDetailsContainer .productSubCatgeory {
+        font-size: 10px; }
+      .productContainer .singleProductContainer .productDetailsContainer .productPrice {
+        font-size: 12px; }
+      .productContainer .singleProductContainer .productDetailsContainer .productStatsContainer {
+        font-size: 14px;
+        font-weight: 600;
+        margin: 3px 0; }
+        .productContainer .singleProductContainer .productDetailsContainer .productStatsContainer .viewProductLink {
+          cursor: pointer;
+          text-decoration: underline;
+          font-size: 12px;
+          color: #795548;
+          font-weight: 500; }
 
 @charset "UTF-8";
 .likeDirectiveContainer {
@@ -93,6 +183,38 @@
   to {
     -webkit-transform: rotate(359deg);
     transform: rotate(359deg); } }
+
+.reviewSubmitForm {
+  background-color: white;
+  padding: 25px; }
+  .reviewSubmitForm .reviewSubmitFormContent {
+    background-color: white; }
+
+.userRatingSection {
+  width: 175px; }
+  .userRatingSection .rating {
+    border: none; }
+    .userRatingSection .rating input {
+      display: none; }
+    .userRatingSection .rating label:before {
+      margin: 5px;
+      font-size: 1.25em;
+      font-family: FontAwesome;
+      display: inline-block;
+      content: "\f005"; }
+    .userRatingSection .rating label {
+      color: rgba(0, 0, 0, 0.5);
+      float: right; }
+    .userRatingSection .rating input:checked ~ label {
+      color: #FFD700; }
+    .userRatingSection .rating:not(:checked) > label:hover {
+      color: #FFD700; }
+      .userRatingSection .rating:not(:checked) > label:hover ~ label {
+        color: #FFD700; }
+    .userRatingSection .rating > input:checked + label:hover, .userRatingSection .rating > input:checked ~ label:hover {
+      color: #FFED85; }
+    .userRatingSection .rating > label:hover ~ input:checked ~ label, .userRatingSection .rating > input:checked ~ label:hover ~ label {
+      color: #FFED85; }
 
 .userActionListImage {
   width: 50px;
@@ -204,125 +326,6 @@
   .searchBoxStores .searchBoxLayout {
     padding: 0;
     height: 100%; } }
-
-.productPageContainer .singleProductContainer .productTopContainer .productImageContainer {
-  padding: 10px;
-  background-color: white;
-  margin: 10px; }
-  .productPageContainer .singleProductContainer .productTopContainer .productImageContainer .productImage {
-    width: 100%; }
-
-.productPageContainer .singleProductContainer .productTopContainer .productBriefContainer {
-  padding: 10px;
-  background-color: white;
-  margin: 10px; }
-  .productPageContainer .singleProductContainer .productTopContainer .productBriefContainer .productName {
-    font-size: 18px;
-    font-weight: 600;
-    text-transform: capitalize; }
-  .productPageContainer .singleProductContainer .productTopContainer .productBriefContainer .productPrice {
-    font-size: 16px; }
-
-.productPageContainer .singleProductContainer .productMiddleContainer .productReviewsBrief .productReviewsBriefIcons .iconContainer {
-  text-align: center;
-  margin: 5px;
-  padding: 15px;
-  width: 100%;
-  cursor: pointer;
-  background-color: white;
-  -webkit-transition: all 1s;
-          transition: all 1s; }
-  .productPageContainer .singleProductContainer .productMiddleContainer .productReviewsBrief .productReviewsBriefIcons .iconContainer:hover {
-    color: red; }
-  .productPageContainer .singleProductContainer .productMiddleContainer .productReviewsBrief .productReviewsBriefIcons .iconContainer .iconClass {
-    font-size: 32px;
-    text-align: center; }
-
-.capital-heading-text {
-  text-transform: capitalize;
-  font-size: 24px;
-  font-weight: 600;
-  color: #795548; }
-
-.capital-sub-heading-text {
-  text-transform: capitalize;
-  font-size: 16px;
-  font-weight: 600;
-  color: #795548; }
-
-.capital-normal-text {
-  text-transform: capitalize;
-  font-size: 14px;
-  font-weight: 400;
-  color: #795548; }
-
-.productContainer {
-  padding: 10px; }
-  .productContainer .singleProductContainer {
-    background-color: white;
-    padding: 5px;
-    margin-bottom: 10px; }
-    .productContainer .singleProductContainer .singleProductImage {
-      width: 100%;
-      height: 150px;
-      padding-bottom: 2px;
-      border-bottom: 1px solid #333; }
-    .productContainer .singleProductContainer .productDetailsContainer {
-      padding: 5px;
-      text-transform: capitalize; }
-      .productContainer .singleProductContainer .productDetailsContainer .productName {
-        font-size: 14px;
-        font-weight: 600;
-        text-transform: capitalize;
-        margin: 3px 0; }
-      .productContainer .singleProductContainer .productDetailsContainer .productCategory {
-        font-size: 12px; }
-      .productContainer .singleProductContainer .productDetailsContainer .productSubCatgeory {
-        font-size: 10px; }
-      .productContainer .singleProductContainer .productDetailsContainer .productPrice {
-        font-size: 12px; }
-      .productContainer .singleProductContainer .productDetailsContainer .productStatsContainer {
-        font-size: 14px;
-        font-weight: 600;
-        margin: 3px 0; }
-        .productContainer .singleProductContainer .productDetailsContainer .productStatsContainer .viewProductLink {
-          cursor: pointer;
-          text-decoration: underline;
-          font-size: 12px;
-          color: #795548;
-          font-weight: 500; }
-
-.reviewSubmitForm {
-  background-color: white;
-  padding: 25px; }
-  .reviewSubmitForm .reviewSubmitFormContent {
-    background-color: white; }
-
-.userRatingSection {
-  width: 175px; }
-  .userRatingSection .rating {
-    border: none; }
-    .userRatingSection .rating input {
-      display: none; }
-    .userRatingSection .rating label:before {
-      margin: 5px;
-      font-size: 1.25em;
-      font-family: FontAwesome;
-      display: inline-block;
-      content: "\f005"; }
-    .userRatingSection .rating label {
-      color: rgba(0, 0, 0, 0.5);
-      float: right; }
-    .userRatingSection .rating input:checked ~ label {
-      color: #FFD700; }
-    .userRatingSection .rating:not(:checked) > label:hover {
-      color: #FFD700; }
-      .userRatingSection .rating:not(:checked) > label:hover ~ label {
-        color: #FFD700; }
-    .userRatingSection .rating > input:checked + label:hover, .userRatingSection .rating > input:checked ~ label:hover {
-      color: #FFED85; }
-    .userRatingSection .rating > label:hover ~ input:checked ~ label, .userRatingSection .rating > input:checked ~ label:hover ~ label {
-      color: #FFED85; }
 
 .capital-heading-text {
   text-transform: capitalize;

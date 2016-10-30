@@ -63,14 +63,16 @@
         usv.visit.productId = $routeParams.productId;
         usv.getVisitParamObj.productId = $routeParams.productId;
       }
+      if($auth.isAuthenticated()){
         userVisitService.getVisit(usv.visit)
             .then(function(res){
               
               console.log(res);
+              if(res.data[0]){
               if(res.data[0]._id){
               console.log("the checking for visit");  
                 usv.userStoreVisited = true;
-              }
+              }}
               
              
             },
@@ -78,6 +80,7 @@
               {
                 console.log(res);
               });
+      }
       }
 
     }

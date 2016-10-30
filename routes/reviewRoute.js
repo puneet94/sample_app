@@ -41,8 +41,10 @@ reviewRouter.route('/ratings/store/:storeId')
 						}
 						if(result.length==0){
 							res.json(0);
+						}else{
+							res.json(avg/result.length);//chek	
 						}
-						res.json(avg/result.length);
+						
 					}
 				});
 });

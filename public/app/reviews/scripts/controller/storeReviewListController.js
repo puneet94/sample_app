@@ -18,7 +18,7 @@ angular.module('app.review')
     if(slc.authCheck){
       slc.userUpvotes  = userData.getUser().upvotes;
     }
-    slc.submitUserReviewUpvote = submitUserReviewUpvote;
+    
     slc.activate();
     function activate(){
       slc.getStoreReviews();
@@ -64,7 +64,8 @@ angular.module('app.review')
       reviewService.submitUserReviewUpvote({"reviewId":review._id,"storeId":$routeParams.storeId,"userId":userData.getUser()._id})
       .then(function(res){
         review.upvotes.push(res.data.id);
-        slc.userUpvotes.push(res.data.id);userData.setUser();
+        slc.userUpvotes.push(res.data.id);
+        userData.setUser();
         slc.smallLoadingModel[review._id] = false;
         
         

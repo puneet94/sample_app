@@ -207,7 +207,9 @@ var Address = new Schema({
 	district:String,
 	zipCode:String,
 	area:String,
-	locality:String
+	locality:String,
+	latitude:Number,
+	longitude:Number
 });
 
 var Price = new Schema({
@@ -220,6 +222,10 @@ var StoreSchema = new Schema({
 	admin:{ type:Schema.ObjectId, ref:"User" },
 	address:Address,
 	category:[String],
+	subCategory:String,
+	keywords:String,
+	phone:String,
+	description:String,
 	reviews:[{ type:Schema.ObjectId, ref:"Review" }],
 	products:[{ type:Schema.ObjectId, ref:"Product" }],
 	upvotes:[{ type:Schema.ObjectId, ref:"Upvote" }],

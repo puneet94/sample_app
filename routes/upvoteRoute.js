@@ -86,26 +86,27 @@ upvoteRouter.route('/upvotes/store/:storeId?')
   
 })
 
-
 upvoteRouter.route('/upvotes/review')
 .post(commons.ensureAuthenticated,function(req,res){
   var upvote = new Upvote();
   var recData = req.body;
-
+  console.log(recData);
 	upvote.user=recData.userId;
 	if(recData.storeId){
+		console.log("hit the of");
 		upvote.entityId = recData.storeId;	
+		upvote.store = recData.storeId;	
 		var entity = Store;
 	}
 	else if(recData.productId){
 		upvote.entityId = recData.productId;
+		upvote.product = recData.productId;
 		var entity = Product;
 	}
 	else{
 		upvote.entityId = recData.userId;
 		var entity = User;
 	}
- 	
 	upvote.review = recData.reviewId;
 	console.log(upvote);
 	console.log("dingdingidng");
@@ -121,18 +122,14 @@ upvoteRouter.route('/upvotes/review')
 			      		else{
 					        console.log(err);
 					        return res.send(err);
-
 			      		}
 			    	}
 				    console.log(" upvote saved");
-
 				    res.json({"message":"Upvote created","id":upvote._id});
 		  		});
 			})
 		})
-	});// && 
-	
-
+	});
   
 })
 .delete(commons.ensureAuthenticated,function(req,res){
@@ -151,6 +148,7 @@ upvoteRouter.route('/upvotes/review')
 						res.send(err);
 					}
 					else{
+						console.log(upvote);
 						upvote.remove(function (err) {
         			res.json({"message":"Upvote delted","id":upvote._id});
     				});

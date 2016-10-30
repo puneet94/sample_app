@@ -60,7 +60,22 @@ cob.ensureAuthenticated = function ensureAuthenticated(req, res, next) {
   req.user = payload.sub;
   next();
 }
-
+cob.ensureStoreAdminAuthenticated = function ensureStoreAdminAuthenticated(req, res, next) {
+  if(req.user){
+    console.log(req.user);
+  }
+  console.log(req.params.storeId);
+  Store
+    .findById(req.params.storeId)
+    .select('admin')
+    .exec(function(err,store){
+      if(store.admin==re.user._id){
+        console.log("this is used");
+      }
+    })
+  
+  next();
+}
 cob.validateId = function validateId(id,entityType){
   
   console.log("over here");
