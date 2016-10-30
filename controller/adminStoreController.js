@@ -17,7 +17,7 @@ function createStore(req, res){
   var store = new Store();
   var address = {};
   item = req.body;
-  store.name = item.storeName;
+  store.name = item.name;
   address = item.address;
   store.address = address;
   store.category = item.category.split(",");
@@ -49,12 +49,16 @@ function createStore(req, res){
 }
 
 function editStore(req, res){
-  Store.findById(req.params.storeId,function (error, result) {
+  console.log(typeof req.query.select);
+  Store.findById(req.params.storeId)
+  .select(req.query.select)
+  .exec(function (error, result) {
     if (error){
       console.log("error while reading");
     }
     else{
-      res.render('editStore',{json:result});
+      console.log(result);
+      res.json(result);
     }
   });
  }

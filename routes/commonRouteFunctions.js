@@ -69,7 +69,7 @@ cob.ensureStoreAdminAuthenticated = function ensureStoreAdminAuthenticated(req, 
     .findById(req.params.storeId)
     .select('admin')
     .exec(function(err,store){
-      if(store.admin==re.user._id){
+      if(store.admin==req.user){
         console.log("this is used");
       }
     })

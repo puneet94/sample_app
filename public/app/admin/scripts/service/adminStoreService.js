@@ -14,8 +14,8 @@ function AdminStoreService($http,baseUrlService,changeBrowserURL){
   this.getStore = getStore;
   this.editStore = editStore;
   this.deleteStore  = deleteStore;
-  function checkStoreAdmin(){
-
+  function checkStoreAdmin(userId,storeId){
+    return $http.get(baseUrlService.baseUrl);
   }
   function createStore(store){
   	return $http.post(baseUrlService.baseUrl+'admin/stores',store);
@@ -25,8 +25,9 @@ function AdminStoreService($http,baseUrlService,changeBrowserURL){
   function editStore(storeId,store){
   	return $http.put(baseUrlService.baseUrl,store);
   }
-  function getStore(storeId){
-    return $http.get(baseUrlService.baseUrl);       
+  function getStore(storeId,obj){
+   
+    return $http.get(baseUrlService.baseUrl+'admin/store/'+storeId,{params:obj});       
   }
   function deleteStore(){
 

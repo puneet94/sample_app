@@ -15,7 +15,7 @@
           </md-menu-item>
           
           <md-menu-item ng-repeat = "userStore in ualc.userStoresList">
-            <md-button aria-label="User store">
+            <md-button aria-label="User store" ng-click="ualc.getAdminStore(userStore._id)">
               {{userStore.name}}-{{userStore.address.locality}}
             </md-button>
           </md-menu-item>

@@ -2,13 +2,17 @@
 (function(angular){
   'use strict';
 angular.module('app.user')
-  .controller('UserActionListController', ['$scope','userData','userService',UserActionListController]);
-  function UserActionListController($scope,userData ) {
+  .controller('UserActionListController', ['$scope','userData','changeBrowserURL',UserActionListController]);
+  function UserActionListController($scope,userData,changeBrowserURL ) {
   		var originatorEv;
       var ualc = this;
       ualc.openMenu = openMenu;
       ualc.getUserPage = getUserPage;
+      ualc.getAdminStore = getAdminStore;
       activate();
+      function getAdminStore(storeId){
+        changeBrowserURL.changeBrowserURLMethod('/admin/adminStorePage/'+storeId);
+      }
       function getUserPage(){
       	userData.getUserPage(userData.getUser()._id);
       }

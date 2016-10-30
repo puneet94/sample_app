@@ -8,11 +8,15 @@ angular.module('app.admin',[]).config(['$routeProvider',
         resolve:{
           redirectIfNotAuthenticated: redirectIfNotAuthenticated
         }
-      })/*.when('/store/storesCollection/storeName/:storeName/:location/:slug?', {
-        templateUrl: 'app/store/views/storesNameCollection.html',
-        controller: 'StoreNameCollectionController',
-        controllerAs: 'sncc'
-      }).when('/store/storesCollection/category/:category/:location/:slug?', {
+      }).when('/admin/adminStorePage/:storeId', {
+        templateUrl: 'app/admin/views/adminStorePage.html',
+        controller: 'AdminStoreController',
+        controllerAs: 'asc',
+        resolve:{
+          redirectIfNotAuthenticated: redirectIfNotAuthenticated,
+          redirectIfNotStoreAuthenticated: redirectIfNotStoreAuthenticated
+        }
+      })/*.when('/store/storesCollection/category/:category/:location/:slug?', {
         templateUrl: 'app/store/views/storesCategoryCollection.html',
         controller: 'StoreCategoryCollectionController',
         controllerAs: 'sccc'
@@ -38,6 +42,27 @@ function redirectIfNotAuthenticated($q, $timeout,$auth,changeBrowserURL) {
               });
               defer.reject();
             }
+            return defer.promise;
+}
+
+function redirectIfNotStoreAuthenticated($q,$route,userData,adminStoreService,changeBrowserURL) {
+            var defer = $q.defer();
+            adminStoreService.getStore($route.current.params.storeId,{'select':'admin'}).then(function(response){
+              console.log('the');
+              console.log(userData.getUser()._id);
+              console.log(response);
+              if(userData.getUser()._id==response.data.admin){
+                defer.resolve();  
+                
+              }
+              else{
+                defer.reject();
+                changeBrowserURL.changeBrowserURLMethod('/home');
+              }
+            },function(response){
+              console.log(response);
+            });
+            
             return defer.promise;
 }
           

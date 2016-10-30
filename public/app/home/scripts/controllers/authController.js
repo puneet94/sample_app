@@ -9,6 +9,7 @@
 			phc.authenticate = authenticate;
 			phc.authLogout = authLogout;
 			phc.loginPage = loginPage;
+			
 			phc.isAuth = $auth.isAuthenticated();
 
 			function toHomePage(){
