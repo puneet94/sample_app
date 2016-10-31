@@ -2,7 +2,6 @@
   angular.module('app.admin')
 
     .controller('AdminStoreController',[AdminStoreController]);
-    function AdminStoreController(){
-    	
+    function AdminStoreController(){	
     }
 })(window.angular);

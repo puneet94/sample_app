@@ -17,21 +17,23 @@ var adminProductController = {
 function createProduct(req, res){
   var product = new Product();
   var address = {};
+  var price = {};
   item = req.body;
   product.name = item.name;
   product.description = item.description;
-  product.category = item.category;
-  product.subCategory = item.subCategory;
+  product.category = item.category.split(',');
+  product.subCategory = item.subCategory.split(',');
   price.value = item.price.value;
   price.currency = item.price.currency||'INR';
   product.price = price;
   product.sizesAvailable=item.sizesAvailable;
-  product.store = req.params.storeid;
-  Store.findById(req.params.storeid,function(err,store){
+  product.store = req.params.storeId;
+  Store.findById(req.params.storeId,function(err,store){
     if(err){
       console.log(err);
     }
     else{
+      console.log(store);
       product.address = store.address;
       product.save(function (error,result) {
         if (error){
@@ -39,8 +41,13 @@ function createProduct(req, res){
         }
         else{
           common.saveSearchList(product.name.toLowerCase(),"product",product.address.city,req,res);
-          common.saveSearchList(product.category.toLowerCase(),"product-category",product.address.city,req,res);
-          common.saveSearchList(product.subCategory.toLowerCase(),"product-subcategory",product.address.city,req,res);
+          for (var i = 0;i<product.category.length; i++) {
+            common.saveSearchList(product.category[i].toLowerCase(),"product-category",product.address.city,req,res);
+          };
+          for (var j = 0;j<product.subCategory.length; j++) {
+            common.saveSearchList(product.subCategory[j].toLowerCase(),"product-subcategory",product.address.city,req,res);
+          };
+          
           res.json(result);
         }
       });
@@ -77,8 +84,8 @@ function updateProduct(req, res){
       item = req.body;
       product.name = item.name;
       product.description = item.description;
-      product.category = item.category;
-      product.subCategory = item.subCategory;
+      product.category = item.category.split(',');
+      product.subCategory = item.subCategory.split(',');
       price.value = item.price.value;
       price.currency = item.price.currency||'INR';
       product.price = price;

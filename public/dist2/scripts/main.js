@@ -125,12 +125,12 @@ angular
         controller: 'LoginController',
         controllerAs: 'login'
       });
-      $authProvider.loginUrl = "http://localhost:3000/authenticate/login";
-      $authProvider.signupUrl = "http://localhost:3000/authenticate/signup";
+      $authProvider.loginUrl = "https://shoppinss.herokuapp.com/authenticate/login";
+      $authProvider.signupUrl = "https://shoppinss.herokuapp.com/authenticate/signup";
 
       $authProvider.facebook({
         clientId: '1068203956594250',
-        url:'http://localhost:3000/authenticate/auth/facebook'
+        url:'https://shoppinss.herokuapp.com/authenticate/auth/facebook'
       });
       //$httpProvider.interceptors.push('authInterceptor');
   }
@@ -181,7 +181,7 @@ angular.module('app.common',[]);
 angular.module('app.product',[]).config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
-    //http://localhost:3000/#/productsCollection/tab2/chennai/tab2-products-in-chennai
+    //https://shoppinss.herokuapp.com/#/productsCollection/tab2/chennai/tab2-products-in-chennai
       when('/productsCollectionName/:productName/:location/:slug?', {
         templateUrl: 'app/product/views/productsNameCollection.html',
         controller: 'ProductNameCollectionController',
@@ -387,7 +387,7 @@ angular.module('app.common')
 	}
 
 	function AjaxURL(){
-		this.baseUrl = "http://localhost:3000/";
+		this.baseUrl = "https://shoppinss.herokuapp.com/";
 
 		this.getStoresWithCatgeoryLocation = this.baseUrl + "store/storesCollection/category/";//:category/:location?";
 		this.getStoresWithNameLocation = this.baseUrl + "store/storesCollection/storeName/";
@@ -654,8 +654,7 @@ function loadingDirective() {
   angular.module('app.admin')
 
     .controller('AdminStoreController',[AdminStoreController]);
-    function AdminStoreController(){
-    	
+    function AdminStoreController(){	
     }
 })(window.angular);
 
@@ -671,9 +670,28 @@ function loadingDirective() {
 (function(angular){
   angular.module('app.admin')
 
-    .controller('CreateProductController',[CreateProductController]);
-    function CreateProductController(){
+    .controller('CreateProductController',['$routeParams','adminProductService',CreateProductController]);
+    function CreateProductController($routeParams,adminProductService){
+    	var csc = this;
+    	csc.productForm = {};
+        csc.productForm.price = {};
+    	activate();
+    	csc.createProduct = createProduct;
+        
+    	function createProduct(){
+    		adminProductService.createProduct(csc.productForm,$routeParams.storeId)
+	    		.then(function(response){
+	    			console.log(response);
+	    			alert("product created");
+	    		},function(response){
+	    			console.log(response);
+	    		});	
+    	}
     	
+    	
+    	function activate(){
+    		
+    	}
     }
 })(window.angular);
 
@@ -708,13 +726,70 @@ function loadingDirective() {
 (function(angular){
   angular.module('app.admin')
 
-    .controller('EditStoreController',['$auth','adminStoreService','$routeParams',EditStoreController]);
-    function EditStoreController($auth,adminStoreService,$routeParams){
+    .controller('EditProductController',['$auth','adminProductService','$routeParams',EditProductController]);
+    function EditProductController($auth,adminProductService,$routeParams){
+    	var csc = this;
+    	csc.productForm = {};
+    	activate();
+    	csc.createProduct = createProduct;
+        
+    	function createProduct(){
+    		adminProductService.updateProduct($routeParams.productId,csc.productForm)
+	    		.then(function(response){
+	    			console.log(response);
+	    			alert("product created");
+	    		},function(response){
+	    			console.log(response);
+	    		});	
+    	}
+    	
+    	
+    	function activate(){
+    		adminProductService.getProduct($routeParams.productId).then(function(response){
+    			console.log(response);
+
+                response.data.category = response.data.category.join(",");
+                response.data.subCategory = response.data.subCategory.join(",");
+                response.data.keywords = response.data.keywords.join(",");
+                console.log(response);
+    			csc.productForm = response.data;
+    		});
+    	}
+    }
+})(window.angular);
+
+(function(angular){
+  angular.module('app.admin')
+
+    .controller('EditStoreController',['$auth','adminStoreService','Upload','$routeParams',EditStoreController]);
+    function EditStoreController($auth,adminStoreService,Upload,$routeParams){
     	var csc = this;
     	csc.storeForm = {};
     	activate();
     	csc.createStore = createStore;
         
+
+
+        csc.uploadSingleImage = function(file, errFiles) {
+          console.log("Enterd file uploading");
+          csc.f = file;
+          csc.errFile = errFiles && errFiles[0];
+          if (file) {
+              file.upload = Upload.upload({
+                  url: 'https://shoppinss.herokuapp.com/upload/singleUpload',
+                  data: {file: file}
+              });
+              csc.spinnerLoading = true;
+              file.upload.then(function (response) {
+                  
+                      file.result = response.data;
+                      csc.storeForm.bannerImage = response.data;
+                      console.log('store banner Image'+response.data);
+                      //$('.userProfileImage').find('img').attr('src',response.data);
+                      csc.spinnerLoading = false;
+              });
+          }
+      };
     	function createStore(){
     		adminStoreService.updateStore($routeParams.storeId,csc.storeForm)
 	    		.then(function(response){
@@ -729,6 +804,11 @@ function loadingDirective() {
     	function activate(){
     		adminStoreService.getStore($routeParams.storeId).then(function(response){
     			console.log(response);
+
+                response.data.category = response.data.category.join(",");
+                response.data.subCategory = response.data.subCategory.join(",");
+                response.data.keywords = response.data.keywords.join(",");
+                console.log(response);
     			csc.storeForm = response.data;
     		});
     	}
@@ -750,6 +830,42 @@ function loadingDirective() {
   'use strict';
 
 angular.module('app.admin')
+  .service('adminProductService',["$http","baseUrlService",'changeBrowserURL',AdminProductService]);
+
+/*
+  * This servic has a function to get collection of products`
+*/
+
+function AdminProductService($http,baseUrlService,changeBrowserURL){
+  this.checkProductAdmin = checkProductAdmin;
+  this.createProduct = createProduct;
+  this.getProduct = getProduct;
+  this.updateProduct = updateProduct;
+  this.deleteProduct  = deleteProduct;
+  function checkProductAdmin(userId,productId){
+    return $http.get(baseUrlService.baseUrl);
+  }
+  function createProduct(product,storeId){
+  	return $http.post(baseUrlService.baseUrl+'admin/products/'+storeId,product);
+    //return $http.get(baseUrlService.baseUrl+url,{params:paramData});
+
+  }
+  function updateProduct(productId,product){
+  	return $http.put(baseUrlService.baseUrl+'admin/product/'+productId,product);
+  }
+  function getProduct(productId,obj){
+    return $http.get(baseUrlService.baseUrl+'admin/product/'+productId,{params:obj});       
+  }
+  function deleteProduct(){
+
+  }
+}
+})(window.angular);
+
+(function(angular){
+  'use strict';
+
+angular.module('app.admin')
   .service('adminStoreService',["$http","baseUrlService",'changeBrowserURL',AdminStoreService]);
 
 /*
@@ -760,7 +876,7 @@ function AdminStoreService($http,baseUrlService,changeBrowserURL){
   this.checkStoreAdmin = checkStoreAdmin;
   this.createStore = createStore;
   this.getStore = getStore;
-  this.editStore = editStore;
+  this.updateStore = updateStore;
   this.deleteStore  = deleteStore;
   function checkStoreAdmin(userId,storeId){
     return $http.get(baseUrlService.baseUrl);
@@ -770,11 +886,10 @@ function AdminStoreService($http,baseUrlService,changeBrowserURL){
     //return $http.get(baseUrlService.baseUrl+url,{params:paramData});
 
   }
-  function editStore(storeId,store){
-  	return $http.put(baseUrlService.baseUrl,store);
+  function updateStore(storeId,store){
+  	return $http.put(baseUrlService.baseUrl+'admin/store/'+storeId,store);
   }
   function getStore(storeId,obj){
-   
     return $http.get(baseUrlService.baseUrl+'admin/store/'+storeId,{params:obj});       
   }
   function deleteStore(){
@@ -2705,6 +2820,92 @@ function UserVisitService($http,baseUrlService){
 
 (function(angular){
   'use strict';
+/*
+  *Service for getting a single store with its id
+*/
+angular.module('app.user')
+  .service('activityService',["$http","baseUrlService",ActivityService]);
+
+/*
+  * This servic has a function names getStore which takes id as parameter and returns a promise
+*/
+function ActivityService($http,baseUrlService){
+  this.getSingleUserActivity = getSingleUserActivity;
+  this.getAllActivity = getAllActivity;
+  this.getUserFollowingActivity = getUserFollowingActivity;
+  function getSingleUserActivity(id){
+    return $http.get(baseUrlService.baseUrl+'activity/singleUserActivity/'+id);
+
+  }
+  function getAllActivity(){
+    return $http.get(baseUrlService.baseUrl+'activity/allActivity/');
+  }
+  function getUserFollowingActivity(userId){
+    return $http.get(baseUrlService.baseUrl+'activity/userFollowingActivity/'+userId);
+  }
+
+
+
+}
+})(window.angular);
+
+(function(angular){
+  'use strict';
+/*
+  *Service for getting a single store with its id
+*/
+angular.module('app.user')
+  .service('userService',["$http","baseUrlService",UserService]);
+
+/*
+  * This servic has a function names getStore which takes id as parameter and returns a promise
+*/
+function UserService($http,baseUrlService){
+  this.getSingleUser = getSingleUser;
+  this.getStoreRating = getStoreRating;
+  this.submitUserFollow = submitUserFollow;
+  this.deleteUserFollow = deleteUserFollow;
+  this.checkUserFollow = checkUserFollow;
+  this.getUserFollowers = getUserFollowers;
+  this.getUserFollowing = getUserFollowing;
+  this.getUserStores = getUserStores;
+  function getSingleUser(id){
+    return $http.get(baseUrlService.baseUrl+"user/singleUser/"+id);
+
+  }
+  function getStoreRating(id){
+  	return $http.get(baseUrlService.baseUrl+"review/ratings/store/"+id);
+  }
+
+  function submitUserFollow(userId,followedId){
+
+    return $http.post(baseUrlService.baseUrl+"user/submitFollow/"+userId+'/'+followedId);
+  }
+  function deleteUserFollow(userId,followedId){
+
+    return $http.post(baseUrlService.baseUrl+"user/deleteFollow/"+userId+'/'+followedId);
+  }
+  function checkUserFollow(userId,followedId){
+    
+    return $http.get(baseUrlService.baseUrl+"user/checkFollow/"+userId+'/'+followedId);
+  }
+  function getUserFollowers(userId){
+    return $http.get(baseUrlService.baseUrl+"user/userFollowers/"+userId);
+  }
+  function getUserFollowing(userId){
+    return $http.get(baseUrlService.baseUrl+"user/userFollowing/"+userId);
+  }
+  function getUserStores(userId){
+    return $http.get(baseUrlService.baseUrl+"user/singleUser/"+userId,{params: { 'select': 'name address.area address.locality' }});
+  }
+
+
+
+}
+})(window.angular);
+
+(function(angular){
+  'use strict';
 angular.module('app.user')
 
   .controller('UserActivityListController',["$scope",'$routeParams',"activityService",UserActivityListController]);
@@ -2749,6 +2950,8 @@ angular.module('app.user')
       }
       else{
        activityService.getAllActivity().then(function(result){
+        console.log("from the activity");
+        console.log(result);
         ual.activityData= result.data;
         ual.loading = false;
       }); 
@@ -2940,7 +3143,7 @@ angular.module('app.user')
           upc.errFile = errFiles && errFiles[0];
           if (file) {
               file.upload = Upload.upload({
-                  url: 'http://localhost:3000/user/upload/profileImage/'+userData.getUser()._id,
+                  url: 'https://shoppinss.herokuapp.com/user/upload/profileImage/'+userData.getUser()._id,
                   data: {file: file}
               });
               upc.spinnerLoading = true;
@@ -2972,90 +3175,4 @@ angular.module('app.user')
 
     }
 
-})(window.angular);
-
-(function(angular){
-  'use strict';
-/*
-  *Service for getting a single store with its id
-*/
-angular.module('app.user')
-  .service('activityService',["$http","baseUrlService",ActivityService]);
-
-/*
-  * This servic has a function names getStore which takes id as parameter and returns a promise
-*/
-function ActivityService($http,baseUrlService){
-  this.getSingleUserActivity = getSingleUserActivity;
-  this.getAllActivity = getAllActivity;
-  this.getUserFollowingActivity = getUserFollowingActivity;
-  function getSingleUserActivity(id){
-    return $http.get(baseUrlService.baseUrl+'activity/singleUserActivity/'+id);
-
-  }
-  function getAllActivity(){
-    return $http.get(baseUrlService.baseUrl+'activity/allActivity/');
-  }
-  function getUserFollowingActivity(userId){
-    return $http.get(baseUrlService.baseUrl+'activity/userFollowingActivity/'+userId);
-  }
-
-
-
-}
-})(window.angular);
-
-(function(angular){
-  'use strict';
-/*
-  *Service for getting a single store with its id
-*/
-angular.module('app.user')
-  .service('userService',["$http","baseUrlService",UserService]);
-
-/*
-  * This servic has a function names getStore which takes id as parameter and returns a promise
-*/
-function UserService($http,baseUrlService){
-  this.getSingleUser = getSingleUser;
-  this.getStoreRating = getStoreRating;
-  this.submitUserFollow = submitUserFollow;
-  this.deleteUserFollow = deleteUserFollow;
-  this.checkUserFollow = checkUserFollow;
-  this.getUserFollowers = getUserFollowers;
-  this.getUserFollowing = getUserFollowing;
-  this.getUserStores = getUserStores;
-  function getSingleUser(id){
-    return $http.get(baseUrlService.baseUrl+"user/singleUser/"+id);
-
-  }
-  function getStoreRating(id){
-  	return $http.get(baseUrlService.baseUrl+"review/ratings/store/"+id);
-  }
-
-  function submitUserFollow(userId,followedId){
-
-    return $http.post(baseUrlService.baseUrl+"user/submitFollow/"+userId+'/'+followedId);
-  }
-  function deleteUserFollow(userId,followedId){
-
-    return $http.post(baseUrlService.baseUrl+"user/deleteFollow/"+userId+'/'+followedId);
-  }
-  function checkUserFollow(userId,followedId){
-    
-    return $http.get(baseUrlService.baseUrl+"user/checkFollow/"+userId+'/'+followedId);
-  }
-  function getUserFollowers(userId){
-    return $http.get(baseUrlService.baseUrl+"user/userFollowers/"+userId);
-  }
-  function getUserFollowing(userId){
-    return $http.get(baseUrlService.baseUrl+"user/userFollowing/"+userId);
-  }
-  function getUserStores(userId){
-    return $http.get(baseUrlService.baseUrl+"user/singleUser/"+userId,{params: { 'select': 'name address.area address.locality' }});
-  }
-
-
-
-}
 })(window.angular);

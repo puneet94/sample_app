@@ -32,6 +32,8 @@ var authenticateRouter = require('./routes/authenticateRoute');
 var reviewRouter = require('./routes/reviewRoute');
 var visitRouter = require('./routes/visitRoute');
 var adminRouter = require('./routes/adminRoute');
+
+var uploadRouter = require('./routes/uploadRoute');
 var upvoteRouter = require('./routes/upvoteRoute');
 var userRouter = require('./routes/userRoute');
 var activityRouter = require('./routes/activityRoute');
@@ -64,6 +66,7 @@ app.use('/review',reviewRouter);
 app.use('/visit',visitRouter);
 app.use('/admin',adminRouter);
 app.use('/upvote',upvoteRouter);
+app.use('/upload',uploadRouter);
 app.use('/user',userRouter);
 app.use('/activity',activityRouter);
 app.use(express.static(__dirname + '/public'));

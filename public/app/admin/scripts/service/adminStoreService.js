@@ -12,7 +12,7 @@ function AdminStoreService($http,baseUrlService,changeBrowserURL){
   this.checkStoreAdmin = checkStoreAdmin;
   this.createStore = createStore;
   this.getStore = getStore;
-  this.editStore = editStore;
+  this.updateStore = updateStore;
   this.deleteStore  = deleteStore;
   function checkStoreAdmin(userId,storeId){
     return $http.get(baseUrlService.baseUrl);
@@ -22,11 +22,10 @@ function AdminStoreService($http,baseUrlService,changeBrowserURL){
     //return $http.get(baseUrlService.baseUrl+url,{params:paramData});
 
   }
-  function editStore(storeId,store){
-  	return $http.put(baseUrlService.baseUrl,store);
+  function updateStore(storeId,store){
+  	return $http.put(baseUrlService.baseUrl+'admin/store/'+storeId,store);
   }
   function getStore(storeId,obj){
-   
     return $http.get(baseUrlService.baseUrl+'admin/store/'+storeId,{params:obj});       
   }
   function deleteStore(){

@@ -19,6 +19,8 @@ angular.module('app.user')
       }
       else{
        activityService.getAllActivity().then(function(result){
+        console.log("from the activity");
+        console.log(result);
         ual.activityData= result.data;
         ual.loading = false;
       }); 

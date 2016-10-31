@@ -21,8 +21,8 @@
               <span>{{::spc.product.name}}</span>
             </div>
             <div class="productPrice"><span>{{::spc.product.price.value}}-{{::spc.product.price.currency}}</span></div></div>
-            <div class="productCategory"><span>{{::spc.product.category}}</span></div>
-            <div class="productSubCategory"><span>{{::spc.product.subCategory}} </span></div>
+            <div class="productCategory"><span>{{::spc.product.category.join(",")}}</span></div>
+            <div class="productSubCategory"><span>{{::spc.product.subCategory.join(",")}} </span></div>
             <br>
 <div class="userInteractionNav" layout="row" ng-if="spc.authCheck">
         

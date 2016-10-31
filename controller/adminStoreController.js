@@ -21,6 +21,9 @@ function createStore(req, res){
   address = item.address;
   store.address = address;
   store.category = item.category.split(",");
+  store.subCategory = item.subCategory.split(",");
+  store.keywords = item.keywords.split(",");
+  store.bannerImage = item.bannerImage;
   store.admin = req.user;
   console.log(req.user+'gfnjfgng');
   console.log(store);
@@ -64,7 +67,6 @@ function editStore(req, res){
  }
 
 function updateStore(req, res){
-  
   Store.findById(req.params.storeId, function (err, store) {
     if (err){
       callback(err, null);
@@ -76,6 +78,9 @@ function updateStore(req, res){
       address = item.address;
       store.address = address;
       store.category = item.category.split(",");
+      store.subCategory = item.subCategory.split(",");
+      store.keywords = item.keywords.split(",");
+      store.bannerImage = item.bannerImage;
       store.save(function (err, result) {
         res.json(result);
       });

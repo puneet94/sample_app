@@ -1,6 +1,12 @@
 <div class="layout-column flex">
-   <h2>Create Store</h2>
+   
    <form name="myFrom" class="" style="">
+      <button class="imageUploadClick" type="file" ngf-select="csc.uploadSingleImage($file, $invalidFiles)"
+          accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
+      Upload Primary Image</button>
+      <div style="width:100px;height:100px;">
+         <img ng-src="{{csc.storeForm.bannerImage}}" style="width:100%;height:100%;">
+      </div>
       <div class="formItem  layout-column" >
          <div>
             <md-input-container >
