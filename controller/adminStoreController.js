@@ -24,6 +24,7 @@ function createStore(req, res){
   store.subCategory = item.subCategory.split(",");
   store.keywords = item.keywords.split(",");
   store.bannerImage = item.bannerImage;
+  store.storeImages = item.storeImages;
   store.admin = req.user;
   console.log(req.user+'gfnjfgng');
   console.log(store);
@@ -81,6 +82,7 @@ function updateStore(req, res){
       store.subCategory = item.subCategory.split(",");
       store.keywords = item.keywords.split(",");
       store.bannerImage = item.bannerImage;
+      store.storeImages = item.storeImages;
       store.save(function (err, result) {
         res.json(result);
       });

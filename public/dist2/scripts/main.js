@@ -704,7 +704,49 @@ function loadingDirective() {
     	csc.storeForm = {};
     	activate();
     	csc.createStore = createStore;
+        csc.uploadSingleImage = function(file, errFiles) {
+          console.log("Enterd file uploading");
+          csc.f = file;
+          csc.errFile = errFiles && errFiles[0];
+          if (file) {
+              file.upload = Upload.upload({
+                  url: baseUrlService.baseUrl+'upload/singleUpload',
+                  data: {file: file}
+              });
+              csc.spinnerLoading = true;
+              file.upload.then(function (response) {
+                  
+                      file.result = response.data;
+                      csc.storeForm.bannerImage = response.data;
+                      //$('.userProfileImage').find('img').attr('src',response.data);
+                      csc.spinnerLoading = false;
+              });
+          }
+      };
+    csc.uploadMultipleImages = function (files) {
+        csc.files = files;
+        angular.forEach(files, function(file) {
+            file.upload = Upload.upload({
+                url: baseUrlService.baseUrl+'upload/singleUpload',
+                data: {file: file}
+            });
+
+            file.upload.then(function (response) {
+                $timeout(function () {
+                    file.result = response.data;
+                    console.log(response.data);
+                    csc.storeForm.storeImages.push(response.data);
+                });
+            }, function (response) {
+                if (response.status > 0)
+                    csc.errorMsg = response.status + ': ' + response.data;
+            }, function (evt) {
+                file.progress = Math.min(100, parseInt(100.0 * 
+                                         evt.loaded / evt.total));
+            });
+        });
         
+    };
     	function createStore(){
     		adminStoreService.createStore(csc.storeForm)
 	    		.then(function(response){
@@ -761,14 +803,14 @@ function loadingDirective() {
 (function(angular){
   angular.module('app.admin')
 
-    .controller('EditStoreController',['$auth','adminStoreService','Upload','$routeParams',EditStoreController]);
-    function EditStoreController($auth,adminStoreService,Upload,$routeParams){
+    .controller('EditStoreController',['$auth','adminStoreService','Upload','$routeParams','$timeout','baseUrlService',EditStoreController]);
+    function EditStoreController($auth,adminStoreService,Upload,$routeParams,$timeout,baseUrlService){
     	var csc = this;
     	csc.storeForm = {};
     	activate();
     	csc.createStore = createStore;
         
-
+        
 
         csc.uploadSingleImage = function(file, errFiles) {
           console.log("Enterd file uploading");
@@ -776,7 +818,7 @@ function loadingDirective() {
           csc.errFile = errFiles && errFiles[0];
           if (file) {
               file.upload = Upload.upload({
-                  url: 'https://shoppinss.herokuapp.com/upload/singleUpload',
+                  url: baseUrlService.baseUrl+'upload/singleUpload',
                   data: {file: file}
               });
               csc.spinnerLoading = true;
@@ -784,12 +826,35 @@ function loadingDirective() {
                   
                       file.result = response.data;
                       csc.storeForm.bannerImage = response.data;
-                      console.log('store banner Image'+response.data);
                       //$('.userProfileImage').find('img').attr('src',response.data);
                       csc.spinnerLoading = false;
               });
           }
       };
+    csc.uploadMultipleImages = function (files) {
+        csc.files = files;
+        angular.forEach(files, function(file) {
+            file.upload = Upload.upload({
+                url: baseUrlService.baseUrl+'upload/singleUpload',
+                data: {file: file}
+            });
+
+            file.upload.then(function (response) {
+                $timeout(function () {
+                    file.result = response.data;
+                    console.log(response.data);
+                    csc.storeForm.storeImages.push(response.data);
+                });
+            }, function (response) {
+                if (response.status > 0)
+                    csc.errorMsg = response.status + ': ' + response.data;
+            }, function (evt) {
+                file.progress = Math.min(100, parseInt(100.0 * 
+                                         evt.loaded / evt.total));
+            });
+        });
+        
+    };
     	function createStore(){
     		adminStoreService.updateStore($routeParams.storeId,csc.storeForm)
 	    		.then(function(response){
@@ -2820,92 +2885,6 @@ function UserVisitService($http,baseUrlService){
 
 (function(angular){
   'use strict';
-/*
-  *Service for getting a single store with its id
-*/
-angular.module('app.user')
-  .service('activityService',["$http","baseUrlService",ActivityService]);
-
-/*
-  * This servic has a function names getStore which takes id as parameter and returns a promise
-*/
-function ActivityService($http,baseUrlService){
-  this.getSingleUserActivity = getSingleUserActivity;
-  this.getAllActivity = getAllActivity;
-  this.getUserFollowingActivity = getUserFollowingActivity;
-  function getSingleUserActivity(id){
-    return $http.get(baseUrlService.baseUrl+'activity/singleUserActivity/'+id);
-
-  }
-  function getAllActivity(){
-    return $http.get(baseUrlService.baseUrl+'activity/allActivity/');
-  }
-  function getUserFollowingActivity(userId){
-    return $http.get(baseUrlService.baseUrl+'activity/userFollowingActivity/'+userId);
-  }
-
-
-
-}
-})(window.angular);
-
-(function(angular){
-  'use strict';
-/*
-  *Service for getting a single store with its id
-*/
-angular.module('app.user')
-  .service('userService',["$http","baseUrlService",UserService]);
-
-/*
-  * This servic has a function names getStore which takes id as parameter and returns a promise
-*/
-function UserService($http,baseUrlService){
-  this.getSingleUser = getSingleUser;
-  this.getStoreRating = getStoreRating;
-  this.submitUserFollow = submitUserFollow;
-  this.deleteUserFollow = deleteUserFollow;
-  this.checkUserFollow = checkUserFollow;
-  this.getUserFollowers = getUserFollowers;
-  this.getUserFollowing = getUserFollowing;
-  this.getUserStores = getUserStores;
-  function getSingleUser(id){
-    return $http.get(baseUrlService.baseUrl+"user/singleUser/"+id);
-
-  }
-  function getStoreRating(id){
-  	return $http.get(baseUrlService.baseUrl+"review/ratings/store/"+id);
-  }
-
-  function submitUserFollow(userId,followedId){
-
-    return $http.post(baseUrlService.baseUrl+"user/submitFollow/"+userId+'/'+followedId);
-  }
-  function deleteUserFollow(userId,followedId){
-
-    return $http.post(baseUrlService.baseUrl+"user/deleteFollow/"+userId+'/'+followedId);
-  }
-  function checkUserFollow(userId,followedId){
-    
-    return $http.get(baseUrlService.baseUrl+"user/checkFollow/"+userId+'/'+followedId);
-  }
-  function getUserFollowers(userId){
-    return $http.get(baseUrlService.baseUrl+"user/userFollowers/"+userId);
-  }
-  function getUserFollowing(userId){
-    return $http.get(baseUrlService.baseUrl+"user/userFollowing/"+userId);
-  }
-  function getUserStores(userId){
-    return $http.get(baseUrlService.baseUrl+"user/singleUser/"+userId,{params: { 'select': 'name address.area address.locality' }});
-  }
-
-
-
-}
-})(window.angular);
-
-(function(angular){
-  'use strict';
 angular.module('app.user')
 
   .controller('UserActivityListController',["$scope",'$routeParams',"activityService",UserActivityListController]);
@@ -3133,8 +3112,8 @@ angular.module('app.user')
 (function(angular){
   'use strict';
 angular.module('app.user')
-  .controller('UserProfileImageController', ['$scope', 'Upload', 'userData','$timeout',UserProfileImageController]);
-  function UserProfileImageController($scope, Upload,userData, $timeout) {
+  .controller('UserProfileImageController', ['$scope', 'Upload', 'userData','baseUrlService',UserProfileImageController]);
+  function UserProfileImageController($scope, Upload,userData, baseUrlService) {
       var upc = this;
       upc.spinnerLoading = false;
       upc.uploadFiles = function(file, errFiles) {
@@ -3143,7 +3122,7 @@ angular.module('app.user')
           upc.errFile = errFiles && errFiles[0];
           if (file) {
               file.upload = Upload.upload({
-                  url: 'https://shoppinss.herokuapp.com/user/upload/profileImage/'+userData.getUser()._id,
+                  url: baseUrlService.baseUrl+'user/upload/profileImage/'+userData.getUser()._id,
                   data: {file: file}
               });
               upc.spinnerLoading = true;
@@ -3175,4 +3154,90 @@ angular.module('app.user')
 
     }
 
+})(window.angular);
+
+(function(angular){
+  'use strict';
+/*
+  *Service for getting a single store with its id
+*/
+angular.module('app.user')
+  .service('activityService',["$http","baseUrlService",ActivityService]);
+
+/*
+  * This servic has a function names getStore which takes id as parameter and returns a promise
+*/
+function ActivityService($http,baseUrlService){
+  this.getSingleUserActivity = getSingleUserActivity;
+  this.getAllActivity = getAllActivity;
+  this.getUserFollowingActivity = getUserFollowingActivity;
+  function getSingleUserActivity(id){
+    return $http.get(baseUrlService.baseUrl+'activity/singleUserActivity/'+id);
+
+  }
+  function getAllActivity(){
+    return $http.get(baseUrlService.baseUrl+'activity/allActivity/');
+  }
+  function getUserFollowingActivity(userId){
+    return $http.get(baseUrlService.baseUrl+'activity/userFollowingActivity/'+userId);
+  }
+
+
+
+}
+})(window.angular);
+
+(function(angular){
+  'use strict';
+/*
+  *Service for getting a single store with its id
+*/
+angular.module('app.user')
+  .service('userService',["$http","baseUrlService",UserService]);
+
+/*
+  * This servic has a function names getStore which takes id as parameter and returns a promise
+*/
+function UserService($http,baseUrlService){
+  this.getSingleUser = getSingleUser;
+  this.getStoreRating = getStoreRating;
+  this.submitUserFollow = submitUserFollow;
+  this.deleteUserFollow = deleteUserFollow;
+  this.checkUserFollow = checkUserFollow;
+  this.getUserFollowers = getUserFollowers;
+  this.getUserFollowing = getUserFollowing;
+  this.getUserStores = getUserStores;
+  function getSingleUser(id){
+    return $http.get(baseUrlService.baseUrl+"user/singleUser/"+id);
+
+  }
+  function getStoreRating(id){
+  	return $http.get(baseUrlService.baseUrl+"review/ratings/store/"+id);
+  }
+
+  function submitUserFollow(userId,followedId){
+
+    return $http.post(baseUrlService.baseUrl+"user/submitFollow/"+userId+'/'+followedId);
+  }
+  function deleteUserFollow(userId,followedId){
+
+    return $http.post(baseUrlService.baseUrl+"user/deleteFollow/"+userId+'/'+followedId);
+  }
+  function checkUserFollow(userId,followedId){
+    
+    return $http.get(baseUrlService.baseUrl+"user/checkFollow/"+userId+'/'+followedId);
+  }
+  function getUserFollowers(userId){
+    return $http.get(baseUrlService.baseUrl+"user/userFollowers/"+userId);
+  }
+  function getUserFollowing(userId){
+    return $http.get(baseUrlService.baseUrl+"user/userFollowing/"+userId);
+  }
+  function getUserStores(userId){
+    return $http.get(baseUrlService.baseUrl+"user/singleUser/"+userId,{params: { 'select': 'name address.area address.locality' }});
+  }
+
+
+
+}
 })(window.angular);

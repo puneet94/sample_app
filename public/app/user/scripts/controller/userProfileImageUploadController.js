@@ -2,8 +2,8 @@
 (function(angular){
   'use strict';
 angular.module('app.user')
-  .controller('UserProfileImageController', ['$scope', 'Upload', 'userData','$timeout',UserProfileImageController]);
-  function UserProfileImageController($scope, Upload,userData, $timeout) {
+  .controller('UserProfileImageController', ['$scope', 'Upload', 'userData','baseUrlService',UserProfileImageController]);
+  function UserProfileImageController($scope, Upload,userData, baseUrlService) {
       var upc = this;
       upc.spinnerLoading = false;
       upc.uploadFiles = function(file, errFiles) {
@@ -12,7 +12,7 @@ angular.module('app.user')
           upc.errFile = errFiles && errFiles[0];
           if (file) {
               file.upload = Upload.upload({
-                  url: 'http://localhost:3000/user/upload/profileImage/'+userData.getUser()._id,
+                  url: baseUrlService.baseUrl+'user/upload/profileImage/'+userData.getUser()._id,
                   data: {file: file}
               });
               upc.spinnerLoading = true;

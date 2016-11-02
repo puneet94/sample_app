@@ -13,7 +13,7 @@ var ObjectId = require('mongoose').Schema.ObjectId;
 var commons = require('./commonRouteFunctions');
 var uploadController = require('../controller/uploadController');
 
-uploadRouter.route('/multipleUpload').post(commons.ensureAuthenticated,uploadController.multipleUpload);
+uploadRouter.route('/multipleUpload').post(commons.ensureAuthenticated,upload.array('file',5),uploadController.multipleUpload);
 
 uploadRouter.route('/singleUpload').post(commons.ensureAuthenticated,upload.single('file'),uploadController.singleUpload);
 

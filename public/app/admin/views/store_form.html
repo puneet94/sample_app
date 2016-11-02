@@ -7,6 +7,19 @@
       <div style="width:100px;height:100px;">
          <img ng-src="{{csc.storeForm.bannerImage}}" style="width:100%;height:100%;">
       </div>
+      <div>
+         <button ngf-select="csc.uploadMultipleImages($files)" multiple accept="image/*">Select Files</button>
+          <br>
+          
+          {{csc.errorMsg}}
+      </div>
+      <div>
+         <ul class="storeImagesList">
+            <li style="" ng-repeat="storeImg in csc.storeForm.storeImages">
+               <img ng-src="{{storeImg}}" width="32" height="32">
+            </li>
+         </ul>
+      </div>
       <div class="formItem  layout-column" >
          <div>
             <md-input-container >
