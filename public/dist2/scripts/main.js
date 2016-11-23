@@ -115,7 +115,7 @@ angular
     //var fbClientId = '991629147629579';
     //shoppinss
     var fbclientId = '1068203956594250';
-    var authenticateUrl = 'https://shopins.herokuapp.com/authenticate';
+    var authenticateUrl = 'https://shoppins.herokuapp.com/authenticate';
     $routeProvider
       .when('/signup',{
         templateUrl:'app/authentication/views/register.html',
@@ -391,7 +391,7 @@ angular.module('app.common')
 	}
 
 	function AjaxURL(){
-		this.baseUrl = "https://shopins.herokuapp.com/";
+		this.baseUrl = "https://shoppins.herokuapp.com/";
 
 		this.getStoresWithCatgeoryLocation = this.baseUrl + "store/storesCollection/category/";//:category/:location?";
 		this.getStoresWithNameLocation = this.baseUrl + "store/storesCollection/storeName/";
