@@ -115,7 +115,7 @@ angular
     //var fbClientId = '991629147629579';
     //shoppinss
     var fbclientId = '1068203956594250';
-    var authenticateUrl = 'http://localhost:3000/authenticate';
+    var authenticateUrl = 'https://shopins.herokuapp.com/authenticate';
     $routeProvider
       .when('/signup',{
         templateUrl:'app/authentication/views/register.html',
@@ -186,7 +186,7 @@ angular.module('app.common',[]);
 angular.module('app.product',[]).config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
-    //http://localhost:3000/#/productsCollection/tab2/chennai/tab2-products-in-chennai
+    //https://shopins.herokuapp.com/#/productsCollection/tab2/chennai/tab2-products-in-chennai
       when('/productsCollectionName/:productName/:location/:slug?', {
         templateUrl: 'app/product/views/productsNameCollection.html',
         controller: 'ProductNameCollectionController',
@@ -392,7 +392,7 @@ angular.module('app.common')
 	}
 
 	function AjaxURL(){
-		this.baseUrl = "http://localhost:3000/";
+		this.baseUrl = "https://shopins.herokuapp.com/";
 
 		this.getStoresWithCatgeoryLocation = this.baseUrl + "store/storesCollection/category/";//:category/:location?";
 		this.getStoresWithNameLocation = this.baseUrl + "store/storesCollection/storeName/";
