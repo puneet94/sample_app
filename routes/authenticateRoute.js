@@ -65,8 +65,6 @@ authenticateRouter.route('/user/:userId')
 				return res.status(401).send({ message: 'Invalid emails and/or password' });
 			}
 			else{
-
-
 				res.send({ user:user.toJSON() });
 			}
 		})

@@ -4,8 +4,10 @@ URLSlugs = require('mongoose-url-slugs');
 var mongoosePaginate = require('mongoose-paginate');
 var relationship = require("mongoose-relationship"); //Refer https://www.npmjs.com/package/mongoose-relationship
 var Schema  = mongoose.Schema;
-
-mongoose.createConnection("mongodb://shop_dir:shop_dir@ds023912.mlab.com:23912/shoppins",function (err) {
+var urlStrings = require('../routes/url.js');
+//var connectionString = "mongodb://shopdb:shopdb1234@ds029476.mlab.com:29476/shopdb";
+//var connectionString  = "mongodb://shop_dir:shop_dir@ds023912.mlab.com:23912/shoppins";
+mongoose.createConnection(urlStrings.connectionString,function (err) {
   if (err) {
     console.log(err);
   }
@@ -28,7 +30,8 @@ var VisitSchema = new Schema({
     time : { type : Date, default: Date.now },
     store : { type:Schema.ObjectId, ref:"Store",childPath:"visits" },
     user : { type:Schema.ObjectId, ref:"User",childPath:"visits" },
-    product:{type:Schema.ObjectId, ref:"Product",childPath:"visits"}
+    product:{type:Schema.ObjectId, ref:"Product",childPath:"visits"},
+    type: String
 },{ collection : 'visits' });
 
 VisitSchema.plugin(relationship, { relationshipPathName:'user' });
@@ -43,6 +46,7 @@ var UpvoteSchema = new Schema({
     product : { type:Schema.ObjectId, ref:"Product",childPath:"upvotes" },
     user : { type:Schema.ObjectId, ref:"User",childPath:"upvotes" },
     review : { type:Schema.ObjectId, ref:"Review",childPath:"upvotes" },
+    type: String
 },{ collection : 'upvotes' });
 
 UpvoteSchema.plugin(relationship, { relationshipPathName:'user' });
@@ -123,6 +127,7 @@ var UserSchema = new Schema({
 	upvotes:[{ type:Schema.ObjectId, ref:"Upvote" }],
 	followers:[{ type:Schema.ObjectId, ref:"User" }],
 	following:[{ type:Schema.ObjectId, ref:"User" }],
+	storeFollowing:[{ type:Schema.ObjectId, ref:"Store" }],
 	followersCount:Number,
 	followingCount:Number,
 	reviewsCount :Number,
@@ -203,6 +208,7 @@ var Address = new Schema({
 	doorNo:String,
 	city:String,
 	state:String,
+	zone:String,
 	country:String,
 	district:String,
 	zipCode:String,
@@ -220,6 +226,7 @@ var Price = new Schema({
 var StoreSchema = new Schema({
 	name:String,
 	admin:{ type:Schema.ObjectId, ref:"User" },
+	userFollowers:[{ type:Schema.ObjectId, ref:"User" }],
 	address:Address,
 	category:[String],
 	subCategory:[String],
@@ -236,7 +243,6 @@ var StoreSchema = new Schema({
 	visitsCount: Number,
 	productsCount:Number,
 	reviewsCount:Number
-
 },{ collection : 'stores' });
 
 StoreSchema.post('init', function () {
@@ -266,6 +272,7 @@ var ProductSchema = new Schema({
 	upvotes:[{ type:Schema.ObjectId, ref:"Upvote" }],
 	visits:[{ type:Schema.ObjectId, ref:"Visit" }],
 	images:[String],
+	imagesMin:[String],
 	visitsCount: Number,
 	reviewsCount:Number,
 	upvotesCount:Number,

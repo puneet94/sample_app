@@ -9,7 +9,6 @@ var storeController = require('../controller/adminStoreController');
 var productController = require('../controller/adminProductController');
 var offerController = require('../controller/adminOfferController');
 
-
 adminRouter.route('/stores').post(commons.ensureAuthenticated,storeController.createStore);
 adminRouter.route('/store/:storeId')
 	.get(commons.ensureAuthenticated,commons.ensureStoreAdminAuthenticated,storeController.editStore)
@@ -33,6 +32,4 @@ adminRouter.route('/store/products')
 .get(commons.ensureAuthenticated,function(req,res){
   res.send('store');
 })
-
-
 module.exports = adminRouter;

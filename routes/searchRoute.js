@@ -12,7 +12,9 @@ searchRouter.use(function(req,res,next){
 searchRouter.route('/searches/:location_name')
 	.get(function(req,res){
 		var city = req.params.location_name.toLowerCase();
-		UserSearch.find({ 'location':city  },'userSearchString -_id',function(err,searches){
+		UserSearch.find({ 'location':city  })
+					.select('userSearchString -_id')
+					.limit(20).exec(function(err,searches){
 			if(err){
 				console.log("--------");
 				console.log(err);
@@ -20,7 +22,7 @@ searchRouter.route('/searches/:location_name')
 			}
 
 			res.json(searches);
-		})
+		});
 	});
 
 searchRouter.route('/searches/:location_name/:partial')
@@ -35,7 +37,7 @@ searchRouter.route('/searches/:location_name/:partial')
 				console.log(err);
 				res.send(err);
 			}
-
+			console.log(searches);
 			res.json(searches);
 		})
 	})

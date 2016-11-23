@@ -41,7 +41,6 @@ function getActivity(res,usersList){
 								if(err){
 									console.log(err);
 								}
-								//res.json(result);
 		  						res.send(html);
 		  						
 							})
@@ -56,6 +55,7 @@ activityRouter.route('/userFollowingActivity/:userId')
 			.findById(req.params.userId)
 			.select('following')
 			.exec(function(err,result){
+				console.log(result);
 				followingList  = result.following;
 				getActivity(res,followingList);
 			});
@@ -81,5 +81,7 @@ activityRouter.route('/allActivity/')
 	.get(function(req,res){
 		getActivity(res);
 	});
+
+	
 module.exports = activityRouter;
 

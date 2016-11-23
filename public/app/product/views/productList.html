@@ -1,21 +1,35 @@
 
-<div  ng-controller="ProductListController as plc" style="width:100%;">
+<div  ng-controller="ProductListController as plc" style="width:100%;min-height:200px;">
   <h3 class="productListHeading">{{plc.productsSearchHeader.split("-").join(" ")}}</h3>
   <!--<loading-directive loading="plc.loading"></loading-directive>-->
-  <h1 ng-if="plc.productsList.length==0">No products available</h1>
-  <div class="productContainer" layout="row" layout-wrap layout-align="space-around start">
-    <div class="singleProductContainer" md-whiteframe="1" flex="30"  flex-xs="100" ng-repeat="product in plc.productsList track by product._id">
-      <img class="singleProductImage" ng-src="{{::product.images[0]}}">
-      <div class="productDetailsContainer">
+  
+  <div class="productContainer" layout="row" layout-wrap layout-align="space-between start" >
+    
+    <div class="singleProductContainer" md-whiteframe="1" flex="50"  flex-xs="100" ng-repeat="product in plc.productsList track by product._id"  >
+      
+    <single-product-directive single-product="product"> </single-product-directive>
+
+    <!--  <div class="productImageContainer" flex="50">
+        <img class="singleProductImage" ng-src="{{::product.images[0]||product.imagesMin[0]||'http://www.planwallpaper.com/static/images/desktop-year-of-the-tiger-images-wallpaper.jpg'}}"/>  
+      </div>
+      
+      <div class="productDetailsContainer" flex="50" layout="column" layout-align="space-between stretch">
         <div layout="row" layout-align="space-between end">
-          <div class="productName"> {{::product.name}}</div>
+          <div class="productName" ng-click="plc.getSingleProduct(product)"> {{::product.name}}</div>
           <div class="productPrice"> {{::product.price.value}} {{::product.price.currency}}</div>
         </div>
-        
-        <div >
-          <span class="productCategory">{{::product.category}}</span>
-          <span class="productSubCatgeory">({{::product.subCategory}})
-          </span>
+        <div>
+          <div >
+            <span ng-repeat="category in product.category" class="productCategory">
+              {{::category}}
+            
+            </span>
+          </div>
+          <div>
+            <span ng-repeat="subCat in product.subCategory" class="productSubCategory">
+              {{::subCat}}
+            </span>
+          </div>
         </div>
         <div class="productStatsContainer" layout="row" layout-align="space-between end">
           <div>
@@ -29,8 +43,11 @@
             </span>
           </div>
         </div>
-      </div>
+      </div><h1 ng-if="plc.productsList.length==0">No products available</h1>-->
     </div>
+  </div>
+  <div style="position:relative">
+    <inner-loading-directive inner-loading="plc.loading"></inner-loading-directive>
   </div>
 </div>
 

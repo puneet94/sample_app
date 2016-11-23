@@ -5,11 +5,41 @@
   .directive('scrollDown', ["$window","$location", scrollDown])
   .directive('toggleMobile',["$window","$location", toggleMobile])
   .directive('loadingDirective',[loadingDirective])
+  .directive('innerLoadingDirective',[innerLoadingDirective])
   .directive('metaTags',[metaTagsDirective])
   .directive('likeDirective',[likeDirective])
   .directive('followDirective',[followDirective])
   .directive('smallLoadingDirective',[smallLoadingDirective])
-  .directive('bindHtmlCompile', ['$compile', function ($compile) {
+  .directive('bindHtmlCompile', ['$compile', bindHtmlCompile])
+  .directive('imagesListDirective',[imagesListDirective])
+  .directive('singleImageDirective',[singleImageDirective]);
+  function imagesListDirective(){
+    return {
+      restrict: 'E',
+      replace:true,
+      templateUrl:'app/common/views/imagesList.html',
+      scope:{
+        imagesList:'='
+      },
+      link: function(scope,element,attrs){
+
+      }
+    };
+  }
+  function singleImageDirective(){
+    return {
+      restrict: 'E',
+      replace: true,
+      templateUrl:'app/common/views/singleImage.html',
+      scope:{
+        image:'='
+      },
+      link: function(scope,element,attrs){
+
+      }
+    };
+  }
+  function bindHtmlCompile($compile) {
         return {
             restrict: 'A',
             link: function (scope, element, attrs) {
@@ -30,7 +60,7 @@
                 });
             }
         };
-    }]);
+    }
   
   function toggleElement($window,$location) {
     return {
@@ -133,6 +163,27 @@ function loadingDirective() {
         }
       };
   }
+
+function innerLoadingDirective() {
+      return {
+        restrict: 'E',
+        replace:true,
+        scope:{
+          loading:"=innerLoading"
+        },
+        template: '<div class="innerSpinnerDiv"><div class="ajaxLoadingSpinner"></div></div>',
+        link: function (scope, element, attr) {
+              scope.$watch('loading', function (val) {
+                  if (val)
+                      $(element).show();
+                  else
+                      $(element).hide();
+              });
+        }
+      };
+  }
+
+
   function smallLoadingDirective() {
       return {
         restrict: 'EA',
@@ -171,7 +222,8 @@ function loadingDirective() {
         upFn:'&upFn',
         downFn:'&downFn',
         upvChk:'&upvChk',
-        smallLoading:'=smallLoading'
+        smallLoading:'=smallLoading',
+        currentReview:'=currentReview'
       },
       templateUrl: 'app/reviews/views/likeReview.html'
     };

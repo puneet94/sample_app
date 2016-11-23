@@ -1,25 +1,31 @@
 <div class="layout-column flex">
    
-   <form name="myFrom" class="" style="">
+   <form name="storeForm" class="" style="" novalidate>
+      
+      <!--
       <button class="imageUploadClick" type="file" ngf-select="csc.uploadSingleImage($file, $invalidFiles)"
           accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
-      Upload Primary Image</button>
+      Upload Banner Image</button>
       <div style="width:100px;height:100px;">
          <img ng-src="{{csc.storeForm.bannerImage}}" style="width:100%;height:100%;">
+      </div>-->
+      
+      <div >
+        <div layout="row" layout-align="space-between center">
+         <h2>Images</h2>
+         <div>
+            <button ngf-select="csc.uploadMultipleImages($files)" multiple accept="image/*">Upload Images</button>
+            <br>
+
+            {{csc.errorMsg}}
+         </div>
+        </div>
+        <div layout="row" class="storeImagesCollection">
+          <images-list-directive images-list="csc.storeForm.storeImages"></images-list-directive>  
+        </div>
+        
       </div>
-      <div>
-         <button ngf-select="csc.uploadMultipleImages($files)" multiple accept="image/*">Select Files</button>
-          <br>
-          
-          {{csc.errorMsg}}
-      </div>
-      <div>
-         <ul class="storeImagesList">
-            <li style="" ng-repeat="storeImg in csc.storeForm.storeImages">
-               <img ng-src="{{storeImg}}" width="32" height="32">
-            </li>
-         </ul>
-      </div>
+      
       <div class="formItem  layout-column" >
          <div>
             <md-input-container >
@@ -59,7 +65,7 @@
          <div>
             <md-input-container >
                <label >City</label>
-               <input  type="text" ng-model="csc.storeForm.address.city">
+               <input  type="text" ng-model="csc.storeForm.address.city" required>
                <div ng-messages="InputView.form.$error" >
                   <!-- ngMessage: required -->
                   <div ng-message="required" class="" style="">This field is required</div>
@@ -154,6 +160,6 @@
          </div>
          
       </div>
-      <button ng-click="csc.createStore()">Submit</button>
+      <md-button ng-click="csc.createStore()" class="md-raised md-primary md-button" type="submit">Submit</md-button>
    </form>
 </div>

@@ -9,7 +9,7 @@
 			<md-card-title>
 				<md-card-title-text>
 					<span class="md-headline">
-						<span ng-click="slc.getSingleStore(store)" class="storeNameHeading">{{store.name}}<span>Visit Store</span></span>
+						<span ng-click="slc.getSingleStore(store)" class="storeNameHeading">{{store.name}}<span></span></span>
 					</span>
 					<div class="storeAddressDetails">
 						<div>
@@ -25,13 +25,14 @@
 					</div>
 
 					<div class="storeListCategories">
-    					Categories: {{::store.category.join(",")}}
+    					{{::store.category.join(",")}}
 					</div>
 				</md-card-title-text>
 
 				<md-card-title-media>
 					<div ng-click="slc.getSingleStore(store)" class="md-media-md card-media">
-						<div class="storeCardImage" style="background-image:url('{{store.bannerImageMin }}');background-size:cover;">
+						
+						<div class="storeCardImage"  afkl-lazy-image={{store.bannerImage}} >
 
 						</div>
 

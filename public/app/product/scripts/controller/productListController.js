@@ -6,7 +6,6 @@ angular.module('app.product')
   	 var plc = this;
       plc.pageNo = 0;
       plc.productsList = [];
-      console.log($routeParams);
       plc.getSingleProduct = getSingleProduct;
       plc.getProductsCollection = getProductsCollection;
       plc.productsSearchHeader = $routeParams.slug;
@@ -15,6 +14,7 @@ angular.module('app.product')
         plc.pageNo = 0;
         plc.paramData = data;
         plc.getProductsCollection();
+        
       });
       function getSingleProduct(product,scrollId){
         var url = "product/singleProduct/"+product._id;//+"/"+product.myslug;
@@ -53,7 +53,6 @@ angular.module('app.product')
         getProductCollectionService.getProductCollection(url,plc.paramData)
         .then(function(response){
           plc.totalProducts = response.data.total;
-          console.log(response);
           if(plc.productsList.length===0){
             var tempProductList = [];
             for (var i = response.data.docs.length - 1; i >= 0; i--) {

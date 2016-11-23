@@ -1,5 +1,5 @@
 angular.module('myApp',
-  ['ngRoute','ngCookies','ngMessages','ngSanitize','afkl.lazyImage','satellizer','ngFileUpload',
+  ['ngRoute','ngCookies','ngMessages','ngSanitize','afkl.lazyImage','satellizer','ngFileUpload','jkAngularCarousel',
     'authModApp','app.common','app.home','app.store','app.admin','ngMaterial','app.review','app.product','app.user']
   ).config(['$routeProvider','$mdThemingProvider',
   function($routeProvider,$mdThemingProvider) {
@@ -111,6 +111,11 @@ angular
   ])
   .config(["$routeProvider","$httpProvider","$authProvider",authConfig]);
   function authConfig($routeProvider,$httpProvider,$authProvider) {
+    //shopuae
+    //var fbClientId = '991629147629579';
+    //shoppinss
+    var fbclientId = '1068203956594250';
+    var authenticateUrl = 'http://localhost:3000/authenticate';
     $routeProvider
       .when('/signup',{
         templateUrl:'app/authentication/views/register.html',
@@ -125,12 +130,12 @@ angular
         controller: 'LoginController',
         controllerAs: 'login'
       });
-      $authProvider.loginUrl = "https://shoppinss.herokuapp.com/authenticate/login";
-      $authProvider.signupUrl = "https://shoppinss.herokuapp.com/authenticate/signup";
+      $authProvider.loginUrl =authenticateUrl + "/login";
+      $authProvider.signupUrl = authenticateUrl+"/signup";
 
       $authProvider.facebook({
-        clientId: '1068203956594250',
-        url:'https://shoppinss.herokuapp.com/authenticate/auth/facebook'
+        clientId: fbClientId,
+        url:authenticateUrl+'/auth/facebook'
       });
       //$httpProvider.interceptors.push('authInterceptor');
   }
@@ -181,7 +186,7 @@ angular.module('app.common',[]);
 angular.module('app.product',[]).config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
-    //https://shoppinss.herokuapp.com/#/productsCollection/tab2/chennai/tab2-products-in-chennai
+    //http://localhost:3000/#/productsCollection/tab2/chennai/tab2-products-in-chennai
       when('/productsCollectionName/:productName/:location/:slug?', {
         templateUrl: 'app/product/views/productsNameCollection.html',
         controller: 'ProductNameCollectionController',
@@ -387,7 +392,7 @@ angular.module('app.common')
 	}
 
 	function AjaxURL(){
-		this.baseUrl = "https://shoppinss.herokuapp.com/";
+		this.baseUrl = "http://localhost:3000/";
 
 		this.getStoresWithCatgeoryLocation = this.baseUrl + "store/storesCollection/category/";//:category/:location?";
 		this.getStoresWithNameLocation = this.baseUrl + "store/storesCollection/storeName/";
@@ -448,11 +453,41 @@ angular.module('app.common')
   .directive('scrollDown', ["$window","$location", scrollDown])
   .directive('toggleMobile',["$window","$location", toggleMobile])
   .directive('loadingDirective',[loadingDirective])
+  .directive('innerLoadingDirective',[innerLoadingDirective])
   .directive('metaTags',[metaTagsDirective])
   .directive('likeDirective',[likeDirective])
   .directive('followDirective',[followDirective])
   .directive('smallLoadingDirective',[smallLoadingDirective])
-  .directive('bindHtmlCompile', ['$compile', function ($compile) {
+  .directive('bindHtmlCompile', ['$compile', bindHtmlCompile])
+  .directive('imagesListDirective',[imagesListDirective])
+  .directive('singleImageDirective',[singleImageDirective]);
+  function imagesListDirective(){
+    return {
+      restrict: 'E',
+      replace:true,
+      templateUrl:'app/common/views/imagesList.html',
+      scope:{
+        imagesList:'='
+      },
+      link: function(scope,element,attrs){
+
+      }
+    };
+  }
+  function singleImageDirective(){
+    return {
+      restrict: 'E',
+      replace: true,
+      templateUrl:'app/common/views/singleImage.html',
+      scope:{
+        image:'='
+      },
+      link: function(scope,element,attrs){
+
+      }
+    };
+  }
+  function bindHtmlCompile($compile) {
         return {
             restrict: 'A',
             link: function (scope, element, attrs) {
@@ -473,7 +508,7 @@ angular.module('app.common')
                 });
             }
         };
-    }]);
+    }
   
   function toggleElement($window,$location) {
     return {
@@ -576,6 +611,27 @@ function loadingDirective() {
         }
       };
   }
+
+function innerLoadingDirective() {
+      return {
+        restrict: 'E',
+        replace:true,
+        scope:{
+          loading:"=innerLoading"
+        },
+        template: '<div class="innerSpinnerDiv"><div class="ajaxLoadingSpinner"></div></div>',
+        link: function (scope, element, attr) {
+              scope.$watch('loading', function (val) {
+                  if (val)
+                      $(element).show();
+                  else
+                      $(element).hide();
+              });
+        }
+      };
+  }
+
+
   function smallLoadingDirective() {
       return {
         restrict: 'EA',
@@ -614,7 +670,8 @@ function loadingDirective() {
         upFn:'&upFn',
         downFn:'&downFn',
         upvChk:'&upvChk',
-        smallLoading:'=smallLoading'
+        smallLoading:'=smallLoading',
+        currentReview:'=currentReview'
       },
       templateUrl: 'app/reviews/views/likeReview.html'
     };
@@ -653,8 +710,45 @@ function loadingDirective() {
 (function(angular){
   angular.module('app.admin')
 
-    .controller('AdminStoreController',[AdminStoreController]);
-    function AdminStoreController(){	
+    .controller('AdminStoreController',['$scope','$routeParams','getSingleStore','Upload','baseUrlService',AdminStoreController]);
+    function AdminStoreController($scope,$routeParams,getSingleStore,Upload,baseUrlService){	
+    	var asc = this;
+        asc.storeData = {};
+        activate();
+        asc.uploadStoreBanner = function(file, errFiles) {
+          console.log("Enterd file uploading");
+          asc.f = file;
+          asc.errFile = errFiles && errFiles[0];
+          if (file) {
+              file.upload = Upload.upload({
+                  url: baseUrlService.baseUrl+'upload/storeBannerUpload/'+$routeParams.storeId,
+                  data: {file: file}
+              });
+              asc.spinnerLoading = true;
+              file.upload.then(function (response) {
+                  
+                      file.result = response.data;
+                      //asc.storeForm.bannerImage = response.data;
+                      console.log(response.data);
+                      $('.storeBannerImage').css('background-image','url('+response.data+')');
+                      //asc.spinnerLoading = false;
+              });
+          }
+      };
+        function activate(){
+            getSingleStore.getStore($routeParams.storeId)
+            .then(function(res){
+                asc.storeData = res.data;                
+                //asc.showImagesCarousel = true;
+                asc.loading = false;
+        });
+
+        getSingleStore.getStoreRating($routeParams.storeId)
+            .then(function(res){
+              asc.storeData.storeRatingAvg = res.data;
+            });    
+        }
+    	
     }
 })(window.angular);
 
@@ -697,32 +791,13 @@ function loadingDirective() {
 
 (function(angular){
   angular.module('app.admin')
-
-    .controller('CreateStoreController',['$auth','adminStoreService',CreateStoreController]);
-    function CreateStoreController($auth,adminStoreService){
+    .controller('CreateStoreController',['$auth','adminStoreService','Upload','userData','$timeout','baseUrlService','$location',CreateStoreController]);
+    function CreateStoreController($auth,adminStoreService,Upload,userData,$timeout,baseUrlService,$location){
     	var csc = this;
     	csc.storeForm = {};
+      csc.storeForm.storeImages = [];
     	activate();
     	csc.createStore = createStore;
-        csc.uploadSingleImage = function(file, errFiles) {
-          console.log("Enterd file uploading");
-          csc.f = file;
-          csc.errFile = errFiles && errFiles[0];
-          if (file) {
-              file.upload = Upload.upload({
-                  url: baseUrlService.baseUrl+'upload/singleUpload',
-                  data: {file: file}
-              });
-              csc.spinnerLoading = true;
-              file.upload.then(function (response) {
-                  
-                      file.result = response.data;
-                      csc.storeForm.bannerImage = response.data;
-                      //$('.userProfileImage').find('img').attr('src',response.data);
-                      csc.spinnerLoading = false;
-              });
-          }
-      };
     csc.uploadMultipleImages = function (files) {
         csc.files = files;
         angular.forEach(files, function(file) {
@@ -748,10 +823,14 @@ function loadingDirective() {
         
     };
     	function createStore(){
+        csc.storeForm.bannerImage = csc.storeForm.storeImages[0];
     		adminStoreService.createStore(csc.storeForm)
 	    		.then(function(response){
-	    			console.log(response);
+	    			console.log(response.data._id);
+            userData.setUser();
 	    			alert("store created");
+            $location.url('/admin/adminStorePage/'+response.data._id);
+            //$window.location.reload();
 	    		},function(response){
 	    			console.log(response);
 	    		});	
@@ -1010,7 +1089,7 @@ angular.module('authModApp')
     logCl.user = {};
     logCl.submitLogin = submitLogin;
     logCl.signUp = signUp;
-    console.log("form thr ontdg");
+    
     logCl.authenticate = function(provider) {
       $auth.authenticate(provider);
       $location.path("/");
@@ -1024,9 +1103,7 @@ angular.module('authModApp')
       $auth.login(logCl.user)
     	.then(function(response){
 
-          userData.setUser(response.data.user);
-          //console.log(userData.getUser());
-          console.log('history url');
+          userData.setUser(response.data.user);    
           alert("Login successfull");
           window.history.back();
     		},function(response){
@@ -1205,7 +1282,7 @@ angular.module('authModApp')
     var cachedUser={};
     var obj1 =  {
       setUser: function (user) {
-        console.log("called me yo");
+        
         if(user){
           storage.setItem('user',JSON.stringify(user));
         }
@@ -1214,7 +1291,7 @@ angular.module('authModApp')
           var userId = $auth.getPayload().sub;
           if(userId){
             $http.get(baseUrlService.baseUrl+'authenticate/user/'+userId).then(function(res){
-              console.log('without param');
+              
               if(obj1.isUserExists()){
                   storage.removeItem('user');
               }
@@ -1229,7 +1306,7 @@ angular.module('authModApp')
             });
           }
         }
-        console.log(storage.getItem('user'));
+        
 
       },
       getUser: function(){
@@ -1284,7 +1361,8 @@ angular.module('authModApp')
 		    	$auth.authenticate(provider).then(function(response) {
 						userData.setUser();
 						alert('login with facebook successfull');
-						$route.reload();
+						//$route.reload();
+						$window.location.reload();
 	        });
 	    	}
 	    	function authLogout(){
@@ -1642,6 +1720,7 @@ angular.module('app.user')
       ualc.openMenu = openMenu;
       ualc.getUserPage = getUserPage;
       ualc.getAdminStore = getAdminStore;
+      ualc.createNewStore = createNewStore; 
       activate();
       function getAdminStore(storeId){
         changeBrowserURL.changeBrowserURLMethod('/admin/adminStorePage/'+storeId);
@@ -1652,11 +1731,14 @@ angular.module('app.user')
       function openMenu($mdOpenMenu, ev) {
 	      originatorEv = ev;
 	      $mdOpenMenu(ev);
-		}
-      
+		  }
+      function createNewStore(){
+        changeBrowserURL.changeBrowserURLMethod('/admin/createStore/'); 
+      }
 
 
       function activate(){
+        ualc.user = userData.getUser();
         ualc.userProfilePic = userData.getUser().picture;
         ualc.userStoresList = userData.getUser().storeId;
       	
@@ -1681,7 +1763,6 @@ angular.module('app.product')
   	 var plc = this;
       plc.pageNo = 0;
       plc.productsList = [];
-      console.log($routeParams);
       plc.getSingleProduct = getSingleProduct;
       plc.getProductsCollection = getProductsCollection;
       plc.productsSearchHeader = $routeParams.slug;
@@ -1690,6 +1771,7 @@ angular.module('app.product')
         plc.pageNo = 0;
         plc.paramData = data;
         plc.getProductsCollection();
+        
       });
       function getSingleProduct(product,scrollId){
         var url = "product/singleProduct/"+product._id;//+"/"+product.myslug;
@@ -1728,7 +1810,6 @@ angular.module('app.product')
         getProductCollectionService.getProductCollection(url,plc.paramData)
         .then(function(response){
           plc.totalProducts = response.data.total;
-          console.log(response);
           if(plc.productsList.length===0){
             var tempProductList = [];
             for (var i = response.data.docs.length - 1; i >= 0; i--) {
@@ -1882,6 +1963,28 @@ angular.module('app.product')
     }
 
   }
+
+})(window.angular);
+
+
+(function(angular){
+  angular.module('app.product')
+  .directive('singleProductDirective',[singleProductDirective]);
+  
+  function singleProductDirective(){
+    return {
+      restrict: 'E',
+      replace: true,
+      templateUrl:'app/product/views/singleProductTemplate.html',
+      scope:{
+        product:'=singleProduct'
+      },
+      link: function(scope,element,attrs){
+
+      }
+    };
+  }
+  
 
 })(window.angular);
 
@@ -2163,7 +2266,8 @@ angular.module('app.review')
       slc.smallLoadingModel[review._id] = true;
       reviewService.deleteUserReviewUpvote({"reviewId":review._id,"storeId":$routeParams.storeId,"userId":userData.getUser()._id})
       .then(function(res){
-        review.upvotes.splice(review.upvotes.indexOf(res.data.id), 1);userData.setUser();
+        review.upvotes.splice(review.upvotes.indexOf(res.data.id), 1);
+        userData.setUser();
         slc.smallLoadingModel[review._id] = false;
       });
 
@@ -2312,22 +2416,44 @@ angular.module('app.review')
   'use strict';
 angular.module('app.store')
 
-  .controller('SingleStoreController',["$scope","$auth",'$location','scrollToIdService',"$routeParams","storeData","getSingleStore",SingleStoreController]);
-  function SingleStoreController($scope,$auth,$location,scrollToIdService,$routeParams,storeData,getSingleStore){
+  .controller('SingleStoreController',["$scope","$auth",'$location','scrollToIdService',"$routeParams","storeData","getSingleStore",'$mdDialog',SingleStoreController]);
+  function SingleStoreController($scope,$auth,$location,scrollToIdService,$routeParams,storeData,getSingleStore,$mdDialog){
     var ssc = this;
     ssc.storeData = {};
     ssc.loading = true;
     ssc.authCheck = $auth.isAuthenticated();
     ssc.getAddressString = getAddressString;
-
+    
+    ssc.storeImagesObj = [];
     function getAddressString(){
       return Object.keys(ssc.storeData.address).map(function(key){return ssc.storeData.address[key];}).join(' ');
     }
-
+     $scope.showAlert = function(ev) {
+    // Appending dialog to document.body to cover sidenav in docs app
+    // Modal dialogs should fully cover application
+    // to prevent interaction outside of dialog
+    $mdDialog.show(
+      $mdDialog.alert()
+        .parent(angular.element(document.querySelector('#popupContainer')))
+        .clickOutsideToClose(true)
+        .title('Claim Business')
+        .textContent('If you are the owner of this store,then mail to us at shoppinsmail@gmail.com')
+        .ariaLabel('Alert Dialog Demo')
+        .ok('Got it!')
+        .targetEvent(ev)
+    );
+  };
     getSingleStore.getStore($routeParams.storeId)
     .then(function(res){
       storeData.setStore(res.data);
         ssc.storeData = res.data;
+        for (var i = 0; i < ssc.storeData.storeImages.length; i++) {
+          var obj = {};
+          obj.src=ssc.storeData.storeImages[i];
+          ssc.storeImagesObj.push(obj);
+        }
+        //ssc.showImagesCarousel = true;
+        console.log(ssc.storeImagesObj);
         ssc.loading = false;
         if($location.search().param){
             scrollToIdService.scrollToId($location.search().param);
@@ -2570,6 +2696,146 @@ angular.module('app.store')
 (function(angular){
   angular.module('app.store')
 
+    .controller('UserStoreFollowController',["$scope","$auth","$routeParams","userData","userFollowService",UserStoreFollowController]);
+
+    function UserStoreFollowController($scope,$auth,$routeParams,userData,userFollowService){
+      var usu = this;
+      usu.follow = {};
+      usu.followCheck = false;
+      usu.getFollowParamObj = {};
+      usu.submitFollow = submitFollow;
+      usu.deleteFollow = deleteFollow;
+      usu.getFollowParamObj.userId = userData.getUser()._id;
+      usu.userStoreFollowed = false;
+
+      activate();      
+      function userStoreFollowed(){        
+      }
+      function submitFollow(){
+        userFollowService.submitFollow(usu.follow)
+            .then(function(res){
+                    usu.userStoreFollowed = true;
+                    userData.setUser();
+                    
+                  },
+                  function(res){
+                    console.log(res);
+                  });
+      }
+      function deleteFollow(){
+        userFollowService.deleteFollow(usu.follow)
+            .then(function(res){
+              usu.userStoreFollowed = false;
+              userData.setUser();
+              
+             
+            },
+              function(res)
+              {
+                console.log(res);
+              });
+      }
+      
+      function activate(){
+       
+       usu.follow.userId = userData.getUser()._id;
+        if($routeParams.storeId){
+        usu.entity = $routeParams.storeId;
+        usu.follow.storeId = $routeParams.storeId;
+        
+      }
+      else if($routeParams.productId){
+        usu.entity = $routeParams.productId;
+        usu.follow.productId = $routeParams.productId;
+        usu.getFollowParamObj.productId = $routeParams.productId;
+      }
+      if($auth.isAuthenticated()){
+        if(userData.getUser().storeFollowing.indexOf($routeParams.storeId)!=-1){
+          usu.userStoreFollowed = true;
+        }
+        
+      }
+      }
+
+    }
+
+})(window.angular);
+
+(function(angular){
+  angular.module('app.store')
+
+    .controller('UserStoreUpvoteController',["$scope","$auth","$routeParams","userData","userUpvoteService",'storeData',UserStoreUpvoteController]);
+
+    function UserStoreUpvoteController($scope,$auth,$routeParams,userData,userUpvoteService,storeData){
+      var usu = this;
+      usu.upvote = {};
+      usu.upvoteCheck = false;
+      usu.getUpvoteParamObj = {};
+      usu.submitUpvote = submitUpvote;
+      usu.deleteUpvote = deleteUpvote;
+      usu.getUpvoteParamObj.userId = userData.getUser()._id;
+      usu.userStoreUpvoted = false;
+
+      activate();      
+      function userStoreUpvoted(){        
+      }
+      function submitUpvote(){
+        userUpvoteService.submitUpvote(usu.upvote)
+            .then(function(res){
+                    usu.userStoreUpvoted = true;
+                    userData.setUser();
+                    
+                  },
+                  function(res){
+                    console.log(res);
+                  });
+      }
+      function deleteUpvote(){
+        userUpvoteService.deleteUpvote(usu.upvoteId)
+            .then(function(res){
+              usu.userStoreUpvoted = false;
+              userData.setUser();
+            },
+              function(res)
+              {
+                console.log(res);
+              });
+      }
+      
+      function activate(){
+        usu.upvote.userId = userData.getUser()._id;
+        if($routeParams.storeId){
+          usu.upvote.storeId = $routeParams.storeId;
+          usu.upvote.type="store";
+        }
+        else if($routeParams.productId){
+          usu.upvote.type="product";
+          usu.upvote.productId = $routeParams.productId;
+        
+        }
+        if($auth.isAuthenticated()){
+          var currentStore = storeData.getStore();
+          var currentUser = userData.getUser();
+          for (var i = 0; i < currentStore.upvotes.length; i++) {
+            for (var j = 0; j < currentUser.upvotes.length; j++) {
+              if(currentStore.upvotes[i] == currentUser.upvotes[j]){
+                usu.userStoreUpvoted = true;
+                usu.upvoteId = currentStore.upvotes[i];
+                console.log(usu.upvoteId);
+              }
+            }
+            
+          }
+        }
+      }
+
+    }
+
+})(window.angular);
+
+(function(angular){
+  angular.module('app.store')
+
     .controller('UserStoreVisitController',["$scope","$auth","$routeParams","userData","userVisitService",UserStoreVisitController]);
 
     function UserStoreVisitController($scope,$auth,$routeParams,userData,userVisitService){
@@ -2582,19 +2848,13 @@ angular.module('app.store')
       usv.getVisitParamObj.userId = userData.getUser()._id;
       usv.userStoreVisited = false;
 
-      activate();
-
-      
-
-      function userStoreVisited(){
-        
-        
+      activate();      
+      function userStoreVisited(){        
       }
       function submitVisit(){
         userVisitService.submitVisit(usv.visit)
             .then(function(res){
                     userData.setUser();
-                    
                     usv.userStoreVisited = true;
                   },
                   function(res){
@@ -2615,9 +2875,6 @@ angular.module('app.store')
               });
       }
       
-
-
-     
       function activate(){
        
        usv.visit.userId = userData.getUser()._id;
@@ -2636,10 +2893,10 @@ angular.module('app.store')
         userVisitService.getVisit(usv.visit)
             .then(function(res){
               
-              console.log(res);
+              
               if(res.data[0]){
               if(res.data[0]._id){
-              console.log("the checking for visit");  
+              
                 usv.userStoreVisited = true;
               }}
               
@@ -2681,8 +2938,6 @@ angular.module('app.store')
     return {
       restrict: 'A',
       link: function(scope, element, attrs) {
-
-
         $(element).on('click',function(){
           //$(element).removeClass('highlightClass');
           $(this).addClass(attrs.addClass);
@@ -2833,11 +3088,7 @@ function storeData($window) {
   var storage = $window.localStorage;
   var obj1 = {
     setStore: function (store) {
-        console.log('****from the storeData factory*****');
-        console.log(store);
         storage.setItem('store',JSON.stringify(store));
-
-
     },
     getStore: function(){
       return JSON.parse(storage.getItem('store'));
@@ -2852,6 +3103,64 @@ function storeData($window) {
 
 
 
+})(window.angular);
+
+(function(angular){
+  'use strict';
+/*
+  *Service for getting a single store with its id
+*/
+angular.module('app.store')
+  .service('userFollowService',["$http","baseUrlService",UserFollowService]);
+
+/*
+  * This servic has a function names getStore which takes id as parameter and returns a promise
+*/
+function UserFollowService($http,baseUrlService){
+  this.submitFollow = submitFollow;
+  this.deleteFollow = deleteFollow;
+  this.getFollow = getFollow;
+
+  function getFollow(followData){
+    return $http.get(baseUrlService.baseUrl+"follow/followed",{"params":followData});
+  }
+
+  function submitFollow(followData){
+    return $http.post(baseUrlService.baseUrl+"store/submitStoreFollow",followData);
+  }
+  function deleteFollow(followObj){
+    return $http.post(baseUrlService.baseUrl+"store/deleteStoreFollow",followObj);
+  }
+}
+})(window.angular);
+
+(function(angular){
+  'use strict';
+/*
+  *Service for getting a single store with its id
+*/
+angular.module('app.store')
+  .service('userUpvoteService',["$http","baseUrlService",UserUpvoteService]);
+
+/*
+  * This servic has a function names getStore which takes id as parameter and returns a promise
+*/
+function UserUpvoteService($http,baseUrlService){
+  this.submitUpvote = submitUpvote;
+  this.deleteUpvote = deleteUpvote;
+  this.getUpvote = getUpvote;
+
+  function getUpvote(upvoteData){
+    return $http.get(baseUrlService.baseUrl+"upvote/upvoted",{"params":upvoteData});
+  }
+
+  function submitUpvote(upvoteData){
+    return $http.post(baseUrlService.baseUrl+"upvote/upvotes/storeUpvote",upvoteData);
+  }
+  function deleteUpvote(upvoteId){
+    return $http.delete(baseUrlService.baseUrl+"upvote/upvotes/"+upvoteId);//{"params":upvoteObj});
+  }
+}
 })(window.angular);
 
 (function(angular){
@@ -3173,7 +3482,6 @@ function ActivityService($http,baseUrlService){
   this.getUserFollowingActivity = getUserFollowingActivity;
   function getSingleUserActivity(id){
     return $http.get(baseUrlService.baseUrl+'activity/singleUserActivity/'+id);
-
   }
   function getAllActivity(){
     return $http.get(baseUrlService.baseUrl+'activity/allActivity/');
