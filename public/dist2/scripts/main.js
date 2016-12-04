@@ -112,10 +112,10 @@ angular
   .config(["$routeProvider","$httpProvider","$authProvider",authConfig]);
   function authConfig($routeProvider,$httpProvider,$authProvider) {
     //shopuae
-    //var fbClientId = '991629147629579';
+    var fbClientId = '991629147629579';
     //shoppinss
-    var fbclientId = '1068203956594250';
-    var authenticateUrl = 'https://shoppins.herokuapp.com/authenticate';
+    //var fbclientId = '1068203956594250';
+    var authenticateUrl = 'http://localhost:3000/authenticate';
     $routeProvider
       .when('/signup',{
         templateUrl:'app/authentication/views/register.html',
@@ -391,7 +391,7 @@ angular.module('app.common')
 	}
 
 	function AjaxURL(){
-		this.baseUrl = "https://shoppins.herokuapp.com/";
+		this.baseUrl = "http://localhost:3000/";
 
 		this.getStoresWithCatgeoryLocation = this.baseUrl + "store/storesCollection/category/";//:category/:location?";
 		this.getStoresWithNameLocation = this.baseUrl + "store/storesCollection/storeName/";
@@ -763,14 +763,59 @@ function innerLoadingDirective() {
 (function(angular){
   angular.module('app.admin')
 
-    .controller('CreateProductController',['$routeParams','adminProductService',CreateProductController]);
-    function CreateProductController($routeParams,adminProductService){
+    .controller('CreateProductController',['$routeParams','adminProductService','Upload','baseUrlService',CreateProductController]);
+    function CreateProductController($routeParams,adminProductService,Upload,baseUrlService){
     	var csc = this;
     	csc.productForm = {};
         csc.productForm.price = {};
     	activate();
     	csc.createProduct = createProduct;
+
+        csc.uploadMultipleImages = function (files) {
+        csc.files = files;
+        angular.forEach(files, function(file) {
+            file.upload = Upload.upload({
+                url: baseUrlService.baseUrl+'upload/singleUpload',
+                data: {file: file}
+            });
+
+            file.upload.then(function (response) {
+                $timeout(function () {
+                    file.result = response.data;
+                    console.log(response.data);
+                    csc.productForm.productImages.push(response.data);
+                });
+            }, function (response) {
+                if (response.status > 0)
+                    csc.errorMsg = response.status + ': ' + response.data;
+            }, function (evt) {
+                file.progress = Math.min(100, parseInt(100.0 * 
+                                         evt.loaded / evt.total));
+            });
+        });
         
+    };
+        csc.uploadProductImage = function(file, errFiles) {
+          console.log("Enterd file uploading");
+          csc.f = file;
+          csc.errFile = errFiles && errFiles[0];
+          if (file) {
+              file.upload = Upload.upload({
+                  url: baseUrlService.baseUrl+'upload/singleUpload',
+                  data: {file: file}
+              });
+              csc.spinnerLoading = true;
+              file.upload.then(function (response) {
+                  
+                      file.result = response.data;
+                      csc.productForm.bannerImage = response.data;
+                      console.log(response.data);
+                      $('.productMainImage').css('background-image','url('+response.data+')');
+                      
+              });
+          }
+      };
+
     	function createProduct(){
     		adminProductService.createProduct(csc.productForm,$routeParams.storeId)
 	    		.then(function(response){
@@ -2412,85 +2457,6 @@ angular.module('app.review')
 })(window.angular);
 
 (function(angular){
-  angular.module('app.store')
-  .directive('filterDirective',["$window","$location", filterDirective])
-  .directive('addClass',["$window","$location", addClassDirective])
-  .directive('removeClass',["$window","$location", removeClassDirective])
-  .directive('siblingRemoveClass',["$window","$location", siblingRemoveClassDirective]);
-  function filterDirective($window,$location) {
-    return {
-      restrict: 'E',
-      templateUrl:'app/store/views/filterDirectiveTemplate.html',
-      scope:{
-        filterName:"@filterName",
-        radioModel:"=radioModel",
-        radioChange:"&radioChange",
-        radioRepeat:"=radioRepeat",
-        clearClick:"&clearClick"
-      },
-      link: function(scope, element, attrs) {
-      }
-    };
-  }
-  function addClassDirective($window,$location) {
-    return {
-      restrict: 'A',
-      link: function(scope, element, attrs) {
-        $(element).on('click',function(){
-          //$(element).removeClass('highlightClass');
-          $(this).addClass(attrs.addClass);
-
-        });
-
-      }
-    };
-  }
-  function siblingRemoveClassDirective($window,$location) {
-    return {
-      restrict: 'A',
-      link: function(scope, element, attrs) {
-        $(element).on('click',function(){
-          $(this).siblings().removeClass(attrs.siblingRemoveClass);
-        });
-
-      }
-    };
-  }
-
-  function removeClassDirective($window,$location) {
-    return {
-      restrict: 'A',
-      link: function(scope, element, attrs) {
-        $(element).on('click',function(){
-          $(this).siblings('.filterDirectiveRadioGroup').find('.filterRadioButton').removeClass(attrs.removeClass);
-        });
-
-      }
-    };
-  }
-
-
-})(window.angular);
-
-(function(angular){
-  angular.module('app.store')
-  .directive('scrollToId',['scrollToIdService',scrollToIdDirective]);
-
-  function scrollToIdDirective(scrollToIdService) {
-    return {
-      restrict: 'A',
-      link: function(scope, element, attrs) {
-        $(element).on('click',function(){
-          scrollToIdService.scrollToId(attrs.scrollToId);
-        });
-      }
-    };
-  }
-
-
-})(window.angular);
-
-(function(angular){
   'use strict';
 angular.module('app.store')
 
@@ -2988,6 +2954,85 @@ angular.module('app.store')
       }
 
     }
+
+})(window.angular);
+
+(function(angular){
+  angular.module('app.store')
+  .directive('filterDirective',["$window","$location", filterDirective])
+  .directive('addClass',["$window","$location", addClassDirective])
+  .directive('removeClass',["$window","$location", removeClassDirective])
+  .directive('siblingRemoveClass',["$window","$location", siblingRemoveClassDirective]);
+  function filterDirective($window,$location) {
+    return {
+      restrict: 'E',
+      templateUrl:'app/store/views/filterDirectiveTemplate.html',
+      scope:{
+        filterName:"@filterName",
+        radioModel:"=radioModel",
+        radioChange:"&radioChange",
+        radioRepeat:"=radioRepeat",
+        clearClick:"&clearClick"
+      },
+      link: function(scope, element, attrs) {
+      }
+    };
+  }
+  function addClassDirective($window,$location) {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attrs) {
+        $(element).on('click',function(){
+          //$(element).removeClass('highlightClass');
+          $(this).addClass(attrs.addClass);
+
+        });
+
+      }
+    };
+  }
+  function siblingRemoveClassDirective($window,$location) {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attrs) {
+        $(element).on('click',function(){
+          $(this).siblings().removeClass(attrs.siblingRemoveClass);
+        });
+
+      }
+    };
+  }
+
+  function removeClassDirective($window,$location) {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attrs) {
+        $(element).on('click',function(){
+          $(this).siblings('.filterDirectiveRadioGroup').find('.filterRadioButton').removeClass(attrs.removeClass);
+        });
+
+      }
+    };
+  }
+
+
+})(window.angular);
+
+(function(angular){
+  angular.module('app.store')
+  .directive('scrollToId',['scrollToIdService',scrollToIdDirective]);
+
+  function scrollToIdDirective(scrollToIdService) {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attrs) {
+        $(element).on('click',function(){
+          scrollToIdService.scrollToId(attrs.scrollToId);
+        });
+      }
+    };
+  }
+
 
 })(window.angular);
 

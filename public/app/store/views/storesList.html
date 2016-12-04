@@ -25,7 +25,16 @@
 					</div>
 
 					<div class="storeListCategories">
-    					{{::store.category.join(",")}}
+						<span class="storeListCategory" ng-repeat = "category in store.category">
+							{{::category}}	
+						</span>
+    					
+					</div>
+					<div class="storeListSubCategories">
+						<span class="storeListSubCategory" ng-repeat = "subCategory in store.subCategory">
+							{{::subCategory}}	
+						</span>
+    					
 					</div>
 				</md-card-title-text>
 
