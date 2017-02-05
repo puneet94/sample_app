@@ -1,6 +1,6 @@
 angular.module('myApp',
   ['ngRoute','ngCookies','ngMessages','ngSanitize','afkl.lazyImage','satellizer','ngFileUpload','jkAngularCarousel',
-    'authModApp','app.common','app.home','app.store','app.admin','ngMaterial','app.review','app.product','app.user']
+    'btford.socket-io','authModApp','app.common','app.home','app.store','app.chat','app.admin','ngMaterial','app.review','app.product','app.user']
   ).config(['$routeProvider','$mdThemingProvider',
   function($routeProvider,$mdThemingProvider) {
       $mdThemingProvider.theme('default')
@@ -140,6 +140,42 @@ angular
       //$httpProvider.interceptors.push('authInterceptor');
   }
 })(window.angular);
+
+angular.module('app.chat',[]).config(['$routeProvider',
+  function($routeProvider) {
+    $routeProvider.
+      when('/chatBox/:creator1/:creator2', {
+        templateUrl: 'app/chat/views/chatBox.html',
+        controller: 'ChatBoxController',
+        controllerAs: 'cbc',
+        resolve:{
+          redirectIfNotAuthenticated: redirectIfNotAuthenticated
+        }
+        
+      });
+  }]);
+
+function redirectIfNotAuthenticated($q,$auth,$route,userData,changeBrowserURL) {
+            var defer = $q.defer();
+            var creator1 = $route.current.params.creator1;
+            var creator2 = $route.current.params.creator2;
+            if($auth.isAuthenticated()){
+            	if(userData.getUser()._id==creator1 || userData.getUser()._id==creator2){
+            		defer.resolve();  
+            	}
+            	else{
+            		defer.reject();
+                	changeBrowserURL.changeBrowserURLMethod('/home');
+            	}
+            }
+            else{
+            	defer.reject();
+                changeBrowserURL.changeBrowserURLMethod('/home');
+            } 
+            return defer.promise;
+}
+          
+
 
 (function(angular){
 'use strict';
@@ -709,8 +745,8 @@ function innerLoadingDirective() {
 (function(angular){
   angular.module('app.admin')
 
-    .controller('AdminStoreController',['$scope','$routeParams','getSingleStore','Upload','baseUrlService',AdminStoreController]);
-    function AdminStoreController($scope,$routeParams,getSingleStore,Upload,baseUrlService){	
+    .controller('AdminStoreController',['$scope','$routeParams','getSingleStore','Upload','baseUrlService','userData',AdminStoreController]);
+    function AdminStoreController($scope,$routeParams,getSingleStore,Upload,baseUrlService,userData){	
     	var asc = this;
         asc.storeData = {};
         activate();
@@ -735,6 +771,7 @@ function innerLoadingDirective() {
           }
       };
         function activate(){
+          asc.currentUser = userData.getUser()._id;
             getSingleStore.getStore($routeParams.storeId)
             .then(function(res){
                 asc.storeData = res.data;                
@@ -1115,50 +1152,62 @@ function AdminStoreService($http,baseUrlService,changeBrowserURL){
 //     }
 //   });
 
-(function(angular){
-'use strict';
+(function(angular) {
+    'use strict';
 
-/**
- * @ngdoc function
- * @name authModApp.controller:LoginCtrl
- * @description
- * # LoginCtrl
- * Controller of the authModApp
- */
-angular.module('authModApp')
-  .controller('LoginController', ["$location","$window","$auth","userData","baseUrlService",LoginCtrl]);
+    /**
+     * @ngdoc function
+     * @name authModApp.controller:LoginCtrl
+     * @description
+     * # LoginCtrl
+     * Controller of the authModApp
+     */
+    angular.module('authModApp')
+        .controller('LoginController', ["$location", "$window", "$auth", "userData", "baseUrlService", 'Socket', LoginCtrl]);
 
-  function LoginCtrl($location,$window,$auth,userData,baseUrlService) {
-    var logCl = this;
-    logCl.user = {};
-    logCl.submitLogin = submitLogin;
-    logCl.signUp = signUp;
-    
-    logCl.authenticate = function(provider) {
-      $auth.authenticate(provider);
-      $location.path("/");
+    function LoginCtrl($location, $window, $auth, userData, baseUrlService, Socket) {
+        var logCl = this;
+        logCl.user = {};
+        logCl.submitLogin = submitLogin;
+        logCl.signUp = signUp;
 
-    };
-    function signUp(){
-      $location.path("/signup");
+        logCl.authenticate = function(provider) {
+            $auth.authenticate(provider);
+            $location.path("/");
+
+        };
+        function socketStart() {
+
+            Socket.on("connect", function() {
+                
+                Socket.emit('addToSingleRoom', { 'roomId': userData.getUser()._id });
+            });
+        }
+        function signUp() {
+            $location.path("/signup");
+        }
+
+        function submitLogin() {
+            //authorize.login(logCl.user)
+            $auth.login(logCl.user)
+                .then(function(response) {
+
+                    userData.setUser(response.data.user);
+                    alert("Login successfull");
+                    socketStart();
+
+                    window.history.back();
+                }, function(response) {
+                    console.log(response);
+                });
+        }
+
+
     }
-    function submitLogin(){
-    	//authorize.login(logCl.user)
-      $auth.login(logCl.user)
-    	.then(function(response){
-
-          userData.setUser(response.data.user);    
-          alert("Login successfull");
-          window.history.back();
-    		},function(response){
-    			console.log(response);
-    		});
-    }
-  }
 
 })(window.angular);
-  /* please work
-	<script>
+/* please work
+  <script>
   window.fbAsyncInit = function() {
     FB.init({
       appId      : '1068203956594250',
@@ -1381,40 +1430,190 @@ angular.module('authModApp')
   }
 })(window.angular);
 
+(function(angular) {
+    angular.module('app.chat')
+
+    .controller('ChatBoxController', ['$scope', 'Socket', '$routeParams', 'userData', 'chatService', ChatBoxController]);
+
+    function ChatBoxController($scope, Socket, $routeParams, userData, chatService) {
+        var cbc = this;
+        cbc.currentUser = userData.getUser()._id;
+        cbc.chatRoomId = '';
+        cbc.messageLoading = false;
+        activate();
+        //socketStart();
+        function getChatMessages(){
+          chatService.getChatMessages(cbc.chatRoomId).then(function(res){
+              cbc.chatList = res.data[0].chats;
+               $('.chatBoxUL').animate({ scrollTop: 99999999 }, 'slow');
+            },function(res){
+              console.log(res);
+            });
+
+        }
+        function activate() {
+            chatService.getChatRoom().then(function(res) {
+                cbc.chatRoomId = res.data[0]._id;
+                socketJoin();
+                getChatMessages();
+            }, function(res) {
+                console.log(res);
+            });
+        }
+        function socketStart() {
+            Socket.on("connect", function() {
+                Socket.on('messageSaved',function(message){
+                  cbc.chatList.push(message);
+                });
+            });
+        }
+
+        function socketJoin() {
+            Socket.emit('addToRoom', { 'roomId': cbc.chatRoomId });
+            Socket.on('messageSaved',function(message){
+                  cbc.chatList.push(message);
+                  $('.chatBoxUL').animate({ scrollTop: 99999999 }, 'slow');
+                });
+        }
+        cbc.sendMsg = function($event) {
+            if ($event.which == 13 && !$event.shiftKey && cbc.myMsg) {
+                cbc.messageLoading = true;
+                var chatObj = { 'message': cbc.myMsg, 'user': cbc.currentUser, 'roomId': cbc.chatRoomId };
+                chatService.sendChatMessage(chatObj).then(function(res){
+                  cbc.myMsg = '';
+                  cbc.messageLoading = false;
+                },function(res){
+                  console.log(res);
+                });
+                
+            }
+        };
+
+    }
+})(window.angular);
+
+(function(angular) {
+    angular.module('app.chat')
+
+    .controller('ChatRoomListController', ['$scope','$routeParams', 'userData', 'chatService', ChatRoomListController]);
+
+    function ChatRoomListController($scope,$routeParams, userData, chatService) {
+        
+        var cbc = this;
+        cbc.currentUser = userData.getUser()._id;
+        activate();
+        function getChatRoomList(){
+
+          chatService.getChatRoomList(cbc.currentUser).then(function(res){
+              cbc.chatRoomList = res.data;
+                console.log(cbc.chatRoomList);
+            },function(res){
+              console.log(res);
+            });
+
+        }
+
+        function activate() {
+            getChatRoomList();
+        }
+        
+
+    }
+})(window.angular);
+
 (function(angular){
-	'use strict';
+  'use strict';
+  angular.module('app.chat')
+      .service('chatService',['$http','$routeParams','baseUrlService',ReviewService]);
+      function ReviewService($http,$routeParams,baseUrlService){
+        var rs  = this;
+        rs.sendChatMessage = sendChatMessage;
+        rs.getChatMessages = getChatMessages;
+        rs.getChatRoom = getChatRoom;
+        rs.getChatRoomList = getChatRoomList;
+        function sendChatMessage(chat){
+          return $http.post(baseUrlService.baseUrl+'chat/chats/'+chat.roomId,chat);
+        }
+        function getChatMessages(chatRoomId){
+          
+          return $http.get(baseUrlService.baseUrl+'chat/chats/'+chatRoomId);
+        }
+        function getChatRoom(){
+        	return $http.get(baseUrlService.baseUrl + 'chat/chatBox/' + $routeParams.creator1 + '/' + $routeParams.creator2);
+                
+        }
+        function getChatRoomList(userId){
+          return $http.get(baseUrlService.baseUrl + 'chat/chatRooms/' + userId);
+        }
+        
 
-	angular.module('app.home')
-		.controller("AuthController",["$scope","changeBrowserURL","$auth","$window","$route","userData",AuthController]);
-	function AuthController($scope,changeBrowserURL,$auth,$window,$route,userData){
-			var phc = this;
-			phc.toHomePage = toHomePage;
-			phc.authenticate = authenticate;
-			phc.authLogout = authLogout;
-			phc.loginPage = loginPage;
-			
-			phc.isAuth = $auth.isAuthenticated();
+      }
+})(window.angular);
 
-			function toHomePage(){
-				changeBrowserURL.changeBrowserURLMethod('/');
-			}
-			function loginPage(){
-				changeBrowserURL.changeBrowserURLMethod('/login');
-			}
-			function authenticate(provider) {
-		    	$auth.authenticate(provider).then(function(response) {
-						userData.setUser();
-						alert('login with facebook successfull');
-						//$route.reload();
-						$window.location.reload();
-	        });
-	    	}
-	    	function authLogout(){
-					$auth.logout();
-	        		userData.removeUser();
-					toHomePage();
-	    	}
-	}
+angular.module('app.chat').factory('Socket', ['socketFactory',
+    function(socketFactory) {
+        return socketFactory({
+            prefix: '',
+            ioSocket: io.connect('http://localhost:3000')
+        });
+    }
+]);
+angular.module('app.chat')
+	.factory('SocketUserService', ['socketFactory','userData',socketFactoryFunction]);
+    function socketFactoryFunction(socketFactory,userData) {
+        return socketFactory({
+            prefix: '',
+            ioSocket: io.connect('/'+userData.getUser()._id)
+        });
+    }
+
+(function(angular) {
+    'use strict';
+
+    angular.module('app.home')
+        .controller("AuthController", ["$scope", "changeBrowserURL", "$auth", "$window", "$route", "userData", 'Socket', AuthController]);
+
+    function AuthController($scope, changeBrowserURL, $auth, $window, $route, userData, Socket) {
+        var phc = this;
+        phc.toHomePage = toHomePage;
+        phc.authenticate = authenticate;
+        phc.authLogout = authLogout;
+        phc.loginPage = loginPage;
+
+        phc.isAuth = $auth.isAuthenticated();
+        function socketStart() {
+            Socket.on("connect", function() {
+                
+                Socket.emit('addToSingleRoom', { 'roomId': userData.getUser()._id });
+            });
+        }
+        function toHomePage() {
+            changeBrowserURL.changeBrowserURLMethod('/');
+        }
+
+        function loginPage() {
+            changeBrowserURL.changeBrowserURLMethod('/login');
+        }
+
+        function authenticate(provider) {
+            $auth.authenticate(provider).then(function(response) {
+                userData.setUser();
+
+                alert('login with facebook successfull');
+                socketStart();
+                //$route.reload();
+                $window.location.reload();
+            });
+        }
+
+        function authLogout() {
+            $auth.logout();
+            userData.removeUser();
+            toHomePage();
+        }
+
+        
+    }
 
 
 })(window.angular);
@@ -1423,9 +1622,9 @@ angular.module('authModApp')
 	'use strict';
 
 	angular.module('app.home')
-	.controller('HeaderController',["$scope","userData","changeBrowserURL","$auth","$mdDialog", "$mdMedia","$timeout", "$mdSidenav", "$log",HeaderController]);
+	.controller('HeaderController',["$scope","userData","changeBrowserURL","$auth","$mdDialog", "$mdMedia","$timeout", "$mdSidenav", "$log",'Socket',HeaderController]);
 
-	function HeaderController($scope,userData,changeBrowserURL,$auth,$mdDialog, $mdMedia,$timeout, $mdSidenav, $log){
+	function HeaderController($scope,userData,changeBrowserURL,$auth,$mdDialog, $mdMedia,$timeout, $mdSidenav, $log,Socket){
 			var phc = this;
 			phc.toHomePage = toHomePage;
 			phc.authenticate = authenticate;
@@ -1433,6 +1632,23 @@ angular.module('authModApp')
 			phc.showAdvanced = showAdvanced;
 			phc.customFullscreen = undefined;
 			phc.isAuth = $auth.isAuthenticated();
+			function socketStart() {
+            Socket.emit('addToSingleRoom', { 'roomId': userData.getUser()._id });
+            
+        	}
+			if(phc.isAuth){
+				socketStart();
+				Socket.on('newMessageReceived',function(message){
+					
+					if(message.user._id == userData.getUser()._id){
+
+					}
+					else{
+						console.log("the received thing");
+						console.log(message);
+					}
+				});
+			}
 			phc.isOpenLeft = function(){
 	      return $mdSidenav('left').isOpen();
 	    };
@@ -2460,14 +2676,14 @@ angular.module('app.review')
   'use strict';
 angular.module('app.store')
 
-  .controller('SingleStoreController',["$scope","$auth",'$location','scrollToIdService',"$routeParams","storeData","getSingleStore",'$mdDialog',SingleStoreController]);
-  function SingleStoreController($scope,$auth,$location,scrollToIdService,$routeParams,storeData,getSingleStore,$mdDialog){
+  .controller('SingleStoreController',["$scope","$auth",'$location','scrollToIdService',"$routeParams","storeData","getSingleStore",'$mdDialog','userData',SingleStoreController]);
+  function SingleStoreController($scope,$auth,$location,scrollToIdService,$routeParams,storeData,getSingleStore,$mdDialog,userData){
     var ssc = this;
     ssc.storeData = {};
     ssc.loading = true;
     ssc.authCheck = $auth.isAuthenticated();
     ssc.getAddressString = getAddressString;
-    
+    ssc.currentUser = userData.getUser()._id;
     ssc.storeImagesObj = [];
     function getAddressString(){
       return Object.keys(ssc.storeData.address).map(function(key){return ssc.storeData.address[key];}).join(' ');
@@ -3274,7 +3490,7 @@ angular.module('app.user')
     function activate(){
 
       ual.loading = true;
-      if(ual.authCheck){
+      /*if(ual.authCheck){
         activityService.getUserFollowingActivity($auth.getPayload().sub).then(function(result){
         ual.activityData= result.data;
         ual.loading = false;
@@ -3287,7 +3503,7 @@ angular.module('app.user')
         ual.activityData= result.data;
         ual.loading = false;
       }); 
-      }
+      }*/
       
       
     }

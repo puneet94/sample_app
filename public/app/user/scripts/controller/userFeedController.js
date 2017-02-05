@@ -11,7 +11,7 @@ angular.module('app.user')
     function activate(){
 
       ual.loading = true;
-      if(ual.authCheck){
+      /*if(ual.authCheck){
         activityService.getUserFollowingActivity($auth.getPayload().sub).then(function(result){
         ual.activityData= result.data;
         ual.loading = false;
@@ -24,7 +24,7 @@ angular.module('app.user')
         ual.activityData= result.data;
         ual.loading = false;
       }); 
-      }
+      }*/
       
       
     }

@@ -2,14 +2,14 @@
   'use strict';
 angular.module('app.store')
 
-  .controller('SingleStoreController',["$scope","$auth",'$location','scrollToIdService',"$routeParams","storeData","getSingleStore",'$mdDialog',SingleStoreController]);
-  function SingleStoreController($scope,$auth,$location,scrollToIdService,$routeParams,storeData,getSingleStore,$mdDialog){
+  .controller('SingleStoreController',["$scope","$auth",'$location','scrollToIdService',"$routeParams","storeData","getSingleStore",'$mdDialog','userData',SingleStoreController]);
+  function SingleStoreController($scope,$auth,$location,scrollToIdService,$routeParams,storeData,getSingleStore,$mdDialog,userData){
     var ssc = this;
     ssc.storeData = {};
     ssc.loading = true;
     ssc.authCheck = $auth.isAuthenticated();
     ssc.getAddressString = getAddressString;
-    
+    ssc.currentUser = userData.getUser()._id;
     ssc.storeImagesObj = [];
     function getAddressString(){
       return Object.keys(ssc.storeData.address).map(function(key){return ssc.storeData.address[key];}).join(' ');

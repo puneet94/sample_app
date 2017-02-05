@@ -12,6 +12,26 @@ mongoose.createConnection(urlStrings.connectionString,function (err) {
     console.log(err);
   }
 });
+var ChatRoomSchema = new Schema({
+	creator1: { type:Schema.ObjectId, ref:"User"}, 
+	creator2: { type:Schema.ObjectId, ref:"User"},
+	chats: [{ type:Schema.ObjectId, ref:"Chat" }],
+	lastMessage: { type:Schema.ObjectId, ref:"Chat" },
+	lastMessageTime: { type : Date }
+
+});
+ChatRoomSchema.index({ creator1: 1, creator2: 1}, { unique: true });
+var ChatRoom = mongoose.model("ChatRoom", ChatRoomSchema);
+//x.replace(/\D/g,'');
+
+var ChatSchema = new Schema({
+	message: String,
+	chatRoom : { type:Schema.ObjectId, ref:"ChatRoom",childPath:"chats" },
+	time: { type : Date, default: Date.now },
+	user: { type:Schema.ObjectId, ref:"User"}
+});
+ChatSchema.plugin(relationship, { relationshipPathName:'chatRoom' });
+var Chat = mongoose.model("Chat", ChatSchema);
 
 var ActivitySchema = new Schema({
 	//activityFor:{ type:Schema.ObjectId, ref:"User"},
@@ -318,6 +338,8 @@ ProductSchema.plugin(mongoosePaginate);
 exports.Store = mongoose.model('Store',StoreSchema);
 exports.Product = mongoose.model("Product", ProductSchema);
 exports.User = User;
+exports.Chat = Chat;
+exports.ChatRoom = ChatRoom;
 exports.Review = Review;
 exports.Visit = Visit;
 exports.Activity = mongoose.model("Activity",ActivitySchema);

@@ -1,8 +1,8 @@
 (function(angular){
   angular.module('app.admin')
 
-    .controller('AdminStoreController',['$scope','$routeParams','getSingleStore','Upload','baseUrlService',AdminStoreController]);
-    function AdminStoreController($scope,$routeParams,getSingleStore,Upload,baseUrlService){	
+    .controller('AdminStoreController',['$scope','$routeParams','getSingleStore','Upload','baseUrlService','userData',AdminStoreController]);
+    function AdminStoreController($scope,$routeParams,getSingleStore,Upload,baseUrlService,userData){	
     	var asc = this;
         asc.storeData = {};
         activate();
@@ -27,6 +27,7 @@
           }
       };
         function activate(){
+          asc.currentUser = userData.getUser()._id;
             getSingleStore.getStore($routeParams.storeId)
             .then(function(res){
                 asc.storeData = res.data;                

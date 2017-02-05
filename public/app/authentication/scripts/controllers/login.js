@@ -1,47 +1,59 @@
-(function(angular){
-'use strict';
+(function(angular) {
+    'use strict';
 
-/**
- * @ngdoc function
- * @name authModApp.controller:LoginCtrl
- * @description
- * # LoginCtrl
- * Controller of the authModApp
- */
-angular.module('authModApp')
-  .controller('LoginController', ["$location","$window","$auth","userData","baseUrlService",LoginCtrl]);
+    /**
+     * @ngdoc function
+     * @name authModApp.controller:LoginCtrl
+     * @description
+     * # LoginCtrl
+     * Controller of the authModApp
+     */
+    angular.module('authModApp')
+        .controller('LoginController', ["$location", "$window", "$auth", "userData", "baseUrlService", 'Socket', LoginCtrl]);
 
-  function LoginCtrl($location,$window,$auth,userData,baseUrlService) {
-    var logCl = this;
-    logCl.user = {};
-    logCl.submitLogin = submitLogin;
-    logCl.signUp = signUp;
-    
-    logCl.authenticate = function(provider) {
-      $auth.authenticate(provider);
-      $location.path("/");
+    function LoginCtrl($location, $window, $auth, userData, baseUrlService, Socket) {
+        var logCl = this;
+        logCl.user = {};
+        logCl.submitLogin = submitLogin;
+        logCl.signUp = signUp;
 
-    };
-    function signUp(){
-      $location.path("/signup");
+        logCl.authenticate = function(provider) {
+            $auth.authenticate(provider);
+            $location.path("/");
+
+        };
+        function socketStart() {
+
+            Socket.on("connect", function() {
+                
+                Socket.emit('addToSingleRoom', { 'roomId': userData.getUser()._id });
+            });
+        }
+        function signUp() {
+            $location.path("/signup");
+        }
+
+        function submitLogin() {
+            //authorize.login(logCl.user)
+            $auth.login(logCl.user)
+                .then(function(response) {
+
+                    userData.setUser(response.data.user);
+                    alert("Login successfull");
+                    socketStart();
+
+                    window.history.back();
+                }, function(response) {
+                    console.log(response);
+                });
+        }
+
+
     }
-    function submitLogin(){
-    	//authorize.login(logCl.user)
-      $auth.login(logCl.user)
-    	.then(function(response){
-
-          userData.setUser(response.data.user);    
-          alert("Login successfull");
-          window.history.back();
-    		},function(response){
-    			console.log(response);
-    		});
-    }
-  }
 
 })(window.angular);
-  /* please work
-	<script>
+/* please work
+  <script>
   window.fbAsyncInit = function() {
     FB.init({
       appId      : '1068203956594250',
