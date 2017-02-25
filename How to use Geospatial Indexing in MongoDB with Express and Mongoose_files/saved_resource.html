@@ -1,0 +1,1796 @@
+<!DOCTYPE html>
+<!-- saved from url=(0414)https://disqus.com/embed/comments/?base=default&version=fbe5a2d3e47779b1f7a40136dabc24cf&f=robertonodi&t_i=&t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&s_o=default -->
+<html lang="en" dir="ltr" class="js no-touch localstorage sessionstorage contenteditable use-opacity-transitions"><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Disqus Comments</title>
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <style>
+        .alert--warning {
+            border-radius: 3px;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            background-color: #FFE070;
+            color: #A47703;
+        }
+
+        .alert--warning a,
+        .alert--warning a:hover,
+        .alert--warning strong {
+            color: #A47703;
+            font-weight: bold;
+        }
+
+        .alert--error p,
+        .alert--warning p {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        
+        </style>
+    
+    <style>
+        html {
+            overflow: hidden;
+        }
+
+        #error {
+            display: none;
+        }
+
+        .clearfix:after {
+            content: "";
+            display: block;
+            height: 0;
+            clear: both;
+            visibility: hidden;
+        }
+
+        
+    </style>
+
+<link rel="preload" as="script" href="./lounge.bundle.5b851f4cb42ec2fa102b53afd09a0ba6.js.download"><link rel="preload" as="script" href="./config.js.download"><link rel="stylesheet" href="./lounge.d97e83aebb672a1bbd0b476734a4149f.css"><script src="./cb=gapi.loaded_0" async=""></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="lounge/main" src="./lounge.bundle.5b851f4cb42ec2fa102b53afd09a0ba6.js.download"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="remote/config" src="./config.js.download"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="ga" src="./ga.js.download"></script><style id="css_1488028259650"></style><!--<base target="_parent">--><base href="." target="_parent"><link rel="stylesheet" href="./discovery.ec9371c4ef39ecee074c2acf24d5e0e2.css"><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="discovery/main" src="./discovery.bundle.c1279f7b6402d990698b3b99593a7fa9.js.download"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="fb" src="./sdk.js.download"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="gapi" src="./api.js.download" gapi_processed="true"></script></head>
+<body waid71fa0d88-5390-4b5b-a2f4-e45fa93d85e2="SA password protect entry checker" class="serif">
+    
+
+    
+    <div id="error" class="alert--error">
+        <p>We were unable to load Disqus. If you are a moderator please see our <a href="https://docs.disqus.com/help/83/"> troubleshooting guide</a>. </p>
+    </div>
+
+    
+    <script type="text/json" id="disqus-forumData">{"session":{"canModerate":false,"audienceSyncVerified":false,"mustVerify":false,"canReply":true,"mustVerifyEmail":false},"features":{},"forum":{"founder":"63927304","twitterName":"","guidelines":null,"favicon":{"permalink":"https://disqus.com/api/forums/favicons/robertonodi.jpg","cache":"//a.disquscdn.com/1487364057/images/favicon-default.png"},"daysAlive":0,"createdAt":"2014-08-05T07:23:57.170207","category":"Tech","raw_guidelines":null,"id":"robertonodi","installCompleted":true,"pk":"3147605","channel":null,"description":"","raw_description":"","permissions":{},"name":"robertonodi.me","language":"en","settings":{"supportLevel":0,"adsDRNativeEnabled":false,"colorScheme":"auto","adsVideoEnabled":false,"adsProductVideoEnabled":false,"adsPositionTopEnabled":false,"ssoRequired":false,"unapproveLinks":false,"adsEnabled":false,"adsProductLinksThumbnailsEnabled":false,"adsProductStoriesEnabled":false,"organicDiscoveryEnabled":true,"allowMedia":true,"disable3rdPartyTrackers":false,"adsProductDisplayEnabled":false,"discoveryMax":false,"discoveryLocked":false,"moderatorText":"","linkAffiliationEnabled":false,"allowAnonPost":false,"hasCustomAvatar":false,"adultContent":false,"promotedDiscoveryEnabled":false,"allowAnonVotes":false,"mustVerify":true,"adsSettingsLocked":false,"mustVerifyEmail":true,"audienceSyncEnabled":false,"typeface":"auto","adsPositionBottomEnabled":false,"mediaembedEnabled":true,"adsProductLinksEnabled":false,"validateAllPosts":false,"discoveryThumbnailsEnabled":false,"isVIP":false,"adsPositionInthreadEnabled":false},"url":"http://robertonodi.me/","daysThreadAlive":0,"avatar":{"small":{"permalink":"https://disqus.com/api/forums/avatars/robertonodi.jpg?size=32","cache":"//a.disquscdn.com/1487364057/images/noavatar32.png"},"large":{"permalink":"https://disqus.com/api/forums/avatars/robertonodi.jpg?size=92","cache":"//a.disquscdn.com/1487364057/images/noavatar92.png"}},"signedUrl":"http://disq.us/?url=http%3A%2F%2Frobertonodi.me%2F&key=QvXUcEB5iZcXC5_nzp4Zmg"}}</script>
+
+    
+    <script type="text/json" id="disqus-threadData">{"cursor":{"hasPrev":false,"prev":null,"total":13,"hasNext":false,"next":"1:0:0"},"code":0,"response":{"lastModified":1487308815,"posts":[{"dislikes":0,"numReports":0,"likes":2,"message":"\u003cp>Hello Robert,\u003cbr>$maxDistance and $minDistance is in meter, not km; according to \u003ca href=\"https://disq.us/url?url=https%3A%2F%2Fdocs.mongodb.com%2Fmanual%2Freference%2Foperator%2Fquery%2Fnear%2F%3A8Qg5L_vgOGMMAMd0UdVNFmN2lhM&amp;cuid=3147605\" rel=\"nofollow noopener\">https://docs.mongodb.com/manua...\u003c/a>\u003c/p>","id":"2673282851","isHighlighted":false,"author":{"username":"RezaFarhadian","about":"","name":"Reza Farhadian","disable3rdPartyTrackers":false,"isPowerContributor":false,"isAnonymous":false,"rep":1.2167569999999999,"profileUrl":"https://disqus.com/by/RezaFarhadian/","url":"","reputation":1.2167569999999999,"location":"","isPrivate":false,"signedUrl":"","isPrimary":true,"joinedAt":"2013-12-07T13:14:36","id":"84944014","reputationLabel":"Average","avatar":{"small":{"permalink":"https://disqus.com/api/users/avatars/RezaFarhadian.jpg","cache":"https://c.disquscdn.com/uploads/users/8494/4014/avatar32.jpg?1437004043"},"isCustom":true,"permalink":"https://disqus.com/api/users/avatars/RezaFarhadian.jpg","cache":"https://c.disquscdn.com/uploads/users/8494/4014/avatar92.jpg?1437004043","large":{"permalink":"https://disqus.com/api/users/avatars/RezaFarhadian.jpg","cache":"https://c.disquscdn.com/uploads/users/8494/4014/avatar92.jpg?1437004043"}}},"media":[],"isSpam":false,"isDeletedByAuthor":false,"createdAt":"2016-05-13T07:27:31","parent":null,"isApproved":true,"isDeleted":false,"isFlagged":false,"raw_message":"Hello Robert,\n$maxDistance and $minDistance is in meter, not km; according to https://docs.mongodb.com/manual/reference/operator/query/near/","canVote":false,"thread":"2902452928","forum":"robertonodi","depth":0,"points":2,"moderationLabels":["links"],"isEdited":false},{"dislikes":0,"numReports":0,"likes":2,"message":"\u003cp>A brilliant tutorial, thank you ever so much.\u003c/p>","id":"1825755438","isHighlighted":false,"author":{"username":"theodorequentinevelynrahr","about":"","name":"Theodore Quentin Evelyn- Rahr","disable3rdPartyTrackers":false,"isPowerContributor":false,"isAnonymous":false,"rep":1.237627,"profileUrl":"https://disqus.com/by/theodorequentinevelynrahr/","url":"","reputation":1.237627,"location":"","isPrivate":false,"signedUrl":"","isPrimary":true,"joinedAt":"2015-01-30T16:41:07","id":"142080911","reputationLabel":"Average","avatar":{"small":{"permalink":"https://disqus.com/api/users/avatars/theodorequentinevelynrahr.jpg","cache":"//a.disquscdn.com/1487364057/images/noavatar32.png"},"isCustom":false,"permalink":"https://disqus.com/api/users/avatars/theodorequentinevelynrahr.jpg","cache":"//a.disquscdn.com/1487364057/images/noavatar92.png","large":{"permalink":"https://disqus.com/api/users/avatars/theodorequentinevelynrahr.jpg","cache":"//a.disquscdn.com/1487364057/images/noavatar92.png"}}},"media":[],"isSpam":false,"isDeletedByAuthor":false,"createdAt":"2015-01-30T16:41:13","parent":null,"isApproved":true,"isDeleted":false,"isFlagged":false,"raw_message":"A brilliant tutorial, thank you ever so much.","canVote":false,"thread":"2902452928","forum":"robertonodi","depth":0,"points":2,"moderationLabels":[],"isEdited":false},{"dislikes":0,"numReports":0,"likes":0,"message":"\u003cp>Great to hear that, very much appreciated!\u003c/p>","id":"1846441870","isHighlighted":false,"author":{"username":"robertonodi","about":"","name":"Robert Onodi","disable3rdPartyTrackers":false,"isPowerContributor":false,"isAnonymous":false,"rep":1.235912,"profileUrl":"https://disqus.com/by/robertonodi/","url":"http://robertonodi.me/","reputation":1.235912,"location":"","isPrivate":false,"signedUrl":"http://disq.us/?url=http%3A%2F%2Frobertonodi.me%2F&key=QvXUcEB5iZcXC5_nzp4Zmg","isPrimary":true,"joinedAt":"2013-07-24T08:08:26","id":"63927304","reputationLabel":"Average","avatar":{"small":{"permalink":"https://disqus.com/api/users/avatars/robertonodi.jpg","cache":"https://c.disquscdn.com/uploads/users/6392/7304/avatar32.jpg?1481846633"},"isCustom":true,"permalink":"https://disqus.com/api/users/avatars/robertonodi.jpg","cache":"https://c.disquscdn.com/uploads/users/6392/7304/avatar92.jpg?1481846633","large":{"permalink":"https://disqus.com/api/users/avatars/robertonodi.jpg","cache":"https://c.disquscdn.com/uploads/users/6392/7304/avatar92.jpg?1481846633"}}},"media":[],"isSpam":false,"isDeletedByAuthor":false,"createdAt":"2015-02-10T21:58:48","parent":1825755438,"isApproved":true,"isDeleted":false,"isFlagged":false,"raw_message":"Great to hear that, very much appreciated!","canVote":false,"thread":"2902452928","forum":"robertonodi","depth":1,"points":0,"moderationLabels":[],"isEdited":false},{"dislikes":0,"numReports":0,"likes":0,"message":"\u003cp>This is amazing, have been looking for something like this for some weeks now!\u003c/p>","id":"3159756477","isHighlighted":false,"author":{"username":"disqus_rWjzGFRRVF","about":"","name":"Sebastian Alvarado","disable3rdPartyTrackers":false,"isPowerContributor":false,"isAnonymous":false,"rep":1.2363009999999999,"profileUrl":"https://disqus.com/by/disqus_rWjzGFRRVF/","url":"","reputation":1.2363009999999999,"location":"","isPrivate":false,"signedUrl":"","isPrimary":true,"joinedAt":"2016-05-23T23:18:59","id":"209122731","reputationLabel":"Average","avatar":{"small":{"permalink":"https://disqus.com/api/users/avatars/disqus_rWjzGFRRVF.jpg","cache":"https://c.disquscdn.com/uploads/users/20912/2731/avatar32.jpg?1487308816"},"isCustom":true,"permalink":"https://disqus.com/api/users/avatars/disqus_rWjzGFRRVF.jpg","cache":"https://c.disquscdn.com/uploads/users/20912/2731/avatar92.jpg?1487308816","large":{"permalink":"https://disqus.com/api/users/avatars/disqus_rWjzGFRRVF.jpg","cache":"https://c.disquscdn.com/uploads/users/20912/2731/avatar92.jpg?1487308816"}}},"media":[],"isSpam":false,"isDeletedByAuthor":false,"createdAt":"2017-02-17T05:20:15","parent":null,"isApproved":true,"isDeleted":false,"isFlagged":false,"raw_message":"This is amazing, have been looking for something like this for some weeks now!","canVote":false,"thread":"2902452928","forum":"robertonodi","depth":0,"points":0,"moderationLabels":[],"isEdited":false},{"dislikes":0,"numReports":0,"likes":0,"message":"\u003cp>great, tnx\u003c/p>","id":"3073934480","isHighlighted":false,"author":{"username":"disqus_Zrwv1UnYcJ","about":"","name":"\u0404\u0432\u0433\u0435\u043d \u041a\u0440\u0430\u0432\u0435\u0446\u044c","disable3rdPartyTrackers":false,"isPowerContributor":false,"isAnonymous":false,"rep":1.232124,"profileUrl":"https://disqus.com/by/disqus_Zrwv1UnYcJ/","url":"","reputation":1.232124,"location":"","isPrivate":false,"signedUrl":"","isPrimary":true,"joinedAt":"2016-12-29T15:56:41","id":"236788886","reputationLabel":"Average","avatar":{"small":{"permalink":"https://disqus.com/api/users/avatars/disqus_Zrwv1UnYcJ.jpg","cache":"//a.disquscdn.com/1487364057/images/noavatar32.png"},"isCustom":false,"permalink":"https://disqus.com/api/users/avatars/disqus_Zrwv1UnYcJ.jpg","cache":"//a.disquscdn.com/1487364057/images/noavatar92.png","large":{"permalink":"https://disqus.com/api/users/avatars/disqus_Zrwv1UnYcJ.jpg","cache":"//a.disquscdn.com/1487364057/images/noavatar92.png"}}},"media":[],"isSpam":false,"isDeletedByAuthor":false,"createdAt":"2016-12-29T15:57:42","parent":null,"isApproved":true,"isDeleted":false,"isFlagged":false,"raw_message":"great, tnx","canVote":false,"thread":"2902452928","forum":"robertonodi","depth":0,"points":0,"moderationLabels":[],"isEdited":false},{"dislikes":0,"numReports":0,"likes":0,"message":"\u003cp>I am receiving this error. And I am using 2dsphere as index\u003cbr>{\u003c/p>\u003cp>  \"name\": \"MongoError\",\u003c/p>\u003cp>  \"message\": \"error processing query: ns=db.collection limit=10Tree: GEONEAR  field=lonlat maxdist=0.00125569 isNearSphere=0\\nSort: {}\\nProj: {}\\n planner returned error: unable to find index for $geoNear query\",\u003c/p>\u003cp>  \"ok\": 0,\u003c/p>\u003cp>  \"errmsg\": \"error processing query: ns=db.collection limit=10Tree: GEONEAR  field=lonlat maxdist=0.00125569 isNearSphere=0\\nSort: {}\\nProj: {}\\n planner returned error: unable to find index for $geoNear query\",\u003c/p>\u003cp>  \"code\": 2,\u003c/p>\u003cp>  \"codeName\": \"BadValue\"\u003c/p>\u003cp>}\u003c/p>","id":"3068637416","isHighlighted":false,"author":{"username":"mahboob_monna_mohamed","about":"","name":"Mahboob Monna Mohamed","disable3rdPartyTrackers":false,"isPowerContributor":false,"isAnonymous":false,"rep":1.232124,"profileUrl":"https://disqus.com/by/mahboob_monna_mohamed/","url":"","reputation":1.232124,"location":"","isPrivate":false,"signedUrl":"","isPrimary":true,"joinedAt":"2016-12-25T15:42:10","id":"236306643","reputationLabel":"Average","avatar":{"small":{"permalink":"https://disqus.com/api/users/avatars/mahboob_monna_mohamed.jpg","cache":"//a.disquscdn.com/1487364057/images/noavatar32.png"},"isCustom":false,"permalink":"https://disqus.com/api/users/avatars/mahboob_monna_mohamed.jpg","cache":"//a.disquscdn.com/1487364057/images/noavatar92.png","large":{"permalink":"https://disqus.com/api/users/avatars/mahboob_monna_mohamed.jpg","cache":"//a.disquscdn.com/1487364057/images/noavatar92.png"}}},"media":[],"isSpam":false,"isDeletedByAuthor":false,"createdAt":"2016-12-25T15:43:27","parent":null,"isApproved":true,"isDeleted":false,"isFlagged":false,"raw_message":"I am receiving this error. And I am using 2dsphere as index\n{\n\n  \"name\": \"MongoError\",\n\n  \"message\": \"error processing query: ns=db.collection limit=10Tree: GEONEAR  field=lonlat maxdist=0.00125569 isNearSphere=0\\nSort: {}\\nProj: {}\\n planner returned error: unable to find index for $geoNear query\",\n\n  \"ok\": 0,\n\n  \"errmsg\": \"error processing query: ns=db.collection limit=10Tree: GEONEAR  field=lonlat maxdist=0.00125569 isNearSphere=0\\nSort: {}\\nProj: {}\\n planner returned error: unable to find index for $geoNear query\",\n\n  \"code\": 2,\n\n  \"codeName\": \"BadValue\"\n\n}","canVote":false,"thread":"2902452928","forum":"robertonodi","depth":0,"points":0,"moderationLabels":[],"isEdited":true},{"dislikes":0,"numReports":0,"likes":0,"message":"\u003cp>Nice tutorial. Thanks!\u003c/p>","id":"2977741456","isHighlighted":false,"author":{"username":"jamestrebilcock","about":"","name":"James Trebilcock","disable3rdPartyTrackers":false,"isPowerContributor":false,"isAnonymous":false,"rep":1.242824,"profileUrl":"https://disqus.com/by/jamestrebilcock/","url":"","reputation":1.242824,"location":"","isPrivate":false,"signedUrl":"","isPrimary":true,"joinedAt":"2014-07-24T02:16:22","id":"115586270","reputationLabel":"Average","avatar":{"small":{"permalink":"https://disqus.com/api/users/avatars/jamestrebilcock.jpg","cache":"https://c.disquscdn.com/uploads/users/11558/6270/avatar32.jpg?1479869228"},"isCustom":true,"permalink":"https://disqus.com/api/users/avatars/jamestrebilcock.jpg","cache":"https://c.disquscdn.com/uploads/users/11558/6270/avatar92.jpg?1479869228","large":{"permalink":"https://disqus.com/api/users/avatars/jamestrebilcock.jpg","cache":"https://c.disquscdn.com/uploads/users/11558/6270/avatar92.jpg?1479869228"}}},"media":[],"isSpam":false,"isDeletedByAuthor":false,"createdAt":"2016-10-31T16:03:29","parent":null,"isApproved":true,"isDeleted":false,"isFlagged":false,"raw_message":"Nice tutorial. Thanks!","canVote":false,"thread":"2902452928","forum":"robertonodi","depth":0,"points":0,"moderationLabels":[],"isEdited":false},{"dislikes":0,"numReports":0,"likes":0,"message":"\u003cp>\u7b80\u5355\u6613\u61c2 \u8d5e\u003c/p>","id":"2375688603","isHighlighted":false,"author":{"username":"disqus_hFA7HR9H8P","about":"","name":"qianshan","disable3rdPartyTrackers":false,"isPowerContributor":false,"isAnonymous":false,"rep":1.236399,"profileUrl":"https://disqus.com/by/disqus_hFA7HR9H8P/","url":"","reputation":1.236399,"location":"","isPrivate":false,"signedUrl":"","isPrimary":true,"joinedAt":"2015-11-24T03:16:55","id":"184046186","reputationLabel":"Average","avatar":{"small":{"permalink":"https://disqus.com/api/users/avatars/disqus_hFA7HR9H8P.jpg","cache":"https://c.disquscdn.com/uploads/users/18404/6186/avatar32.jpg?1450258898"},"isCustom":true,"permalink":"https://disqus.com/api/users/avatars/disqus_hFA7HR9H8P.jpg","cache":"https://c.disquscdn.com/uploads/users/18404/6186/avatar92.jpg?1450258898","large":{"permalink":"https://disqus.com/api/users/avatars/disqus_hFA7HR9H8P.jpg","cache":"https://c.disquscdn.com/uploads/users/18404/6186/avatar92.jpg?1450258898"}}},"media":[],"isSpam":false,"isDeletedByAuthor":false,"createdAt":"2015-11-24T03:17:06","parent":null,"isApproved":true,"isDeleted":false,"isFlagged":false,"raw_message":"\u7b80\u5355\u6613\u61c2 \u8d5e","canVote":false,"thread":"2902452928","forum":"robertonodi","depth":0,"points":0,"moderationLabels":[],"isEdited":false},{"dislikes":0,"numReports":0,"likes":0,"message":"\u003cp>Great Work...\u003cbr>Very nice tutorial... helped  me a lot!\u003c/p>","id":"2313350518","isHighlighted":false,"author":{"username":"vivek_elayidom","about":"","name":"Vivek Elayidom","disable3rdPartyTrackers":false,"isPowerContributor":false,"isAnonymous":false,"rep":1.232124,"profileUrl":"https://disqus.com/by/vivek_elayidom/","url":"","reputation":1.232124,"location":"","isPrivate":false,"signedUrl":"","isPrimary":true,"joinedAt":"2015-10-18T11:20:31","id":"179055979","reputationLabel":"Average","avatar":{"small":{"permalink":"https://disqus.com/api/users/avatars/vivek_elayidom.jpg","cache":"https://c.disquscdn.com/uploads/users/17905/5979/avatar32.jpg?1445167240"},"isCustom":true,"permalink":"https://disqus.com/api/users/avatars/vivek_elayidom.jpg","cache":"https://c.disquscdn.com/uploads/users/17905/5979/avatar92.jpg?1445167240","large":{"permalink":"https://disqus.com/api/users/avatars/vivek_elayidom.jpg","cache":"https://c.disquscdn.com/uploads/users/17905/5979/avatar92.jpg?1445167240"}}},"media":[],"isSpam":false,"isDeletedByAuthor":false,"createdAt":"2015-10-18T11:20:38","parent":null,"isApproved":true,"isDeleted":false,"isFlagged":false,"raw_message":"Great Work...\nVery nice tutorial... helped  me a lot!","canVote":false,"thread":"2902452928","forum":"robertonodi","depth":0,"points":0,"moderationLabels":[],"isEdited":false},{"dislikes":0,"numReports":0,"likes":0,"message":"\u003cp>This is fantastic! But, why does it matter whether longitude or latitude comes first? Doesn\u2019t Mongo just assume this to be an arbitrary plane, so as long as you\u2019re consistent in your coordinate system, it wouldn\u2019t matter?\u003c/p>","id":"2125275676","isHighlighted":false,"author":{"username":"disqus_VYILhkfEnX","about":"","name":"Andrew Branch","disable3rdPartyTrackers":false,"isPowerContributor":false,"isAnonymous":false,"rep":1.2334269999999998,"profileUrl":"https://disqus.com/by/disqus_VYILhkfEnX/","url":"","reputation":1.2334269999999998,"location":"","isPrivate":false,"signedUrl":"","isPrimary":true,"joinedAt":"2013-10-27T06:05:28","id":"79190657","reputationLabel":"Average","avatar":{"small":{"permalink":"https://disqus.com/api/users/avatars/disqus_VYILhkfEnX.jpg","cache":"https://c.disquscdn.com/uploads/users/7919/657/avatar32.jpg?1436392022"},"isCustom":true,"permalink":"https://disqus.com/api/users/avatars/disqus_VYILhkfEnX.jpg","cache":"https://c.disquscdn.com/uploads/users/7919/657/avatar92.jpg?1436392022","large":{"permalink":"https://disqus.com/api/users/avatars/disqus_VYILhkfEnX.jpg","cache":"https://c.disquscdn.com/uploads/users/7919/657/avatar92.jpg?1436392022"}}},"media":[],"isSpam":false,"isDeletedByAuthor":false,"createdAt":"2015-07-08T21:47:00","parent":null,"isApproved":true,"isDeleted":false,"isFlagged":false,"raw_message":"This is fantastic! But, why does it matter whether longitude or latitude comes first? Doesn\u2019t Mongo just assume this to be an arbitrary plane, so as long as you\u2019re consistent in your coordinate system, it wouldn\u2019t matter?","canVote":false,"thread":"2902452928","forum":"robertonodi","depth":0,"points":0,"moderationLabels":[],"isEdited":false},{"dislikes":0,"numReports":0,"likes":0,"message":"\u003cp>Hi Andrew,\u003c/p>\u003cp>I think it has something to do with an international standard for coordinates when using coordinate reference system. Most of the professional geographical input applications use this standard. And probably mongodb adopted it for the legacy coordinate system.\u003c/p>","id":"2217894010","isHighlighted":false,"author":{"username":"robertonodi","about":"","name":"Robert Onodi","disable3rdPartyTrackers":false,"isPowerContributor":false,"isAnonymous":false,"rep":1.235912,"profileUrl":"https://disqus.com/by/robertonodi/","url":"http://robertonodi.me/","reputation":1.235912,"location":"","isPrivate":false,"signedUrl":"http://disq.us/?url=http%3A%2F%2Frobertonodi.me%2F&key=QvXUcEB5iZcXC5_nzp4Zmg","isPrimary":true,"joinedAt":"2013-07-24T08:08:26","id":"63927304","reputationLabel":"Average","avatar":{"small":{"permalink":"https://disqus.com/api/users/avatars/robertonodi.jpg","cache":"https://c.disquscdn.com/uploads/users/6392/7304/avatar32.jpg?1481846633"},"isCustom":true,"permalink":"https://disqus.com/api/users/avatars/robertonodi.jpg","cache":"https://c.disquscdn.com/uploads/users/6392/7304/avatar92.jpg?1481846633","large":{"permalink":"https://disqus.com/api/users/avatars/robertonodi.jpg","cache":"https://c.disquscdn.com/uploads/users/6392/7304/avatar92.jpg?1481846633"}}},"media":[],"isSpam":false,"isDeletedByAuthor":false,"createdAt":"2015-08-26T10:29:01","parent":2125275676,"isApproved":true,"isDeleted":false,"isFlagged":false,"raw_message":"Hi Andrew,\n\nI think it has something to do with an international standard for coordinates when using coordinate reference system. Most of the professional geographical input applications use this standard. And probably mongodb adopted it for the legacy coordinate system.","canVote":false,"thread":"2902452928","forum":"robertonodi","depth":1,"points":0,"moderationLabels":[],"isEdited":false},{"dislikes":0,"numReports":0,"likes":0,"message":"\u003cp>I'm confused, assuming there is no given distance in the request parameter and you're defaulting to 800 meters you just put there 8 where 1 km = 1000 meters did you forgot the decimal point? Because you're dividing to 6371 km and you have there 8km not 800m. 800m = 0.8km\u003c/p>","id":"1776439192","isHighlighted":false,"author":{"username":"richevebebedor","about":"","name":"Richeve Bebedor","disable3rdPartyTrackers":false,"isPowerContributor":false,"isAnonymous":false,"rep":1.2397,"profileUrl":"https://disqus.com/by/richevebebedor/","url":"","reputation":1.2397,"location":"","isPrivate":false,"signedUrl":"","isPrimary":true,"joinedAt":"2014-05-16T11:44:03","id":"107210623","reputationLabel":"Average","avatar":{"small":{"permalink":"https://disqus.com/api/users/avatars/richevebebedor.jpg","cache":"https://c.disquscdn.com/uploads/users/10721/623/avatar32.jpg?1487500417"},"isCustom":true,"permalink":"https://disqus.com/api/users/avatars/richevebebedor.jpg","cache":"https://c.disquscdn.com/uploads/users/10721/623/avatar92.jpg?1487500417","large":{"permalink":"https://disqus.com/api/users/avatars/richevebebedor.jpg","cache":"https://c.disquscdn.com/uploads/users/10721/623/avatar92.jpg?1487500417"}}},"media":[],"isSpam":false,"isDeletedByAuthor":false,"createdAt":"2015-01-07T14:31:18","parent":null,"isApproved":true,"isDeleted":false,"isFlagged":false,"raw_message":"I'm confused, assuming there is no given distance in the request parameter and you're defaulting to 800 meters you just put there 8 where 1 km = 1000 meters did you forgot the decimal point? Because you're dividing to 6371 km and you have there 8km not 800m. 800m = 0.8km","canVote":false,"thread":"2902452928","forum":"robertonodi","depth":0,"points":0,"moderationLabels":[],"isEdited":false},{"dislikes":0,"numReports":0,"likes":0,"message":"\u003cp>Hi,\u003c/p>\u003cp>Thanks for noticing that. I've made a mistake there, it's in kilometers, so it should be 8 instead of 800, and yes I forgot the decimal point :D. I made a change to kilometers instead of meters to simplify things. Thanks again.\u003c/p>","id":"1777171231","isHighlighted":false,"author":{"username":"robertonodi","about":"","name":"Robert Onodi","disable3rdPartyTrackers":false,"isPowerContributor":false,"isAnonymous":false,"rep":1.235912,"profileUrl":"https://disqus.com/by/robertonodi/","url":"http://robertonodi.me/","reputation":1.235912,"location":"","isPrivate":false,"signedUrl":"http://disq.us/?url=http%3A%2F%2Frobertonodi.me%2F&key=QvXUcEB5iZcXC5_nzp4Zmg","isPrimary":true,"joinedAt":"2013-07-24T08:08:26","id":"63927304","reputationLabel":"Average","avatar":{"small":{"permalink":"https://disqus.com/api/users/avatars/robertonodi.jpg","cache":"https://c.disquscdn.com/uploads/users/6392/7304/avatar32.jpg?1481846633"},"isCustom":true,"permalink":"https://disqus.com/api/users/avatars/robertonodi.jpg","cache":"https://c.disquscdn.com/uploads/users/6392/7304/avatar92.jpg?1481846633","large":{"permalink":"https://disqus.com/api/users/avatars/robertonodi.jpg","cache":"https://c.disquscdn.com/uploads/users/6392/7304/avatar92.jpg?1481846633"}}},"media":[],"isSpam":false,"isDeletedByAuthor":false,"createdAt":"2015-01-07T20:56:03","parent":1776439192,"isApproved":true,"isDeleted":false,"isFlagged":false,"raw_message":"Hi,\n\nThanks for noticing that. I've made a mistake there, it's in kilometers, so it should be 8 instead of 800, and yes I forgot the decimal point :D. I made a change to kilometers instead of meters to simplify things. Thanks again.","canVote":false,"thread":"2902452928","forum":"robertonodi","depth":1,"points":0,"moderationLabels":[],"isEdited":false}],"thread":{"feed":"https://robertonodi.disqus.com/how_to_use_geospatial_indexing_in_mongodb_with_express_and_mongoose/latest.rss","identifiers":["8"],"dislikes":0,"likes":1,"message":"","id":"2902452928","createdAt":"2014-08-05T13:24:11","category":"3198968","author":"63927304","isSpam":false,"signedLink":"http://disq.us/?url=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&key=HqTgoi_AvBrrfdMPEuFcjg","isDeleted":false,"hasStreaming":false,"raw_message":"","isClosed":false,"link":"http://blog.robertonodi.me/how-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose/","slug":"how_to_use_geospatial_indexing_in_mongodb_with_express_and_mongoose","forum":"robertonodi","clean_title":"How to use Geospatial Indexing in MongoDB with Express and Mongoose","posts":13,"moderators":[63927304],"title":"How to use Geospatial Indexing in MongoDB with Express and Mongoose","highlightedPost":null}},"order":"popular"}</script>
+
+    
+
+    <div id="fixed-content"></div>
+
+
+    
+        
+<script type="text/json" id="disqus-urls">{
+    "root":"//disqus.com",
+    "next":"https://c.disquscdn.com/next/current/embed"
+}</script>
+
+        <script src="./lounge.load.fbe5a2d3e47779b1f7a40136dabc24cf.js.download" id="bootstrap-script" data-app="lounge" crossorigin="anonymous" async=""></script>
+    
+
+
+<script src="./common.bundle.ff6a66b4d25701c70ed6c589fb1bfcf9.js.download"></script><iframe style="display: none;" src="./saved_resource(2).html"></iframe><div id="layout" data-tracking-area="layout">
+
+<div id="onboard" data-tracking-area="onboard"></div>
+
+<div id="highlighted-post" data-tracking-area="highlighted" class="highlighted-post" style="display: none;"></div>
+
+<div id="global-alert"></div>
+
+<header id="main-nav" data-tracking-area="main-nav">
+<nav class="nav nav-primary">
+<ul>
+<li class="nav-tab nav-tab--primary tab-conversation active" data-role="post-count"><a class="publisher-nav-color">
+<span class="comment-count">
+13 comments
+</span>
+
+<span class="comment-count-placeholder">
+Comments
+</span>
+</a>
+</li>
+<li class="nav-tab nav-tab--primary tab-community">
+<a href="https://disqus.com/home/forums/robertonodi/" class="publisher-nav-color" data-action="community-sidebar" data-forum="robertonodi" id="community-tab">
+<span class="community-name">
+<strong>robertonodi.me</strong>
+
+</span>
+
+<strong class="community-name-placeholder">Community</strong>
+</a>
+</li>
+<li class="nav-tab nav-tab--primary dropdown user-menu" data-role="logout"><a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" class="dropdown-toggle" data-toggle="dropdown">
+<span class="dropdown-toggle-wrapper">
+
+<span>
+Login
+</span>
+
+</span> <span class="caret"></span>
+</a>
+<ul class="dropdown-menu">
+
+
+<li>
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="auth:disqus">Disqus</a>
+</li>
+<li>
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="auth:facebook">Facebook</a>
+</li>
+<li>
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="auth:twitter">Twitter</a>
+</li>
+<li>
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="auth:google">Google</a>
+</li>
+
+
+
+</ul>
+</li>
+<li class="nav-tab nav-tab--primary notification-menu unread" data-role="notification-menu"><a href="https://disqus.com/home/inbox/" class="notification-container" data-action="home" data-home-path="home/inbox/">
+<span class="notification-icon icon-comment" aria-hidden=""></span>
+<span class="notification-count" data-role="notification-count">1</span>
+</a>
+</li>
+</ul>
+</nav>
+</header>
+
+<section id="conversation" data-role="main" data-tracking-area="main">
+<div class="nav nav-secondary" data-tracking-area="secondary-nav">
+<ul>
+<li id="recommend-button" class="nav-tab nav-tab--secondary recommend dropdown">
+<div class="thread-likes"><a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="recommend" title="Recommend this discussion" class="dropdown-toggle ">
+<span class="icon-heart"></span>
+<span class="label label-default">Recommend</span>
+<span class="label label-recommended">Recommended</span>
+<span class="label label-count">1</span>
+</a>
+<ul class="dropdown-menu dropdown-menu--coachmark">
+<li>
+<h2 class="coachmark__heading">Discussion Recommended!</h2>
+<p class="coachmark__description">Recommending means this is a discussion worth sharing. It gets shared to your followers' Disqus feeds, and gives the creator kudos!</p>
+<a href="https://disqus.com/home/?utm_source=disqus_embed&amp;utm_content=recommend_btn" class="btn btn-primary coachmark__button" target="_blank">
+ Find More Discussions 
+</a>
+</li>
+</ul>
+</div></li>
+<li id="thread-share-menu" class="nav-tab nav-tab--secondary dropdown share-menu hidden-sm"><a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" class="dropdown-toggle" data-toggle="dropdown" title="Share">
+<span class="icon-export"></span>
+<span class="label">Share</span>
+</a>
+<ul class="share-menu dropdown-menu">
+<li>
+<div class="share-menu__label">Share this discussion on</div>
+<ul>
+<li class="twitter">
+<a data-action="share:twitter" href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#">Twitter</a>
+</li>
+<li class="facebook">
+<a data-action="share:facebook" href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#">Facebook</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li data-role="post-sort" class="nav-tab nav-tab--secondary dropdown sorting pull-right">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" class="dropdown-toggle" data-toggle="dropdown">
+Sort by Best
+
+
+<span class="caret"></span>
+</a>
+<ul class="dropdown-menu pull-right">
+<li class="selected">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="sort" data-sort="popular">Best<i aria-hidden="true" class="icon-checkmark"></i></a>
+</li>
+
+<li>
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="sort" data-sort="desc">Newest<i aria-hidden="true" class="icon-checkmark"></i></a>
+</li>
+
+<li>
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="sort" data-sort="asc">Oldest<i aria-hidden="true" class="icon-checkmark"></i></a>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+
+<div id="posts">
+<div id="form" class="textarea-wrapper--top-level"><form class="reply">
+<div class="postbox">
+<div role="alert"></div>
+<div class="avatar">
+<span class="user">
+<img data-role="user-avatar" src="./noavatar92.7b2fde640943965cc88df0cdee365907.png" alt="Avatar">
+</span>
+</div>
+
+<div class="textarea-wrapper" data-role="textarea" dir="auto"><div><span class="placeholder">Join the discussion…</span><div class="textarea" tabindex="0" role="textbox" aria-multiline="true" contenteditable="PLAINTEXT-ONLY" data-role="editable" aria-label="Join the discussion…" style="overflow: auto; word-wrap: break-word; max-height: 350px;"><p><br></p></div><div style="display: none;"><ul class="user-mention__list">
+<li class="header user-mention__header">
+<h5>in this conversation</h5>
+</li>
+</ul>
+</div></div>
+<div data-role="drag-drop-placeholder" class="media-drag-hover" style="display: none">
+<div class="drag-text">
+⬇ Drag and drop your images here to upload them.
+</div>
+</div>
+<div class="media-preview empty" data-role="media-preview"><ul data-role="media-progress-list"></ul>
+<ul data-role="media-rich-list"></ul>
+<div class="media-expanded empty" data-role="media-preview-expanded">
+<img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-role="media-preview-expanded-image" alt="Media preview placeholder">
+</div>
+</div>
+<div class="edit-alert" role="postbox-alert"></div>
+<div class="post-actions">
+<ul class="wysiwyg">
+<li class="wysiwyg__item" data-role="media-uploader"><a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" tabindex="-1" data-action="attach" class="attach" title="Upload Images"><span>Attach</span></a>
+<input type="file" data-role="media-upload" tabindex="-1" accept="image/*">
+</li>
+</ul>
+</div>
+</div>
+
+<div data-role="login-form"><div><section class="auth-section logged-out">
+<div class="connect">
+<h6>Log in with</h6>
+<ul data-role="login-menu" class="services login-buttons">
+
+<li class="auth-disqus">
+<button type="button" data-action="auth:disqus" title="Disqus" class="connect__button"><i class="icon-disqus"></i></button>
+</li>
+<li class="auth-facebook">
+<button type="button" data-action="auth:facebook" title="Facebook" class="connect__button"><i class="icon-facebook-circle"></i></button>
+</li>
+<li class="auth-twitter">
+<button type="button" data-action="auth:twitter" title="Twitter" class="connect__button"><i class="icon-twitter-circle"></i></button>
+</li>
+<li class="auth-google">
+<button type="button" data-action="auth:google" title="Google" class="connect__button"><i class="icon-google-plus-circle"></i></button>
+</li>
+</ul>
+</div>
+<div class="guest">
+<h6 class="guest-form-title">
+<span class="register-text"> or sign up with Disqus </span>
+<span class="guest-text"> or pick a name </span>
+</h6>
+
+<div class="help-tooltip__wrapper help-icon">
+<div id="rules" class="tooltip show help-tooltip">
+<h3 class="help-tooltip__heading">Disqus is a discussion network</h3>
+<ul class="help-tooltip__list">
+<li><span>Disqus never moderates or censors. The rules on this community are its own.</span></li>
+<li><span>Your email is safe with us. It's only used for moderation and optional notifications.</span></li>
+<li><span>Don't be a jerk or do anything illegal. Everything is easier that way.</span></li>
+</ul>
+<p class="clearfix"><a href="https://docs.disqus.com/kb/terms-and-policies/" class="btn btn-small help-tooltip__button" target="_blank">Read full terms and conditions</a></p>
+</div>
+</div>
+
+<p class="input-wrapper">
+<input dir="auto" type="text" placeholder="Name" name="display_name" id="view51_display_name" maxlength="30" class="input--text">
+</p>
+
+<div class="guest-details " data-role="guest-details">
+<p class="input-wrapper">
+<input dir="auto" type="email" placeholder="Email" name="email" id="view51_email" class="input--text">
+</p>
+
+<p class="input-wrapper">
+<input dir="auto" type="password" class="register-text input--text" placeholder="Password" name="password" id="view51_password">
+</p>
+
+<div class="acceptance-wrapper register-text">
+By signing up, you agree to the Disqus <a target="_blank" href="https://help.disqus.com/customer/portal/articles/1753105-basic-rules-for-disqus-powered-profiles-and-discussions">Basic Rules</a>, <a target="_blank" href="https://help.disqus.com/customer/portal/articles/466260-terms-of-service">Terms of Service</a>, and <a target="_blank" href="https://help.disqus.com/customer/portal/articles/466259-privacy-policy">Privacy Policy</a>.
+</div>
+<div class="acceptance-wrapper guest-text">
+By posting, you agree to the Disqus <a target="_blank" href="https://help.disqus.com/customer/portal/articles/1753105-basic-rules-for-disqus-powered-profiles-and-discussions">Basic Rules</a>, <a target="_blank" href="https://help.disqus.com/customer/portal/articles/466260-terms-of-service">Terms of Service</a>, and <a target="_blank" href="https://help.disqus.com/customer/portal/articles/466259-privacy-policy">Privacy Policy</a>.
+</div>
+
+<input type="checkbox" name="author-guest" style="display:none">
+
+<div class="proceed" data-role="submit-btn-container">
+<button type="submit" class="proceed__button btn submit" aria-label="Next"><span class="icon-proceed"></span><div class="spinner"></div></button>
+</div>
+</div>
+</div>
+</section>
+
+</div></div>
+</div>
+</form></div>
+
+<button class="alert alert--realtime" style="display: none" data-role="realtime-notification">
+</button>
+
+<div id="no-posts" style="display:none"></div>
+
+<ul id="post-list" class="post-list"><li class="post" id="post-2673282851"><div role="alert"></div>
+<div data-role="post-content" class="post-content">
+<ul class="post-menu dropdown" data-role="menu">
+<li class="collapse">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="collapse" title="Collapse"><span>−</span></a>
+</li>
+<li class="expand">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="collapse" title="Expand"><span>+</span></a>
+</li>
+
+<li class="" role="menu">
+<a class="dropdown-toggle" href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="flag" data-role="flag" title="Flag as inappropriate">
+<i aria-hidden="true" class="icon icon-flag"></i>
+</a>
+</li>
+</ul>
+<div class="indicator"></div>
+
+<div class="avatar hovercard">
+<a href="https://disqus.com/by/RezaFarhadian/" class="user" data-action="profile" data-username="RezaFarhadian">
+<img data-role="user-avatar" data-user="84944014" src="./avatar92.jpg" alt="Avatar">
+</a>
+</div>
+<div class="post-body">
+<header class="comment__header">
+<span class="post-byline">
+<span class="author publisher-anchor-color"><a href="https://disqus.com/by/RezaFarhadian/" data-action="profile" data-username="RezaFarhadian" data-role="username">Reza Farhadian</a></span>
+
+</span>
+
+<span class="post-meta">
+<span class="bullet time-ago-bullet" aria-hidden="true">•</span>
+
+<a href="http://blog.robertonodi.me/how-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose/#comment-2673282851" data-role="relative-time" class="time-ago" title="Friday, May 13, 2016 12:57 PM">
+9 months ago
+</a>
+</span>
+
+</header>
+
+<div class="post-body-inner">
+<div class="post-message-container" data-role="message-container">
+<div class="publisher-anchor-color" data-role="message-content">
+<div class="post-message " data-role="message" dir="auto">
+<p>Hello Robert,<br>$maxDistance and $minDistance is in meter, not km; according to <a href="https://disq.us/url?url=https%3A%2F%2Fdocs.mongodb.com%2Fmanual%2Freference%2Foperator%2Fquery%2Fnear%2F%3A8Qg5L_vgOGMMAMd0UdVNFmN2lhM&amp;cuid=3147605" rel="nofollow noopener">https://docs.mongodb.com/manua...</a></p>
+</div>
+
+<span class="post-media"><ul data-role="post-media-list"></ul></span>
+</div>
+</div>
+<a class="see-more hidden" title="see more" data-action="see-more">see more</a>
+</div>
+
+<footer class="comment__footer">
+<menu class="comment-footer__menu">
+<li class="voting" data-role="voting">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" class="vote-up  count-2" data-action="upvote" title="">
+
+<span class="updatable count" data-role="likes">2</span>
+<span class="control"><i aria-hidden="true" class="icon icon-arrow-2"></i></span>
+</a>
+<span role="button" class="vote-down  count-0" data-action="downvote" title="Vote down">
+
+<span class="control"><i aria-hidden="true" class="icon icon-arrow"></i></span>
+</span>
+</li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="reply" data-role="reply-link">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="reply">
+<span class="text">Reply</span></a></li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="comment__share">
+<a class="toggle"><span class="text">Share ›</span></a>
+<ul class="comment-share__buttons">
+<li class="twitter">
+<button class="share__button" data-action="share:twitter">Twitter</button>
+</li>
+<li class="facebook">
+<button class="share__button" data-action="share:facebook">Facebook</button>
+</li>
+<li class="link">
+<input class="share__button" value="http://disq.us/p/187lq8z" name="Link" title="Click to copy post link" data-action="copy-link" readonly="">
+</li>
+</ul>
+</li>
+
+<li class="realtime" data-role="realtime-notification:2673282851">
+<span style="display:none;" class="realtime-replies"></span>
+<a style="display:none;" href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" class="realtime-button"></a>
+</li>
+
+</menu>
+</footer>
+</div>
+
+<div data-role="blacklist-form"></div>
+<div class="reply-form-container" data-role="reply-form"></div>
+</div>
+
+<ul data-role="children" class="children"></ul>
+
+</li><li class="post" id="post-1825755438"><div role="alert"></div>
+<div data-role="post-content" class="post-content">
+<ul class="post-menu dropdown" data-role="menu">
+<li class="collapse">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="collapse" title="Collapse"><span>−</span></a>
+</li>
+<li class="expand">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="collapse" title="Expand"><span>+</span></a>
+</li>
+
+<li class="" role="menu">
+<a class="dropdown-toggle" href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="flag" data-role="flag" title="Flag as inappropriate">
+<i aria-hidden="true" class="icon icon-flag"></i>
+</a>
+</li>
+</ul>
+<div class="indicator"></div>
+
+<div class="avatar hovercard">
+<a href="https://disqus.com/by/theodorequentinevelynrahr/" class="user" data-action="profile" data-username="theodorequentinevelynrahr">
+<img data-role="user-avatar" data-user="142080911" src="./noavatar92.png" alt="Avatar">
+</a>
+</div>
+<div class="post-body">
+<header class="comment__header">
+<span class="post-byline">
+<span class="author publisher-anchor-color"><a href="https://disqus.com/by/theodorequentinevelynrahr/" data-action="profile" data-username="theodorequentinevelynrahr" data-role="username">Theodore Quentin Evelyn- Rahr</a></span>
+
+</span>
+
+<span class="post-meta">
+<span class="bullet time-ago-bullet" aria-hidden="true">•</span>
+
+<a href="http://blog.robertonodi.me/how-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose/#comment-1825755438" data-role="relative-time" class="time-ago" title="Friday, January 30, 2015 10:11 PM">
+2 years ago
+</a>
+</span>
+
+</header>
+
+<div class="post-body-inner">
+<div class="post-message-container" data-role="message-container">
+<div class="publisher-anchor-color" data-role="message-content">
+<div class="post-message " data-role="message" dir="auto">
+<p>A brilliant tutorial, thank you ever so much.</p>
+</div>
+
+<span class="post-media"><ul data-role="post-media-list"></ul></span>
+</div>
+</div>
+<a class="see-more hidden" title="see more" data-action="see-more">see more</a>
+</div>
+
+<footer class="comment__footer">
+<menu class="comment-footer__menu">
+<li class="voting" data-role="voting">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" class="vote-up  count-2" data-action="upvote" title="">
+
+<span class="updatable count" data-role="likes">2</span>
+<span class="control"><i aria-hidden="true" class="icon icon-arrow-2"></i></span>
+</a>
+<span role="button" class="vote-down  count-0" data-action="downvote" title="Vote down">
+
+<span class="control"><i aria-hidden="true" class="icon icon-arrow"></i></span>
+</span>
+</li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="reply" data-role="reply-link">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="reply">
+<span class="text">Reply</span></a></li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="comment__share">
+<a class="toggle"><span class="text">Share ›</span></a>
+<ul class="comment-share__buttons">
+<li class="twitter">
+<button class="share__button" data-action="share:twitter">Twitter</button>
+</li>
+<li class="facebook">
+<button class="share__button" data-action="share:facebook">Facebook</button>
+</li>
+<li class="link">
+<input class="share__button" value="http://disq.us/p/u709wu" name="Link" title="Click to copy post link" data-action="copy-link" readonly="">
+</li>
+</ul>
+</li>
+
+<li class="realtime" data-role="realtime-notification:1825755438">
+<span style="display:none;" class="realtime-replies"></span>
+<a style="display:none;" href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" class="realtime-button"></a>
+</li>
+
+</menu>
+</footer>
+</div>
+
+<div data-role="blacklist-form"></div>
+<div class="reply-form-container" data-role="reply-form"></div>
+</div>
+
+<ul data-role="children" class="children"><li class="post" id="post-1846441870"><div role="alert"></div>
+<div data-role="post-content" class="post-content">
+<ul class="post-menu dropdown" data-role="menu">
+<li class="collapse">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="collapse" title="Collapse"><span>−</span></a>
+</li>
+<li class="expand">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="collapse" title="Expand"><span>+</span></a>
+</li>
+
+<li class="" role="menu">
+<a class="dropdown-toggle" href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="flag" data-role="flag" title="Flag as inappropriate">
+<i aria-hidden="true" class="icon icon-flag"></i>
+</a>
+</li>
+</ul>
+<div class="indicator"></div>
+
+<div class="avatar hovercard">
+<a href="https://disqus.com/by/robertonodi/" class="user" data-action="profile" data-username="robertonodi">
+<img data-role="user-avatar" data-user="63927304" src="./noavatar92.png" alt="Avatar">
+</a>
+</div>
+<div class="post-body">
+<header class="comment__header">
+<span class="post-byline">
+<span class="author publisher-anchor-color"><a href="https://disqus.com/by/robertonodi/" data-action="profile" data-username="robertonodi" data-role="username">Robert Onodi</a></span>
+<span class="badge moderator">Mod</span>
+
+<span><a href="http://blog.robertonodi.me/how-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose/#comment-1825755438" class="parent-link" data-role="parent-link"><i aria-hidden="true" class="icon-forward" title="in reply to"></i> Theodore Quentin Evelyn- Rahr</a></span>
+</span>
+
+<span class="post-meta">
+<span class="bullet time-ago-bullet" aria-hidden="true">•</span>
+
+<a href="http://blog.robertonodi.me/how-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose/#comment-1846441870" data-role="relative-time" class="time-ago" title="Wednesday, February 11, 2015 3:28 AM">
+2 years ago
+</a>
+</span>
+
+</header>
+
+<div class="post-body-inner">
+<div class="post-message-container" data-role="message-container">
+<div class="publisher-anchor-color" data-role="message-content">
+<div class="post-message " data-role="message" dir="auto">
+<p>Great to hear that, very much appreciated!</p>
+</div>
+
+<span class="post-media"><ul data-role="post-media-list"></ul></span>
+</div>
+</div>
+<a class="see-more hidden" title="see more" data-action="see-more">see more</a>
+</div>
+
+<footer class="comment__footer">
+<menu class="comment-footer__menu">
+<li class="voting" data-role="voting">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" class="vote-up  count-0" data-action="upvote" title="Vote up">
+
+<span class="updatable count" data-role="likes">0</span>
+<span class="control"><i aria-hidden="true" class="icon icon-arrow-2"></i></span>
+</a>
+<span role="button" class="vote-down  count-0" data-action="downvote" title="Vote down">
+
+<span class="control"><i aria-hidden="true" class="icon icon-arrow"></i></span>
+</span>
+</li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="reply" data-role="reply-link">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="reply">
+<span class="text">Reply</span></a></li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="comment__share">
+<a class="toggle"><span class="text">Share ›</span></a>
+<ul class="comment-share__buttons">
+<li class="twitter">
+<button class="share__button" data-action="share:twitter">Twitter</button>
+</li>
+<li class="facebook">
+<button class="share__button" data-action="share:facebook">Facebook</button>
+</li>
+<li class="link">
+<input class="share__button" value="http://disq.us/p/ujbnny" name="Link" title="Click to copy post link" data-action="copy-link" readonly="">
+</li>
+</ul>
+</li>
+
+<li class="realtime" data-role="realtime-notification:1846441870">
+<span style="display:none;" class="realtime-replies"></span>
+<a style="display:none;" href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" class="realtime-button"></a>
+</li>
+
+</menu>
+</footer>
+</div>
+
+<div data-role="blacklist-form"></div>
+<div class="reply-form-container" data-role="reply-form"></div>
+</div>
+
+<ul data-role="children" class="children"></ul>
+
+</li></ul>
+
+</li><li class="post" id="post-3159756477"><div role="alert"></div>
+<div data-role="post-content" class="post-content">
+<ul class="post-menu dropdown" data-role="menu">
+<li class="collapse">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="collapse" title="Collapse"><span>−</span></a>
+</li>
+<li class="expand">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="collapse" title="Expand"><span>+</span></a>
+</li>
+
+<li class="" role="menu">
+<a class="dropdown-toggle" href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="flag" data-role="flag" title="Flag as inappropriate">
+<i aria-hidden="true" class="icon icon-flag"></i>
+</a>
+</li>
+</ul>
+<div class="indicator"></div>
+
+<div class="avatar hovercard">
+<a href="https://disqus.com/by/disqus_rWjzGFRRVF/" class="user" data-action="profile" data-username="disqus_rWjzGFRRVF">
+<img data-role="user-avatar" data-user="209122731" src="./noavatar92.png" alt="Avatar">
+</a>
+</div>
+<div class="post-body">
+<header class="comment__header">
+<span class="post-byline">
+<span class="author publisher-anchor-color"><a href="https://disqus.com/by/disqus_rWjzGFRRVF/" data-action="profile" data-username="disqus_rWjzGFRRVF" data-role="username">Sebastian Alvarado</a></span>
+
+</span>
+
+<span class="post-meta">
+<span class="bullet time-ago-bullet" aria-hidden="true">•</span>
+
+<a href="http://blog.robertonodi.me/how-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose/#comment-3159756477" data-role="relative-time" class="time-ago" title="Friday, February 17, 2017 10:50 AM">
+8 days ago
+</a>
+</span>
+
+</header>
+
+<div class="post-body-inner">
+<div class="post-message-container" data-role="message-container">
+<div class="publisher-anchor-color" data-role="message-content">
+<div class="post-message " data-role="message" dir="auto">
+<p>This is amazing, have been looking for something like this for some weeks now!</p>
+</div>
+
+<span class="post-media"><ul data-role="post-media-list"></ul></span>
+</div>
+</div>
+<a class="see-more hidden" title="see more" data-action="see-more">see more</a>
+</div>
+
+<footer class="comment__footer">
+<menu class="comment-footer__menu">
+<li class="voting" data-role="voting">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" class="vote-up  count-0" data-action="upvote" title="Vote up">
+
+<span class="updatable count" data-role="likes">0</span>
+<span class="control"><i aria-hidden="true" class="icon icon-arrow-2"></i></span>
+</a>
+<span role="button" class="vote-down  count-0" data-action="downvote" title="Vote down">
+
+<span class="control"><i aria-hidden="true" class="icon icon-arrow"></i></span>
+</span>
+</li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="reply" data-role="reply-link">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="reply">
+<span class="text">Reply</span></a></li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="comment__share">
+<a class="toggle"><span class="text">Share ›</span></a>
+<ul class="comment-share__buttons">
+<li class="twitter">
+<button class="share__button" data-action="share:twitter">Twitter</button>
+</li>
+<li class="facebook">
+<button class="share__button" data-action="share:facebook">Facebook</button>
+</li>
+<li class="link">
+<input class="share__button" value="http://disq.us/p/1g98jp9" name="Link" title="Click to copy post link" data-action="copy-link" readonly="">
+</li>
+</ul>
+</li>
+
+<li class="realtime" data-role="realtime-notification:3159756477">
+<span style="display:none;" class="realtime-replies"></span>
+<a style="display:none;" href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" class="realtime-button"></a>
+</li>
+
+</menu>
+</footer>
+</div>
+
+<div data-role="blacklist-form"></div>
+<div class="reply-form-container" data-role="reply-form"></div>
+</div>
+
+<ul data-role="children" class="children"></ul>
+
+</li><li class="post" id="post-3073934480"><div role="alert"></div>
+<div data-role="post-content" class="post-content">
+<ul class="post-menu dropdown" data-role="menu">
+<li class="collapse">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="collapse" title="Collapse"><span>−</span></a>
+</li>
+<li class="expand">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="collapse" title="Expand"><span>+</span></a>
+</li>
+
+<li class="" role="menu">
+<a class="dropdown-toggle" href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="flag" data-role="flag" title="Flag as inappropriate">
+<i aria-hidden="true" class="icon icon-flag"></i>
+</a>
+</li>
+</ul>
+<div class="indicator"></div>
+
+<div class="avatar hovercard">
+<a href="https://disqus.com/by/disqus_Zrwv1UnYcJ/" class="user" data-action="profile" data-username="disqus_Zrwv1UnYcJ">
+<img data-role="user-avatar" data-user="236788886" src="./noavatar92.png" alt="Avatar">
+</a>
+</div>
+<div class="post-body">
+<header class="comment__header">
+<span class="post-byline">
+<span class="author publisher-anchor-color"><a href="https://disqus.com/by/disqus_Zrwv1UnYcJ/" data-action="profile" data-username="disqus_Zrwv1UnYcJ" data-role="username">Євген Кравець</a></span>
+
+</span>
+
+<span class="post-meta">
+<span class="bullet time-ago-bullet" aria-hidden="true">•</span>
+
+<a href="http://blog.robertonodi.me/how-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose/#comment-3073934480" data-role="relative-time" class="time-ago" title="Thursday, December 29, 2016 9:27 PM">
+2 months ago
+</a>
+</span>
+
+</header>
+
+<div class="post-body-inner">
+<div class="post-message-container" data-role="message-container">
+<div class="publisher-anchor-color" data-role="message-content">
+<div class="post-message " data-role="message" dir="auto">
+<p>great, tnx</p>
+</div>
+
+<span class="post-media"><ul data-role="post-media-list"></ul></span>
+</div>
+</div>
+<a class="see-more hidden" title="see more" data-action="see-more">see more</a>
+</div>
+
+<footer class="comment__footer">
+<menu class="comment-footer__menu">
+<li class="voting" data-role="voting">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" class="vote-up  count-0" data-action="upvote" title="Vote up">
+
+<span class="updatable count" data-role="likes">0</span>
+<span class="control"><i aria-hidden="true" class="icon icon-arrow-2"></i></span>
+</a>
+<span role="button" class="vote-down  count-0" data-action="downvote" title="Vote down">
+
+<span class="control"><i aria-hidden="true" class="icon icon-arrow"></i></span>
+</span>
+</li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="reply" data-role="reply-link">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="reply">
+<span class="text">Reply</span></a></li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="comment__share">
+<a class="toggle"><span class="text">Share ›</span></a>
+<ul class="comment-share__buttons">
+<li class="twitter">
+<button class="share__button" data-action="share:twitter">Twitter</button>
+</li>
+<li class="facebook">
+<button class="share__button" data-action="share:facebook">Facebook</button>
+</li>
+<li class="link">
+<input class="share__button" value="http://disq.us/p/1eu530w" name="Link" title="Click to copy post link" data-action="copy-link" readonly="">
+</li>
+</ul>
+</li>
+
+<li class="realtime" data-role="realtime-notification:3073934480">
+<span style="display:none;" class="realtime-replies"></span>
+<a style="display:none;" href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" class="realtime-button"></a>
+</li>
+
+</menu>
+</footer>
+</div>
+
+<div data-role="blacklist-form"></div>
+<div class="reply-form-container" data-role="reply-form"></div>
+</div>
+
+<ul data-role="children" class="children"></ul>
+
+</li><li class="post" id="post-3068637416"><div role="alert"></div>
+<div data-role="post-content" class="post-content">
+<ul class="post-menu dropdown" data-role="menu">
+<li class="collapse">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="collapse" title="Collapse"><span>−</span></a>
+</li>
+<li class="expand">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="collapse" title="Expand"><span>+</span></a>
+</li>
+
+<li class="" role="menu">
+<a class="dropdown-toggle" href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="flag" data-role="flag" title="Flag as inappropriate">
+<i aria-hidden="true" class="icon icon-flag"></i>
+</a>
+</li>
+</ul>
+<div class="indicator"></div>
+
+<div class="avatar hovercard">
+<a href="https://disqus.com/by/mahboob_monna_mohamed/" class="user" data-action="profile" data-username="mahboob_monna_mohamed">
+<img data-role="user-avatar" data-user="236306643" src="./noavatar92.png" alt="Avatar">
+</a>
+</div>
+<div class="post-body">
+<header class="comment__header">
+<span class="post-byline">
+<span class="author publisher-anchor-color"><a href="https://disqus.com/by/mahboob_monna_mohamed/" data-action="profile" data-username="mahboob_monna_mohamed" data-role="username">Mahboob Monna Mohamed</a></span>
+
+</span>
+
+<span class="post-meta">
+<span class="bullet time-ago-bullet" aria-hidden="true">•</span>
+
+<a href="http://blog.robertonodi.me/how-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose/#comment-3068637416" data-role="relative-time" class="time-ago" title="Sunday, December 25, 2016 9:13 PM">
+2 months ago
+</a>
+</span>
+
+</header>
+
+<div class="post-body-inner">
+<div class="post-message-container" data-role="message-container">
+<div class="publisher-anchor-color" data-role="message-content">
+<div class="post-message " data-role="message" dir="auto">
+<p>I am receiving this error. And I am using 2dsphere as index<br>{</p><p>  "name": "MongoError",</p><p>  "message": "error processing query: ns=db.collection limit=10Tree: GEONEAR  field=lonlat maxdist=0.00125569 isNearSphere=0\nSort: {}\nProj: {}\n planner returned error: unable to find index for $geoNear query",</p><p>  "ok": 0,</p><p>  "errmsg": "error processing query: ns=db.collection limit=10Tree: GEONEAR  field=lonlat maxdist=0.00125569 isNearSphere=0\nSort: {}\nProj: {}\n planner returned error: unable to find index for $geoNear query",</p><p>  "code": 2,</p><p>  "codeName": "BadValue"</p><p>}</p>
+</div>
+
+<span class="post-media"><ul data-role="post-media-list"></ul></span>
+</div>
+</div>
+<a class="see-more hidden" title="see more" data-action="see-more">see more</a>
+</div>
+
+<footer class="comment__footer">
+<menu class="comment-footer__menu">
+<li class="voting" data-role="voting">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" class="vote-up  count-0" data-action="upvote" title="Vote up">
+
+<span class="updatable count" data-role="likes">0</span>
+<span class="control"><i aria-hidden="true" class="icon icon-arrow-2"></i></span>
+</a>
+<span role="button" class="vote-down  count-0" data-action="downvote" title="Vote down">
+
+<span class="control"><i aria-hidden="true" class="icon icon-arrow"></i></span>
+</span>
+</li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="reply" data-role="reply-link">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="reply">
+<span class="text">Reply</span></a></li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="comment__share">
+<a class="toggle"><span class="text">Share ›</span></a>
+<ul class="comment-share__buttons">
+<li class="twitter">
+<button class="share__button" data-action="share:twitter">Twitter</button>
+</li>
+<li class="facebook">
+<button class="share__button" data-action="share:facebook">Facebook</button>
+</li>
+<li class="link">
+<input class="share__button" value="http://disq.us/p/1eqzjs8" name="Link" title="Click to copy post link" data-action="copy-link" readonly="">
+</li>
+</ul>
+</li>
+
+<li class="realtime" data-role="realtime-notification:3068637416">
+<span style="display:none;" class="realtime-replies"></span>
+<a style="display:none;" href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" class="realtime-button"></a>
+</li>
+
+</menu>
+</footer>
+</div>
+
+<div data-role="blacklist-form"></div>
+<div class="reply-form-container" data-role="reply-form"></div>
+</div>
+
+<ul data-role="children" class="children"></ul>
+
+</li><li class="post" id="post-2977741456"><div role="alert"></div>
+<div data-role="post-content" class="post-content">
+<ul class="post-menu dropdown" data-role="menu">
+<li class="collapse">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="collapse" title="Collapse"><span>−</span></a>
+</li>
+<li class="expand">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="collapse" title="Expand"><span>+</span></a>
+</li>
+
+<li class="" role="menu">
+<a class="dropdown-toggle" href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="flag" data-role="flag" title="Flag as inappropriate">
+<i aria-hidden="true" class="icon icon-flag"></i>
+</a>
+</li>
+</ul>
+<div class="indicator"></div>
+
+<div class="avatar hovercard">
+<a href="https://disqus.com/by/jamestrebilcock/" class="user" data-action="profile" data-username="jamestrebilcock">
+<img data-role="user-avatar" data-user="115586270" src="./noavatar92.png" alt="Avatar">
+</a>
+</div>
+<div class="post-body">
+<header class="comment__header">
+<span class="post-byline">
+<span class="author publisher-anchor-color"><a href="https://disqus.com/by/jamestrebilcock/" data-action="profile" data-username="jamestrebilcock" data-role="username">James Trebilcock</a></span>
+
+</span>
+
+<span class="post-meta">
+<span class="bullet time-ago-bullet" aria-hidden="true">•</span>
+
+<a href="http://blog.robertonodi.me/how-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose/#comment-2977741456" data-role="relative-time" class="time-ago" title="Monday, October 31, 2016 9:33 PM">
+4 months ago
+</a>
+</span>
+
+</header>
+
+<div class="post-body-inner">
+<div class="post-message-container" data-role="message-container">
+<div class="publisher-anchor-color" data-role="message-content">
+<div class="post-message " data-role="message" dir="auto">
+<p>Nice tutorial. Thanks!</p>
+</div>
+
+<span class="post-media"><ul data-role="post-media-list"></ul></span>
+</div>
+</div>
+<a class="see-more hidden" title="see more" data-action="see-more">see more</a>
+</div>
+
+<footer class="comment__footer">
+<menu class="comment-footer__menu">
+<li class="voting" data-role="voting">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" class="vote-up  count-0" data-action="upvote" title="Vote up">
+
+<span class="updatable count" data-role="likes">0</span>
+<span class="control"><i aria-hidden="true" class="icon icon-arrow-2"></i></span>
+</a>
+<span role="button" class="vote-down  count-0" data-action="downvote" title="Vote down">
+
+<span class="control"><i aria-hidden="true" class="icon icon-arrow"></i></span>
+</span>
+</li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="reply" data-role="reply-link">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="reply">
+<span class="text">Reply</span></a></li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="comment__share">
+<a class="toggle"><span class="text">Share ›</span></a>
+<ul class="comment-share__buttons">
+<li class="twitter">
+<button class="share__button" data-action="share:twitter">Twitter</button>
+</li>
+<li class="facebook">
+<button class="share__button" data-action="share:facebook">Facebook</button>
+</li>
+<li class="link">
+<input class="share__button" value="http://disq.us/p/1d8vc0g" name="Link" title="Click to copy post link" data-action="copy-link" readonly="">
+</li>
+</ul>
+</li>
+
+<li class="realtime" data-role="realtime-notification:2977741456">
+<span style="display:none;" class="realtime-replies"></span>
+<a style="display:none;" href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" class="realtime-button"></a>
+</li>
+
+</menu>
+</footer>
+</div>
+
+<div data-role="blacklist-form"></div>
+<div class="reply-form-container" data-role="reply-form"></div>
+</div>
+
+<ul data-role="children" class="children"></ul>
+
+</li><li class="post" id="post-2375688603"><div role="alert"></div>
+<div data-role="post-content" class="post-content">
+<ul class="post-menu dropdown" data-role="menu">
+<li class="collapse">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="collapse" title="Collapse"><span>−</span></a>
+</li>
+<li class="expand">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="collapse" title="Expand"><span>+</span></a>
+</li>
+
+<li class="" role="menu">
+<a class="dropdown-toggle" href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="flag" data-role="flag" title="Flag as inappropriate">
+<i aria-hidden="true" class="icon icon-flag"></i>
+</a>
+</li>
+</ul>
+<div class="indicator"></div>
+
+<div class="avatar hovercard">
+<a href="https://disqus.com/by/disqus_hFA7HR9H8P/" class="user" data-action="profile" data-username="disqus_hFA7HR9H8P">
+<img data-role="user-avatar" data-user="184046186" src="./noavatar92.png" alt="Avatar">
+</a>
+</div>
+<div class="post-body">
+<header class="comment__header">
+<span class="post-byline">
+<span class="author publisher-anchor-color"><a href="https://disqus.com/by/disqus_hFA7HR9H8P/" data-action="profile" data-username="disqus_hFA7HR9H8P" data-role="username">qianshan</a></span>
+
+</span>
+
+<span class="post-meta">
+<span class="bullet time-ago-bullet" aria-hidden="true">•</span>
+
+<a href="http://blog.robertonodi.me/how-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose/#comment-2375688603" data-role="relative-time" class="time-ago" title="Tuesday, November 24, 2015 8:47 AM">
+a year ago
+</a>
+</span>
+
+</header>
+
+<div class="post-body-inner">
+<div class="post-message-container" data-role="message-container">
+<div class="publisher-anchor-color" data-role="message-content">
+<div class="post-message " data-role="message" dir="auto">
+<p>简单易懂 赞</p>
+</div>
+
+<span class="post-media"><ul data-role="post-media-list"></ul></span>
+</div>
+</div>
+<a class="see-more hidden" title="see more" data-action="see-more">see more</a>
+</div>
+
+<footer class="comment__footer">
+<menu class="comment-footer__menu">
+<li class="voting" data-role="voting">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" class="vote-up  count-0" data-action="upvote" title="Vote up">
+
+<span class="updatable count" data-role="likes">0</span>
+<span class="control"><i aria-hidden="true" class="icon icon-arrow-2"></i></span>
+</a>
+<span role="button" class="vote-down  count-0" data-action="downvote" title="Vote down">
+
+<span class="control"><i aria-hidden="true" class="icon icon-arrow"></i></span>
+</span>
+</li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="reply" data-role="reply-link">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="reply">
+<span class="text">Reply</span></a></li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="comment__share">
+<a class="toggle"><span class="text">Share ›</span></a>
+<ul class="comment-share__buttons">
+<li class="twitter">
+<button class="share__button" data-action="share:twitter">Twitter</button>
+</li>
+<li class="facebook">
+<button class="share__button" data-action="share:facebook">Facebook</button>
+</li>
+<li class="link">
+<input class="share__button" value="http://disq.us/p/13af923" name="Link" title="Click to copy post link" data-action="copy-link" readonly="">
+</li>
+</ul>
+</li>
+
+<li class="realtime" data-role="realtime-notification:2375688603">
+<span style="display:none;" class="realtime-replies"></span>
+<a style="display:none;" href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" class="realtime-button"></a>
+</li>
+
+</menu>
+</footer>
+</div>
+
+<div data-role="blacklist-form"></div>
+<div class="reply-form-container" data-role="reply-form"></div>
+</div>
+
+<ul data-role="children" class="children"></ul>
+
+</li><li class="post" id="post-2313350518"><div role="alert"></div>
+<div data-role="post-content" class="post-content">
+<ul class="post-menu dropdown" data-role="menu">
+<li class="collapse">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="collapse" title="Collapse"><span>−</span></a>
+</li>
+<li class="expand">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="collapse" title="Expand"><span>+</span></a>
+</li>
+
+<li class="" role="menu">
+<a class="dropdown-toggle" href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="flag" data-role="flag" title="Flag as inappropriate">
+<i aria-hidden="true" class="icon icon-flag"></i>
+</a>
+</li>
+</ul>
+<div class="indicator"></div>
+
+<div class="avatar hovercard">
+<a href="https://disqus.com/by/vivek_elayidom/" class="user" data-action="profile" data-username="vivek_elayidom">
+<img data-role="user-avatar" data-user="179055979" src="./noavatar92.png" alt="Avatar">
+</a>
+</div>
+<div class="post-body">
+<header class="comment__header">
+<span class="post-byline">
+<span class="author publisher-anchor-color"><a href="https://disqus.com/by/vivek_elayidom/" data-action="profile" data-username="vivek_elayidom" data-role="username">Vivek Elayidom</a></span>
+
+</span>
+
+<span class="post-meta">
+<span class="bullet time-ago-bullet" aria-hidden="true">•</span>
+
+<a href="http://blog.robertonodi.me/how-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose/#comment-2313350518" data-role="relative-time" class="time-ago" title="Sunday, October 18, 2015 4:50 PM">
+a year ago
+</a>
+</span>
+
+</header>
+
+<div class="post-body-inner">
+<div class="post-message-container" data-role="message-container">
+<div class="publisher-anchor-color" data-role="message-content">
+<div class="post-message " data-role="message" dir="auto">
+<p>Great Work...<br>Very nice tutorial... helped  me a lot!</p>
+</div>
+
+<span class="post-media"><ul data-role="post-media-list"></ul></span>
+</div>
+</div>
+<a class="see-more hidden" title="see more" data-action="see-more">see more</a>
+</div>
+
+<footer class="comment__footer">
+<menu class="comment-footer__menu">
+<li class="voting" data-role="voting">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" class="vote-up  count-0" data-action="upvote" title="Vote up">
+
+<span class="updatable count" data-role="likes">0</span>
+<span class="control"><i aria-hidden="true" class="icon icon-arrow-2"></i></span>
+</a>
+<span role="button" class="vote-down  count-0" data-action="downvote" title="Vote down">
+
+<span class="control"><i aria-hidden="true" class="icon icon-arrow"></i></span>
+</span>
+</li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="reply" data-role="reply-link">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="reply">
+<span class="text">Reply</span></a></li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="comment__share">
+<a class="toggle"><span class="text">Share ›</span></a>
+<ul class="comment-share__buttons">
+<li class="twitter">
+<button class="share__button" data-action="share:twitter">Twitter</button>
+</li>
+<li class="facebook">
+<button class="share__button" data-action="share:facebook">Facebook</button>
+</li>
+<li class="link">
+<input class="share__button" value="http://disq.us/p/129b4om" name="Link" title="Click to copy post link" data-action="copy-link" readonly="">
+</li>
+</ul>
+</li>
+
+<li class="realtime" data-role="realtime-notification:2313350518">
+<span style="display:none;" class="realtime-replies"></span>
+<a style="display:none;" href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" class="realtime-button"></a>
+</li>
+
+</menu>
+</footer>
+</div>
+
+<div data-role="blacklist-form"></div>
+<div class="reply-form-container" data-role="reply-form"></div>
+</div>
+
+<ul data-role="children" class="children"></ul>
+
+</li><li class="post" id="post-2125275676"><div role="alert"></div>
+<div data-role="post-content" class="post-content">
+<ul class="post-menu dropdown" data-role="menu">
+<li class="collapse">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="collapse" title="Collapse"><span>−</span></a>
+</li>
+<li class="expand">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="collapse" title="Expand"><span>+</span></a>
+</li>
+
+<li class="" role="menu">
+<a class="dropdown-toggle" href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="flag" data-role="flag" title="Flag as inappropriate">
+<i aria-hidden="true" class="icon icon-flag"></i>
+</a>
+</li>
+</ul>
+<div class="indicator"></div>
+
+<div class="avatar hovercard">
+<a href="https://disqus.com/by/disqus_VYILhkfEnX/" class="user" data-action="profile" data-username="disqus_VYILhkfEnX">
+<img data-role="user-avatar" data-user="79190657" src="./noavatar92.png" alt="Avatar">
+</a>
+</div>
+<div class="post-body">
+<header class="comment__header">
+<span class="post-byline">
+<span class="author publisher-anchor-color"><a href="https://disqus.com/by/disqus_VYILhkfEnX/" data-action="profile" data-username="disqus_VYILhkfEnX" data-role="username">Andrew Branch</a></span>
+
+</span>
+
+<span class="post-meta">
+<span class="bullet time-ago-bullet" aria-hidden="true">•</span>
+
+<a href="http://blog.robertonodi.me/how-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose/#comment-2125275676" data-role="relative-time" class="time-ago" title="Thursday, July 9, 2015 3:17 AM">
+2 years ago
+</a>
+</span>
+
+</header>
+
+<div class="post-body-inner">
+<div class="post-message-container" data-role="message-container">
+<div class="publisher-anchor-color" data-role="message-content">
+<div class="post-message " data-role="message" dir="auto">
+<p>This is fantastic! But, why does it matter whether longitude or latitude comes first? Doesn’t Mongo just assume this to be an arbitrary plane, so as long as you’re consistent in your coordinate system, it wouldn’t matter?</p>
+</div>
+
+<span class="post-media"><ul data-role="post-media-list"></ul></span>
+</div>
+</div>
+<a class="see-more hidden" title="see more" data-action="see-more">see more</a>
+</div>
+
+<footer class="comment__footer">
+<menu class="comment-footer__menu">
+<li class="voting" data-role="voting">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" class="vote-up  count-0" data-action="upvote" title="Vote up">
+
+<span class="updatable count" data-role="likes">0</span>
+<span class="control"><i aria-hidden="true" class="icon icon-arrow-2"></i></span>
+</a>
+<span role="button" class="vote-down  count-0" data-action="downvote" title="Vote down">
+
+<span class="control"><i aria-hidden="true" class="icon icon-arrow"></i></span>
+</span>
+</li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="reply" data-role="reply-link">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="reply">
+<span class="text">Reply</span></a></li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="comment__share">
+<a class="toggle"><span class="text">Share ›</span></a>
+<ul class="comment-share__buttons">
+<li class="twitter">
+<button class="share__button" data-action="share:twitter">Twitter</button>
+</li>
+<li class="facebook">
+<button class="share__button" data-action="share:facebook">Facebook</button>
+</li>
+<li class="link">
+<input class="share__button" value="http://disq.us/p/z5c17g" name="Link" title="Click to copy post link" data-action="copy-link" readonly="">
+</li>
+</ul>
+</li>
+
+<li class="realtime" data-role="realtime-notification:2125275676">
+<span style="display:none;" class="realtime-replies"></span>
+<a style="display:none;" href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" class="realtime-button"></a>
+</li>
+
+</menu>
+</footer>
+</div>
+
+<div data-role="blacklist-form"></div>
+<div class="reply-form-container" data-role="reply-form"></div>
+</div>
+
+<ul data-role="children" class="children"><li class="post" id="post-2217894010"><div role="alert"></div>
+<div data-role="post-content" class="post-content">
+<ul class="post-menu dropdown" data-role="menu">
+<li class="collapse">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="collapse" title="Collapse"><span>−</span></a>
+</li>
+<li class="expand">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="collapse" title="Expand"><span>+</span></a>
+</li>
+
+<li class="" role="menu">
+<a class="dropdown-toggle" href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="flag" data-role="flag" title="Flag as inappropriate">
+<i aria-hidden="true" class="icon icon-flag"></i>
+</a>
+</li>
+</ul>
+<div class="indicator"></div>
+
+<div class="avatar hovercard">
+<a href="https://disqus.com/by/robertonodi/" class="user" data-action="profile" data-username="robertonodi">
+<img data-role="user-avatar" data-user="63927304" src="./noavatar92.png" alt="Avatar">
+</a>
+</div>
+<div class="post-body">
+<header class="comment__header">
+<span class="post-byline">
+<span class="author publisher-anchor-color"><a href="https://disqus.com/by/robertonodi/" data-action="profile" data-username="robertonodi" data-role="username">Robert Onodi</a></span>
+<span class="badge moderator">Mod</span>
+
+<span><a href="http://blog.robertonodi.me/how-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose/#comment-2125275676" class="parent-link" data-role="parent-link"><i aria-hidden="true" class="icon-forward" title="in reply to"></i> Andrew Branch</a></span>
+</span>
+
+<span class="post-meta">
+<span class="bullet time-ago-bullet" aria-hidden="true">•</span>
+
+<a href="http://blog.robertonodi.me/how-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose/#comment-2217894010" data-role="relative-time" class="time-ago" title="Wednesday, August 26, 2015 3:59 PM">
+a year ago
+</a>
+</span>
+
+</header>
+
+<div class="post-body-inner">
+<div class="post-message-container" data-role="message-container">
+<div class="publisher-anchor-color" data-role="message-content">
+<div class="post-message " data-role="message" dir="auto">
+<p>Hi Andrew,</p><p>I think it has something to do with an international standard for coordinates when using coordinate reference system. Most of the professional geographical input applications use this standard. And probably mongodb adopted it for the legacy coordinate system.</p>
+</div>
+
+<span class="post-media"><ul data-role="post-media-list"></ul></span>
+</div>
+</div>
+<a class="see-more hidden" title="see more" data-action="see-more">see more</a>
+</div>
+
+<footer class="comment__footer">
+<menu class="comment-footer__menu">
+<li class="voting" data-role="voting">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" class="vote-up  count-0" data-action="upvote" title="Vote up">
+
+<span class="updatable count" data-role="likes">0</span>
+<span class="control"><i aria-hidden="true" class="icon icon-arrow-2"></i></span>
+</a>
+<span role="button" class="vote-down  count-0" data-action="downvote" title="Vote down">
+
+<span class="control"><i aria-hidden="true" class="icon icon-arrow"></i></span>
+</span>
+</li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="reply" data-role="reply-link">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="reply">
+<span class="text">Reply</span></a></li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="comment__share">
+<a class="toggle"><span class="text">Share ›</span></a>
+<ul class="comment-share__buttons">
+<li class="twitter">
+<button class="share__button" data-action="share:twitter">Twitter</button>
+</li>
+<li class="facebook">
+<button class="share__button" data-action="share:facebook">Facebook</button>
+</li>
+<li class="link">
+<input class="share__button" value="http://disq.us/p/10oh5yy" name="Link" title="Click to copy post link" data-action="copy-link" readonly="">
+</li>
+</ul>
+</li>
+
+<li class="realtime" data-role="realtime-notification:2217894010">
+<span style="display:none;" class="realtime-replies"></span>
+<a style="display:none;" href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" class="realtime-button"></a>
+</li>
+
+</menu>
+</footer>
+</div>
+
+<div data-role="blacklist-form"></div>
+<div class="reply-form-container" data-role="reply-form"></div>
+</div>
+
+<ul data-role="children" class="children"></ul>
+
+</li></ul>
+
+</li><li class="post" id="post-1776439192"><div role="alert"></div>
+<div data-role="post-content" class="post-content">
+<ul class="post-menu dropdown" data-role="menu">
+<li class="collapse">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="collapse" title="Collapse"><span>−</span></a>
+</li>
+<li class="expand">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="collapse" title="Expand"><span>+</span></a>
+</li>
+
+<li class="" role="menu">
+<a class="dropdown-toggle" href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="flag" data-role="flag" title="Flag as inappropriate">
+<i aria-hidden="true" class="icon icon-flag"></i>
+</a>
+</li>
+</ul>
+<div class="indicator"></div>
+
+<div class="avatar hovercard">
+<a href="https://disqus.com/by/richevebebedor/" class="user" data-action="profile" data-username="richevebebedor">
+<img data-role="user-avatar" data-user="107210623" src="./noavatar92.png" alt="Avatar">
+</a>
+</div>
+<div class="post-body">
+<header class="comment__header">
+<span class="post-byline">
+<span class="author publisher-anchor-color"><a href="https://disqus.com/by/richevebebedor/" data-action="profile" data-username="richevebebedor" data-role="username">Richeve Bebedor</a></span>
+
+</span>
+
+<span class="post-meta">
+<span class="bullet time-ago-bullet" aria-hidden="true">•</span>
+
+<a href="http://blog.robertonodi.me/how-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose/#comment-1776439192" data-role="relative-time" class="time-ago" title="Wednesday, January 7, 2015 8:01 PM">
+2 years ago
+</a>
+</span>
+
+</header>
+
+<div class="post-body-inner">
+<div class="post-message-container" data-role="message-container">
+<div class="publisher-anchor-color" data-role="message-content">
+<div class="post-message " data-role="message" dir="auto">
+<p>I'm confused, assuming there is no given distance in the request parameter and you're defaulting to 800 meters you just put there 8 where 1 km = 1000 meters did you forgot the decimal point? Because you're dividing to 6371 km and you have there 8km not 800m. 800m = 0.8km</p>
+</div>
+
+<span class="post-media"><ul data-role="post-media-list"></ul></span>
+</div>
+</div>
+<a class="see-more hidden" title="see more" data-action="see-more">see more</a>
+</div>
+
+<footer class="comment__footer">
+<menu class="comment-footer__menu">
+<li class="voting" data-role="voting">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" class="vote-up  count-0" data-action="upvote" title="Vote up">
+
+<span class="updatable count" data-role="likes">0</span>
+<span class="control"><i aria-hidden="true" class="icon icon-arrow-2"></i></span>
+</a>
+<span role="button" class="vote-down  count-0" data-action="downvote" title="Vote down">
+
+<span class="control"><i aria-hidden="true" class="icon icon-arrow"></i></span>
+</span>
+</li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="reply" data-role="reply-link">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="reply">
+<span class="text">Reply</span></a></li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="comment__share">
+<a class="toggle"><span class="text">Share ›</span></a>
+<ul class="comment-share__buttons">
+<li class="twitter">
+<button class="share__button" data-action="share:twitter">Twitter</button>
+</li>
+<li class="facebook">
+<button class="share__button" data-action="share:facebook">Facebook</button>
+</li>
+<li class="link">
+<input class="share__button" value="http://disq.us/p/tdn994" name="Link" title="Click to copy post link" data-action="copy-link" readonly="">
+</li>
+</ul>
+</li>
+
+<li class="realtime" data-role="realtime-notification:1776439192">
+<span style="display:none;" class="realtime-replies"></span>
+<a style="display:none;" href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" class="realtime-button"></a>
+</li>
+
+</menu>
+</footer>
+</div>
+
+<div data-role="blacklist-form"></div>
+<div class="reply-form-container" data-role="reply-form"></div>
+</div>
+
+<ul data-role="children" class="children"><li class="post" id="post-1777171231"><div role="alert"></div>
+<div data-role="post-content" class="post-content">
+<ul class="post-menu dropdown" data-role="menu">
+<li class="collapse">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="collapse" title="Collapse"><span>−</span></a>
+</li>
+<li class="expand">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="collapse" title="Expand"><span>+</span></a>
+</li>
+
+<li class="" role="menu">
+<a class="dropdown-toggle" href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="flag" data-role="flag" title="Flag as inappropriate">
+<i aria-hidden="true" class="icon icon-flag"></i>
+</a>
+</li>
+</ul>
+<div class="indicator"></div>
+
+<div class="avatar hovercard">
+<a href="https://disqus.com/by/robertonodi/" class="user" data-action="profile" data-username="robertonodi">
+<img data-role="user-avatar" data-user="63927304" src="./noavatar92.png" alt="Avatar">
+</a>
+</div>
+<div class="post-body">
+<header class="comment__header">
+<span class="post-byline">
+<span class="author publisher-anchor-color"><a href="https://disqus.com/by/robertonodi/" data-action="profile" data-username="robertonodi" data-role="username">Robert Onodi</a></span>
+<span class="badge moderator">Mod</span>
+
+<span><a href="http://blog.robertonodi.me/how-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose/#comment-1776439192" class="parent-link" data-role="parent-link"><i aria-hidden="true" class="icon-forward" title="in reply to"></i> Richeve Bebedor</a></span>
+</span>
+
+<span class="post-meta">
+<span class="bullet time-ago-bullet" aria-hidden="true">•</span>
+
+<a href="http://blog.robertonodi.me/how-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose/#comment-1777171231" data-role="relative-time" class="time-ago" title="Thursday, January 8, 2015 2:26 AM">
+2 years ago
+</a>
+</span>
+
+</header>
+
+<div class="post-body-inner">
+<div class="post-message-container" data-role="message-container">
+<div class="publisher-anchor-color" data-role="message-content">
+<div class="post-message " data-role="message" dir="auto">
+<p>Hi,</p><p>Thanks for noticing that. I've made a mistake there, it's in kilometers, so it should be 8 instead of 800, and yes I forgot the decimal point :D. I made a change to kilometers instead of meters to simplify things. Thanks again.</p>
+</div>
+
+<span class="post-media"><ul data-role="post-media-list"></ul></span>
+</div>
+</div>
+<a class="see-more hidden" title="see more" data-action="see-more">see more</a>
+</div>
+
+<footer class="comment__footer">
+<menu class="comment-footer__menu">
+<li class="voting" data-role="voting">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" class="vote-up  count-0" data-action="upvote" title="Vote up">
+
+<span class="updatable count" data-role="likes">0</span>
+<span class="control"><i aria-hidden="true" class="icon icon-arrow-2"></i></span>
+</a>
+<span role="button" class="vote-down  count-0" data-action="downvote" title="Vote down">
+
+<span class="control"><i aria-hidden="true" class="icon icon-arrow"></i></span>
+</span>
+</li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="reply" data-role="reply-link">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="reply">
+<span class="text">Reply</span></a></li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="comment__share">
+<a class="toggle"><span class="text">Share ›</span></a>
+<ul class="comment-share__buttons">
+<li class="twitter">
+<button class="share__button" data-action="share:twitter">Twitter</button>
+</li>
+<li class="facebook">
+<button class="share__button" data-action="share:facebook">Facebook</button>
+</li>
+<li class="link">
+<input class="share__button" value="http://disq.us/p/te2y3j" name="Link" title="Click to copy post link" data-action="copy-link" readonly="">
+</li>
+</ul>
+</li>
+
+<li class="realtime" data-role="realtime-notification:1777171231">
+<span style="display:none;" class="realtime-replies"></span>
+<a style="display:none;" href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" class="realtime-button"></a>
+</li>
+
+</menu>
+</footer>
+</div>
+
+<div data-role="blacklist-form"></div>
+<div class="reply-form-container" data-role="reply-form"></div>
+</div>
+
+<ul data-role="children" class="children"></ul>
+
+</li></ul>
+
+</li></ul>
+
+<div class="load-more" data-role="more" style="display:none">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" data-action="more-posts" class="btn load-more__button">Load more comments</a>
+</div>
+</div>
+
+</section>
+
+<div id="placement-bottom" data-tracking-area="discovery-south"><div class="post-list" style="height: auto; visibility: visible;"><div style="display: block; width: 100%;"><div id="discovery-main-c133" class="discovery-main">
+
+<section id="col-organic-c243" class="col-organic">
+<header class="discovery-col-header">
+<h2>Also on <strong>robertonodi.me</strong>
+</h2>
+</header>
+<ul class="discovery-posts" data-role="discovery-posts"><li class="discovery-post post-0" id="discovery-link-organic-4245976000">
+<a href="http://disq.us/url?url=http%3A%2F%2Fblog.robertonodi.me%2Fnode-authentication-series-email-and-password%2F%3Agv4mD96rX6R0frc1Jlu4Q4O0STM&amp;imp=7egkfr62a0fdhl&amp;prev_imp=7egfhfc73mgnt&amp;forum_id=3147605&amp;forum=robertonodi&amp;thread_id=2902452928&amp;thread=4245976000&amp;zone=thread&amp;area=bottom&amp;object_type=thread&amp;object_id=4245976000" class="publisher-anchor-color">
+
+<header class="discovery-post-header">
+<h3 title="Node.js authentication series: Passport local strategy using email and password.">
+<span data-role="discovery-thread-title" class="title line-truncate" data-line-truncate="2">
+Node.js authentication series: Passport local strategy using email and password.
+</span>
+</h3>
+
+<ul class="meta">
+<li class="comments">
+6 comments
+</li>
+<li class="time">a year ago</li>
+</ul>
+</header>
+
+</a><a href="http://disq.us/url?url=http%3A%2F%2Fblog.robertonodi.me%2Fnode-authentication-series-email-and-password%2F%3Agv4mD96rX6R0frc1Jlu4Q4O0STM&amp;imp=7egkfr62a0fdhl&amp;prev_imp=7egfhfc73mgnt&amp;forum_id=3147605&amp;forum=robertonodi&amp;thread_id=2902452928&amp;thread=4245976000&amp;zone=thread&amp;area=bottom&amp;object_type=thread&amp;object_id=4245976000" class="top-comment" data-role="discovery-top-comment">
+<img alt="Avatar" data-role="discovery-avatar">
+<p><span class="user" data-role="discovery-top-comment-author">Raphael Krausz</span> — <span data-role="discovery-top-comment-snippet" class="line-truncate" data-line-truncate="3">Great discussion. Thank you for being mindful of best practices.</span></p>
+</a>
+
+</li>
+<li class="discovery-post post-1" id="discovery-link-organic-2902453412">
+<a href="http://disq.us/url?url=http%3A%2F%2Fblog.robertonodi.me%2Fsimple-image-upload-with-express%2F%3AgfsYRCgkrHA5qyRqZquuk5qUp50&amp;imp=7egkfr62a0fdhl&amp;prev_imp=7egfhfc73mgnt&amp;forum_id=3147605&amp;forum=robertonodi&amp;thread_id=2902452928&amp;thread=2902453412&amp;zone=thread&amp;area=bottom&amp;object_type=thread&amp;object_id=2902453412" class="publisher-anchor-color">
+
+<header class="discovery-post-header">
+<h3 title="Simple image upload with Express">
+<span data-role="discovery-thread-title" class="title line-truncate" data-line-truncate="2">
+Simple image upload with Express
+</span>
+</h3>
+
+<ul class="meta">
+<li class="comments">
+3 comments
+</li>
+<li class="time">3 years ago</li>
+</ul>
+</header>
+
+</a><a href="http://disq.us/url?url=http%3A%2F%2Fblog.robertonodi.me%2Fsimple-image-upload-with-express%2F%3AgfsYRCgkrHA5qyRqZquuk5qUp50&amp;imp=7egkfr62a0fdhl&amp;prev_imp=7egfhfc73mgnt&amp;forum_id=3147605&amp;forum=robertonodi&amp;thread_id=2902452928&amp;thread=2902453412&amp;zone=thread&amp;area=bottom&amp;object_type=thread&amp;object_id=2902453412" class="top-comment" data-role="discovery-top-comment">
+<img alt="Avatar" data-role="discovery-avatar">
+<p><span class="user" data-role="discovery-top-comment-author">thetrystero</span> — <span data-role="discovery-top-comment-snippet" class="line-truncate" data-line-truncate="3">EDIT: looks like it did. found it here http://stackoverflow.com/quest.... thanks!did express 4.0 break file upload ?</span></p>
+</a>
+
+</li>
+</ul>
+</section>
+
+</div>
+</div></div></div>
+
+<div id="footer" data-tracking-area="footer" class="disqus-footer__wrapper">
+<ul class="disqus-footer">
+<li class="disqus-footer__logo"><a href="https://disqus.com/" rel="nofollow" title="Powered by Disqus" class="disqus-footer__link">Powered by Disqus</a></li>
+<li id="thread-subscribe-button" class="email disqus-footer__item"> 
+<div class="default">
+<a href="https://disqus.com/embed/comments/?base=default&amp;version=fbe5a2d3e47779b1f7a40136dabc24cf&amp;f=robertonodi&amp;t_i=&amp;t_u=http%3A%2F%2Fblog.robertonodi.me%2Fhow-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose%2F&amp;t_d=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;t_t=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;s_o=default#" rel="nofollow" data-action="subscribe" title="Subscribe and get email updates from this discussion" class="disqus-footer__link"><i aria-hidden="true" class="icon icon-mail"></i><span class="clip">Subscribe</span> <i aria-hidden="true" class="icon icon-checkmark"></i></a>
+</div>
+<div class="form">
+<div class="input-wrapper"><input id="thread-subscribe-email" type="email" placeholder="yourname@email.com" class="disqus-footer__input input--text"></div>
+</div>
+</li>
+<li class="install disqus-footer__item">
+<a href="https://publishers.disqus.com/engage?utm_source=robertonodi&amp;utm_medium=Disqus-Footer" rel="nofollow" target="_blank" class="disqus-footer__link">
+<i aria-hidden="true" class="icon icon-disqus"></i>
+<span class="clip hidden-sm">Add Disqus to your site</span>
+<span class="clip visible-sm hidden-xs">Add Disqus</span>
+<span class="clip visible-xs">Add</span>
+</a>
+</li>
+<li class="privacy disqus-footer__item">
+<a href="https://help.disqus.com/customer/portal/articles/1657951?utm_source=disqus&amp;utm_medium=embed-footer&amp;utm_content=privacy-btn" rel="nofollow" target="_blank" class="disqus-footer__link">
+<i aria-hidden="true" class="icon icon-lock"></i>
+<span class="clip">Privacy</span>
+</a>
+</li>
+</ul>
+</div>
+</div><iframe style="position: absolute; width: 1px; height: 1px; left: -9999px;" id="ssIFrame_google" sandbox="allow-scripts allow-same-origin" src="./iframe.html"></iframe></body></html>

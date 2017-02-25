@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<!-- saved from url=(0096)http://blog.robertonodi.me/how-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>How to use Geospatial Indexing in MongoDB with Express and Mongoose</title>
+    <meta name="description" content="">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="http://blog.robertonodi.me/favicon.ico">
+
+    <link rel="stylesheet" type="text/css" href="./How to use Geospatial Indexing in MongoDB with Express and Mongoose_files/screen.css">
+    <link rel="stylesheet" type="text/css" href="./How to use Geospatial Indexing in MongoDB with Express and Mongoose_files/css">
+
+    <link rel="canonical" href="http://blog.robertonodi.me/how-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose/">
+    <meta name="referrer" content="origin">
+    
+    <meta property="og:site_name" content="robert onodi">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="How to use Geospatial Indexing in MongoDB with Express and Mongoose">
+    <meta property="og:description" content="For a couple of months I worked on a project that needed check-ins as a feature and location service. So I have decided to use as a database Mongo because of it’s very useful geospatial indexing. Foursquare is using...">
+    <meta property="og:url" content="http://blog.robertonodi.me/how-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose/">
+    <meta property="article:published_time" content="2014-03-28T23:57:57.097Z">
+    <meta property="article:modified_time" content="2015-01-07T20:52:07.686Z">
+    <meta property="article:tag" content="express">
+    <meta property="article:tag" content="nodejs">
+    <meta property="article:tag" content="mongodb">
+    
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="How to use Geospatial Indexing in MongoDB with Express and Mongoose">
+    <meta name="twitter:description" content="For a couple of months I worked on a project that needed check-ins as a feature and location service. So I have decided to use as a database Mongo because of it’s very useful geospatial indexing. Foursquare is using...">
+    <meta name="twitter:url" content="http://blog.robertonodi.me/how-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose/">
+    
+    <script async="" src="./How to use Geospatial Indexing in MongoDB with Express and Mongoose_files/analytics.js.download"></script><script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "publisher": "robert onodi",
+    "author": {
+        "@type": "Person",
+        "name": "Robert Onodi",
+        "image": "//www.gravatar.com/avatar/0c8a9980c750f8d79971f03f53025bce?s=250&d=mm&r=x",
+        "url": "http://blog.robertonodi.me/author/robert",
+        "sameAs": null,
+        "description": null
+    },
+    "headline": "How to use Geospatial Indexing in MongoDB with Express and Mongoose",
+    "url": "http://blog.robertonodi.me/how-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose/",
+    "datePublished": "2014-03-28T23:57:57.097Z",
+    "dateModified": "2015-01-07T20:52:07.686Z",
+    "keywords": "express, nodejs, mongodb",
+    "description": "For a couple of months I worked on a project that needed check-ins as a feature and location service. So I have decided to use as a database Mongo because of it’s very useful geospatial indexing. Foursquare is using..."
+}
+    </script>
+
+    <meta name="generator" content="Ghost 0.7">
+    <link rel="alternate" type="application/rss+xml" title="robert onodi" href="http://blog.robertonodi.me/rss/">
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-48184323-1', 'robertonodi.me');
+      ga('send', 'pageview');
+
+    </script>
+
+<script type="text/javascript" async="" src="./How to use Geospatial Indexing in MongoDB with Express and Mongoose_files/embed.js.download"></script><style id="fit-vids-style">.fluid-width-video-wrapper{width:100%;position:relative;padding:0;}.fluid-width-video-wrapper iframe,.fluid-width-video-wrapper object,.fluid-width-video-wrapper embed {position:absolute;top:0;left:0;width:100%;height:100%;}</style></head>
+<body class="post-template tag-express tag-nodejs tag-mongodb nav-closed">
+
+    <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="http://blog.robertonodi.me/how-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose/#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+            <li class="nav-home" role="presentation"><a href="http://blog.robertonodi.me/">Home</a></li>
+    </ul>
+    <a class="subscribe-button icon-feed" href="http://blog.robertonodi.me/rss/">Subscribe</a>
+</div>
+<span class="nav-cover"></span>
+
+
+    <div class="site-wrapper">
+
+        
+
+
+<header class="main-header post-head no-cover">
+    <nav class="main-nav  clearfix">
+        
+            <a class="menu-button icon-menu" href="http://blog.robertonodi.me/how-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose/#"><span class="word">Menu</span></a>
+    </nav>
+</header>
+
+<main class="content" role="main">
+    <article class="post tag-express tag-nodejs tag-mongodb">
+
+        <header class="post-header">
+            <h1 class="post-title">How to use Geospatial Indexing in MongoDB with Express and Mongoose</h1>
+            <section class="post-meta">
+                <time class="post-date" datetime="2014-03-28">28 March 2014</time>  on <a href="http://blog.robertonodi.me/tag/express/">express</a>, <a href="http://blog.robertonodi.me/tag/nodejs/">nodejs</a>, <a href="http://blog.robertonodi.me/tag/mongodb/">mongodb</a>
+            </section>
+        </header>
+
+        <section class="post-content">
+            <p>For a couple of months I worked on a project that needed check-ins as a feature and location service. So I have decided to use as a database Mongo because of it’s very useful <a href="http://docs.mongodb.org/manual/core/geospatial-indexes/">geospatial indexing</a>. Foursquare is using MongoDB to power their location-based data queries, you can read more about his <a href="http://www.mongodb.com/customers/foursquare">here</a>.</p>
+
+<p>The app is available on <a href="https://github.com/robert52/simple-geolocation">Github</a> - please take a look for the full codebase.</p>
+
+<p>As for this tutorial I will keep the back-end logic simple and write an API in node.js using <a href="http://expressjs.com/">Express 3.0</a> to query the Mongo <em>location</em> collection. There are a few things to cover so before starting might get handy to read through the <a href="http://docs.mongodb.org/manual/core/geospatial-indexes/">official documentation</a></p>
+
+<p>Let’s take a quick look on what we will cover:</p>
+
+<ul>
+<li>Setting up the API initial structure</li>
+<li>Defining the Schema for our collections</li>
+<li>Adding an index to our database</li>
+<li>Getting location(s) using our API</li>
+</ul>
+
+<h3 id="setup">Setup</h3>
+
+<p>You should add the following dependencies to your <em>package.json</em>:</p>
+
+<pre><code class="language-javascript">"dependencies": {
+    "express": "3.5.0",
+    "mongoose": "3.8.8",
+    "async": "0.2.10"
+}
+</code></pre>
+
+<ul>
+<li><a href="http://mongoosejs.com/">Mongoose</a> is an ORM wrapper for talking to MongoDB.</li>
+<li><a href="http://expressjs.com/">Express</a> web application framework for node.</li>
+<li><a href="https://github.com/caolan/async">async</a> is an utility module.</li>
+</ul>
+
+<h3 id="preparethemongoose">Prepare the Mongoose</h3>
+
+<p>I am going to store location in Mongo, for this tutorial our location schema is going to be simple. This code assumes you have Mongo running on your local machine, with default settings.</p>
+
+<p>Connecting to Mongo with Mongoose is simple:</p>
+
+<pre><code class="language-javascript">mongoose.connect('mongodb://localhost/geospatial_db', function(err) {  
+        if (err) throw err;
+
+        // do something...
+});
+</code></pre>
+
+<p>First we need to create a schema. The <a href="http://docs.mongodb.org/manual/core/geospatial-indexes/#store-location-data">docs</a> give us some examples on how to store geospatial data. We are going to use the legacy format for our example. It’s recommended to store the longitude and latitude in an array. The docs warn use about the order of the values, longitude comes first. </p>
+
+<h5 id="notethatyoushouldalwaysstorelongitudefirst">Note that you should always store longitude first!</h5>
+
+<pre><code class="language-javascript">var LocationSchema = new Schema({  
+    name: String,
+    loc: {
+    type: [Number],  // [&lt;longitude&gt;, &lt;latitude&gt;]
+    index: '2d'      // create the geospatial index
+    }
+});
+</code></pre>
+
+<p>Locations are going to have a <em>name</em> and a <em>loc</em> property. The <em>loc</em> is going to be an array holding the values for the coordinates [ <longitude> , <latitude> ]. Next we are going to tell Mongo to create a geospatial index for the <em>loc</em>. For this example we are going to use a <em>2d</em> index, you can read more about index <a href="http://docs.mongodb.org/manual/applications/geospatial-indexes/">here</a>.</latitude></longitude></p>
+
+<p>Create a location object which we can use to query for specific locations.</p>
+
+<pre><code class="language-javascript">// register the mongoose model
+mongoose.model('Location', LocationSchema);  
+</code></pre>
+
+<h3 id="grabbinglocations">Grabbing locations</h3>
+
+<p>First you can create a method in your controller that can look something like this:</p>
+
+<pre><code class="language-javascript">findLocation: function(req, res, next) {  
+    var limit = req.query.limit || 10;
+
+    // get the max distance or set it to 8 kilometers
+    var maxDistance = req.query.distance || 8;
+
+    // we need to convert the distance to radians
+    // the raduis of Earth is approximately 6371 kilometers
+    maxDistance /= 6371;
+
+    // get coordinates [ &lt;longitude&gt; , &lt;latitude&gt; ]
+    var coords = [];
+    coords[0] = req.query.longitude;
+    coords[1] = req.query.latitude;
+
+    // find a location
+    Location.find({
+      loc: {
+        $near: coords,
+        $maxDistance: maxDistance
+      }
+    }).limit(limit).exec(function(err, locations) {
+      if (err) {
+        return res.json(500, err);
+      }
+
+      res.json(200, locations);
+    });
+}
+</code></pre>
+
+<p>What this all means:</p>
+
+<p>We are going to set a default 8 kilometers radius to search for locations within a set of coordinates:</p>
+
+<pre><code>// get the max distance or set it to 8 kilometers
+var maxDistance = req.query.distance || 8;  
+</code></pre>
+
+<p>One important thing to note here is that our query will use radians for distance, so we need to transform our distance to radians.</p>
+
+<blockquote>
+  <p>distance to radians: divide the distance by the radius of the sphere (e.g. the Earth) in the same units as the distance measurement. </p>
+</blockquote>
+
+<p>You should better follow up on this in the <a href="http://docs.mongodb.org/manual/tutorial/calculate-distances-using-spherical-geometry-with-2d-geospatial-indexes/">docs</a>. </p>
+
+<p>So to transform our distance to radians, we need to divide with 6371, the Earth’s radius approximately in kilometers. </p>
+
+<pre><code class="language-javascript">// we need to convert the distance to radians
+// the raduis of Earth is approximately 6371 kilometers
+maxDistance /= 6371;  
+</code></pre>
+
+<p>Getting the coordinates in the right place:</p>
+
+<pre><code class="language-javascript">// get coordinates [&lt;longitude&gt;,&lt;latitude&gt;]
+var coords = [];  
+coords[0] = req.query.longitude || 0;  
+coords[1] = req.query.latitude || 0;  
+</code></pre>
+
+<h5 id="againnotethatlongitudecomesfirst">Again: Note that longitude comes first!</h5>
+
+<p>Now for finding a location, we are going to use <a href="http://docs.mongodb.org/manual/reference/operator/query/near/#op._S_near">$near</a> operator, which is going to return the closest location first. This operator sorts the returned objects from the nearest to the farthest. In combination with the <a href="http://docs.mongodb.org/manual/reference/operator/query/maxDistance/#op._S_maxDistance">$maxDistance</a> operator, the results can be limited within a maximum distance to the specified point. Our query will look something like this:</p>
+
+<pre><code class="language-javascript">// find a location
+Location.find({  
+    loc: {
+        $near: coords,
+        $maxDistance: maxDistance
+    }
+}).limit(limit).exec(function(err, locations) {
+    if (err) {
+        return res.json(500, err);
+    }
+
+    res.json(200, locations);
+});
+</code></pre>
+
+<p>Having the full codebase we can test our small api by running this in the browser:</p>
+
+<p><code>http://localhost:3000/api/locations?longitude=23.600800037384033&amp;latitude=46.76758746952729</code></p>
+
+<p><em>* the sample application contains a mock data source which loads some locations to you database bye default *</em></p>
+
+<pre><code class="language-javascript">[
+  {
+    "name": "Piaţa Cipariu",
+    "loc": [
+      23.600800037384033,
+      46.76758746952729
+    ],
+    "_id": "5335e5a7c39d60402849e38f",
+    "__v": 0
+  },
+  {
+    "name": "Stația Piața Cipariu",
+    "loc": [
+      23.601171912820668,
+      46.76771454984428
+    ],
+    "_id": "5335e5a7c39d60402849e3a5",
+    "__v": 0
+  },
+  ...
+]
+</code></pre>
+
+<p>As you can see the server will return a list of existing locations for the specified point within the default max distance.</p>
+
+<p>Mongo also supports the <a href="http://docs.mongodb.org/manual/applications/geospatial-indexes/#geo-overview-location-data">GeoJSON</a> location data which is also a nice thing to check-out, there are a lots of interesting things related to the geospatial support, might be a good idea to read more about it in the docs.</p>
+
+<p>Thank you for reading. Until next time.</p>
+
+<p>You can leave comments on <a href="https://news.ycombinator.com/item?id=7490767">hackernews</a>.</p>
+        </section>
+
+        <footer class="post-footer">
+
+
+            <figure class="author-image">
+                <a class="img" href="http://blog.robertonodi.me/author/robert/" style="background-image: url(//www.gravatar.com/avatar/0c8a9980c750f8d79971f03f53025bce?s=250&amp;d=mm&amp;r=x)"><span class="hidden">Robert Onodi's Picture</span></a>
+            </figure>
+
+            <section class="author">
+                <h4><a href="http://blog.robertonodi.me/author/robert/">Robert Onodi</a></h4>
+
+                    <p>Read <a href="http://blog.robertonodi.me/author/robert/">more posts</a> by this author.</p>
+                <div class="author-meta">
+                    
+                    
+                </div>
+            </section>
+
+
+            <section class="share">
+                <h4>Share this post</h4>
+                <a class="icon-twitter" href="https://twitter.com/intent/tweet?text=How%20to%20use%20Geospatial%20Indexing%20in%20MongoDB%20with%20Express%20and%20Mongoose&amp;url=http://blog.robertonodi.me/how-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose/" onclick="window.open(this.href, &#39;twitter-share&#39;, &#39;width=550,height=235&#39;);return false;">
+                    <span class="hidden">Twitter</span>
+                </a>
+                <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.robertonodi.me/how-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose/" onclick="window.open(this.href, &#39;facebook-share&#39;,&#39;width=580,height=296&#39;);return false;">
+                    <span class="hidden">Facebook</span>
+                </a>
+                <a class="icon-google-plus" href="https://plus.google.com/share?url=http://blog.robertonodi.me/how-to-use-geospatial-indexing-in-mongodb-using-express-and-mongoose/" onclick="window.open(this.href, &#39;google-plus-share&#39;, &#39;width=490,height=530&#39;);return false;">
+                    <span class="hidden">Google+</span>
+                </a>
+            </section>
+
+        </footer>
+
+        <div id="disqus_thread"><iframe id="dsq-app1" name="dsq-app1" allowtransparency="true" frameborder="0" scrolling="no" tabindex="0" title="Disqus" width="100%" src="./How to use Geospatial Indexing in MongoDB with Express and Mongoose_files/saved_resource.html" style="width: 1px !important; min-width: 100% !important; border: none !important; overflow: hidden !important; height: 2188px !important;" horizontalscrolling="no" verticalscrolling="no"></iframe></div>
+        <script type="text/javascript">
+            var disqus_shortname = 'robertonodi';
+            var disqus_identifier = '';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the &lt;a href="http://disqus.com/?ref_noscript"&gt;comments powered by Disqus.&lt;/a&gt;</noscript>
+        <a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </article>
+</main>
+
+<aside class="read-next">
+    <a class="read-next-story no-cover" href="http://blog.robertonodi.me/why-add-node-modules-to-your-versioning/">
+        <section class="post">
+            <h2>Why add node modules to your versioning</h2>
+            <p>You are probably using package.json for your dependencies and running npm install on your production server. That’s…</p>
+        </section>
+    </a>
+    <a class="read-next-story prev no-cover" href="http://blog.robertonodi.me/simple-image-upload-with-express/">
+        <section class="post">
+            <h2>Simple image upload with Express</h2>
+            <p>Recently I have been working on a project that involved uploading images as a profile image for users. So…</p>
+        </section>
+    </a>
+</aside>
+
+
+
+        <footer class="site-footer clearfix">
+            <section class="copyright"><a href="http://blog.robertonodi.me/">robert onodi</a> © 2017</section>
+            <section class="poweredby">Proudly published with <a href="https://ghost.org/">Ghost</a></section>
+        </footer>
+
+    </div>
+
+    
+
+    <script type="text/javascript" src="./How to use Geospatial Indexing in MongoDB with Express and Mongoose_files/jquery-1.11.3.min.js.download"></script>
+    <script type="text/javascript" src="./How to use Geospatial Indexing in MongoDB with Express and Mongoose_files/jquery.fitvids.js.download"></script>
+    <script type="text/javascript" src="./How to use Geospatial Indexing in MongoDB with Express and Mongoose_files/index.js.download"></script>
+
+
+
+<iframe style="display: none;" src="./How to use Geospatial Indexing in MongoDB with Express and Mongoose_files/saved_resource(1).html"></iframe></body></html>
